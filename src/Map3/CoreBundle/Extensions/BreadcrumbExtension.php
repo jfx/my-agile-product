@@ -1,0 +1,190 @@
+<?php
+/**
+ * LICENSE : This file is part of My Agile Project.
+ *
+ * My Agile Project is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * My Agile Project is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+namespace Map3\CoreBundle\Extensions;
+
+use Symfony\Bundle\FrameworkBundle\Routing\Router;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+use Twig_Extension;
+use Twig_Function_Method;
+
+/**
+ * Display breadcrumb for a project or domain.
+ *
+ * @category  MyAgileProduct
+ * @package   Core
+ * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
+ * @copyright 2014 Francois-Xavier Soubirou
+ * @license   http://www.gnu.org/licenses/   GPLv3
+ * @link      http://www.myagileproject.org
+ * @since     3
+ */
+class BreadcrumbExtension extends Twig_Extension
+{
+    /**
+     * @var SecurityContextInterface S. Context
+     */
+    protected $securityContext;
+
+    /**
+     * @var Router Router service
+     */
+    protected $router;
+
+    /**
+     * Constructor
+     *
+     * @param SecurityContextInterface $securityContext The security context.
+     * @param Router                   $router          The router service.
+     */
+    public function __construct(
+        SecurityContextInterface $securityContext,
+        Router $router
+    ) {
+        $this->securityContext = $securityContext;
+        $this->router      = $router;
+    }
+
+    /**
+     * Display general breadcrumb.
+     *
+     * @param array $levels Label of levels.
+     *
+     * @return string
+     */
+    public function breadcrumb(array $levels)
+    {
+        $breadcrumb  = '<ol class="breadcrumb">';
+
+        $lvl_count = 0;
+
+        foreach ($levels as $level) {
+
+            $id = 'br_lvl'.++$lvl_count;
+
+            if (is_array($level)) {
+                $breadcrumb .= '  <li><a id="'.$id.'" href="';
+                $breadcrumb .= $level[1].'">'.$level[0].'</a></li>';
+            } else {
+                $breadcrumb .= '  <li id="'.$id.'" class="active">';
+                $breadcrumb .= $level.'</li>';
+            }
+
+        }
+        $breadcrumb .= '</ol>';
+
+        return $breadcrumb;
+    }
+
+    /**
+     * Display product breadcrumb.
+     *
+     * @param string $action Label of action displayed.
+     *
+     * @return string
+     */
+    public function productBreadcrumb($action)
+    {
+        $user = $this->securityContext->getToken()->getUser();
+
+        $product = $user->getCurrentProduct();
+        $productUrl = $this->router->generate(
+            'product_view',
+            array('id' => $product->getId())
+        );
+        $productName = htmlspecialchars($product->getName());
+
+        $breadcrumb = $this->breadcrumb(
+            array(
+                array($productName, $productUrl),
+                $action
+            )
+        );
+
+        return $breadcrumb;
+    }
+
+    /**
+     * Display release breadcrumb.
+     *
+     * @param string $action Label of action displayed.
+     *
+     * @return string
+     */
+    public function releaseBreadcrumb($action)
+    {
+        $user = $this->securityContext->getToken()->getUser();
+
+        $product = $user->getCurrentProduct();
+        $productUrl = $this->router->generate('pdt-release_index');
+        $productName = htmlspecialchars($product->getName());
+
+        $release = $user->getCurrentRelease();
+        $releaseUrl = $this->router->generate(
+            'release_view',
+            array('id' => $release->getId())
+        );
+        $releaseName = htmlspecialchars($release->getName());
+
+        $breadcrumb = $this->breadcrumb(
+            array(
+                array($productName, $productUrl),
+                array($releaseName, $releaseUrl),
+                $action
+            )
+        );
+
+        return $breadcrumb;
+    }
+
+    /**
+     * Returns a list of functions to add to the existing list.
+     *
+     * @return array An array of functions
+     */
+    public function getFunctions()
+    {
+        return array(
+            'breadcrumb' => new Twig_Function_Method(
+                $this,
+                'breadcrumb',
+                array('is_safe' => array('html'))
+            ),
+            'product_breadcrumb' => new Twig_Function_Method(
+                $this,
+                'productBreadcrumb',
+                array('is_safe' => array('html'))
+            ),
+            'release_breadcrumb' => new Twig_Function_Method(
+                $this,
+                'releaseBreadcrumb',
+                array('is_safe' => array('html'))
+            )
+        );
+    }
+
+    /**
+     * Returns the name of this extension.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return "map3_corebundle_breadcrumb";
+    }
+}

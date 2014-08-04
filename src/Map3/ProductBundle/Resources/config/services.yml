@@ -1,7 +1,7 @@
 parameters:
-#    map3_product.example.class: Map3\ProductBundle\Example
 
 services:
-#    map3_product.example:
-#        class: %map3_product.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    map3_product.productinfo:
+        class: Map3\ProductBundle\Service\ProductInfo
+        arguments: [ '@doctrine.orm.entity_manager' ]
+        scope: request

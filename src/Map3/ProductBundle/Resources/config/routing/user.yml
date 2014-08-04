@@ -1,0 +1,25 @@
+pdt-user_index:
+    pattern:  /
+    defaults: { _controller: "Map3ProductDomainBundle:User:index" }
+
+pdt-user_view:
+    pattern:  /{id}
+    defaults: { _controller: "Map3ProductBundle:User:view" }
+    requirements:
+        id:  \d+
+
+pdt-user_add:
+    pattern:  /add
+    defaults: { _controller: "Map3ProductBundle:User:add" }
+
+pdt-user_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: "Map3ProductBundle:User:edit" }
+    requirements:
+        id:  \d+
+
+pdt-user_del:
+    pattern:  /del/{id}
+    defaults: { _controller: "Map3ProductBundle:User:del" }
+    requirements:
+        id:  \d+

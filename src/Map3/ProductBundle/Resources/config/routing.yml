@@ -1,3 +1,11 @@
-map3_product_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: Map3ProductBundle:Default:index }
+map3_product:
+    resource: "@Map3ProductBundle/Resources/config/routing/product.yml"
+    prefix:   /product
+
+map3_pdt-user:
+    resource: "@Map3ProductBundle/Resources/config/routing/user.yml"
+    prefix:   /pdt-user
+
+map_pdt-release:
+    resource: "@Map3ProductBundle/Resources/config/routing/release.yml"
+    prefix:   /pdt-release

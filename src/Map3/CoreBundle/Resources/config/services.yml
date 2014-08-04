@@ -1,7 +1,21 @@
 parameters:
-#    map3_core.example.class: Map3\CoreBundle\Example
 
 services:
-#    map3_core.example:
-#        class: %map3_core.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    map.CoverageListener:
+        class: Map3\CoreBundle\Service\CoverageListener
+        arguments: [ '@kernel', '%app.codeCoverage%' ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
+    map.localeDate:
+        class: Map3\CoreBundle\Extensions\LocaleDateExtension
+        arguments: [ '@service_container' ]
+        tags:
+            - { name: twig.extension }
+
+    map.breadcrumb:
+        class: Map3\CoreBundle\Extensions\BreadcrumbExtension
+        arguments: [ '@security.context', '@router' ]
+        tags:
+            - { name: twig.extension }

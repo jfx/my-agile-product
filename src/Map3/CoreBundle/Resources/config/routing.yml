@@ -1,3 +1,3 @@
-map3_core_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: Map3CoreBundle:Default:index }
+map3_core_select:
+    pattern:  /select
+    defaults: { _controller: "MapCoreBundle:Select:request" }

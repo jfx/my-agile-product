@@ -1,0 +1,47 @@
+user_index:
+    pattern:  /
+    defaults: { _controller: "Map3UserBundle:User:index" }
+
+user_view:
+    pattern:  /{id}
+    defaults: { _controller: "Map3UserBundle:User:view" }
+    requirements:
+        id:  \d+
+
+user_view-role:
+    pattern:  /role/{id}
+    defaults: { _controller: "Map3UserBundle:User:viewrole" }
+    requirements:
+        id:  \d+
+
+user_add:
+    pattern:  /add
+    defaults: { _controller: "Map3UserBundle:User:add" }
+
+user_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: "Map3UserBundle:User:edit" }
+    requirements:
+        id:  \d+
+
+user_del:
+    pattern:  /del/{id}
+    defaults: { _controller: "Map3UserBundle:User:del" }
+    requirements:
+        id:  \d+
+
+user_profile:
+    pattern:  /profile
+    defaults: { _controller: "Map3UserBundle:User:profile" }
+
+fos_user_profile_show:
+    pattern:  /profile
+    defaults: { _controller: "Map3UserBundle:User:profile" }
+
+user_password:
+    pattern:  /password
+    defaults: { _controller: "Map3UserBundle:User:password" }
+
+user_role:
+    pattern:  /role
+    defaults: { _controller: "Map3UserBundle:User:role" }

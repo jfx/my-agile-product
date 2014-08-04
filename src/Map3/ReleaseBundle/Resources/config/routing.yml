@@ -1,3 +1,3 @@
-map3_release_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: Map3ReleaseBundle:Default:index }
+map3_release:
+    resource: "@Map3ReleaseBundle/Resources/config/routing/release.yml"
+    prefix:   /release
