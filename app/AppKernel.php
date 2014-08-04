@@ -23,6 +23,11 @@ class AppKernel extends Kernel
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new Map3\CoreBundle\Map3CoreBundle(),
+            new Map3\UserBundle\Map3UserBundle(),
+            new Map3\DashboardBundle\Map3DashboardBundle(),
+            new Map3\ProductBundle\Map3ProductBundle(),
+            new Map3\ReleaseBundle\Map3ReleaseBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

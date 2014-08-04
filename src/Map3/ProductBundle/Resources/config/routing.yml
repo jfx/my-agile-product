@@ -1,0 +1,3 @@
+map3_product_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: Map3ProductBundle:Default:index }

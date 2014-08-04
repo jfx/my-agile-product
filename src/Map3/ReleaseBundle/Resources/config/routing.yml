@@ -1,0 +1,3 @@
+map3_release_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: Map3ReleaseBundle:Default:index }

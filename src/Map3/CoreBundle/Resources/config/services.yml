@@ -1,0 +1,7 @@
+parameters:
+#    map3_core.example.class: Map3\CoreBundle\Example
+
+services:
+#    map3_core.example:
+#        class: %map3_core.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

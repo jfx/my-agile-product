@@ -92,7 +92,7 @@ mopa_bootstrap:
 fos_user:
     db_driver: orm
     firewall_name: main
-    user_class: Map\UserBundle\Entity\User
+    user_class: Map3\UserBundle\Entity\User
     service:
         mailer: fos_user.mailer.twig_swift
     resetting:
