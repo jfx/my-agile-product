@@ -1,0 +1,36 @@
+*** Settings ***
+Documentation     In order to make navigation ease in use
+...               As a connected user
+...               I need to see header information
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Title
+    [Tags]    init
+    Given I am a user
+    When I click on "My Agile Product" header text
+    Then Location Should Be    ${URL}/
+
+Non super-admin username
+    When I am a user
+    Then Page Should Contain    Useruser
+
+Super-admin username displayed with a star
+    When I am a super-admin
+    Then Page Should Contain    Useradmin*
+
+Link to profile page
+    Given I am a user
+    When I click on header username    Useruser
+    Then I should be on profile page
+
+*** Keywords ***
+I click on "My Agile Product" header text
+    Click element    link=My Agile Product
+
+I click on header username
+    [Arguments]    ${username}
+    Click element    link=${username}
+
+I should be on profile page
+    Location Should Be    ${URL}/user/profile

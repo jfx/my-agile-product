@@ -1,0 +1,10 @@
+*** Settings ***
+Documentation     In order to see copyright data
+...               As a connected user
+...               I need to see footer information
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Footer text
+    When I am a user
+    Then Page Should Contain    My Agile Product v

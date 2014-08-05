@@ -1,0 +1,4 @@
+*** Variables ***
+${GM_URL}         ${EMPTY}
+${GM_USER}        ${EMPTY}
+${GM_PASSWORD}    ${EMPTY}

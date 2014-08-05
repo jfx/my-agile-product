@@ -1,0 +1,131 @@
+*** Settings ***
+Documentation     In order to manage user
+...               As a super-admin user profile
+...               I need to edit user's details.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Edit a user with non super-admin profile
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #2
+    When I fill in user form    Modified
+    And I save
+    Then Page Should Contain    User edited successfully
+    And I check user view form    Modified
+    And I click button    Return to list
+    And the table should contain    Modified    FirstModified    displayModified    userModified    Modified@example.com    Details 4 Modified
+    I log out
+    I am logging as    Modified
+
+Edit a user without changing password with non super-admin profile
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #2
+    When I fill in user form    Modified
+    And Input Text    map_user_updatedPassword    ${EMPTY}
+    And I save
+    Then Page Should Contain    User edited successfully
+    And I check user view form    Modified
+    I log out
+    I am logging as    Modified    user
+
+Change a password of a user
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #2
+    When Input Text    map_user_updatedPassword    passModified
+    And I save
+    Then Page Should Contain    User edited successfully
+    I log out
+    I am logging as    user    passModified
+
+Change a user to super-admin profile
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #2
+    When Select Checkbox    map_user_superAdmin
+    And I save
+    Then Page Should Contain    User edited successfully
+    And Checkbox Should Be Selected    map_user_superAdmin
+
+Change a super-admin profile to a non super-admin profile
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #1
+    When Unselect Checkbox    map_user_superAdmin
+    And I save
+    Then Page Should Contain    User edited successfully
+    And Checkbox Should Not Be Selected    map_user_superAdmin
+
+Unlock a user
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #3
+    When Unselect Checkbox    map_user_locked
+    And I save
+    Then Page Should Contain    User edited successfully
+    And Checkbox Should Not Be Selected    map_user_locked
+
+Lock a user
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #2
+    When Select Checkbox    map_user_locked
+    And I save
+    Then Page Should Contain    User edited successfully
+    And Checkbox Should Be Selected    map_user_locked
+
+Impossible to edit a user with firstname too short
+    Impossible to edit a user with wrong data    map_user_firstname    X    This value is too short. It should have 2 characters or more.
+
+Impossible to edit a user with name too short
+    Impossible to edit a user with wrong data    map_user_name    X    This value is too short. It should have 2 characters or more.
+
+Impossible to edit a user with displayname too short
+    Impossible to edit a user with wrong data    map_user_displayname    X    This value is too short. It should have 2 characters or more.
+
+Impossible to edit a user with username too short
+    Impossible to edit a user with wrong data    map_user_username    X    This value is too short. It should have 2 characters or more.
+
+Impossible to edit a user with invalid email
+    Impossible to edit a user with wrong data    map_user_email    XXXX    Invalid email address
+
+Impossible to edit a user with duplicate displayname
+    Impossible to edit a user with wrong data    map_user_displayname    displayadmin    A user with this displayname already exists.
+
+Impossible to edit a user with duplicate username
+    Impossible to edit a user with wrong data    map_user_username    useradmin    A user with this username already exists.
+
+Impossible to edit a user with duplicate email
+    Impossible to edit a user with wrong data    map_user_email    admin@example.com    A user with this email already exists.
+
+Wrong user Id
+    Given I am a super-admin
+    And I go to users list
+    When Go to    ${URL}/user/edit/999
+    Then I should see 404 error page
+
+Breadcrumb
+    Given I am a super-admin
+    And I go to users list
+    When I click action button    Edit user #2
+    Then the breadcrumb should contain    Admin    Edit user
+
+Return to list button
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #1
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/user/
+
+*** Keywords ***
+Impossible to edit a user with wrong data
+    [Arguments]    ${field}    ${value}    ${message}
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #2
+    When I fill in user form    Modified
+    When Input Text    ${field}    ${value}
+    And I save
+    Then Page Should Contain    ${message}

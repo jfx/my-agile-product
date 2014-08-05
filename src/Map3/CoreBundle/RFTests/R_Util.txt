@@ -1,0 +1,32 @@
+*** Keywords ***
+I get formated date for current month
+    [Arguments]    ${day}
+    ${yyyy}    ${mm} =    Get Time    year,month
+    ${formatDate} =    Convert To String    ${day}/${mm}/${yyyy}
+    [Return]    ${formatDate}
+
+I get formated date in X months
+    [Arguments]    ${day}    ${month2Add}
+    ${day_now_string} =    Get Time    day
+    ${day_now} =    Convert To Integer    ${day_now_string}
+    ${day2Add} =    Evaluate    (${month2Add}*30) + ${day} - ${day_now}
+    ${inxMonth} =    Convert To String    NOW + ${day2Add} days
+    ${y_xm}    ${m_xm} =    Get Time    year,month    ${inxMonth}
+    ${formatDate} =    Convert To String    ${day}/${m_xm}/${y_xm}
+    [Return]    ${formatDate}
+
+First uppercase
+    [Arguments]    ${string}
+    ${first} =    Get Substring    ${string}    0    1
+    ${ignoreFirst} =    Get Substring    ${string}    1
+    [Return]    ${first.upper()}${ignoreFirst}
+
+I get sql formated date in X months
+    [Arguments]    ${day}    ${month2Add}
+    ${day_now_string} =    Get Time    day
+    ${day_now} =    Convert To Integer    ${day_now_string}
+    ${day2Add} =    Evaluate    (${month2Add}*30) + ${day} - ${day_now}
+    ${inxMonth} =    Convert To String    NOW + ${day2Add} days
+    ${y_xm}    ${m_xm} =    Get Time    year,month    ${inxMonth}
+    ${formatDate} =    Convert To String    ${y_xm}-${m_xm}-${day}
+    [Return]    ${formatDate}

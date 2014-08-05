@@ -1,4 +1,4 @@
-{% extends 'MapCoreBundle::layout.html.twig' %}
+{% extends 'Map3CoreBundle::layout.html.twig' %}
 
 {% block title %}{{ parent() }} - Profile - Roles{% endblock title %}
 
@@ -23,10 +23,10 @@
         </tr>
     </thead>
     <tbody>
-{% for domain in domains %}
+{% for product in products %}
             <tr>
-                <td>{{ domain.name }}</td>
-                <td>{{ domain.label }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.label }}</td>
             </tr>
 {% else %}
         <tr><td colspan="2">No role</td></tr>

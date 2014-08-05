@@ -1,0 +1,16 @@
+*** Settings ***
+Library           OperatingSystem
+Library           Selenium2Library
+Library           String
+Resource          R_PARAMETERS.txt
+Resource          R_Util.txt
+Resource          R_Actions_FCT.txt
+Resource          R_Actions_GUI.txt
+Resource          R_Checks.txt
+Resource          Domain/R_Domain.txt
+Resource          Project/R_Project.txt
+Resource          User/R_User.txt
+Resource          R_Google_Account.txt
+Resource          R_Google.txt
+
+*** Keywords ***

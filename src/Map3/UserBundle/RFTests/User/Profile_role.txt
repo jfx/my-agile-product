@@ -1,0 +1,42 @@
+*** Settings ***
+Documentation     In order to see my role on domains
+...               As a connected user
+...               I need to see my different role on each domain
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Multiple roles
+    Given I am a user
+    When I go to profile role page
+    Then the table should contain x rows    2
+    And the table should contain    Domain One    User
+    And the table should contain    Domain Two    User+
+
+No role
+    Given I am a super-admin
+    When I go to profile role page
+    Then the table should contain x rows    1
+    And the table should contain    No role
+
+Breadcrumb
+    Given I am a user
+    When I go to profile role page
+    the breadcrumb should contain    Admin    Profile    Roles
+
+Main tab
+    Given I am a user
+    And I go to profile role page
+    When Click Link    Main
+    Then Location Should Be    ${URL}/user/profile
+
+Password tab
+    Given I am a user
+    And I go to profile role page
+    When Click Link    Password
+    Then Location Should Be    ${URL}/user/password
+
+*** Keywords ***
+I go to profile role page
+    Click element    link=Admin
+    Click element    link=Profile
+    Click element    link=Roles

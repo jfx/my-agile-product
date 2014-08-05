@@ -1,0 +1,49 @@
+*** Settings ***
+Documentation     In order to manage user
+...               As a super-admin user profile
+...               I need to view user's details.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+View a user with non super-admin profile
+    Given I am a super-admin
+    When I go to user view page    2
+    Then I check user view form    user    False    False    user role on domain 1 + user+ on domain 2
+
+View a user with super-admin profile
+    Given I am a super-admin
+    When I go to user view page    1
+    Then I check user view form    admin    True    False    Admin user
+
+View a locked user profile
+    Given I am a super-admin
+    When I go to user view page    3
+    Then I check user view form    lock    False    True    Locked user
+
+Wrong user Id
+    Given I am a super-admin
+    When Go to    ${URL}/user/999
+    Then I should see 404 error page
+
+Breadcrumb
+    Given I am a super-admin
+    When I go to user view page    1
+    Then the breadcrumb should contain    Admin    View user
+
+Role tab
+    Given I am a super-admin
+    And I go to user view page    2
+    When Click Link    Roles
+    Then Location Should Be    ${URL}/user/role/2
+
+Return to list button
+    Given I am a super-admin
+    And I go to user view page    2
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/user/
+
+Edit button
+    Given I am a super-admin
+    And I go to user view page    2
+    When I click button    Edit
+    Then Location Should Be    ${URL}/user/edit/2

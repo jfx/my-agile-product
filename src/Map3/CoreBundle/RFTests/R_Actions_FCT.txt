@@ -1,0 +1,56 @@
+*** Keywords ***
+I open browser
+    Open Browser    ${LOGIN_URL}    ${BROWSER}    \    http://127.0.0.1:4444/wd/hub
+    Maximize Browser Window
+    Run Keyword If    '${ENV}' == 'dev'    Wait Until Page Contains Element    xpath=//a[@title='Close Toolbar']
+    Run Keyword If    '${ENV}' == 'dev'    Click element    xpath=//a[@title='Close Toolbar']
+
+I am logging as
+    [Arguments]    ${user}    ${password}=DEFAULT    ${check}=Hello
+    Go to    ${LOGIN_URL}
+    ${password}    Set Variable If    '${password}' == 'DEFAULT'    ${user}    ${password}
+    Input text    username    user${user}
+    Input text    password    ${password}
+    Click element    xpath=//button[@title='Login']
+    Page Should Contain    ${check}
+
+I am a super-admin
+    Run Keyword    I am logging as    ${USER_ADMIN}
+
+I am a manager
+    Run Keyword    I am logging as    ${USER_MANAGER}
+
+I am a user+
+    Run Keyword    I am logging as    ${USER_USER+}
+
+I am a user
+    Run Keyword    I am logging as    ${USER_USER}
+
+I am a guest
+    Run Keyword    I am logging as    ${USER_GUEST}
+
+I am a user with no role
+    Run Keyword    I am logging as    ${USER_NONE}
+
+I am a user with no role on any domain
+    Run Keyword    I am logging as    ${USER_NODOMAIN}
+
+I log out
+    Go to    ${URL}/logout
+
+TestSetup
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:database:drop --force
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:database:create
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:schema:update --force
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:fixtures:load --no-interaction
+    Should Be Equal As Integers    ${rc}    0
+    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
+    Run Keyword If    '${ENV}' == 'dev'    Append To File    ${LOG_PATH}/testName.txt    ${SUITE NAME} / ${TEST NAME}
+    I open browser
+
+TestTeardown
+    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
+    Close All Browsers

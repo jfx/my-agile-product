@@ -1,0 +1,78 @@
+*** Settings ***
+Documentation     In order to use the application
+...               As a anonymous user
+...               I need to login to the application
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Successfull user login
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    useruser    user
+    When Click element    xpath=//button[@title='Login']
+    Then Page Should Contain    Hello Firstuser User !
+
+Successfull admin login
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    useradmin    admin
+    When Click element    xpath=//button[@title='Login']
+    Then Page Should Contain    Hello Firstadmin Admin !
+
+Successfull user login with email
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    user@example.com    user
+    When Click element    xpath=//button[@title='Login']
+    Then Page Should Contain    Hello Firstuser User !
+
+Successfull admin login with email
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    admin@example.com    admin
+    When Click element    xpath=//button[@title='Login']
+    Then Page Should Contain    Hello Firstadmin Admin !
+
+Wrong username
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    wrong_user    user
+    When Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL}/login
+    And Page Should Contain    Invalid username or password
+
+Wrong email
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    wrong_user@example.com    user
+    When Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL}/login
+    And Page Should Contain    Invalid username or password
+
+Wrong password for username
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    useruser    wrong_pass
+    When Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL}/login
+    And Page Should Contain    Invalid username or password
+
+Wrong password for email
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    user@example.com    wrong_pass
+    When Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL}/login
+    And Page Should Contain    Invalid username or password
+
+Wrong password for locked user
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    userlock    wrong_pass
+    When Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL}/login
+    And Page Should Contain    User account is locked
+
+Locked user cannot login
+    Given Go to    ${LOGIN_URL}
+    And I fill in login form    userlock    lock
+    When Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL}/login
+    And Page Should Contain    User account is locked
+
+*** Keywords ***
+I fill in login form
+    [Arguments]    ${user}    ${pass}
+    Input Text    username    ${user}
+    Input Text    password    ${pass}

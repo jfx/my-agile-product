@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\DashboardBundle\Tests\Controller;
+namespace Map3\CoreBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * Test controller class.
  *
  * @category  MyAgileProduct
- * @package   Dashboard
+ * @package   Core
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
@@ -32,7 +32,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @since     3
  *
  */
-class DefaultControllerTest extends WebTestCase
+class CoreControllerTest extends WebTestCase
 {
     /**
      * Test method
@@ -42,29 +42,13 @@ class DefaultControllerTest extends WebTestCase
     public function testIndex()
     {
         $client = static::createClient();
-        $client->followRedirects();
-
         $crawler = $client->request('GET', '/login');
-
-        $elt = $crawler->filter('html:contains("Username")');
-        $eltCount = $elt->count();
-        $this->assertGreaterThan(0, $eltCount);
-
-        $form = $crawler->selectButton('login')->form();
-        $form['_username'] = 'useruser';
-        $form['_password'] = 'user';
-
-        $client->submit($form);
 
         $statusCode  = $client->getResponse()->getStatusCode();
         $this->assertTrue(200 === $statusCode);
 
-        $content = $client->getResponse()->getContent();
-
-        $logger = $client->getContainer()->get('logger');
-        $logger->info($content);
-
-        $count = substr_count($content, 'Hello Firstuser User !');
-        $this->assertGreaterThan(0, $count);
+        $elt = $crawler->filter('html:contains("My Agile Product")');
+        $eltCount = $elt->count();
+        $this->assertGreaterThan(0, $eltCount);
     }
 }

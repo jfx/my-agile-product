@@ -1,0 +1,14 @@
+*** Keywords ***
+I am logging into Gmail
+    Go to    ${GM_URL}
+    Input Text    Email    ${GM_USER}
+    Input Text    Passwd    ${GM_PASSWORD}
+    Click Button    signIn
+    sleep    2
+
+I select unread email with subject
+    [Arguments]    ${subject}
+    Click Element    xpath=//b[text()="${subject}"]
+
+I click link in message
+    Click Element    xpath=//div[@class='msg']//a

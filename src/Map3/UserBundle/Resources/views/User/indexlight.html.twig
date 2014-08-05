@@ -1,4 +1,4 @@
-{% extends 'MapCoreBundle::layout.html.twig' %}
+{% extends 'Map3CoreBundle::layout.html.twig' %}
 
 {% block title %}{{ parent() }} - Users list{% endblock title %}
 
@@ -22,7 +22,7 @@
                 <td>{{ user.name }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.displayname }}</td>
-                <td>{% if user.isSuperAdmin() %}<i class="icon-ok"></i>{% else %}-{% endif %}</td>
+                <td>{% if user.isSuperAdmin() %}{{ icon('ok') }}{% else %}-{% endif %}</td>
                 <td>{{ user.details }}</td>
             </tr>
 {% else %}

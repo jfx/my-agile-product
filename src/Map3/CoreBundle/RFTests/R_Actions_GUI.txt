@@ -1,0 +1,26 @@
+*** Keywords ***
+I click action button
+    [Arguments]    ${action}
+    Click element    xpath=//a[@title='${action}']
+
+I save
+    Click element    xpath=//button[@title='Save']
+
+I click button
+    [Arguments]    ${label}
+    Click element    xpath=//a[@title='${label}']
+
+I confirm
+    Sleep    1s
+    Click element    button_ok
+
+I do not confirm
+    Sleep    1s
+    Click element    button_cancel
+
+I select date
+    [Arguments]    ${element}    ${order}    ${day}    ${month}=0
+    Click Element    ${element}
+    : FOR    ${INDEX}    IN RANGE    0    ${month}
+    \    Click Element    xpath=(//div[@class='datetimepicker-days' and @style='display: block;']/table/thead/tr/th[@class='next'])[${order}]
+    Click Element    xpath=(//td[text()='${day}'])[${order}]

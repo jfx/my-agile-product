@@ -1,0 +1,44 @@
+*** Settings ***
+Documentation     In order to make navigation ease in use
+...               As a connected user
+...               I need to navigate to project with a select box
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Switch project with select box
+    Given I am a user
+    When I select in menu select    Project One
+    Then Location Should Be    ${URL}/project/1
+    And the role should be    User
+    When I select in menu select    Project Three
+    Then Location Should Be    ${URL}/project/4
+    And the role should be    User+
+
+Select box should contain available projects
+    When I am a user
+    Then Page Should Contain Element    xpath=//optgroup[@label='Domain One']
+    And Element Should Contain    id=map_menu_select_search    Project One
+    And Element Should Contain    id=map_menu_select_search    Project Two
+    Page Should Contain Element    xpath=//optgroup[@label='Domain Two']
+    And Element Should Contain    id=map_menu_select_search    Project Three
+
+Select box should not contain closed project
+    When I am a user
+    Then Run Keyword And Expect Error    *    Element Should Contain    id=map_menu_select_search    Project Closed
+
+Select box should not contain project with no role
+    I am a user with no role
+    Then Run Keyword And Expect Error    *    Element Should Contain    id=map_menu_select_search    Project One
+
+Select box should not be displayed when no project
+    When I am a super-admin
+    Then Page Should Not Contain Element    id=map_menu_select_search
+
+*** Keywords ***
+I select in menu select
+    [Arguments]    ${project}
+    Select From List By Label    id=map_menu_select_search    ${project}
+
+the role should be
+    [Arguments]    ${role}
+    Page Should Contain    (${role})

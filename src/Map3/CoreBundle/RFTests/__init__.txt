@@ -1,0 +1,4 @@
+*** Settings ***
+Test Setup        TestSetup
+Test Teardown     TestTeardown
+Resource          Keyword_resource.txt
