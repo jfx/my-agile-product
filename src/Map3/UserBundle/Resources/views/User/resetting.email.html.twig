@@ -1,0 +1,17 @@
+{% block subject %}My Agile Project : Resetting your password{% endblock %}
+
+{% block body_text %}
+{% autoescape false %}
+Hello {{ user.firstname }} {{ user.name }},
+
+You can reset your password by accessing {{ confirmationUrl }}
+
+Regards,
+
+the Team
+My Agile Project Password Management
+{% endautoescape %}
+{% endblock %}
+
+{% block body_html %}
+{% endblock %}

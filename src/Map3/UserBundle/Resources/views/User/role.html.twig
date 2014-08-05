@@ -1,0 +1,38 @@
+{% extends 'MapCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Profile - Roles{% endblock title %}
+
+{% block headline %}{{ breadcrumb(['Admin', 'Profile', 'Roles']) }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+<ul class="nav nav-tabs" role="tablist">
+    <li><a href="{{ path('user_profile') }}">Main</a></li>
+    <li><a href="{{ path('user_password') }}">Password</a></li>
+    <li class="active"><a href="#">Roles</a></li>
+</ul>
+</div>
+<br />
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Domain</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for domain in domains %}
+            <tr>
+                <td>{{ domain.name }}</td>
+                <td>{{ domain.label }}</td>
+            </tr>
+{% else %}
+        <tr><td colspan="2">No role</td></tr>
+{% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock content %}

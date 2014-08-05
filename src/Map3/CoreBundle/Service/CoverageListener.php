@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map\CoreBundle\Service;
+namespace Map3\CoreBundle\Service;
 
 use AppKernel;
 use PHP_CodeCoverage;
@@ -29,13 +29,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 /**
  * Code coverage listener class.
  *
- * @category  MyAgileProject
+ * @category  MyAgileProduct
  * @package   Core
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  * @link      http://www.myagileproject.org
- * @since     2
+ * @since     3
  */
 class CoverageListener
 {

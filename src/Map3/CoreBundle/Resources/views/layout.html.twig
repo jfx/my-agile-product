@@ -1,0 +1,129 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+<!DOCTYPE html>
+
+{% block html_tag %}
+<html lang="en">
+{% endblock html_tag %}
+{% block head %}
+<head>
+    <meta charset="utf-8" />
+    {% block head_externalstyle %}
+    {% stylesheets filter='lessphp,cssembed'
+        '@Map3CoreBundle/Resources/public/less/map.less'
+        '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
+        '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/build/build_standalone.less'
+        '@Map3CoreBundle/Resources/public/less/mapover.less'
+       output='css/all.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+    {% endblock head_externalstyle %}
+
+    <style>
+    {% block head_internalstyle %}
+    body {
+        background-image: url("{{ asset('bundles/map3core/images/mechanika.png') }}");
+    }
+    {% endblock head_internalstyle %}
+    </style>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block head_script %}
+    {% endblock head_script %}
+
+    <title>{% block title %}My Agile Product{% endblock title %}</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+</head>
+{% endblock head %}
+
+{% block body_tag %}
+<body  role="document">
+{% endblock body_tag %}
+
+{% block body_start %}
+{% endblock body_start %}
+
+{% block body %}
+    {% block navbar %}
+        {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { inverse: true, fixedTop: true } %}
+            {% block brand %}
+                <a class="navbar-brand" href="{{ path('map3_dashboard_index') }}">My Agile Product</a>
+            {% endblock %}
+
+            {% block menu %}
+                {{ mopa_bootstrap_menu('Map3CoreBundle:Builder:mainMenu') }}
+                {{ render(controller("Map3CoreBundle:Select:display")) }}
+                {{ mopa_bootstrap_menu('Map3CoreBundle:Builder:rightMenu') }}
+            {% endblock %}
+        {% endembed %}
+    {% endblock navbar %}
+
+    {% block container %}
+    <div class="{% block container_class %}container{% endblock container_class %}">
+        {% block header %}
+        {% endblock header %}
+
+        <div class="content">
+            {% block page_header %}
+                <br />
+                  {% block headline %}My Agile Product{% endblock headline %}
+
+            {% endblock page_header %}
+
+            {% block flashes %}
+            {% if app.session.flashbag.peekAll|length > 0 %}
+            <div class="row">
+                <div class="container">
+                {{ session_flash(true) }}
+                </div>
+            </div>
+            {% endif %}
+            {% endblock flashes %}
+
+            {% block content_row %}
+            <div class="row">
+                <div class="container">
+                {% block content %}
+
+                {% endblock content %}
+                </div>
+            </div>
+            {% endblock content_row %}
+        </div>
+        {% block footer %}
+        &nbsp;<br />
+        <footer class="footer">
+            <hr>
+            <p> <a href="http://www.myagileproduct.org" target="_blank">My Agile Product v{{ version }} - {{ build }}</a> &copy; 2014</p>
+        </footer>
+        {% endblock footer %}
+    </div> <!-- /container -->
+    {% endblock container %}
+    {% block foot_script %}
+    {% javascripts
+        '@Map3CoreBundle/Resources/public/js/jquery.min.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/affix.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/alert.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/button.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/carousel.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/collapse.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/dropdown.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/modal.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/popover.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/scrollspy.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/tab.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/transition.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+        '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
+        output='js/compiled/main.js'
+     %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock foot_script %}
+{% endblock body %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends 'MapCoreBundle::layout.html.twig' %}
+
+{% block foot_script %}
+{{ parent() }}
+
+<script type="text/javascript">
+    $(function(){
+
+        $('[data-provider="datepicker"]').datetimepicker({
+            autoclose: true,
+            format: '{{ formatDate }}',
+            minView: 'month',
+            weekStart: 1,
+            pickerPosition: 'bottom-left',
+            todayBtn: true,
+            startView: 'month'
+        });
+
+        $('input[type=hidden]', '.date').each(function(){
+                if($(this).val()) {
+                    $(this).parent().datetimepicker('setValue');
+                }
+        });
+
+    });
+</script>
+
+{% endblock foot_script %}

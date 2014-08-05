@@ -1,0 +1,25 @@
+{% extends 'MapCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Profile{% endblock title %}
+
+{% block headline %}{{ breadcrumb(['Admin', 'Profile']) }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#">Main</a></li>
+    <li><a href="{{ path('user_password') }}">Password</a></li>
+    <li><a href="{{ path('user_role') }}">Roles</a></li>
+</ul>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form class="form-horizontal well">
+
+            {{ form_widget(form) }}
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

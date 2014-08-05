@@ -1,0 +1,34 @@
+{% extends 'MapCoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Users list{% endblock title %}
+
+{% block headline %}{{ breadcrumb(['Admin', 'Users list']) }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Firstname</th>
+            <th>Displayname</th>
+            <th>Super-admin</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for user in users %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.displayname }}</td>
+                <td>{% if user.isSuperAdmin() %}<i class="icon-ok"></i>{% else %}-{% endif %}</td>
+                <td>{{ user.details }}</td>
+            </tr>
+{% else %}
+        <li>No user</li>
+{% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock content %}

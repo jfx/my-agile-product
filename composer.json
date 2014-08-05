@@ -24,7 +24,7 @@
         "mopa/bootstrap-bundle": "dev-master",
         "twbs/bootstrap": "v3.0.0",
         "knplabs/knp-menu-bundle": "dev-master",
-        "friendsofsymfony/user-bundle": "*",
+        "friendsofsymfony/user-bundle": "~2.0@dev",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
         "gedmo/doctrine-extensions": "dev-master"
     },

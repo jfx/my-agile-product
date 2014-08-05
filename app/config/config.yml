@@ -5,13 +5,13 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: ~
-    form:            ~
-    csrf_protection: ~
+    form:            true
+    csrf_protection: true
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
@@ -38,7 +38,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+#    bundles:        [ ]
     java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -64,9 +64,6 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        # path:     "%database_path%"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -97,9 +94,9 @@ fos_user:
         mailer: fos_user.mailer.twig_swift
     resetting:
         form:
-            type: map_userbundle_resettingformtype
+            type: map3_userbundle_resettingformtype
         email:
-            template: MapUserBundle:User:resetting.email.html.twig
+            template: Map3UserBundle:User:resetting.email.html.twig
 
 parameters:
     app.version:               0.0.0

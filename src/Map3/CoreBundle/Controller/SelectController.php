@@ -16,34 +16,61 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\DashboardBundle\Controller;
+namespace Map3\CoreBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Map3\CoreBundle\Form\MenuSelectType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Dashboard controller class.
+ * Core controller class.
  *
  * @category  MyAgileProduct
- * @package   Home
+ * @package   Core
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  * @link      http://www.myagileproject.org
  * @since     3
+ *
  */
-class DefaultController extends Controller
+class SelectController extends Controller
 {
     /**
-     * Dashboard
+     * Display html select object in menu.
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function indexAction()
+    public function displayAction()
     {
-        return $this->render('Map3DashboardBundle:Default:index.html.twig');
+        $securityContext = $this->get('security.context');
+        $user = $securityContext->getToken()->getUser();
+
+        $form = $this->createForm(new MenuSelectType($user));
+
+        return $this->render(
+            'Map3CoreBundle:Select:display.html.twig',
+            array('form' => $form->createView())
+        );
+    }
+
+    /**
+     * Select a project in combobox
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function requestAction()
+    {
+        $request = $this->getRequest();
+        $projectId = $request->request->get('map3_core_select')['search'];
+
+        return $this->redirect(
+            $this->generateUrl('project_view', array('id' => $projectId))
+        );
     }
 }
