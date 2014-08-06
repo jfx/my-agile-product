@@ -94,7 +94,7 @@ fos_user:
         mailer: fos_user.mailer.twig_swift
     resetting:
         form:
-            type: map3_userbundle_resettingformtype
+            type: map3_resettingformtype
         email:
             template: Map3UserBundle:User:resetting.email.html.twig
 

@@ -13,13 +13,13 @@ Display users list for a non super-admin profile
     And Page Should Not Contain    admin@example.com
     Comment    Name    Firstname    Displayname    Details
     And the table should contain    Admin    Firstadmin    displayadmin    Admin user
-    And the table should contain    D1-guest    Firstd1-guest    displayd1-guest    guest role on domain 1
-    And the table should contain    D1-manager    Firstd1-manager    displayd1-manager    manager role on domain 1
-    And the table should contain    D1-none    Firstd1-none    displayd1-none    none role on domain 1
-    And the table should contain    D1-user+    Firstd1-user+    displayd1-user+    user+ role on domain 1
+    And the table should contain    D1-guest    Firstd1-guest    displayd1-guest    guest role on product 1
+    And the table should contain    D1-manager    Firstd1-manager    displayd1-manager    manager role on product 1
+    And the table should contain    D1-none    Firstd1-none    displayd1-none    none role on product 1
+    And the table should contain    D1-user+    Firstd1-user+    displayd1-user+    user+ role on product 1
     And the table should contain    Lock    Firstlock    displaylock    Locked user
-    And the table should contain    No-domain    Firstno-domain    displayno-domain    user with no role on domain
-    And the table should contain    User    Firstuser    displayuser    user role on domain 1 + user+ on domain 2
+    And the table should contain    No-product    Firstno-product    displayno-product    user with no role on product
+    And the table should contain    User    Firstuser    displayuser    user role on product 1 + user+ on product 2
 
 Display users list for a super-admin profile
     Given I am a super-admin
@@ -29,13 +29,13 @@ Display users list for a super-admin profile
     And the table should contain x rows    8
     Comment    Name    Firstname    Displayname    Username    Email    Details
     And the table should contain    Admin    Firstadmin    displayadmin    useradmin    admin@example.com    Admin user
-    And the table should contain    D1-guest    Firstd1-guest    displayd1-guest    userd1-guest    d1-guest@example.com    guest role on domain 1
-    And the table should contain    D1-manager    Firstd1-manager    displayd1-manager    userd1-manager    d1-manager@example.com    manager role on domain 1
-    And the table should contain    D1-none    Firstd1-none    displayd1-none    userd1-none    d1-none@example.com    none role on domain 1
-    And the table should contain    D1-user+    Firstd1-user+    displayd1-user+    userd1-user+    d1-user+@example.com    user+ role on domain 1
+    And the table should contain    D1-guest    Firstd1-guest    displayd1-guest    userd1-guest    d1-guest@example.com    guest role on product 1
+    And the table should contain    D1-manager    Firstd1-manager    displayd1-manager    userd1-manager    d1-manager@example.com    manager role on product 1
+    And the table should contain    D1-none    Firstd1-none    displayd1-none    userd1-none    d1-none@example.com    none role on product 1
+    And the table should contain    D1-user+    Firstd1-user+    displayd1-user+    userd1-user+    d1-user+@example.com    user+ role on product 1
     And the table should contain    Lock    Firstlock    displaylock    userlock    lock@example.com    Locked user
-    And the table should contain    No-domain    Firstno-domain    displayno-domain    userno-domain    no-domain@example.com    user with no role on domain
-    And the table should contain    User    Firstuser    displayuser    useruser    user@example.com    user role on domain 1 + user+ on domain 2
+    And the table should contain    No-product    Firstno-product    displayno-product    userno-product    no-product@example.com    user with no role on product
+    And the table should contain    User    Firstuser    displayuser    useruser    user@example.com    user role on product 1 + user+ on product 2
 
 No actions buttons in users list for a non super-admin profile
     Given I am a user

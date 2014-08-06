@@ -113,7 +113,7 @@ class Users extends AbstractFixture implements
                 'locked'     => false
             ),
             array(
-                'name'       => 'no-domain',
+                'name'       => 'no-product',
                 'details'    => 'user with no role on product',
                 'superadmin' => false,
                 'locked'     => false

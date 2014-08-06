@@ -9,8 +9,8 @@ Multiple roles
     Given I am a user
     When I go to profile role page
     Then the table should contain x rows    2
-    And the table should contain    Domain One    User
-    And the table should contain    Domain Two    User+
+    And the table should contain    Product One    User
+    And the table should contain    Product Two    User+
 
 No role
     Given I am a super-admin

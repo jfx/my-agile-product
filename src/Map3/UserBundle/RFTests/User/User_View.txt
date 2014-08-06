@@ -8,7 +8,7 @@ Resource          ../Keyword_resource.txt
 View a user with non super-admin profile
     Given I am a super-admin
     When I go to user view page    2
-    Then I check user view form    user    False    False    user role on domain 1 + user+ on domain 2
+    Then I check user view form    user    False    False    user role on product 1 + user+ on product 2
 
 View a user with super-admin profile
     Given I am a super-admin

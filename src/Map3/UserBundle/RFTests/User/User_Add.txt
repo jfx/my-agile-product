@@ -23,7 +23,7 @@ Add a user without password with non super-admin profile
     And I go to users list
     And I click action button    Add
     When I fill in user form    Added
-    And Input Text    map_user_updatedPassword    ${EMPTY}
+    And Input Text    map3_user_updatedPassword    ${EMPTY}
     And I save
     Then Page Should Contain    User added successfully
     And I check user view form    Added
@@ -53,28 +53,28 @@ Add a locked user
     And the table should contain    Added    FirstAdded    displayAdded    userAdded    Added@example.com    Details 4 Added
 
 Impossible to add a user with firstname too short
-    Impossible to add a user with wrong data    map_user_firstname    X    This value is too short. It should have 2 characters or more.
+    Impossible to add a user with wrong data    map3_user_firstname    X    This value is too short. It should have 2 characters or more.
 
 Impossible to add a user with name too short
-    Impossible to add a user with wrong data    map_user_name    X    This value is too short. It should have 2 characters or more.
+    Impossible to add a user with wrong data    map3_user_name    X    This value is too short. It should have 2 characters or more.
 
 Impossible to add a user with displayname too short
-    Impossible to add a user with wrong data    map_user_displayname    X    This value is too short. It should have 2 characters or more.
+    Impossible to add a user with wrong data    map3_user_displayname    X    This value is too short. It should have 2 characters or more.
 
 Impossible to add a user with username too short
-    Impossible to add a user with wrong data    map_user_username    X    This value is too short. It should have 2 characters or more.
+    Impossible to add a user with wrong data    map3_user_username    X    This value is too short. It should have 2 characters or more.
 
 Impossible to add a user with invalid email
-    Impossible to add a user with wrong data    map_user_email    XXXX    Invalid email address
+    Impossible to add a user with wrong data    map3_user_email    XXXX    Invalid email address
 
 Impossible to add a user with duplicate displayname
-    Impossible to add a user with wrong data    map_user_displayname    displayuser    A user with this displayname already exists.
+    Impossible to add a user with wrong data    map3_user_displayname    displayuser    A user with this displayname already exists.
 
 Impossible to add a user with duplicate username
-    Impossible to add a user with wrong data    map_user_username    useruser    A user with this username already exists.
+    Impossible to add a user with wrong data    map3_user_username    useruser    A user with this username already exists.
 
 Impossible to add a user with duplicate email
-    Impossible to add a user with wrong data    map_user_email    user@example.com    A user with this email already exists.
+    Impossible to add a user with wrong data    map3_user_email    user@example.com    A user with this email already exists.
 
 Breadcrumb
     Given I am a super-admin

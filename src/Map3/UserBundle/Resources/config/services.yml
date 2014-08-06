@@ -21,4 +21,4 @@ services:
         class: Map3\UserBundle\Form\Type\ResettingFormType
         arguments: [%fos_user.model.user.class%]
         tags:
-            - { name: form.type, alias: map_resettingformtype }
+            - { name: form.type, alias: map3_resettingformtype }

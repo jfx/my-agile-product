@@ -32,8 +32,8 @@ I am a guest
 I am a user with no role
     Run Keyword    I am logging as    ${USER_NONE}
 
-I am a user with no role on any domain
-    Run Keyword    I am logging as    ${USER_NODOMAIN}
+I am a user with no role on any product
+    Run Keyword    I am logging as    ${USER_NOPRODUCT}
 
 I log out
     Go to    ${URL}/logout

@@ -10,7 +10,7 @@ ${USER_USER+}     d1-user+
 ${USER_USER}      user
 ${USER_GUEST}     d1-guest
 ${USER_NONE}      d1-none
-${USER_NODOMAIN}    no-domain
+${USER_NOPRODUCT}    no-product
 ${CONSOLE_PATH}    /opt/Dropbox/Nprojects/Map3/app/console
 ${LOG_PATH}       /opt/Dropbox/Nprojects/Map3/app/logs
 ${FORBIDDEN_ACCESS_TEXT}    403 Forbidden

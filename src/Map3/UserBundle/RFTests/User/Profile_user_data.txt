@@ -34,7 +34,7 @@ Roles tab
 
 *** Keywords ***
 I should see user profile data
-    I check user view form    user    False    False    user role on domain 1 + user+ on domain 2
+    I check user view form    user    False    False    user role on product 1 + user+ on product 2
 
 I go to profile page
     Click element    link=Admin
