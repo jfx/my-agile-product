@@ -1,0 +1,63 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Products list{% endblock title %}
+
+{% block headline %}{{ breadcrumb(['Admin', 'Products list']) }}{% endblock headline %}
+
+{% block content %}
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>{% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a class="btn btn-default btn-xs" href="{{ path('product_add') }}"
+                   title="Add">
+                    {{ icon('plus') }}
+                </a>
+               {% endif %}
+               &nbsp;&nbsp;Action
+            </th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for product in products %}
+            <tr>
+                <td class="action">
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('product_view', {'id': product.id}) }}"
+                       title="View product #{{ product.id }}">
+                            {{ icon('eye-open') }}
+                    </a>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('product_edit', {'id': product.id}) }}"
+                       title="Edit product #{{ product.id }}">
+                            {{ icon('edit') }}
+                    </a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('product_del', {'id': product.id}) }}"
+                       title="Delete product #{{ product.id }}">
+                            {{ icon('trash') }}
+                    </a>
+                    {% endif %}
+                </td>
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.details }}</td>
+            </tr>
+{% else %}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <tr><td colspan="4">No product</td></tr>
+        {% else %}
+            <tr><td colspan="3">No product</td></tr>
+        {% endif %}
+{% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock content %}

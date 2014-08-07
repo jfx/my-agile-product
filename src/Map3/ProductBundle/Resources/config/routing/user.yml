@@ -1,6 +1,6 @@
 pdt-user_index:
     pattern:  /
-    defaults: { _controller: "Map3ProductDomainBundle:User:index" }
+    defaults: { _controller: "Map3ProductBundle:User:index" }
 
 pdt-user_view:
     pattern:  /{id}

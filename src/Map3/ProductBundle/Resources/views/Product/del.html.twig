@@ -1,0 +1,29 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Product delete - Id : {{ product.id }}{% endblock title %}
+
+{% block headline %}{{ breadcrumb(['Admin', 'Delete product']) }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#">Main</a></li>
+    <li><a href="{{ path('pdt-user_index') }}">Users</a></li>
+</ul>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+        {% include "Map3CoreBundle::formDel.html.twig" %}
+
+    </div>
+</div>
+<div class="row-fluid">
+    <a class="btn btn-default btn-sm" href="{{ path('product_index') }}"
+       title="Return to list">
+        {{ icon('chevron-left') }} Return to list
+    </a>
+</div>
+
+{% endblock content %}

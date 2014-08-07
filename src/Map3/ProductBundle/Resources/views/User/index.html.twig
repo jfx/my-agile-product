@@ -1,0 +1,68 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Users list{% endblock title %}
+
+{% block headline %}{{ product_breadcrumb('Users list') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+<ul class="nav nav-tabs">
+    <li><a id="a_main" href="{{ path('product_view', {'id': product.id}) }}">Main</a></li>
+    <li><a id="a_releases" href="{{ path('pdt-release_index') }}"><span id="badge_releases" class="badge badge-info">{{ child.releases }}</span>&nbsp;&nbsp;Releases</a></li>
+    <li class="active"><a id="a_users" href="#"><span id="badge_users" class="badge badge-inverse">{{ child.users }}</span>&nbsp;&nbsp;Users</a></li>
+</ul>
+</div>
+<br />
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DM_MANAGER') %}
+            <th>
+                    <a href="{{ path('pdt-user_add') }}"
+                        class="btn btn-default btn-xs" title="Add">
+                        {{ icon('plus') }}
+                    </a>
+
+               &nbsp;&nbsp;Action
+            </th>
+            {% endif %}
+            <th>Name</th>
+            <th>Displayname</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for user in users %}
+            <tr>
+                {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DM_MANAGER') %}
+                <td class="action">
+                    <a href="{{ path('pdt-user_edit', {'id': user.id}) }}"
+                       class="btn btn-default btn-xs"
+                       title="Edit user #{{ user.id }}">
+                        {{ icon('edit') }}
+                    </a>
+                    <a href="{{ path('pdt-user_del', {'id': user.id}) }}"
+                       class="btn btn-default btn-xs"
+                       title="Delete user #{{ user.id }}">
+                        {{ icon('trash') }}
+                    </a>
+                </td>
+                {% endif %}
+                <td>{{ user.name }} {{ user.firstname }}</td>
+                <td>{{ user.displayname }}</td>
+                <td>{{ user.label }}</td>
+            </tr>
+{% else %}
+        {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DM_MANAGER') %}
+            <tr><td colspan="4">No user</td></tr>
+        {% else %}
+            <tr><td colspan="3">No user</td></tr>
+        {% endif %}
+{% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock content %}

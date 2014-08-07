@@ -95,7 +95,7 @@ class UserPdtRole
      *
      * @return UserPdtRole
      */
-    public function setDomain(Product $pdt)
+    public function setProduct(Product $pdt)
     {
         $this->product = $pdt;
 

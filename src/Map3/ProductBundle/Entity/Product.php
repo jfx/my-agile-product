@@ -76,9 +76,9 @@ class Product
     /**
      * Set name
      *
-     * @param string $name Name of domain.
+     * @param string $name Name of product.
      *
-     * @return Domain
+     * @return Product
      */
     public function setName($name)
     {
@@ -100,9 +100,9 @@ class Product
     /**
      * Set details
      *
-     * @param string $details Details of domain.
+     * @param string $details Details of product.
      *
-     * @return Domain
+     * @return Product
      */
     public function setDetails($details)
     {

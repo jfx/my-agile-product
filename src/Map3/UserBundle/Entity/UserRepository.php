@@ -19,7 +19,7 @@
 namespace Map3\UserBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Map3\ProductBundle\Entity\Domain;
+use Map3\ProductBundle\Entity\Product;
 
 /**
  * User entity repository class.
@@ -98,12 +98,12 @@ class UserRepository extends EntityRepository
      */
     private function getDQLAddedUserByProduct()
     {
-        $udrRepository = $this->_em->getRepository(
+        $uprRepository = $this->_em->getRepository(
             'Map3UserBundle:UserPdtRole'
         );
 
-        $subQuery = $udrRepository
-            ->getQBUserIdByDomainParam('productId')
+        $subQuery = $uprRepository
+            ->getQBUserIdByProductParam('productId')
             ->getDQL();
 
         return $subQuery;

@@ -83,7 +83,7 @@ class UpdateContext4User
     {
         $user = $this->securityContext->getToken()->getUser();
 
-        $user->unsetDomainRole();
+        $user->unsetProductRole();
 
         if ($resetCurrRelease) {
             $user->unsetCurrentRelease();

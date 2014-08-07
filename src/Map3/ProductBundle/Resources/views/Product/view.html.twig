@@ -1,0 +1,37 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Product view - Id : {{ product.id }}{% endblock title %}
+
+{% block headline %}{{ breadcrumb(['Admin', 'View product']) }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a id="a_main" href="#">{{ icon('home') }}&nbsp;&nbsp;Main</a></li>
+    <li><a id="a_releases" href="{{ path('pdt-release_index') }}"><span id="badge_releases" class="badge badge-info">{{ child.releases }}</span>&nbsp;&nbsp;Releases</a></li>
+    <li><a id="a_users" href="{{ path('pdt-user_index') }}"><span id="badge_users" class="badge badge-info">{{ child.users }}</span>&nbsp;&nbsp;Users</a></li>
+</ul>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form class="form-horizontal well">
+
+            {{ form_widget(form) }}
+
+        </form>
+    </div>
+</div>
+<div class="row-fluid">
+<a class="btn btn-default btn-sm" href="{{ path('product_index') }}"
+   title="Return to list">
+    {{ icon('chevron-left') }} Return to list
+</a>
+{% if (is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DM_MANAGER')) %}
+    <a class="btn btn-default btn-sm"
+       href="{{ path('product_edit', {'id': product.id}) }}" title="Edit">
+        {{ icon('edit') }} Edit
+    </a>
+{% endif %}
+</div>
+{% endblock content %}

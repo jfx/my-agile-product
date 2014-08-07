@@ -24,7 +24,7 @@ use Twig_Extension;
 use Twig_Function_Method;
 
 /**
- * Display breadcrumb for a project or domain.
+ * Display breadcrumb for a product or release.
  *
  * @category  MyAgileProduct
  * @package   Core

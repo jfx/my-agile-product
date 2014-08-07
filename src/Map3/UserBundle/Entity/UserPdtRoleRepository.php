@@ -143,7 +143,7 @@ class UserPdtRoleRepository extends EntityRepository
         $qb ->select('userqb.id')
             ->from($this->_entityName, 'upr')
             ->join('upr.user', 'userqb')
-            ->join('upr.domain', 'productqb')
+            ->join('upr.product', 'productqb')
             ->where('productqb.id = :'.$param);
 
         return $qb;

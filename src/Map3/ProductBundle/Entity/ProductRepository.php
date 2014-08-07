@@ -36,7 +36,7 @@ class ProductRepository extends EntityRepository
     /**
      * Get all products ordered by name.
      *
-     * @return array List of domains.
+     * @return array List of products.
      */
     public function findAllOrderByName()
     {
