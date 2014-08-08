@@ -80,7 +80,7 @@ class AuthenticationListener
             'Map3ReleaseBundle:Release'
         );
 
-        // Update current domain role
+        // Update current product role
         $currentProduct = $user->getCurrentProduct();
 
         $user->unsetProductRole();

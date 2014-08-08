@@ -1,0 +1,49 @@
+*** Settings ***
+Documentation     In order to manage product
+...               As a super-admin user profile
+...               I need to add a product.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Add a product
+    Given I am a super-admin
+    And I go to products list
+    And I click action button    Add
+    When I fill in product form    Px
+    And I save
+    Then Page Should Contain    Product added successfully
+    And I check product view form    Px
+    And I click button    Return to list
+    And the table should contain x rows    6
+    And the table should contain    Px    Details 4 Px
+
+Impossible to add a product with a name too short
+    Given I am a super-admin
+    And I go to products list
+    And I click action button    Add
+    When Input Text    map3_product_name    X
+    And I save
+    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+Impossible to add a product with a duplicate name
+    Given I am a super-admin
+    And I go to products list
+    And I click action button    Add
+    When Input Text    map3_product_name    Product One
+    And I save
+    Then Page Should Contain    A product with this name already exists.
+
+Breadcrumb
+    Given I am a super-admin
+    And I go to products list
+    When I click action button    Add
+    Then the breadcrumb should contain    Admin    Add product
+
+Return to list button
+    Given I am a super-admin
+    And I go to products list
+    And I click action button    Add
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/product/
+
+*** Keywords ***

@@ -1,0 +1,65 @@
+*** Settings ***
+Documentation     In order to manage user for a product
+...               As a super-admin user profile or a user with a manager role
+...               I need to change a user's role.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A super-admin edits a user role
+    Given I am a user
+    And I go to users list for product    View product #1
+    And I should not see action button(s)    Add
+    And I log out
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Edit user #2
+    And Select From List By Label    map3_user_role    Manager
+    When I save
+    Then Page Should Contain    User edited successfully
+    When I log out
+    And I am a user
+    And I go to users list for product    View product #1
+    Then I should see action button(s)    Add
+    And I go to users list for product    View product #2
+    And I should not see action button(s)    Add
+
+A manager edits a user role
+    Given I am a manager
+    And I go to users list for product    View product #1
+    And I click action button    Edit user #2
+    And Select From List By Label    map3_user_role    User+
+    When I save
+    Then Page Should Contain    User edited successfully
+    And the table should contain    User Firstuser    displayuser    User+
+
+Impossible to edit a user without selecting a product before
+    Given I am a super-admin
+    When Go To    ${URL}/pdt-user/edit/2
+    Then Location Should Be    ${URL}/product/
+
+Wrong user Id for a product
+    Given I am a manager
+    And I go to users list for product    View product #1
+    When Go to    ${URL}/pdt-user/edit/1
+    Then I should see 404 error page    User[id=1] not found for this product
+
+Breadcrumb
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Edit user #2
+    Then the breadcrumb should contain    Product One    Edit user
+
+Breadcrumb product link
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Edit user #2
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Return to list button
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Edit user #2
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/pdt-user/
+    And Page Should Contain    Product One

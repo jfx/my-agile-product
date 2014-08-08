@@ -1,0 +1,67 @@
+*** Settings ***
+Documentation     In order to manage product
+...               As a super-admin user profile
+...               I need to edit a product.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A super-admin edits a product
+    Given I am a super-admin
+    And I go to edit product 1 page
+    When I fill in product form    P1Mod
+    And I save
+    Then Page Should Contain    Product edited successfully
+    And I check product view form    P1Mod
+    And I click button    Return to list
+    And the table should contain x rows    5
+    And the table should contain    P1Mod    Details 4 P1Mod
+
+A manager edits a product
+    Given I am a manager
+    And I go to products list
+    And I click action button    View product #1
+    And I click button    Edit
+    When I fill in product form    P1Mod
+    And I save
+    Then Page Should Contain    Product edited successfully
+    And I check product view form    P1Mod
+    And I click button    Return to list
+    And the table should contain x rows    5
+    And the table should contain    P1Mod    Details 4 P1Mod
+
+Impossible to edit a product with a name too short
+    Given I am a super-admin
+    And I go to products list
+    And I click action button    Edit product #1
+    When Input Text    map3_product_name    X
+    And I save
+    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+Impossible to edit a product with a duplicate name
+    Given I am a super-admin
+    And I go to edit product 1 page
+    When Input Text    map3_product_name    Product Two
+    And I save
+    Then Page Should Contain    A product with this name already exists.
+
+Wrong domain Id
+    Given I am a super-admin
+    And I go to products list
+    When Go to    ${URL}/product/edit/999
+    Then I should see 404 error page
+
+Breadcrumb
+    Given I am a super-admin
+    When I go to edit product 1 page
+    Then the breadcrumb should contain    Admin    Edit product
+
+Return to list button
+    Given I am a super-admin
+    And I go to edit product 1 page
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/product/
+
+*** Keywords ***
+I go to edit product 1 page
+    And I go to products list
+    And I click action button    Edit product #1

@@ -99,7 +99,7 @@ class UpdateContext4User
             );
 
             try {
-                $userPdtRole = $repository->findByUserIdDomainId(
+                $userPdtRole = $repository->findByUserIdProductId(
                     $user->getId(),
                     $product->getId()
                 );

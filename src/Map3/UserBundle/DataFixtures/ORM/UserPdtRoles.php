@@ -83,7 +83,7 @@ class UserPdtRoles extends AbstractFixture implements OrderedFixtureInterface
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new UserPdtRole();
             $objectList[$i]->setUser($this->getReference($data['user']));
-            $objectList[$i]->setDomain($this->getReference($data['product']));
+            $objectList[$i]->setProduct($this->getReference($data['product']));
             $objectList[$i]->setRole($this->getReference($data['role']));
 
             $manager->persist($objectList[$i]);

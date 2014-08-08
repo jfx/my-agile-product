@@ -145,7 +145,8 @@ class ProductController extends Controller
         $service->setCurrentProduct($product);
 
         $sc = $this->container->get('security.context');
-
+        $sc->isGranted(Role::MANAGER_ROLE);
+                
         if (!($sc->isGranted('ROLE_SUPER_ADMIN')
             || $sc->isGranted(Role::MANAGER_ROLE))
         ) {

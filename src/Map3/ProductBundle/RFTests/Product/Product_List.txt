@@ -1,0 +1,40 @@
+*** Settings ***
+Documentation     In order to manage product data
+...               As a connected user
+...               I need to see products list.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Display products list for connected user
+    Given I am a user
+    When I go to products list
+    Then the table header should contain    Action    \#    Name    Details
+    And the table should contain x rows    5
+    And the table should contain    Product Five    Details 4 Product Five
+    And the table should contain    Product Four    Details 4 Product Four
+    And the table should contain    Product One    Details 4 Product One
+    And the table should contain    Product Three    Details 4 Product Three
+    And the table should contain    Product Two    Details 4 Product Two
+
+View action button for a user
+    Given I am a user
+    When I go to products list
+    Then the table should contain x rows    5
+    And I should see action button(s)    View product #1
+
+No modify actions buttons in products list for a non super-admin profile
+    Given I am a user
+    When I go to products list
+    Then the table should contain x rows    5
+    And I should not see action button(s)    Add    Edit product #1    Delete product #1
+
+Breadcrumb
+    Given I am a super-admin
+    When I go to products list
+    Then the breadcrumb should contain    Admin    Products list
+
+Action buttons Add/View/Edit/Delete for a super-admin
+    Given I am a super-admin
+    When I go to products list
+    Then the table should contain x rows    5
+    And I should see action button(s)    Add    View product #1    Edit product #1    Delete product #1
