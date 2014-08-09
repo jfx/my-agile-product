@@ -1,13 +1,13 @@
 <?php
 /**
- * LICENSE : This file is part of My Agile Project.
+ * LICENSE : This file is part of My Agile Product.
  *
- * My Agile Project is free software; you can redistribute it and/or modify
+ * My Agile Product is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * My Agile Project is distributed in the hope that it will be useful,
+ * My Agile Product is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -31,7 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
- * @link      http://www.myagileproject.org
+ * @link      http://www.myagileproduct.org
  * @since     3
  *
  * @ORM\Table(name="map3_release")
@@ -71,7 +71,7 @@ class Release
     protected $releaseDate;
 
     /**
-     * @var boolean Project closed or not.
+     * @var boolean Release closed or not.
      *
      * @ORM\Column(name="closed", type="boolean")
      */
@@ -98,7 +98,7 @@ class Release
     /**
      * Set name
      *
-     * @param string $name Name of project.
+     * @param string $name Name of release.
      *
      * @return Release
      */
@@ -168,7 +168,7 @@ class Release
     }
 
     /**
-     * Is project closed or not.
+     * Is release closed or not.
      *
      * @return boolean
      */

@@ -60,7 +60,7 @@ Breadcrumb
     And I click action button    Delete user #5
     Then the breadcrumb should contain    Product One    Delete user
 
-Breadcrumb domain link
+Breadcrumb product link
     Given I am a super-admin
     And I go to users list for product    Edit product #1
     And I click action button    Delete user #5

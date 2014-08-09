@@ -1,43 +1,43 @@
 *** Settings ***
 Documentation     In order to make navigation ease in use
 ...               As a connected user
-...               I need to navigate to project with a select box
+...               I need to navigate to release with a select box
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
-Switch project with select box
+Switch release with select box
     Given I am a user
-    When I select in menu select    Project One
-    Then Location Should Be    ${URL}/project/1
+    When I select in menu select    Release One
+    Then Location Should Be    ${URL}/release/1
     And the role should be    User
-    When I select in menu select    Project Three
-    Then Location Should Be    ${URL}/project/4
+    When I select in menu select    Release Three
+    Then Location Should Be    ${URL}/release/4
     And the role should be    User+
 
-Select box should contain available projects
+Select box should contain available releases
     When I am a user
-    Then Page Should Contain Element    xpath=//optgroup[@label='Domain One']
-    And Element Should Contain    id=map_menu_select_search    Project One
-    And Element Should Contain    id=map_menu_select_search    Project Two
-    Page Should Contain Element    xpath=//optgroup[@label='Domain Two']
-    And Element Should Contain    id=map_menu_select_search    Project Three
+    Then Page Should Contain Element    xpath=//optgroup[@label='Product One']
+    And Element Should Contain    id=map3_select_search    Release One
+    And Element Should Contain    id=map3_select_search    Release Two
+    Page Should Contain Element    xpath=//optgroup[@label='Product Two']
+    And Element Should Contain    id=map3_select_search    Release Three
 
-Select box should not contain closed project
+Select box should not contain closed release
     When I am a user
-    Then Run Keyword And Expect Error    *    Element Should Contain    id=map_menu_select_search    Project Closed
+    Then Run Keyword And Expect Error    *    Element Should Contain    id=map3_select_search    Release Closed
 
-Select box should not contain project with no role
+Select box should not contain release with no role
     I am a user with no role
-    Then Run Keyword And Expect Error    *    Element Should Contain    id=map_menu_select_search    Project One
+    Then Run Keyword And Expect Error    *    Element Should Contain    id=map3_select_search    Release One
 
-Select box should not be displayed when no project
+Select box should not be displayed when no release
     When I am a super-admin
-    Then Page Should Not Contain Element    id=map_menu_select_search
+    Then Page Should Not Contain Element    id=map3_select_search
 
 *** Keywords ***
 I select in menu select
-    [Arguments]    ${project}
-    Select From List By Label    id=map_menu_select_search    ${project}
+    [Arguments]    ${release}
+    Select From List By Label    id=map3_select_search    ${release}
 
 the role should be
     [Arguments]    ${role}

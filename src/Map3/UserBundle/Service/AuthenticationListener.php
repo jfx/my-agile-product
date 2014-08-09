@@ -1,13 +1,13 @@
 <?php
 /**
- * LICENSE : This file is part of My Agile Project.
+ * LICENSE : This file is part of My Agile Product.
  *
- * My Agile Project is free software; you can redistribute it and/or modify
+ * My Agile Product is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * My Agile Project is distributed in the hope that it will be useful,
+ * My Agile Product is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -31,7 +31,7 @@ use Symfony\Component\Security\Core\Event\AuthenticationEvent;
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
- * @link      http://www.myagileproject.org
+ * @link      http://www.myagileproduct.org
  * @since     3
  */
 class AuthenticationListener
@@ -62,7 +62,7 @@ class AuthenticationListener
 
     /**
      * When authentication succeed (login or cookie remember), refresh role for
-     * the current domain and refresh list of available domains (select box).
+     * the current product and refresh list of available products (select box).
      *
      * @param AuthenticationEvent $event The event object.
      *

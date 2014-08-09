@@ -47,7 +47,7 @@ Breadcrumb
     When I go to users list for product    View product #1
     Then the breadcrumb should contain    Product One    Users list
 
-Breadcrumb project link
+Breadcrumb release link
     Given I am a user
     And I go to users list for product    View product #1
     When Click Link    id=br_lvl1

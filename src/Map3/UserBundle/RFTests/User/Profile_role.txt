@@ -1,7 +1,7 @@
 *** Settings ***
-Documentation     In order to see my role on domains
+Documentation     In order to see my role on products
 ...               As a connected user
-...               I need to see my different role on each domain
+...               I need to see my different role on each product
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***

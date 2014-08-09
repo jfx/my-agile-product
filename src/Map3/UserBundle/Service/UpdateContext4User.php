@@ -1,13 +1,13 @@
 <?php
 /**
- * LICENSE : This file is part of My Agile Project.
+ * LICENSE : This file is part of My Agile Product.
  *
- * My Agile Project is free software; you can redistribute it and/or modify
+ * My Agile Product is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
  *
- * My Agile Project is distributed in the hope that it will be useful,
+ * My Agile Product is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
@@ -33,7 +33,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
- * @link      http://www.myagileproject.org
+ * @link      http://www.myagileproduct.org
  * @since     3
  */
 class UpdateContext4User
@@ -75,7 +75,7 @@ class UpdateContext4User
      * Set the current product for a user and set role.
      *
      * @param Product|null $product          The product, if null unset product.
-     * @param boolean      $resetCurrRelease Current project must be resetted.
+     * @param boolean      $resetCurrRelease Current release must be resetted.
      *
      * @return void
      */

@@ -56,7 +56,7 @@ Impossible to add when no user available
     And I click action button    Add
     Then Page Should Contain    No user to add !
 
-Impossible to add a user without selecting a domain before
+Impossible to add a user without selecting a product before
     Given I am a super-admin
     When Go To    ${URL}/pdt-user/add
     Then Location Should Be    ${URL}/product/
@@ -67,7 +67,7 @@ Breadcrumb
     When I click action button    Add
     Then the breadcrumb should contain    Product One    Add user
 
-Breadcrumb domain link
+Breadcrumb product link
     Given I am a super-admin
     And I go to users list for product    View product #1
     When I click action button    Add

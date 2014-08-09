@@ -44,7 +44,7 @@ Impossible to edit a product with a duplicate name
     And I save
     Then Page Should Contain    A product with this name already exists.
 
-Wrong domain Id
+Wrong product Id
     Given I am a super-admin
     And I go to products list
     When Go to    ${URL}/product/edit/999
