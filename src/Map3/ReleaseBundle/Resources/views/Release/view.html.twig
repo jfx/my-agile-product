@@ -1,0 +1,36 @@
+{% extends 'Map3CoreBundle::layoutDatetimepickerjs.html.twig' %}
+
+{% block title %}{{ parent() }} - Release view - Id : {{ release.id }}{% endblock title %}
+
+{% block headline %}{{ release_breadcrumb('View') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="active"><a href="#">Main</a></li>
+        <li><a href="#">Baselines</a></li>
+</ul>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <form class="form-horizontal well">
+
+            {{ form_widget(form) }}
+
+        </form>
+    </div>
+</div>
+<div class="row-fluid">
+    <a class="btn btn-default btn-sm" href="{{ path('pdt-release_index') }}"
+       title="Return to product">
+        {{ icon('chevron-left') }} Return to product
+    </a>
+{% if is_granted('ROLE_DM_MANAGER') %}
+    <a class="btn btn-default btn-sm"
+       href="{{ path('release_edit', {'id': release.id}) }}" title="Edit">
+        {{ icon('edit') }} Edit
+    </a>
+{% endif %}
+</div>
+{% endblock content %}

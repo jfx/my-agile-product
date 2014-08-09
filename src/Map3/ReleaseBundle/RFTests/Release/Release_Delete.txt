@@ -1,0 +1,78 @@
+*** Settings ***
+Documentation     In order to manage a release
+...               As a user with a manager role
+...               I need to delete a release.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A manager deletes a release
+    Given I am a manager
+    And I go to delete release page    2
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/pdt-release/
+    And Page Should Contain    Release removed successfully
+    And Page Should not Contain    Release Two
+
+Cancel to delete a release
+    Given I am a manager
+    And I go to delete release page    2
+    When I click button    Remove
+    And I do not confirm
+    Then Location Should Be    ${URL}/release/del/2
+
+Impossible to delete a release
+    [Tags]    failedTest
+    Given I am a manager
+    And I go to delete release page    1
+    When I click button    Remove
+    And I confirm
+    Then Run Keyword And Expect Error    *    Then Location Should Be    ${URL}/release/del/1
+    Then Run Keyword And Expect Error    *    And Page Should Contain    Impossible to remove this item - Integrity constraint violation !
+
+Wrong release Id for a product
+    Given I am a manager
+    And I go to releases list    View product #1
+    When Go to    ${URL}/release/del/4
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Wrong release Id
+    Given I am a manager
+    And I go to releases list    View product #1
+    When Go to    ${URL}/release/del/999
+    Then I should see 404 error page
+
+Delete a release without selecting a product before
+    Given I am a manager
+    When Go to    ${URL}/release/del/1
+    Then Location should be    ${URL}/release/del/1
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a manager
+    When I go to delete release page    1
+    Then the breadcrumb should contain    Product One    Release One    Delete
+
+Breadcrumb product link
+    Given I am a manager
+    And I go to delete release page    1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/pdt-release/
+
+Breadcrumb release link
+    Given I am a manager
+    And I go to delete release page    1
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Return to product button
+    Given I am a manager
+    And I go to delete release page    1
+    When I click button    Return to product
+    Then Location Should Be    ${URL}/pdt-release/
+
+*** Keywords ***
+I go to delete release page
+    [Arguments]    ${id}
+    And I go to releases list    View product #1
+    And I click action button    Delete release #${id}

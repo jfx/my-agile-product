@@ -1,0 +1,74 @@
+*** Settings ***
+Documentation     In order to manage a release
+...               As a user with a manager role
+...               I need to add a release.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A manager adds a release
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Add
+    When I fill in release form    R1x
+    And I save
+    Then Page Should Contain    Release added successfully
+    And I check release view form    R1x
+    And I click button    Return to product
+    Element Should Contain    xpath=//option    R1x
+    And the table should contain x rows    4
+    And the table should contain    R1x    Details 4 R1x
+
+A manager adds a closed release
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Add
+    When I fill in release form    R1x    3    True
+    And I save
+    Then Page Should Contain    Release added successfully
+    And I check release view form    R1x    3    True
+    And I click button    Return to product
+    And the table should contain x rows    4
+    And the table should contain    R1x    Details 4 R1x
+
+Impossible to add a release with a name too short
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Add
+    When I fill in release form    X
+    And I save
+    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+Impossible to add a release with wrong date
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Add
+    And Input text    map3_release_name    R1x
+    And Input Text    //div[@data-link-field='map3_release_releaseDate']/input[@type='text']    xx/xx/xxxx
+    And Click Element    map3_release_name
+    And I save
+    Then Disabled text element should contain    map3_release_releaseDate    1901-12-13
+
+Impossible to add a release without selecting a product before
+    Given I am a manager
+    When Go to    ${URL}/release/add
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a manager
+    And I go to releases list    View product #1
+    When I click action button    Add
+    Then the breadcrumb should contain    Product One    Add release
+
+Breadcrumb product link
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Add
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Return to product button
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Add
+    When I click button    Return to product
+    Then Location Should Be    ${URL}/pdt-release/
