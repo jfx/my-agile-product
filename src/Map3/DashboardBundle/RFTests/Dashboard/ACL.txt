@@ -1,0 +1,12 @@
+*** Settings ***
+Documentation     In order to secure the application
+...               As a user
+...               I need to have access only to granted pages
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Dashboard
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /    True    True    True    True    True
+    ...    True    True

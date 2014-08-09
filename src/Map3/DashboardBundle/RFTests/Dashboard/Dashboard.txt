@@ -1,0 +1,19 @@
+*** Settings ***
+Documentation     In order to see summary information
+...               As a connected user
+...               I need to see the dashboard page
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Dashboard link
+    given I am a user
+    When Click element    link=Dashboard
+    Then Location Should Be    ${URL}/
+
+Title
+    When I am a user
+    Then Page Should Contain    Dashboard
+
+Greetings
+    When I am a user
+    Then Page Should Contain    Hello Firstuser User !
