@@ -2,14 +2,11 @@
 
 {% block title %}{{ parent() }} - Product delete - Id : {{ product.id }}{% endblock title %}
 
-{% block headline %}{{ breadcrumb(['Admin', 'Delete product']) }}{% endblock headline %}
+{% block headline %}{{ product_breadcrumb('Delete') }}{% endblock headline %}
 
 {% block content %}
 <div class="row-fluid">
-<ul class="nav nav-tabs">
-    <li class="active"><a href="#">Main</a></li>
-    <li><a href="{{ path('pdt-user_index') }}">Users</a></li>
-</ul>
+    {% include "Map3ProductBundle:Product:tabs.html.twig" with {'activeTab' : 'main'} %}
 </div>
 <br />
 <div class="row">

@@ -47,22 +47,47 @@ class Builder extends ContainerAware
     {
         $menu = $factory->createItem('root', array('navbar' => true));
 
-        $menu->addChild('Dashboard', array('route' => 'map3_dashboard_index'));
+        $menu->addChild(
+            'Dashboard',
+            array(
+                'icon' => 'dashboard',
+                'route' => 'map3_dashboard_index'
+            )
+        );
 
         $dropdownAdmin = $menu->addChild(
             'Admin',
             array(
+                'icon' => 'cog',
                 'dropdown' => true,
                 'caret' => true,
             )
         );
 
-        $dropdownAdmin->addChild('Profile', array('route' => 'user_profile'));
+        $dropdownAdmin->addChild(
+            'Profile',
+            array(
+                'icon' => 'user',
+                'route' => 'user_profile'
+            )
+        );
 
         $dropdownAdmin->addChild('divider_1', array('divider' => true));
 
-        $dropdownAdmin->addChild('Users', array('route' => 'user_index'));
-        $dropdownAdmin->addChild('Products', array('route' => 'product_index'));
+        $dropdownAdmin->addChild(
+            'Users',
+            array(
+                'icon' => 'globe',
+                'route' => 'user_index'
+            )
+        );
+        $dropdownAdmin->addChild(
+            'Products',
+            array(
+                'icon' => 'phone',
+                'route' => 'product_index'
+            )
+        );
 
         return $menu;
     }
@@ -105,11 +130,17 @@ class Builder extends ContainerAware
         }
         $menu->addChild(
             $username.$star.' '.$roleLabel2Display,
-            array('route' => 'user_profile')
+            array(
+                'icon' => 'user',
+                'route' => 'user_profile'
+            )
         );
         $menu->addChild(
             'Log out',
-            array('route' => 'fos_user_security_logout')
+            array(
+                'icon' => 'log-out',
+                'route' => 'fos_user_security_logout'
+            )
         );
 
         return $menu;

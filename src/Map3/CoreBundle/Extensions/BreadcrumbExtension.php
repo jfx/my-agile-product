@@ -131,7 +131,10 @@ class BreadcrumbExtension extends Twig_Extension
         $user = $this->securityContext->getToken()->getUser();
 
         $product = $user->getCurrentProduct();
-        $productUrl = $this->router->generate('pdt-release_index');
+        $productUrl = $this->router->generate(
+            'product_view',
+            array('id' => $product->getId())
+        );
         $productName = htmlspecialchars($product->getName());
 
         $release = $user->getCurrentRelease();

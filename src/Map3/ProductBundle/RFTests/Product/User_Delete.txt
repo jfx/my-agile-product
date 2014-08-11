@@ -13,6 +13,7 @@ A super-admin removes a user
     And I confirm
     Then Location Should Be    ${URL}/pdt-user/
     And Page Should Contain    User removed successfully
+    And Element Should Contain    id=badge_users    4
     And Page Should not Contain    D1-guest
 
 A manager removes a user
@@ -23,6 +24,7 @@ A manager removes a user
     And I confirm
     Then Location Should Be    ${URL}/pdt-user/
     And Page Should Contain    User removed successfully
+    And Element Should Contain    id=badge_users    4
     And Page Should not Contain    D1-guest
 
 Cancel to delete a user
@@ -66,6 +68,29 @@ Breadcrumb product link
     And I click action button    Delete user #5
     When Click Link    id=br_lvl1
     Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    And Element Should Contain    id=badge_releases    3
+    When Click Link    id=a_releases
+    Then Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/
 
 Return to list button
     Given I am a super-admin

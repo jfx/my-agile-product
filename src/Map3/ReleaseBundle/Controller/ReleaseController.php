@@ -91,9 +91,16 @@ class ReleaseController extends Controller
             );
         }
 
+        $service = $this->container->get('map3_product.productinfo');
+        $child   = $service->getChildCount($product);
+        
         return $this->render(
             'Map3ReleaseBundle:Release:add.html.twig',
-            array('form' => $form->createView(), 'product' => $product)
+            array(
+                'form' => $form->createView(),
+                'product' => $product,
+                'child' => $child
+            )
         );
     }
 

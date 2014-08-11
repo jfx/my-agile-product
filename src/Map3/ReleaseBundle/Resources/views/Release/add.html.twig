@@ -6,9 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#">Main</a></li>
-    </ul>
+    {% include "Map3ProductBundle:Product:tabs.html.twig" with {'activeTab' : 'releases'} %}
 </div>
 <br />
 <div class="row">

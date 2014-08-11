@@ -13,6 +13,7 @@ A super-admin adds a user
     And Select From List By Label    map3_user_role    User+
     When I save
     Then Page Should Contain    User added successfully
+    And Element Should Contain    id=badge_users    6
     And the table should contain x rows    6
     And the table should contain    No-product Firstno-product    displayno-product    User+
 
@@ -24,6 +25,7 @@ A manager adds a user
     And Select From List By Label    map3_user_role    User+
     When I save
     Then Page Should Contain    User added successfully
+    And Element Should Contain    id=badge_users    6
     And the table should contain x rows    6
     And the table should contain    No-product Firstno-product    displayno-product    User+
 
@@ -73,6 +75,29 @@ Breadcrumb product link
     When I click action button    Add
     When Click Link    id=br_lvl1
     Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    And Element Should Contain    id=badge_releases    3
+    When Click Link    id=a_releases
+    Then Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/
 
 Return to list button
     Given I am a super-admin

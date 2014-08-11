@@ -138,10 +138,17 @@ class UserController extends Controller
                 $this->generateUrl('pdt-user_index')
             );
         }
-
+        
+        $service = $this->container->get('map3_product.productinfo');
+        $child   = $service->getChildCount($product);
+        
         return $this->render(
             'Map3ProductBundle:User:add.html.twig',
-            array('form' => $form->createView())
+            array(
+                'form' => $form->createView(),
+                'product' => $product,
+                'child' => $child
+            )
         );
     }
 
@@ -200,10 +207,17 @@ class UserController extends Controller
                 $this->generateUrl('pdt-user_index')
             );
         }
-
+        
+        $service = $this->container->get('map3_product.productinfo');
+        $child   = $service->getChildCount($product);
+        
         return $this->render(
             'Map3ProductBundle:User:edit.html.twig',
-            array('form' => $form->createView())
+            array(
+                'form' => $form->createView(),
+                'product' => $product,
+                'child' => $child
+            )
         );
     }
 
@@ -270,9 +284,16 @@ class UserController extends Controller
         $userType->setDisabled();
         $form = $this->createForm($userType, $userPdtRole);
 
+        $service = $this->container->get('map3_product.productinfo');
+        $child   = $service->getChildCount($product);
+        
         return $this->render(
             'Map3ProductBundle:User:del.html.twig',
-            array('form' => $form->createView())
+            array(
+                'form' => $form->createView(),
+                'product' => $product,
+                'child' => $child
+            )
         );
     }
 

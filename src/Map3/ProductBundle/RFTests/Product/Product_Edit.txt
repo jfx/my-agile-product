@@ -53,7 +53,33 @@ Wrong product Id
 Breadcrumb
     Given I am a super-admin
     When I go to edit product 1 page
-    Then the breadcrumb should contain    Admin    Edit product
+    Then the breadcrumb should contain    Product One    Edit
+
+Breadcrumb product link
+    Given I am a super-admin
+    When I go to edit product 1 page
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a super-admin
+    And I go to edit product 1 page
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a super-admin
+    And I go to edit product 1 page
+    And Element Should Contain    id=badge_releases    3
+    When Click Link    id=a_releases
+    Then Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a super-admin
+    And I go to edit product 1 page
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/
 
 Return to list button
     Given I am a super-admin

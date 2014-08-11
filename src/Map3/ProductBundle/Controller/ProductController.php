@@ -123,9 +123,9 @@ class ProductController extends Controller
         return $this->render(
             'Map3ProductBundle:Product:view.html.twig',
             array(
-                'form'    => $form->createView(),
-                'product' => $product,
-                'child'   => $child
+                'form'      => $form->createView(),
+                'product'   => $product,
+                'child'     => $child
             )
         );
     }
@@ -174,10 +174,16 @@ class ProductController extends Controller
                 $this->generateUrl('product_view', array('id' => $id))
             );
         }
-
+        $serviceInfo = $this->container->get('map3_product.productinfo');
+        $child       = $serviceInfo->getChildCount($product);
+        
         return $this->render(
             'Map3ProductBundle:Product:edit.html.twig',
-            array('form' => $form->createView(), 'product' => $product)
+            array(
+                'form' => $form->createView(),
+                'product' => $product,
+                'child' => $child
+            )
         );
     }
 
@@ -234,9 +240,16 @@ class ProductController extends Controller
         $productType->setDisabled();
         $form = $this->createForm($productType, $product);
 
+        $serviceInfo = $this->container->get('map3_product.productinfo');
+        $child       = $serviceInfo->getChildCount($product);
+        
         return $this->render(
             'Map3ProductBundle:Product:del.html.twig',
-            array('form' => $form->createView(), 'product' => $product)
+            array(
+                'form' => $form->createView(),
+                'product' => $product,
+                'child' => $child
+            )
         );
     }
 }

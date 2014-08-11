@@ -2,15 +2,11 @@
 
 {% block title %}{{ parent() }} - Product view - Id : {{ product.id }}{% endblock title %}
 
-{% block headline %}{{ breadcrumb(['Admin', 'View product']) }}{% endblock headline %}
+{% block headline %}{{ product_breadcrumb('View') }}{% endblock headline %}
 
 {% block content %}
 <div class="row-fluid">
-<ul class="nav nav-tabs" role="tablist">
-    <li class="active"><a id="a_main" href="#">{{ icon('home') }}&nbsp;&nbsp;Main</a></li>
-    <li><a id="a_releases" href="{{ path('pdt-release_index') }}"><span id="badge_releases" class="badge badge-info">{{ child.releases }}</span>&nbsp;&nbsp;Releases</a></li>
-    <li><a id="a_users" href="{{ path('pdt-user_index') }}"><span id="badge_users" class="badge badge-info">{{ child.users }}</span>&nbsp;&nbsp;Users</a></li>
-</ul>
+    {% include "Map3ProductBundle:Product:tabs.html.twig" with {'activeTab' : 'main'} %}
 </div>
 <br />
 <div class="row">

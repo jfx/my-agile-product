@@ -53,10 +53,10 @@ Breadcrumb release link
     When Click Link    id=br_lvl1
     Then Location Should Be    ${URL}/product/1
 
-Main tab
+Tab Main
     Given I am a user
     And I go to users list for product    View product #1
-    When Click element    link=Main
+    When Click Link    id=a_main
     And Location Should Be    ${URL}/product/1
 
 Tab Releases
@@ -65,3 +65,10 @@ Tab Releases
     And Element Should Contain    id=badge_releases    3
     When Click element    id=a_releases
     And Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a user
+    And I go to users list for product    View product #1
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/

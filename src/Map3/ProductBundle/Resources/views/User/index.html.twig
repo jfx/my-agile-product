@@ -6,11 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-<ul class="nav nav-tabs">
-    <li><a id="a_main" href="{{ path('product_view', {'id': product.id}) }}">Main</a></li>
-    <li><a id="a_releases" href="{{ path('pdt-release_index') }}"><span id="badge_releases" class="badge badge-info">{{ child.releases }}</span>&nbsp;&nbsp;Releases</a></li>
-    <li class="active"><a id="a_users" href="#"><span id="badge_users" class="badge badge-inverse">{{ child.users }}</span>&nbsp;&nbsp;Users</a></li>
-</ul>
+    {% include "Map3ProductBundle:Product:tabs.html.twig" with {'activeTab' : 'users'} %}
 </div>
 <br />
 <div class="row">
