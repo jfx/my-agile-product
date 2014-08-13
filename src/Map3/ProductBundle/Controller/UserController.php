@@ -138,10 +138,10 @@ class UserController extends Controller
                 $this->generateUrl('pdt-user_index')
             );
         }
-        
+
         $service = $this->container->get('map3_product.productinfo');
         $child   = $service->getChildCount($product);
-        
+
         return $this->render(
             'Map3ProductBundle:User:add.html.twig',
             array(
@@ -207,10 +207,10 @@ class UserController extends Controller
                 $this->generateUrl('pdt-user_index')
             );
         }
-        
+
         $service = $this->container->get('map3_product.productinfo');
         $child   = $service->getChildCount($product);
-        
+
         return $this->render(
             'Map3ProductBundle:User:edit.html.twig',
             array(
@@ -286,7 +286,7 @@ class UserController extends Controller
 
         $service = $this->container->get('map3_product.productinfo');
         $child   = $service->getChildCount($product);
-        
+
         return $this->render(
             'Map3ProductBundle:User:del.html.twig',
             array(

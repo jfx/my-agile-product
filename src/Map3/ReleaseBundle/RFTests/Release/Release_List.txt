@@ -55,8 +55,8 @@ Breadcrumb product link
 Tab Main
     Given I am a user
     And I go to releases list    View product #1
-    When Click Link    Main
-    Then Location Should Be    ${URL}/product/1
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
 
 Tab Users
     Given I am a user

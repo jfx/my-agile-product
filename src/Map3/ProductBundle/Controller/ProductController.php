@@ -101,7 +101,7 @@ class ProductController extends Controller
 
     /**
      * View a product
-     * 
+     *
      * @param Product $product The product to view.
      *
      * @return Response A Response instance
@@ -146,7 +146,7 @@ class ProductController extends Controller
 
         $sc = $this->container->get('security.context');
         $sc->isGranted(Role::MANAGER_ROLE);
-                
+
         if (!($sc->isGranted('ROLE_SUPER_ADMIN')
             || $sc->isGranted(Role::MANAGER_ROLE))
         ) {
@@ -176,7 +176,7 @@ class ProductController extends Controller
         }
         $serviceInfo = $this->container->get('map3_product.productinfo');
         $child       = $serviceInfo->getChildCount($product);
-        
+
         return $this->render(
             'Map3ProductBundle:Product:edit.html.twig',
             array(
@@ -242,7 +242,7 @@ class ProductController extends Controller
 
         $serviceInfo = $this->container->get('map3_product.productinfo');
         $child       = $serviceInfo->getChildCount($product);
-        
+
         return $this->render(
             'Map3ProductBundle:Product:del.html.twig',
             array(
