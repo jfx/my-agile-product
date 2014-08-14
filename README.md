@@ -17,7 +17,7 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
-### 0.1.0 ( xx August 2014)
+### 0.1.0 ( 14 August 2014)
 Features:
 
   - Initialization from My Agile Project,
