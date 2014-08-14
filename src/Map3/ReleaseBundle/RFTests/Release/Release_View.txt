@@ -1,0 +1,79 @@
+*** Settings ***
+Documentation     In order to see details about a specific release
+...               As a connected user
+...               I need to view release details.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+View a release details
+    Given I am a user
+    And I go to releases list    View product #1
+    When I click action button    View release #3
+    Then Location Should Be    ${URL}/release/3
+    And Disabled text element should contain    map3_release_name    Release Closed
+    And Disabled text element should contain    map3_release_releaseDate    2013-07-31
+    And Checkbox Should Be Selected    map3_release_closed
+
+Wrong release Id for a product
+    Given I am a manager
+    And I go to releases list    View product #1
+    When Go to    ${URL}/release/4
+    Then Location Should Be    ${URL}/release/4
+    And Disabled text element should contain    map3_release_name    Release Three
+
+Wrong release Id
+    Given I am a user
+    And I go to releases list    View product #1
+    When Go to    ${URL}/release/999
+    Then I should see 404 error page
+
+View a release without selecting a product before
+    Given I am a user
+    When Go to    ${URL}/release/1
+    Then Location should be    ${URL}/release/1
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Edit button for a manager role on product
+    Given I am a manager
+    And I go to view release #1 page
+    When I click button    Edit
+    Then Location Should Be    ${URL}/release/edit/1
+
+Edit button not displayed for a non manager role
+    Given I am a user
+    And I go to view release #1 page
+    Then I should not see action button(s)    Edit
+
+Breadcrumb
+    Given I am a user
+    When I go to view release #1 page
+    Then the breadcrumb should contain    Product One    Release One    View
+
+Breadcrumb product link
+    Given I am a user
+    And I go to view release #1 page
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user
+    And I go to view release #1 page
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Tab Baselines
+    Given I am a user
+    And I go to view release #1 page
+    When Click Link    Baselines
+    Then Location Should Be    ${URL}/release/1#
+
+Return to product button
+    Given I am a user
+    And I go to view release #1 page
+    When I click button    Return to product
+    Then Location Should Be    ${URL}/pdt-release/
+
+*** Keywords ***
+I go to view release #1 page
+    And I go to releases list    View product #1
+    And I click action button    View release #1

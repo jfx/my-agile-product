@@ -1,0 +1,16 @@
+*** Variables ***
+${ENV}            dev
+${BROWSER}        chrome    # chrome | firefox
+${URL_DEV}        http://map3dev.localhost/app_dev.php
+${URL}            ${URL_DEV}
+${LOGIN_URL}      ${URL}/login
+${USER_ADMIN}     admin
+${USER_MANAGER}    d1-manager
+${USER_USER+}     d1-user+
+${USER_USER}      user
+${USER_GUEST}     d1-guest
+${USER_NONE}      d1-none
+${USER_NOPRODUCT}    no-product
+${CONSOLE_PATH}    /opt/Dropbox/Nprojects/Map3/app/console
+${LOG_PATH}       /opt/Dropbox/Nprojects/Map3/app/logs
+${FORBIDDEN_ACCESS_TEXT}    403 Forbidden

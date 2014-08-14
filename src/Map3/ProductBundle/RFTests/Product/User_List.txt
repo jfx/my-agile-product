@@ -1,0 +1,74 @@
+*** Settings ***
+Documentation     In order to see users data for a product
+...               As a connected user
+...               I need to see users list.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Display users list for a connected user
+    Given I am a user
+    When I go to users list for product    View product #1
+    Then the table header should contain    Name    Displayname    Role
+    And the table should contain x rows    5
+    And the table should contain    D1-guest Firstd1-guest    displayd1-guest    Guest
+    And the table should contain    D1-manager Firstd1-manager    displayd1-manager    Manager
+    And the table should contain    D1-none Firstd1-none    displayd1-none    None
+    And the table should contain    D1-user+ Firstd1-user+    displayd1-user+    User+
+    And the table should contain    User Firstuser    displayuser    User
+    And Element Should Contain    id=badge_users    5
+
+List with no user for a connected user
+    Given I am a user
+    When I go to users list for product    View product #5
+    Then the table header should contain    Name    Displayname    Role
+    And the table should contain x rows    1
+    And the table should contain    No user
+    And Element Should Contain    id=badge_users    0
+
+No modify actions buttons in users list for a non super-admin profile
+    Given I am a user
+    When I go to users list for product    View product #1
+    Then the table should contain x rows    5
+    And I should not see action button(s)    Add    Edit user #2    Delete user #2
+
+Action buttons Add/View/Edit/Delete for a non super-admin profile
+    Given I am a super-admin
+    When I go to users list for product    View product #1
+    Then the table should contain x rows    5
+    And I should see action button(s)    Add    Edit user #2    Delete user #2
+
+Impossible to display users list without selecting a product before
+    Given I am a user
+    When Go to    ${URL}/pdt-user/
+    Then Location Should Be    ${URL}/product/
+
+Breadcrumb
+    Given I am a user
+    When I go to users list for product    View product #1
+    Then the breadcrumb should contain    Product One    Users list
+
+Breadcrumb release link
+    Given I am a user
+    And I go to users list for product    View product #1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a user
+    And I go to users list for product    View product #1
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a user
+    And I go to users list for product    View product #1
+    And Element Should Contain    id=badge_releases    3
+    When Click element    id=a_releases
+    And Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a user
+    And I go to users list for product    View product #1
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/

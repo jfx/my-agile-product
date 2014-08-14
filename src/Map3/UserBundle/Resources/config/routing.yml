@@ -1,0 +1,3 @@
+map3_user:
+    resource: "@Map3UserBundle/Resources/config/routing/user.yml"
+    prefix:   /user

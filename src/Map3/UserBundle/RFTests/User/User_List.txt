@@ -1,0 +1,60 @@
+*** Settings ***
+Documentation     In order to see users data
+...               As a connected user
+...               I need to see a users list.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Display users list for a non super-admin profile
+    Given I am a user
+    When I go to users list
+    Then the table header should contain    Name    Firstname    Displayname    Super-admin    Details
+    And the table should contain x rows    8
+    And Page Should Not Contain    admin@example.com
+    Comment    Name    Firstname    Displayname    Details
+    And the table should contain    Admin    Firstadmin    displayadmin    Admin user
+    And the table should contain    D1-guest    Firstd1-guest    displayd1-guest    guest role on product 1
+    And the table should contain    D1-manager    Firstd1-manager    displayd1-manager    manager role on product 1
+    And the table should contain    D1-none    Firstd1-none    displayd1-none    none role on product 1
+    And the table should contain    D1-user+    Firstd1-user+    displayd1-user+    user+ role on product 1
+    And the table should contain    Lock    Firstlock    displaylock    Locked user
+    And the table should contain    No-product    Firstno-product    displayno-product    user with no role on product
+    And the table should contain    User    Firstuser    displayuser    user role on product 1 + user+ on product 2
+
+Display users list for a super-admin profile
+    Given I am a super-admin
+    When I go to users list
+    Then the table header should contain    Action    \#    Name    Firstname    Displayname    Username
+    ...    Email    Super-admin    Locked    Details
+    And the table should contain x rows    8
+    Comment    Name    Firstname    Displayname    Username    Email    Details
+    And the table should contain    Admin    Firstadmin    displayadmin    useradmin    admin@example.com    Admin user
+    And the table should contain    D1-guest    Firstd1-guest    displayd1-guest    userd1-guest    d1-guest@example.com    guest role on product 1
+    And the table should contain    D1-manager    Firstd1-manager    displayd1-manager    userd1-manager    d1-manager@example.com    manager role on product 1
+    And the table should contain    D1-none    Firstd1-none    displayd1-none    userd1-none    d1-none@example.com    none role on product 1
+    And the table should contain    D1-user+    Firstd1-user+    displayd1-user+    userd1-user+    d1-user+@example.com    user+ role on product 1
+    And the table should contain    Lock    Firstlock    displaylock    userlock    lock@example.com    Locked user
+    And the table should contain    No-product    Firstno-product    displayno-product    userno-product    no-product@example.com    user with no role on product
+    And the table should contain    User    Firstuser    displayuser    useruser    user@example.com    user role on product 1 + user+ on product 2
+
+No actions buttons in users list for a non super-admin profile
+    Given I am a user
+    When I go to users list
+    And the table should contain x rows    8
+    And I should not see action button(s)    Add    View user #1    Edit user #1    Delete user #1
+
+Actions buttons in users list for a super-admin profile
+    Given I am a super-admin
+    When I go to users list
+    And the table should contain x rows    8
+    And I should see action button(s)    Add    View user #1    Edit user #1    Delete user #1
+
+Breadcrumb for a non super-admin profile
+    Given I am a user
+    When I go to users list
+    Then the breadcrumb should contain    Admin    Users list
+
+Breadcrumb for a super-admin profile
+    Given I am a super-admin
+    When I go to users list
+    Then the breadcrumb should contain    Admin    Users list

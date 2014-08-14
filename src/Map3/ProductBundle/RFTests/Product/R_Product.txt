@@ -1,0 +1,20 @@
+*** Keywords ***
+I go to products list
+    Click element    link=Admin
+    Click element    link=Products
+
+I go to users list for product
+    [Arguments]    ${product}
+    I go to products list
+    I click action button    ${product}
+    Click Link    id=a_users
+
+I fill in product form
+    [Arguments]    ${product}
+    Input text    map3_product_name    ${product}
+    Input text    map3_product_details    Details 4 ${product}
+
+I check product view form
+    [Arguments]    ${product}
+    Disabled text element should contain    map3_product_name    ${product}
+    Element Text Should Be    map3_product_details    Details 4 ${product}

@@ -1,0 +1,3 @@
+map3_release:
+    resource: "@Map3ReleaseBundle/Resources/config/routing/release.yml"
+    prefix:   /release

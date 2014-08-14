@@ -1,0 +1,25 @@
+product_index:
+    pattern:  /
+    defaults: { _controller: "Map3ProductBundle:Product:index" }
+
+product_view:
+    pattern:  /{id}
+    defaults: { _controller: "Map3ProductBundle:Product:view" }
+    requirements:
+        id:  \d+
+
+product_add:
+    pattern:  /add
+    defaults: { _controller: "Map3ProductBundle:Product:add" }
+
+product_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: "Map3ProductBundle:Product:edit" }
+    requirements:
+        id:  \d+
+
+product_del:
+    pattern:  /del/{id}
+    defaults: { _controller: "Map3ProductBundle:Product:del" }
+    requirements:
+        id:  \d+

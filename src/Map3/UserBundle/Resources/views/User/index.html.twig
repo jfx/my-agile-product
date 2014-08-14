@@ -1,0 +1,65 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Users list{% endblock title %}
+
+{% block headline %}{{ breadcrumb(['Admin', 'Users list']) }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                <a class="btn btn-default btn-xs" href="{{ path('user_add') }}"
+                   title="Add">
+                    {{ icon('plus') }}
+                </a>&nbsp;&nbsp;Action
+            </th>
+            <th>#</th>
+            <th>Name</th>
+            <th>Firstname</th>
+            <th>Displayname</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Super-admin</th>
+            <th>Locked</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for user in users %}
+            <tr>
+                <td class="action">
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('user_view', {'id': user.id}) }}"
+                       title="View user #{{ user.id }}">
+                            {{ icon('eye-open') }}
+                    </a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('user_edit', {'id': user.id}) }}"
+                       title="Edit user #{{ user.id }}">
+                            {{ icon('edit') }}
+                    </a>
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('user_del', {'id': user.id}) }}"
+                       title="Delete user #{{ user.id }}">
+                            {{ icon('trash') }}
+                    </a>
+                </td>
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.displayname }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{% if user.isSuperAdmin() %}{{ icon('ok') }}{% else %}-{% endif %}</td>
+                <td>{% if user.isLocked() %}{{ icon('ban-circle') }}{% else %}-{% endif %}</td>
+                <td>{{ user.details }}</td>
+            </tr>
+{% else %}
+        <li>No user</li>
+{% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock content %}

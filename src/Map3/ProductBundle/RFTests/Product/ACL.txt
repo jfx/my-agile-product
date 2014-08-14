@@ -1,0 +1,62 @@
+*** Settings ***
+Documentation     In order to secure the application
+...               As a user
+...               I need to have access only to granted pages
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Product list
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /product/    True    True    True    True    True
+    ...    True    True
+
+Product add
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /product/add    True    False    False    False    False
+    ...    False    False
+
+Product view
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /product/1    True    True    True    True    True
+    ...    True    True
+
+Product edit
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /product/edit/1    True    True    False    False    False
+    ...    False    False
+
+Product delete
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /product/del/1    True    False    False    False    False
+    ...    False    False
+
+User list
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /pdt-user/    True    True    True    True    True
+    ...    True    True    /product/1
+
+User add
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /pdt-user/add    True    True    False    False    False
+    ...    False    False    /product/1
+
+User edit
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /pdt-user/edit/2    True    True    False    False    False
+    ...    False    False    /product/1
+
+User delete
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /pdt-user/del/2    True    True    False    False    False
+    ...    False    False    /product/1
+
+*** Keywords ***

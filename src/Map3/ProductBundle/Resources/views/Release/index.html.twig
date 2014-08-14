@@ -1,0 +1,67 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Releases list{% endblock title %}
+
+{% block headline %}{{ product_breadcrumb('Releases list') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    {% include "Map3ProductBundle:Product:tabs.html.twig" with {'activeTab' : 'releases'} %}
+</div>
+<br />
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+            {% if is_granted('ROLE_DM_MANAGER') %}
+                    <a class="btn btn-default btn-xs"
+                       href="{{ path('release_add') }}"
+                        title="Add">
+                        {{ icon('plus') }}
+                    </a>
+            {% endif %}
+               &nbsp;&nbsp;Action
+            </th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Closed</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for release in releases %}
+            <tr>
+                <td class="action">
+                    <a href="{{ path('release_view', {'id': release.id}) }}"
+                       class="btn btn-default btn-xs"
+                       title="View release #{{ release.id }}">
+                        {{ icon('eye-open') }}
+                    </a>
+                    {% if is_granted('ROLE_DM_MANAGER') %}
+                    <a href="{{ path('release_edit', {'id': release.id}) }}"
+                       class="btn btn-default btn-xs"
+                       title="Edit release #{{ release.id }}">
+                        {{ icon('edit') }}
+                    </a>
+                    <a href="{{ path('release_del', {'id': release.id}) }}"
+                       class="btn btn-default btn-xs"
+                       title="Delete release #{{ release.id }}">
+                        {{ icon('trash') }}
+                    </a>
+                    {% endif %}
+                </td>
+                <td>{{ release.name }}</td>
+                <td>{{ release.releaseDate|localeDate }}</td>
+                <td>{% if release.isClosed() %}{{ icon('ok') }}{% else %}-{% endif %}</td>
+                <td>{{ release.details }}</td>
+            </tr>
+{% else %}
+            <tr><td colspan="5">No release</td></tr>
+{% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock content %}

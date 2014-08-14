@@ -1,0 +1,3 @@
+pdt-release_index:
+    pattern:  /
+    defaults: { _controller: "Map3ProductBundle:Release:index" }

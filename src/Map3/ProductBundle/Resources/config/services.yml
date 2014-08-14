@@ -1,0 +1,7 @@
+parameters:
+
+services:
+    map3_product.productinfo:
+        class: Map3\ProductBundle\Service\ProductInfo
+        arguments: [ '@doctrine.orm.entity_manager' ]
+        scope: request

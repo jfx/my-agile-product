@@ -1,0 +1,44 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Resetting password - Step 1{% endblock title %}
+
+{% block headline %}{{ breadcrumb([['My Agile Product', path('fos_user_security_login')], 'Resetting password', 'Step 1']) }}{% endblock headline %}
+
+{% block fos_user_content %}
+{% trans_default_domain 'FOSUserBundle' %}
+
+    {% if invalid_username is defined %}
+        <div class="alert alert-error fade in  alert-block">
+            <a class="close" data-dismiss="alert" href="#">×</a>
+            {{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}
+        </div>
+    {% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+
+<form class="form-horizontal well" action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+
+    <div class="form-group">
+        <label class="col-sm-5 control-label" for="username">{{ 'resetting.request.username'|trans }}</label>
+        <div class="col-sm-7">
+            <input type="text" class="form-control" id="username" name="username" required="required" />
+        </div>
+    </div>
+    <br />
+    <div class="center">
+        <button type="submit" id="reset" class="btn btn-sm btn-info" title="Reset">
+            {{ icon('ok', true) }}
+            &nbsp;&nbsp;{{ 'resetting.request.submit'|trans }}&nbsp;&nbsp;
+        </button>
+    </div>
+    <div class="center">
+        <br />
+        <a href="{{ path('fos_user_security_login') }}">Return to login</a>
+    </div>
+</form>
+        </div>
+    </div>
+</div>
+{% endblock fos_user_content %}

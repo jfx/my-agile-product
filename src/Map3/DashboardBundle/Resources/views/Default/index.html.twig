@@ -1,0 +1,13 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Dashboard{% endblock title %}
+
+{% block page_header %}
+    <div class="page-header">
+    <h4>{% block headline %}Dashboard{% endblock headline %}</h4>
+    </div>
+{% endblock page_header %}
+
+{% block content %}
+Hello {{ app.user.firstname }} {{ app.user.name }} !
+{% endblock content %}

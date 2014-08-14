@@ -1,0 +1,3 @@
+map3_core_select:
+    pattern:  /select
+    defaults: { _controller: "Map3CoreBundle:Select:request" }

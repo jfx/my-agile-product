@@ -1,0 +1,70 @@
+*** Settings ***
+Documentation     In order to see details about a specific product
+...               As a connected user
+...               I need to view product details.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+View a product details
+    Given I am a user
+    And I go to view product 1 page
+    And I check product view form    Product One
+
+Wrong product Id
+    Given I am a user
+    And I go to products list
+    When Go to    ${URL}/product/999
+    Then I should see 404 error page
+
+Breadcrumb
+    Given I am a user
+    When I go to view product 1 page
+    Then the breadcrumb should contain    Product One    View
+
+Breadcrumb product link
+    Given I am a super-admin
+    When I go to view product 1 page
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a user
+    And I go to view product 1 page
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a user
+    And I go to view product 1 page
+    And Element Should Contain    id=badge_releases    3
+    When Click Link    id=a_releases
+    Then Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a user
+    And I go to view product 1 page
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/
+
+Return to list button
+    Given I am a user
+    And I go to view product 1 page
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/product/
+
+Edit button for super-admin profile
+    Given I am a super-admin
+    And I go to view product 1 page
+    When I click button    Edit
+    Then Location Should Be    ${URL}/product/edit/1
+
+Edit button not displayed for non super-admin profile
+    Given I am a user
+    And I go to view product 1 page
+    Then I should not see action button(s)    Edit
+
+*** Keywords ***
+I go to view product 1 page
+    And I go to products list
+    And I click action button    View product #1

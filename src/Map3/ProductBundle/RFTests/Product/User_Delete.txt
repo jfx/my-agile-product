@@ -1,0 +1,101 @@
+*** Settings ***
+Documentation     In order to manage user for a product
+...               As a super-admin user profile
+...               I need to delete a user.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A super-admin removes a user
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/pdt-user/
+    And Page Should Contain    User removed successfully
+    And Element Should Contain    id=badge_users    4
+    And Page Should not Contain    D1-guest
+
+A manager removes a user
+    Given I am a manager
+    And I go to users list for product    View product #1
+    And I click action button    Delete user #5
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/pdt-user/
+    And Page Should Contain    User removed successfully
+    And Element Should Contain    id=badge_users    4
+    And Page Should not Contain    D1-guest
+
+Cancel to delete a user
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    When I click button    Remove
+    And I do not confirm
+    Then Location Should Be    ${URL}/pdt-user/del/5
+
+Impossible to delete a user
+    [Tags]    failedTest
+    Given I am a manager
+    And I go to users list for product    View product #1
+    And I click action button    Delete user #2
+    When I click button    Remove
+    And I confirm
+    Then Run Keyword And Expect Error    *    Then Location Should Be    ${URL}/pdt-user/del/2
+    Then Run Keyword And Expect Error    *    Then Page Should Contain    Impossible to remove this item - Integrity constraint violation !
+
+Impossible to delete a user without selecting a product before
+    Given I am a super-admin
+    When Go To    ${URL}/pdt-user/del/2
+    Then Location Should Be    ${URL}/product/
+
+Wrong user Id for a product
+    Given I am a manager
+    And I go to users list for product    View product #1
+    When Go to    ${URL}/pdt-user/del/1
+    Then I should see 404 error page    User[id=1] not found for this product
+
+Breadcrumb
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    Then the breadcrumb should contain    Product One    Delete user
+
+Breadcrumb product link
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    And Element Should Contain    id=badge_releases    3
+    When Click Link    id=a_releases
+    Then Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/
+
+Return to list button
+    Given I am a super-admin
+    And I go to users list for product    Edit product #1
+    And I click action button    Delete user #5
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/pdt-user/
+    And Page Should Contain    Product One

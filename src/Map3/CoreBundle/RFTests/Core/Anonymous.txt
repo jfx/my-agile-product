@@ -1,0 +1,15 @@
+*** Settings ***
+Documentation     In order to be able to connect
+...               As a anonymous user
+...               I need to see the login form
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Login Page
+    [Tags]    init
+    When I go to login page
+    Then Page Should Contain    My Agile Product
+
+*** Keywords ***
+I go to login page
+    Go to    ${LOGIN_URL}

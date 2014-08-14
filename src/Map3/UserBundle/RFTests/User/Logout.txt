@@ -1,0 +1,18 @@
+*** Settings ***
+Documentation     In order to quit the application
+...               As a connected user
+...               I need to disconnect.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user logs out
+    Given I am a user
+    And Go To    ${URL}/
+    When Click element    link=Log out
+    Then Location Should Be    ${URL}/login
+    And I am disconnected
+
+*** Keywords ***
+I am disconnected
+    Go To    ${URL}/
+    Location Should Be    ${URL}/login

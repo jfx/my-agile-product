@@ -1,0 +1,3 @@
+map3_dashboard_index:
+    pattern:  /
+    defaults: { _controller: Map3DashboardBundle:Default:index }

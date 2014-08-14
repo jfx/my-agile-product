@@ -1,0 +1,45 @@
+*** Settings ***
+Documentation     In order to see my personal data
+...               As a connected user
+...               I need to see my profile page.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Display user data profile
+    Given I am a user
+    When I go to profile page
+    Then I should see user profile data
+
+Display super-admin data profile
+    Given I am a super-admin
+    When I go to profile page
+    Then I should see super-admin profile data
+
+Breadcrumb
+    Given I am a user
+    When I go to profile page
+    Then the breadcrumb should contain    Admin    Profile
+
+Password tab
+    Given I am a user
+    And I go to profile page
+    When Click Link    Password
+    Then Location Should Be    ${URL}/user/password
+
+Roles tab
+    Given I am a user
+    And I go to profile page
+    When Click Link    Roles
+    Then Location Should Be    ${URL}/user/role
+
+*** Keywords ***
+I should see user profile data
+    I check user view form    user    False    False    user role on product 1 + user+ on product 2
+
+I go to profile page
+    Click element    link=Admin
+    Click element    link=Profile
+    the breadcrumb should contain    Admin    Profile
+
+I should see super-admin profile data
+    I check user view form    admin    True    False    Admin user

@@ -1,0 +1,44 @@
+*** Settings ***
+Documentation     In order to manage user
+...               As a super-admin user profile
+...               I need to view user's roles.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+View a user roles list
+    Given I am a super-admin
+    When I go to user view role page    2
+    Then the table should contain x rows    2
+    the table header should contain    Product    Role
+    And the table should contain    Product One    User
+    And the table should contain    Product Two    User+
+
+View a user role list with no role
+    Given I am a super-admin
+    When I go to user view role page    1
+    Then the table should contain x rows    1
+    the table header should contain    Product    Role
+    And the table should contain    No role
+
+Wrong user Id
+    Given I am a super-admin
+    When Go to    ${URL}/user/role/999
+    Then I should see 404 error page
+
+Breadcrumb
+    Given I am a super-admin
+    When I go to user view role page    2
+    Then the breadcrumb should contain    Admin    View user    Roles
+
+Main tab
+    Given I am a super-admin
+    When I go to user view role page    2
+    When Click Link    Main
+    Then Location Should Be    ${URL}/user/2
+
+*** Keywords ***
+I go to user view role page
+    [Arguments]    ${id}
+    I go to user view page    ${id}
+    Click element    link=Roles
+    Location Should Be    ${URL}/user/role/${id}

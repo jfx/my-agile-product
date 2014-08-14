@@ -1,0 +1,108 @@
+*** Settings ***
+Documentation     In order to manage resource for a product
+...               As a super-admin user profile or a user with a manager role
+...               I need to add a user.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A super-admin adds a user
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    And I click action button    Add
+    And Select From List By Label    map3_user_user    No-product Firstno-product
+    And Select From List By Label    map3_user_role    User+
+    When I save
+    Then Page Should Contain    User added successfully
+    And Element Should Contain    id=badge_users    6
+    And the table should contain x rows    6
+    And the table should contain    No-product Firstno-product    displayno-product    User+
+
+A manager adds a user
+    Given I am a manager
+    And I go to users list for product    View product #1
+    And I click action button    Add
+    And Select From List By Label    map3_user_user    No-product Firstno-product
+    And Select From List By Label    map3_user_role    User+
+    When I save
+    Then Page Should Contain    User added successfully
+    And Element Should Contain    id=badge_users    6
+    And the table should contain x rows    6
+    And the table should contain    No-product Firstno-product    displayno-product    User+
+
+A super-admin adds a manager
+    Given I am a super-admin
+    And I go to users list for product    View product #3
+    And I click action button    Add
+    And Select From List By Label    map3_user_user    No-product Firstno-product
+    And Select From List By Label    map3_user_role    Manager
+    When I save
+    Then Page Should Contain    User added successfully
+    And the table should contain x rows    1
+    And the table should contain    No-product Firstno-product    displayno-product    Manager
+    And I log out
+    And I am logging as    no-product
+    And I go to users list for product    View product #3
+    And I should see action button(s)    Add
+
+Impossible to add when no user available
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    And I click action button    Add
+    And Select From List By Label    map3_user_user    Admin Firstadmin
+    When I save
+    Then Page Should Contain    User added successfully
+    And I click action button    Add
+    And Select From List By Label    map3_user_user    No-product Firstno-product
+    When I save
+    Then Page Should Contain    User added successfully
+    And I click action button    Add
+    Then Page Should Contain    No user to add !
+
+Impossible to add a user without selecting a product before
+    Given I am a super-admin
+    When Go To    ${URL}/pdt-user/add
+    Then Location Should Be    ${URL}/product/
+
+Breadcrumb
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    Then the breadcrumb should contain    Product One    Add user
+
+Breadcrumb product link
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    And Element Should Contain    id=badge_releases    3
+    When Click Link    id=a_releases
+    Then Location Should Be    ${URL}/pdt-release/
+
+Tab Users
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/
+
+Return to list button
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    And I click action button    Add
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/pdt-user/
+    And Page Should Contain    Product One

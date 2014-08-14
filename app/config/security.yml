@@ -1,0 +1,39 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: ROLE_USER
+        ROLE_DM_USER:     ROLE_DM_GUEST
+        ROLE_DM_USERPLUS: ROLE_DM_USER
+        ROLE_DM_MANAGER:  ROLE_DM_USERPLUS
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username_email
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:   ^/(login$|resetting)
+            anonymous: true
+            
+        main:
+            pattern: ^/
+            form_login:
+                provider:      fos_userbundle
+                remember_me:   true
+                csrf_provider: form.csrf_provider
+            remember_me:
+                key:           %secret%
+            logout:
+                path:          /logout
+                target:        /login
+            anonymous:         false

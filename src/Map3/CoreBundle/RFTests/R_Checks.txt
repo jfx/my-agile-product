@@ -1,0 +1,83 @@
+*** Keywords ***
+I check the following ACL
+    [Arguments]    ${acl_url}    ${acl_super-admin}    ${acl_manager}    ${acl_user+}    ${acl_user}    ${acl_guest}
+    ...    ${acl_none}    ${acl_noproduct}    ${acl_prerequisite}=False
+    ${isPrerequiste} =    Set Variable If    '${acl_prerequisite}' == 'False'    False    True
+    I am a super-admin
+    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    Go to    ${URL}${acl_url}
+    Run Keyword If    ${acl_super-admin}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    I log out
+    I am a manager
+    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    Go to    ${URL}${acl_url}
+    Run Keyword If    ${acl_manager}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    I log out
+    I am a user+
+    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    Go to    ${URL}${acl_url}
+    Run Keyword If    ${acl_user+}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    I log out
+    I am a user
+    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    Go to    ${URL}${acl_url}
+    Run Keyword If    ${acl_user}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    I log out
+    I am a guest
+    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    Go to    ${URL}${acl_url}
+    Run Keyword If    ${acl_guest}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    I log out
+    I am a user with no role
+    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    Go to    ${URL}${acl_url}
+    Run Keyword If    ${acl_none}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    I log out
+    I am a user with no role on any product
+    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    Go to    ${URL}${acl_url}
+    Run Keyword If    ${acl_noproduct}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    I log out
+
+the table should contain x rows
+    [Arguments]    ${count}
+    ${r} =    Evaluate    ${count} + 1
+    And Xpath Should Match X Times    //tr    ${r}
+
+the table should contain
+    [Arguments]    @{list}
+    : FOR    ${item}    IN    @{list}
+    \    Table Should Contain    xpath=//table    ${item}
+
+the table header should contain
+    [Arguments]    @{list}
+    : FOR    ${item}    IN    @{list}
+    \    Table Header Should Contain    xpath=//table    ${item}
+
+I should see action button(s)
+    [Arguments]    @{list}
+    : FOR    ${item}    IN    @{list}
+    \    And Element Should Be Visible    xpath=//a[@title='${item}']
+
+I should not see action button(s)
+    [Arguments]    @{list}
+    : FOR    ${item}    IN    @{list}
+    \    And Page Should Not Contain Element    xpath=//a[@title='${item}']
+
+I should see 404 error page
+    [Arguments]    ${msg}='404 Item not found'
+    Page Should Contain    404 Not Found
+
+Disabled text element should contain
+    [Arguments]    ${id}    ${expected}
+    Element Should Be Disabled    ${id}
+    ${value} =    Get Element Attribute    ${id}@value
+    Should Be Equal    ${expected}    ${value}
+
+the breadcrumb should contain
+    [Arguments]    @{list}
+    ${i} =    Set variable    0
+    : FOR    ${item}    IN    @{list}
+    \    ${i} =    Evaluate    ${i} + 1
+    \    ${level} =    Get Text    br_lvl${i}
+    \    Should Be Equal As Strings    ${item}    ${level}
