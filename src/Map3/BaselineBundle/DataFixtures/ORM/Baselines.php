@@ -16,26 +16,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\ReleaseBundle\DataFixtures\ORM;
+namespace Map3\BaselineBundle\DataFixtures\ORM;
 
 use DateTime;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Map3\ReleaseBundle\Entity\Release;
+use Map3\BaselineBundle\Entity\Baseline;
 
 /**
- * Load release data class.
+ * Load baseline data class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ * @package   Baseline
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class Releases extends AbstractFixture implements OrderedFixtureInterface
+class Baselines extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * Load data fixtures with the passed EntityManager
@@ -50,47 +50,54 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
     {
         $dataArray = array(
             array(
-                'name'        => 'Release One',
-                'details'     => 'Details 4 release 1',
-                'releaseDate' => new DateTime("+ 1 months"),
-                'closed'      => false,
-                'product'     => 'productone-product',
+                'name'         => 'Baseline One',
+                'details'      => 'Details 4 baseline 1',
+                'baselineDate' => new DateTime("+ 10 days"),
+                'closed'       => false,
+                'release'      => 'releaseone-release',
             ),
             array(
-                'name'        => 'Release Two',
-                'details'     => 'Details 4 release 2',
-                'releaseDate' => new DateTime("+ 2 months"),
-                'closed'      => false,
-                'product'     => 'productone-product',
+                'name'         => 'Baseline Two',
+                'details'      => 'Details 4 baseline 2',
+                'baselineDate' => new DateTime("+ 20 days"),
+                'closed'       => false,
+                'release'      => 'releaseone-release',
             ),
             array(
-                'name'        => 'Release Closed',
-                'details'     => 'Details 4 release closed',
-                'releaseDate' => new DateTime("2014-08-14 12:00:00"),
-                'closed'      => true,
-                'product'     => 'productone-product',
+                'name'         => 'Baseline Closed',
+                'details'      => 'Details 4 baseline closed',
+                'baselineDate' => new DateTime("2014-08-02 12:00:00"),
+                'closed'       => true,
+                'release'      => 'releaseone-release',
             ),
             array(
-                'name'        => 'Release Three',
-                'details'     => 'Details 4 release 3',
-                'releaseDate' => new DateTime("+ 3 months"),
-                'closed'      => false,
-                'product'     => 'producttwo-product',
+                'name'         => 'Baseline Three',
+                'details'      => 'Details 4 baseline 3',
+                'baselineDate' => new DateTime("+ 1 months"),
+                'closed'       => false,
+                'release'      => 'releasetwo-release',
+            ),
+            array(
+                'name'         => 'Baseline Four',
+                'details'      => 'Details 4 baseline 4',
+                'baselineDate' => new DateTime("+ 2 months"),
+                'closed'       => false,
+                'release'      => 'releasethree-release',
             ),
         );
 
         foreach ($dataArray as $i => $data) {
-            $objectList[$i] = new Release();
+            $objectList[$i] = new Baseline();
             $objectList[$i]->setName($data['name']);
             $objectList[$i]->setDetails($data['details']);
-            $objectList[$i]->setReleaseDate($data['releaseDate']);
+            $objectList[$i]->setBaselineDatetime($data['baselineDate']);
             $objectList[$i]->setClosed($data['closed']);
-            $objectList[$i]->setProduct($this->getReference($data['product']));
+            $objectList[$i]->setRelease($this->getReference($data['release']));
 
             $manager->persist($objectList[$i]);
 
             // In lowercase and no whitespace
-            $ref = strtolower(str_replace(' ', '', $data['name'])).'-release';
+            $ref = strtolower(str_replace(' ', '', $data['name'])).'-baseline';
             $this->addReference($ref, $objectList[$i]);
         }
         $manager->flush();
@@ -105,6 +112,6 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 20;
+        return 30;
     }
 }

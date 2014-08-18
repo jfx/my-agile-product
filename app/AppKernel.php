@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new Map3\DashboardBundle\Map3DashboardBundle(),
             new Map3\ProductBundle\Map3ProductBundle(),
             new Map3\ReleaseBundle\Map3ReleaseBundle(),
+            new Map3\BaselineBundle\Map3BaselineBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

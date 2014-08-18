@@ -59,7 +59,11 @@ class LocaleDateExtension extends Twig_Extension
     public function getFilters()
     {
         return array(
-            'localeDate' => new Twig_Filter_Method($this, 'localeDateFilter')
+            'localeDate' => new Twig_Filter_Method($this, 'localeDateFilter'),
+            'localeDatetime' => new Twig_Filter_Method(
+                $this,
+                'localeDatetimeFilter'
+            )
         );
     }
 
@@ -72,6 +76,32 @@ class LocaleDateExtension extends Twig_Extension
      */
     public function localeDateFilter(DateTime $dateTime)
     {
+        $formatLocale = $this->getLocaleDateFormat();
+
+        return $dateTime->format($formatLocale);
+    }
+    
+    /**
+     * Convert a datetime object to a locale date display with time.
+     *
+     * @param DateTime $dateTime The date to convert.
+     *
+     * @return string
+     */
+    public function localeDatetimeFilter(DateTime $dateTime)
+    {
+        $formatLocale = $this->getLocaleDateFormat();
+
+        return $dateTime->format($formatLocale.' H:i' );
+    }
+
+    /**
+     * Get a the format of a locale date.
+     *
+     * @return string
+     */
+    private function getLocaleDateFormat()
+    {
         $format = $this->container->getParameter('app.formatDate');
 
         $formatLocale = str_replace(
@@ -80,9 +110,9 @@ class LocaleDateExtension extends Twig_Extension
             $format
         );
 
-        return $dateTime->format($formatLocale);
+        return $formatLocale;
     }
-
+    
     /**
      * Returns the name of the extension.
      *

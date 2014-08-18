@@ -1,0 +1,25 @@
+{% extends 'Map3CoreBundle::layoutDatetimepickerjs.html.twig' %}
+
+{% block title %}{{ parent() }} - Baseline edit - Id : {{ baseline.id }}{% endblock title %}
+
+{% block headline %}{{ baseline_breadcrumb('Edit') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    {% include "Map3BaselineBundle:Baseline:tabs.html.twig" with {'activeTab' : 'main'} %}
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+        {% include "Map3CoreBundle::form.html.twig" %}
+
+    </div>
+</div>
+<div class="row-fluid">
+    <a class="btn btn-default btn-sm" href="{{ path('rls-baseline_index') }}"
+       title="Return to release">
+        {{ icon('chevron-left') }} Return to release
+    </a>
+</div>
+{% endblock content %}

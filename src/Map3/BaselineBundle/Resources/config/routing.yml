@@ -1,0 +1,3 @@
+map3_baseline:
+    resource: "@Map3BaselineBundle/Resources/config/routing/baseline.yml"
+    prefix:   /baseline

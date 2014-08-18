@@ -16,23 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\ReleaseBundle\Controller;
+namespace Map3\BaselineBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Map3\BaselineBundle\Entity\Baseline;
+use Map3\BaselineBundle\Form\BaselineType;
 use Map3\CoreBundle\Form\FormHandler;
-use Map3\ReleaseBundle\Entity\Release;
-use Map3\ReleaseBundle\Form\ReleaseType;
 use Map3\UserBundle\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Release controller class.
+ * Baseline controller class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ * @package   Baseline
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
@@ -40,7 +40,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @since     3
  *
  */
-class ReleaseController extends Controller
+class BaselineController extends Controller
 {
 
     /**
@@ -48,25 +48,23 @@ class ReleaseController extends Controller
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_MANAGER")
+     * @Secure(roles="ROLE_DM_USERPLUS")
      */
     public function addAction()
     {
         $sc = $this->container->get('security.context');
         $user = $sc->getToken()->getUser();
-        $product = $user->getCurrentProduct();
+        $release = $user->getCurrentRelease();
 
-        // Low probability If you have not a product,
-        // you have not a ROLE_DM -> Error 403
-        if ($product === null) {
-            return $this->redirect($this->generateUrl('product_index'));
+        if ($release === null) {
+            return $this->redirect($this->generateUrl('pdt-release_index'));
         }
-        $release = new Release();
-        $release->setProduct($product);
+        $baseline = new Baseline();
+        $baseline->setRelease($release);
 
         $form   = $this->createForm(
-            new ReleaseType($this->container),
-            $release
+            new BaselineType($this->container),
+            $baseline
         );
 
         $handler = new FormHandler(
@@ -77,29 +75,25 @@ class ReleaseController extends Controller
 
         if ($handler->process()) {
 
-            $id = $release->getId();
-
-            $service = $this->container->get('map3_user.updatecontext4user');
-            $service->refreshAvailableProducts4UserId($user->getId());
-            $sc->getToken()->setAuthenticated(false);
+            $id = $baseline->getId();
 
             $this->get('session')->getFlashBag()
-                ->add('success', 'Release added successfully !');
+                ->add('success', 'Baseline added successfully !');
 
             return $this->redirect(
-                $this->generateUrl('release_view', array('id' => $id))
+                $this->generateUrl('baseline_view', array('id' => $id))
             );
         }
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
+ //       $service = $this->container->get('map3_product.productinfo');
+//        $child   = $service->getChildCount($product);
 
         return $this->render(
-            'Map3ReleaseBundle:Release:add.html.twig',
+            'Map3BaselineBundle:Baseline:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'release' => $release,
+//                'child' => $child
             )
         );
     }
@@ -107,44 +101,47 @@ class ReleaseController extends Controller
     /**
      * View a release.
      *
-     * @param Release $release The release to view.
+     * @param Baseline $baseline The baseline to view.
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function viewAction(Release $release)
+    public function viewAction(Baseline $baseline)
     {
         $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentRelease($release);
+        $service->setCurrentBaseline($baseline);
 
-        $releaseType = new ReleaseType($this->container);
-        $releaseType->setDisabled();
-        $form = $this->createForm($releaseType, $release);
+        $baselineType = new BaselineType($this->container);
+        $baselineType->setDisabled();
+        $form = $this->createForm($baselineType, $baseline);
 
         return $this->render(
-            'Map3ReleaseBundle:Release:view.html.twig',
-            array('form' => $form->createView(), 'release' => $release)
+            'Map3BaselineBundle:Baseline:view.html.twig',
+            array('form' => $form->createView(), 'baseline' => $baseline)
         );
     }
 
     /**
-     * Edit a release
+     * Edit a baseline
      *
-     * @param Release $release The release to edit.
+     * @param Baseline $baseline The baseline to edit.
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Release $release)
+    public function editAction(Baseline $baseline)
     {
         $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentRelease($release);
+        $service->setCurrentBaseline($baseline);
 
-        $this->checkManagerRole();
+        $this->checkUserPlusRole();
 
-        $form = $this->createForm(new ReleaseType($this->container), $release);
+        $form = $this->createForm(
+            new BaselineType($this->container), 
+            $baseline
+        );
 
         $handler = new FormHandler(
             $form,
@@ -154,60 +151,53 @@ class ReleaseController extends Controller
 
         if ($handler->process()) {
 
-            $id = $release->getId();
-
-            $sc = $this->container->get('security.context');
-            $user = $sc->getToken()->getUser();
-            $service->refreshAvailableProducts4UserId($user->getId());
-            $sc->getToken()->setAuthenticated(false);
+            $id = $baseline->getId();
 
             $this->get('session')->getFlashBag()
-                ->add('success', 'Release edited successfully !');
+                ->add('success', 'Baseline edited successfully !');
 
             return $this->redirect(
-                $this->generateUrl('release_view', array('id' => $id))
+                $this->generateUrl('baseline_view', array('id' => $id))
             );
         }
 
         return $this->render(
-            'Map3ReleaseBundle:Release:edit.html.twig',
-            array('form' => $form->createView(), 'release' => $release)
+            'Map3BaselineBundle:Baseline:edit.html.twig',
+            array('form' => $form->createView(), 'baseline' => $baseline)
         );
     }
 
     /**
-     * Delete a release
+     * Delete a baseline
      *
-     * @param Release $release The release to delete.
+     * @param Baseline $baseline The baseline to delete.
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function delAction(Release $release)
+    public function delAction(Baseline $baseline)
     {
         $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentRelease($release);
+        $service->setCurrentBaseline($baseline);
 
-        $this->checkManagerRole();
+        $this->checkUserPlusRole();
 
         if ($this->get('request')->getMethod() == 'POST') {
 
-            $service->setCurrentRelease(null);
+            $service->setCurrentBaseline(null);
 
             $em = $this->getDoctrine()->getManager();
-            $em->remove($release);
+            $em->remove($baseline);
 
             try {
                 $em->flush();
 
-                $this->refreshAvailableProducts();
-
                 $this->get('session')->getFlashBag()
-                    ->add('success', 'Release removed successfully !');
+                    ->add('success', 'Baseline removed successfully !');
 
                 return $this->redirect(
-                    $this->generateUrl('pdt-release_index')
+                    $this->generateUrl('rls-baseline_index')
                 );
 
             } catch (Exception $e) {
@@ -221,38 +211,21 @@ class ReleaseController extends Controller
                 // With exception entity manager is closed.
                 return $this->redirect(
                     $this->generateUrl(
-                        'release_del',
-                        array('id' => $release->getId())
+                        'baseline_del',
+                        array('id' => $baseline->getId())
                     )
                 );
             }
         }
 
-        $releaseType = new ReleaseType($this->container);
-        $releaseType->setDisabled();
-        $form = $this->createForm($releaseType, $release);
+        $baselineType = new BaselineType($this->container);
+        $baselineType->setDisabled();
+        $form = $this->createForm($baselineType, $baseline);
 
         return $this->render(
-            'Map3ReleaseBundle:Release:del.html.twig',
-            array('form' => $form->createView(), 'release' => $release)
+            'Map3BaselineBundle:Baseline:del.html.twig',
+            array('form' => $form->createView(), 'baseline' => $baseline)
         );
-    }
-
-    /**
-     * Refresh available products displayed in select box
-     *
-     * @return void
-     *
-     */
-    private function refreshAvailableProducts()
-    {
-        $sc = $this->container->get('security.context');
-        $user = $sc->getToken()->getUser();
-
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->refreshAvailableProducts4UserId($user->getId());
-
-        $sc->getToken()->setAuthenticated(false);
     }
 
     /**
@@ -261,11 +234,11 @@ class ReleaseController extends Controller
      * @return void
      *
      */
-    private function checkManagerRole()
+    private function checkUserPlusRole()
     {
         $sc = $this->container->get('security.context');
 
-        if (!($sc->isGranted(Role::MANAGER_ROLE))) {
+        if (!($sc->isGranted(Role::USERPLUS_ROLE))) {
 
             throw new AccessDeniedException(
                 'You are not allowed to access this resource'

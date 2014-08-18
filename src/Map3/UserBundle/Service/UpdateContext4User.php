@@ -74,18 +74,19 @@ class UpdateContext4User
     /**
      * Set the current product for a user and set role.
      *
-     * @param Product|null $product          The product, if null unset product.
-     * @param boolean      $resetCurrRelease Current release must be resetted.
+     * @param Product|null $product     The product, if null unset product.
+     * @param boolean      $resetChilds Current childs must be resetted.
      *
      * @return void
      */
-    public function setCurrentProduct($product, $resetCurrRelease = true)
+    public function setCurrentProduct($product, $resetChilds = true)
     {
         $user = $this->securityContext->getToken()->getUser();
 
         $user->unsetProductRole();
 
-        if ($resetCurrRelease) {
+        if ($resetChilds) {
+            $user->unsetCurrentBaseline();
             $user->unsetCurrentRelease();
         }
 
@@ -117,13 +118,18 @@ class UpdateContext4User
      * Set the current release and set product and role.
      *
      * @param Release|null $release The release, if null unset current release.
+     * @param boolean      $resetChilds Current childs must be resetted.
      *
      * @return void
      */
-    public function setCurrentRelease($release)
+    public function setCurrentRelease($release, $resetChilds = true)
     {
         $user = $this->securityContext->getToken()->getUser();
 
+        if ($resetChilds) {
+            $user->unsetCurrentBaseline();
+        }
+        
         if ($release === null) {
             $user->unsetCurrentRelease();
         } else {
@@ -134,6 +140,29 @@ class UpdateContext4User
         }
     }
 
+    
+    /**
+     * Set the current baseline and set release/product and role.
+     *
+     * @param Baseline|null $baseline The baseline, if null unset current
+     * baseline.
+     *
+     * @return void
+     */
+    public function setCurrentBaseline($baseline)
+    {
+        $user = $this->securityContext->getToken()->getUser();
+
+        if ($baseline === null) {
+            $user->unsetCurrentBaseline();
+        } else {
+            $user->setCurrentBaseline($baseline);
+
+            $release = $baseline->getRelease();
+            $this->setCurrentRelease($release, false);
+        }
+    }
+    
     /**
      * Refresh available products list.
      *

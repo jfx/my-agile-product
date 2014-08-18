@@ -16,28 +16,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\ReleaseBundle\Entity;
+namespace Map3\BaselineBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Map3\ProductBundle\Entity\Product;
+use Map3\ReleaseBundle\Entity\Release;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Release entity class.
+ * Baseline entity class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ * @package   Baseline
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  * @link      http://www.myagileproduct.org
  * @since     3
  *
- * @ORM\Table(name="map3_release")
- * @ORM\Entity(repositoryClass="Map3\ReleaseBundle\Entity\ReleaseRepository")
+ * @ORM\Table(name="map3_baseline")
+ * @ORM\Entity(repositoryClass="Map3\BaselineBundle\Entity\BaselineRepository")
  */
-class Release
+class Baseline
 {
     /**
      * @var integer Id
@@ -64,11 +64,11 @@ class Release
     protected $details;
 
     /**
-     * @var DateTime release date
+     * @var DateTime Start date
      *
-     * @ORM\Column(name="releasedate", type="date")
+     * @ORM\Column(name="baselinedatetime", type="datetime")
      */
-    protected $releaseDate;
+    protected $baselineDatetime;
 
     /**
      * @var boolean Release closed or not.
@@ -78,13 +78,13 @@ class Release
     protected $closed;
 
     /**
-     * @var Product Product
+     * @var Release Release
      *
-     * @ORM\ManyToOne(targetEntity="Map3\ProductBundle\Entity\Product")
+     * @ORM\ManyToOne(targetEntity="Map3\ReleaseBundle\Entity\Release")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $product;
-
+    protected $release;
+    
     /**
      * Get id
      *
@@ -100,7 +100,7 @@ class Release
      *
      * @param string $name Name of release.
      *
-     * @return Release
+     * @return Baseline
      */
     public function setName($name)
     {
@@ -124,7 +124,7 @@ class Release
      *
      * @param string $details Details
      *
-     * @return Release
+     * @return Baseline
      */
     public function setDetails($details)
     {
@@ -144,27 +144,27 @@ class Release
     }
 
     /**
-     * Set date of release.
+     * Set datetime of baseline.
      *
-     * @param DateTime $releaseDate release date.
+     * @param DateTime $baselineDatetime baseline datetime.
      *
-     * @return Release
+     * @return Baseline
      */
-    public function setReleaseDate($releaseDate)
+    public function setBaselineDatetime($baselineDatetime)
     {
-        $this->releaseDate = $releaseDate;
+        $this->baselineDatetime = $baselineDatetime;
 
         return $this;
     }
 
     /**
-     * Get date of release.
+     * Get datetime of baseline.
      *
      * @return DateTime
      */
-    public function getReleaseDate()
+    public function getBaselineDatetime()
     {
-        return $this->releaseDate;
+        return $this->baselineDatetime;
     }
 
     /**
@@ -190,28 +190,28 @@ class Release
 
         return $this;
     }
-
+    
     /**
-     * Set product
+     * Set release
      *
-     * @param Product $pdt The product
+     * @param Release $rls The release
      *
-     * @return Release
+     * @return Baseline
      */
-    public function setProduct(Product $pdt)
+    public function setRelease(Release $rls)
     {
-        $this->product = $pdt;
+        $this->release = $rls;
 
         return $this;
     }
 
     /**
-     * Get product
+     * Get Release
      *
-     * @return Product
+     * @return Release
      */
-    public function getProduct()
+    public function getRelease()
     {
-        return $this->product;
+        return $this->release;
     }
 }

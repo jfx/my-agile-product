@@ -100,18 +100,9 @@ class BreadcrumbExtension extends Twig_Extension
      */
     public function productBreadcrumb($action)
     {
-        $user = $this->securityContext->getToken()->getUser();
-
-        $product = $user->getCurrentProduct();
-        $productUrl = $this->router->generate(
-            'product_view',
-            array('id' => $product->getId())
-        );
-        $productName = htmlspecialchars($product->getName());
-
         $breadcrumb = $this->breadcrumb(
             array(
-                array($productName, $productUrl),
+                $this->getProductNameUrl(),
                 $action
             )
         );
@@ -128,6 +119,45 @@ class BreadcrumbExtension extends Twig_Extension
      */
     public function releaseBreadcrumb($action)
     {
+        $breadcrumb = $this->breadcrumb(
+            array(
+                $this->getProductNameUrl(),
+                $this->getReleaseNameUrl(),
+                $action
+            )
+        );
+
+        return $breadcrumb;
+    }
+
+    /**
+     * Display baseline breadcrumb.
+     *
+     * @param string $action Label of action displayed.
+     *
+     * @return string
+     */
+    public function baselineBreadcrumb($action)
+    {
+        $breadcrumb = $this->breadcrumb(
+            array(
+                $this->getProductNameUrl(),
+                $this->getReleaseNameUrl(),
+                $this->getBaselineNameUrl(),
+                $action
+            )
+        );
+
+        return $breadcrumb;
+    }
+    
+    /**
+     * Get name and Url to view action for current product.
+     *
+     * @return array
+     */
+    private function getProductNameUrl()
+    {
         $user = $this->securityContext->getToken()->getUser();
 
         $product = $user->getCurrentProduct();
@@ -137,6 +167,18 @@ class BreadcrumbExtension extends Twig_Extension
         );
         $productName = htmlspecialchars($product->getName());
 
+        return array($productName, $productUrl);
+    }
+    
+    /**
+     * Get name and Url to view action for current release.
+     *
+     * @return array
+     */
+    private function getReleaseNameUrl()
+    {
+        $user = $this->securityContext->getToken()->getUser();
+
         $release = $user->getCurrentRelease();
         $releaseUrl = $this->router->generate(
             'release_view',
@@ -144,17 +186,28 @@ class BreadcrumbExtension extends Twig_Extension
         );
         $releaseName = htmlspecialchars($release->getName());
 
-        $breadcrumb = $this->breadcrumb(
-            array(
-                array($productName, $productUrl),
-                array($releaseName, $releaseUrl),
-                $action
-            )
-        );
-
-        return $breadcrumb;
+        return array($releaseName, $releaseUrl);
     }
 
+    /**
+     * Get name and Url to view action for current product.
+     *
+     * @return array
+     */
+    private function getBaselineNameUrl()
+    {
+        $user = $this->securityContext->getToken()->getUser();
+
+        $baseline = $user->getCurrentBaseline();
+        $baselineUrl = $this->router->generate(
+            'baseline_view',
+            array('id' => $baseline->getId())
+        );
+        $baselineName = htmlspecialchars($baseline->getName());
+
+        return array($baselineName, $baselineUrl);
+    }
+    
     /**
      * Returns a list of functions to add to the existing list.
      *
@@ -177,7 +230,11 @@ class BreadcrumbExtension extends Twig_Extension
                 $this,
                 'releaseBreadcrumb',
                 array('is_safe' => array('html'))
-            )
+            ),
+            'baseline_breadcrumb' => new Twig_Function_Method(
+                $this,
+                'baselineBreadcrumb',
+                array('is_safe' => array('html'))            )
         );
     }
 

@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs" role="tablist">
+    <li {% if activeTab == 'main' %}class="active"{% endif %}><a id="a_main" href="{{ path('release_view', {'id' : release.id}) }}">{{ icon('step-forward') }}&nbsp;&nbsp;Main</a></li>
+    <li {% if activeTab == 'baselines' %}class="active"{% endif %}><a id="a_baselines" href="{{ path('rls-baseline_index') }}">{{ icon('bookmark') }}&nbsp;&nbsp;Baselines&nbsp;&nbsp;<span id="badge_releases" class="badge badge-info">XX</span></a></li>
+</ul>
