@@ -84,7 +84,7 @@ class Baseline
      * @ORM\JoinColumn(nullable=false)
      */
     protected $release;
-    
+
     /**
      * Get id
      *
@@ -190,7 +190,7 @@ class Baseline
 
         return $this;
     }
-    
+
     /**
      * Set release
      *

@@ -10,14 +10,14 @@ Display releases list on a product for a user
     When I go to releases list    View product #1
     Then the table header should contain    Action    Name    Date    Closed    Details
     And the table should contain x rows    3
-    And the table should contain    Release Closed    31/07/2013    Details 4 release closed
+    And the table should contain    Release Closed    14/08/2014    Details 4 release closed
     And the table should contain    Release One
     And the table should contain    Release Two
     And Element Should Contain    id=badge_releases    3
 
 List with no release on a product for a user
     Given I am a user
-    When I go to releases list    View product #3
+    When I go to releases list    View product #5
     Then the table header should contain    Action    Name    Date    Closed    Details
     And the table should contain x rows    1
     And the table should contain    No release
@@ -57,6 +57,13 @@ Tab Main
     And I go to releases list    View product #1
     When Click Link    id=a_main
     And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a manager
+    And I go to releases list    View product #1
+    And Element Should Contain    id=badge_releases    3
+    When Click element    id=a_releases
+    And Location Should Be    ${URL}/pdt-release/
 
 Tab Users
     Given I am a user

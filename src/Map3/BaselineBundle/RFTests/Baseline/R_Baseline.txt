@@ -1,0 +1,25 @@
+*** Keywords ***
+I go to baselines list
+    [Arguments]    ${product}    ${release}
+    I go to releases list    ${product}
+    I click action button    ${release}
+    Click link    id=a_baselines
+
+I fill in baseline form
+    [Arguments]    ${baseline}    ${month}=3    ${isClosed}=False
+    ${isClosedBool} =    Convert To Boolean    ${isClosed}
+    Input text    map3_baseline_name    ${baseline}
+    I select datetime    //div[@data-link-field='map3_baseline_baselineDatetime']    15    ${month}    14    30
+    Click Element    map3_baseline_name
+    Run Keyword If    ${isClosedBool}    Select Checkbox    map3_baseline_closed
+    Input text    map3_baseline_details    Details 4 ${baseline}
+
+I check baseline view form
+    [Arguments]    ${baseline}    ${month}=3    ${isClosed}=False
+    ${isClosedBool} =    Convert To Boolean    ${isClosed}
+    Disabled text element should contain    map3_baseline_name    ${baseline}
+    ${formatDate} =    I get sql formated date in X months    15    ${month}
+    Disabled text element should contain    map3_baseline_baselineDatetime    ${formatDate} 14:30
+    Run Keyword If    ${isClosedBool}    Checkbox Should Be Selected    map3_baseline_closed
+    Run Keyword Unless    ${isClosedBool}    Checkbox Should Not Be Selected    map3_baseline_closed
+    Element Text Should Be    map3_baseline_details    Details 4 ${baseline}

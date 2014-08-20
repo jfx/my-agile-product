@@ -24,3 +24,12 @@ I select date
     : FOR    ${INDEX}    IN RANGE    0    ${month}
     \    Click Element    xpath=(//div[@class='datetimepicker-days' and @style='display: block;']/table/thead/tr/th[@class='next'])[${order}]
     Click Element    xpath=(//td[text()='${day}'])[${order}]
+
+I select datetime
+    [Arguments]    ${element}    ${day}    ${month}    ${hour}    ${minute}
+    Click Element    ${element}
+    :FOR    ${INDEX}    IN RANGE    0    ${month}
+    \    Click Element    xpath=(//div[@class='datetimepicker-days' and @style='display: block;']/table/thead/tr/th[@class='next'])
+    Click Element    xpath=//td[text()='${day}']
+    Click Element    xpath=//span[(@class='hour' or @class='hour active') and text()='${hour}:00']
+    Click Element    xpath=//span[(@class='minute' or @class='minute active') and text()= '${hour}:${minute}']

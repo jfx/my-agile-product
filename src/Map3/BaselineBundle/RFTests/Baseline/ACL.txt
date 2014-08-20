@@ -1,0 +1,54 @@
+*** Settings ***
+Documentation     In order to secure the application
+...               As a user
+...               I need to have access only to granted pages
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Baseline list
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /rls-baseline/    True    True    True    True    True
+    ...    True    True    /release/1
+
+Baseline view
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/1    True    True    True    True    True
+    ...    True    True    /release/1
+
+Baseline add
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/add    False    True    True    False    False
+    ...    False    False    /release/1
+
+Baseline edit
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/edit/1    False    True    True    False    False
+    ...    False    False    /release/1
+
+Baseline delete
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/del/1    False    True    True    False    False
+    ...    False    False    /release/1
+
+Baseline add with no user+ on product
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/add    False    False    False    False    False
+    ...    False    False    /release/5
+
+Baseline edit with no user+ on product
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/edit/6    False    False    False    False    False
+    ...    False    False    /release/5
+
+Baseline delete with no user+ on product
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/del/6    False    False    False    False    False
+    ...    False    False    /release/5

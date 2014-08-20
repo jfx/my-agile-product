@@ -150,7 +150,7 @@ class BreadcrumbExtension extends Twig_Extension
 
         return $breadcrumb;
     }
-    
+
     /**
      * Get name and Url to view action for current product.
      *
@@ -169,7 +169,7 @@ class BreadcrumbExtension extends Twig_Extension
 
         return array($productName, $productUrl);
     }
-    
+
     /**
      * Get name and Url to view action for current release.
      *
@@ -207,7 +207,7 @@ class BreadcrumbExtension extends Twig_Extension
 
         return array($baselineName, $baselineUrl);
     }
-    
+
     /**
      * Returns a list of functions to add to the existing list.
      *
@@ -234,7 +234,8 @@ class BreadcrumbExtension extends Twig_Extension
             'baseline_breadcrumb' => new Twig_Function_Method(
                 $this,
                 'baselineBreadcrumb',
-                array('is_safe' => array('html'))            )
+                array('is_safe' => array('html'))
+            )
         );
     }
 

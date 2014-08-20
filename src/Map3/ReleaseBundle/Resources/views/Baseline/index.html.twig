@@ -42,7 +42,7 @@
                     {% if is_granted('ROLE_DM_USERPLUS') %}
                     <a href="{{ path('baseline_edit', {'id': baseline.id}) }}"
                        class="btn btn-default btn-xs"
-                       title="Edit baseline #{{ release.id }}">
+                       title="Edit baseline #{{ baseline.id }}">
                         {{ icon('edit') }}
                     </a>
                     <a href="{{ path('baseline_del', {'id': baseline.id}) }}"

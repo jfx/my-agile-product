@@ -77,6 +77,13 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
                 'closed'      => false,
                 'product'     => 'producttwo-product',
             ),
+            array(
+                'name'        => 'Release Four',
+                'details'     => 'Details 4 release 4',
+                'releaseDate' => new DateTime("+ 2 months"),
+                'closed'      => false,
+                'product'     => 'productthree-product',
+            ),
         );
 
         foreach ($dataArray as $i => $data) {

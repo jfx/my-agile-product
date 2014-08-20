@@ -60,17 +60,17 @@ class CoverageListener
     protected $coverageDir;
 
     /**
-     * @static string Name of test
+     * @static string Directory name of code coverage files
      */
     protected static $coverageDirName = 'coverage';
 
     /**
-     * @var string Name of test
+     * @var string Default name of test
      */
     protected $testName = 'Coverage tests';
 
     /**
-     * @static string Name of test
+     * @static string Name of file that contains test name
      */
     protected static $testNameFile = 'testName.txt';
 

@@ -117,7 +117,7 @@ class UpdateContext4User
     /**
      * Set the current release and set product and role.
      *
-     * @param Release|null $release The release, if null unset current release.
+     * @param Release|null $release     The release, if null unset current release.
      * @param boolean      $resetChilds Current childs must be resetted.
      *
      * @return void
@@ -129,7 +129,7 @@ class UpdateContext4User
         if ($resetChilds) {
             $user->unsetCurrentBaseline();
         }
-        
+
         if ($release === null) {
             $user->unsetCurrentRelease();
         } else {
@@ -140,7 +140,6 @@ class UpdateContext4User
         }
     }
 
-    
     /**
      * Set the current baseline and set release/product and role.
      *
@@ -162,7 +161,7 @@ class UpdateContext4User
             $this->setCurrentRelease($release, false);
         }
     }
-    
+
     /**
      * Refresh available products list.
      *

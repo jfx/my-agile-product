@@ -58,15 +58,15 @@ class BaselineController extends Controller
 
         $baselines = $repository->findBaselinesByRelease($release);
 
-//        $service = $this->container->get('map3_product.productinfo');
-//        $child   = $service->getChildCount($product);
+        $service = $this->container->get('map3_release.releaseinfo');
+        $child   = $service->getChildCount($release);
 
         return $this->render(
             'Map3ReleaseBundle:Baseline:index.html.twig',
             array(
                 'baselines' => $baselines,
                 'release' => $release,
-//                'child' => $child
+                'child' => $child
             )
         );
     }

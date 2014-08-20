@@ -16,23 +16,58 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\BaselineBundle;
+namespace Map3\ReleaseBundle\Service;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Doctrine\ORM\EntityManager;
+use Map3\ReleaseBundle\Entity\Release;
 
 /**
- * Baseline bundle class.
+ * Product info service class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ * @package   Release
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
-class Map3BaselineBundle extends Bundle
+class ReleaseInfo
 {
+    /**
+     * @var EntityManager Entity manager
+     */
+    protected $entityManager;
 
+    /**
+     * Constructor
+     *
+     * @param EntityManager $entityManager The entity manager.
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager   = $entityManager;
+    }
+
+    /**
+     * Get product info.
+     *
+     * @param Release $release The release.
+     *
+     * @return array
+     */
+    public function getChildCount($release)
+    {
+        $results = array();
+
+        $repositoryBln = $this->entityManager->getRepository(
+            'Map3BaselineBundle:Baseline'
+        );
+
+        $results['baselines']  = $repositoryBln->countBaselinesByRelease(
+            $release
+        );
+
+        return $results;
+    }
 }

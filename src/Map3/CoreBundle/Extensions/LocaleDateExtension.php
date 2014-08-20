@@ -80,7 +80,7 @@ class LocaleDateExtension extends Twig_Extension
 
         return $dateTime->format($formatLocale);
     }
-    
+
     /**
      * Convert a datetime object to a locale date display with time.
      *
@@ -92,7 +92,7 @@ class LocaleDateExtension extends Twig_Extension
     {
         $formatLocale = $this->getLocaleDateFormat();
 
-        return $dateTime->format($formatLocale.' H:i' );
+        return $dateTime->format($formatLocale.' H:i');
     }
 
     /**
@@ -112,7 +112,7 @@ class LocaleDateExtension extends Twig_Extension
 
         return $formatLocale;
     }
-    
+
     /**
      * Returns the name of the extension.
      *

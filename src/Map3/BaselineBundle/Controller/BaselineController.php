@@ -85,15 +85,15 @@ class BaselineController extends Controller
             );
         }
 
- //       $service = $this->container->get('map3_product.productinfo');
-//        $child   = $service->getChildCount($product);
+        $service = $this->container->get('map3_release.releaseinfo');
+        $child   = $service->getChildCount($release);
 
         return $this->render(
             'Map3BaselineBundle:Baseline:add.html.twig',
             array(
                 'form' => $form->createView(),
                 'release' => $release,
-//                'child' => $child
+                'child' => $child
             )
         );
     }
@@ -139,7 +139,7 @@ class BaselineController extends Controller
         $this->checkUserPlusRole();
 
         $form = $this->createForm(
-            new BaselineType($this->container), 
+            new BaselineType($this->container),
             $baseline
         );
 

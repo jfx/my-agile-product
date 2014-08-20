@@ -99,7 +99,7 @@ class User extends BaseUser
      * @ORM\ManyToOne(targetEntity="Map3\ReleaseBundle\Entity\Release")
      */
     private $currentRelease;
-    
+
     /**
      * @var Baseline Current baseline
      *

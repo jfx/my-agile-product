@@ -40,7 +40,6 @@ class BaselineRepository extends EntityRepository
      *
      * @return array List of baselines.
      */
-//    public function findBaselinesByRelease(Release $rls)
     public function findBaselinesByRelease($rls)
     {
         $qb = $this->createQueryBuilder('b')
@@ -61,7 +60,7 @@ class BaselineRepository extends EntityRepository
      *
      * @return int count of releases.
      */
-    public function countBaselinesByRelease(Release $rls)
+    public function countBaselinesByRelease($rls)
     {
         $qb = $this->createQueryBuilder('b')
             ->innerJoin('b.release', 'r')
