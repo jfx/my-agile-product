@@ -11,7 +11,6 @@
     {% block head_externalstyle %}
     {% stylesheets filter='lessphp,cssembed'
         '@Map3CoreBundle/Resources/public/less/map.less'
-        '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less'
         '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/build/build_standalone.less'
         '@Map3CoreBundle/Resources/public/less/mapover.less'
        output='css/all.css'
@@ -33,7 +32,7 @@
     {% block head_script %}
     {% endblock head_script %}
 
-    <title>{% block title %}My Agile Product{% endblock title %}</title>
+    <title>{% block title %}my agile product{% endblock title %}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
 </head>
 {% endblock head %}
@@ -49,7 +48,7 @@
     {% block navbar %}
         {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { inverse: true, fixedTop: true } %}
             {% block brand %}
-                <a class="navbar-brand" href="{{ path('map3_dashboard_index') }}">My Agile Product</a>
+                <a class="navbar-brand" href="{{ path('map3_dashboard_index') }}">my agile product</a>
             {% endblock %}
 
             {% block menu %}
