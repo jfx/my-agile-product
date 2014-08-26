@@ -16,23 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\ReleaseBundle\Service;
+namespace Map3\BaselineBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Map3\ReleaseBundle\Entity\Release;
+use Map3\ReleaseBundle\Entity\Baseline;
 
 /**
- * Release info service class.
+ * Baseline info service class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ * @package   Baseline
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class ReleaseInfo
+class BaselineInfo
 {
     /**
      * @var EntityManager Entity manager
@@ -50,22 +50,22 @@ class ReleaseInfo
     }
 
     /**
-     * Get release info.
+     * Get baseline info.
      *
-     * @param Release $release The release.
+     * @param Baseline $baseline The baseline.
      *
      * @return array
      */
-    public function getChildCount($release)
+    public function getChildCount($baseline)
     {
         $results = array();
 
-        $repositoryBln = $this->entityManager->getRepository(
-            'Map3BaselineBundle:Baseline'
+        $repositoryRef = $this->entityManager->getRepository(
+            'Map3BaselineBundle:Reference'
         );
 
-        $results['baselines']  = $repositoryBln->countBaselinesByRelease(
-            $release
+        $results['references']  = $repositoryRef->countReferencesByBaseline(
+            $baseline
         );
 
         return $results;

@@ -1,7 +1,7 @@
 parameters:
-#    map3_baseline.example.class: Map3\BaselineBundle\Example
 
 services:
-#    map3_baseline.example:
-#        class: %map3_baseline.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    map3_baseline.baselineinfo:
+        class: Map3\BaselineBundle\Service\BaselineInfo
+        arguments: [ '@doctrine.orm.entity_manager' ]
+        scope: request

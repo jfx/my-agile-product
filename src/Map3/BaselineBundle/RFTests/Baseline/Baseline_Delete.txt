@@ -27,8 +27,8 @@ Impossible to delete a baseline
     And I go to delete baseline page    1
     When I click button    Remove
     And I confirm
-    Then Run Keyword And Expect Error    *    Then Location Should Be    ${URL}/baseline/del/1
-    Then Run Keyword And Expect Error    *    And Page Should Contain    Impossible to remove this item - Integrity constraint violation !
+    Then Location Should Be    ${URL}/baseline/del/1
+    And Page Should Contain    Impossible to remove this item - Integrity constraint violation !
 
 Wrong baseline Id for a release but same product
     Given I am a user+
@@ -88,9 +88,9 @@ Tab References
     [Tags]    failedTest
     Given I am a user+
     And I go to delete baseline page    1
-    And Element Should Contain    id=badge_references    XX
+    And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
-    And Location Should Be    ${URL}/baseline/del/1#
+    And Location Should Be    ${URL}/bln-ref/
 
 Tab Features
     [Tags]    failedTest

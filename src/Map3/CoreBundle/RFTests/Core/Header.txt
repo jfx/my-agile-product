@@ -8,7 +8,7 @@ Resource          ../Keyword_resource.txt
 Title
     [Tags]    init
     Given I am a user
-    When I click on "My Agile Product" header text
+    When I click on "my agile product" header text
     Then Location Should Be    ${URL}/
 
 Non super-admin username
@@ -25,8 +25,8 @@ Link to profile page
     Then I should be on profile page
 
 *** Keywords ***
-I click on "My Agile Product" header text
-    Click element    link=My Agile Product
+I click on "my agile product" header text
+    Click element    link=my agile product
 
 I click on header username
     [Arguments]    ${username}

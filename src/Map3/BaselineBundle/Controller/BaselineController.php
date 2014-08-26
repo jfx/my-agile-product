@@ -44,7 +44,7 @@ class BaselineController extends Controller
 {
 
     /**
-     * Add a release.
+     * Add a baseline.
      *
      * @return Response A Response instance
      *
@@ -99,7 +99,7 @@ class BaselineController extends Controller
     }
 
     /**
-     * View a release.
+     * View a baseline.
      *
      * @param Baseline $baseline The baseline to view.
      *
@@ -116,9 +116,16 @@ class BaselineController extends Controller
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
+        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
+        $child       = $serviceInfo->getChildCount($baseline);
+
         return $this->render(
             'Map3BaselineBundle:Baseline:view.html.twig',
-            array('form' => $form->createView(), 'baseline' => $baseline)
+            array(
+                'form' => $form->createView(),
+                'baseline' => $baseline,
+                'child' => $child
+            )
         );
     }
 
@@ -161,9 +168,16 @@ class BaselineController extends Controller
             );
         }
 
+        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
+        $child       = $serviceInfo->getChildCount($baseline);
+
         return $this->render(
             'Map3BaselineBundle:Baseline:edit.html.twig',
-            array('form' => $form->createView(), 'baseline' => $baseline)
+            array(
+                'form' => $form->createView(),
+                'baseline' => $baseline,
+                'child' => $child
+            )
         );
     }
 
@@ -222,9 +236,16 @@ class BaselineController extends Controller
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
+        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
+        $child       = $serviceInfo->getChildCount($baseline);
+
         return $this->render(
             'Map3BaselineBundle:Baseline:del.html.twig',
-            array('form' => $form->createView(), 'baseline' => $baseline)
+            array(
+                'form' => $form->createView(),
+                'baseline' => $baseline,
+                'child' => $child
+            )
         );
     }
 

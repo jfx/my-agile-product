@@ -72,9 +72,9 @@ Tab References
     [Tags]    failedTest
     Given I am a user
     And I go to view baseline page    1
-    And Element Should Contain    id=badge_references    XX
+    And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
-    And Location Should Be    ${URL}/baseline/1#
+    And Location Should Be    ${URL}/bln-ref/
 
 Tab Features
     [Tags]    failedTest

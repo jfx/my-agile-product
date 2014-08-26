@@ -64,7 +64,7 @@ class Baseline
     protected $details;
 
     /**
-     * @var DateTime Start date
+     * @var DateTime Baseline date
      *
      * @ORM\Column(name="baselinedatetime", type="datetime")
      */

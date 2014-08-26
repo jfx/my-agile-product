@@ -58,7 +58,7 @@ class BaselineRepository extends EntityRepository
      *
      * @param Release $rls The release.
      *
-     * @return int count of releases.
+     * @return int count of baselines.
      */
     public function countBaselinesByRelease($rls)
     {
