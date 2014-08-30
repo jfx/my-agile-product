@@ -1,6 +1,9 @@
 My Agile Product 3
 ==============
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jfx/my-agile-product/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/jfx/my-agile-product/?branch=develop)
+
+
 My Agile Product is an open source software to manage functional features of
 of a product by the description of scenarios.
 My Agile Product shows for every release a factual status of the product by 

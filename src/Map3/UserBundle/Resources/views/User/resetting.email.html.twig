@@ -1,16 +1,17 @@
 {% block subject %}My Agile Product : Resetting your password{% endblock %}
 
 {% block body_text %}
-{% autoescape false %}
 Hello {{ user.firstname }} {{ user.name }},
 
+{% autoescape false %}
 You can reset your password by accessing {{ confirmationUrl }}
+{% endautoescape %}
 
 Regards,
 
 the Team
 My Agile Product Password Management
-{% endautoescape %}
+
 {% endblock %}
 
 {% block body_html %}

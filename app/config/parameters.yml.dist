@@ -12,7 +12,7 @@ parameters:
     mailer_password:   ~
 
     locale:            en
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            Map3_DefaultToken_ChangeIt
 
     debug_toolbar:          true
     debug_redirects:        false
