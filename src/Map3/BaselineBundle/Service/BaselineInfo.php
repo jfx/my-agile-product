@@ -18,7 +18,7 @@
 
 namespace Map3\BaselineBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Map3\CoreBundle\Service\AbstractInfo;
 use Map3\ReleaseBundle\Entity\Baseline;
 
 /**
@@ -32,23 +32,8 @@ use Map3\ReleaseBundle\Entity\Baseline;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class BaselineInfo
+class BaselineInfo extends AbstractInfo
 {
-    /**
-     * @var EntityManager Entity manager
-     */
-    protected $entityManager;
-
-    /**
-     * Constructor
-     *
-     * @param EntityManager $entityManager The entity manager.
-     */
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->entityManager   = $entityManager;
-    }
-
     /**
      * Get baseline info.
      *

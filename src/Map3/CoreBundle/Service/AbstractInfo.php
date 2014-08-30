@@ -16,43 +16,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\ReleaseBundle\Service;
+namespace Map3\CoreBundle\Service;
 
-use Map3\CoreBundle\Service\AbstractInfo;
-use Map3\ReleaseBundle\Entity\Release;
+use Doctrine\ORM\EntityManager;
 
 /**
- * Release info service class.
+ * Abstract info service class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ * @package   Core
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class ReleaseInfo extends AbstractInfo
+abstract class AbstractInfo
 {
     /**
-     * Get release info.
+     * @var EntityManager Entity manager
+     */
+    protected $entityManager;
+
+    /**
+     * Constructor
      *
-     * @param Release $release The release.
+     * @param EntityManager $entityManager The entity manager.
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager   = $entityManager;
+    }
+
+    /**
+     * Get info.
+     *
+     * @param Mixed $object The object.
      *
      * @return array
      */
-    public function getChildCount($release)
-    {
-        $results = array();
-
-        $repositoryBln = $this->entityManager->getRepository(
-            'Map3BaselineBundle:Baseline'
-        );
-
-        $results['baselines']  = $repositoryBln->countBaselinesByRelease(
-            $release
-        );
-
-        return $results;
-    }
+    abstract public function getChildCount($object);
 }

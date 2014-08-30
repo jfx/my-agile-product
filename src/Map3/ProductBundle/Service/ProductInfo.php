@@ -18,7 +18,7 @@
 
 namespace Map3\ProductBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Map3\CoreBundle\Service\AbstractInfo;
 use Map3\ProductBundle\Entity\Product;
 
 /**
@@ -32,23 +32,8 @@ use Map3\ProductBundle\Entity\Product;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class ProductInfo
+class ProductInfo extends AbstractInfo
 {
-    /**
-     * @var EntityManager Entity manager
-     */
-    protected $entityManager;
-
-    /**
-     * Constructor
-     *
-     * @param EntityManager $entityManager The entity manager.
-     */
-    public function __construct(EntityManager $entityManager)
-    {
-        $this->entityManager   = $entityManager;
-    }
-
     /**
      * Get product info.
      *
