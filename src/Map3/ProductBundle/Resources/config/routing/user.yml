@@ -2,12 +2,6 @@ pdt-user_index:
     pattern:  /
     defaults: { _controller: "Map3ProductBundle:User:index" }
 
-pdt-user_view:
-    pattern:  /{id}
-    defaults: { _controller: "Map3ProductBundle:User:view" }
-    requirements:
-        id:  \d+
-
 pdt-user_add:
     pattern:  /add
     defaults: { _controller: "Map3ProductBundle:User:add" }

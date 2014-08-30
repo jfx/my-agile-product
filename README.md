@@ -1,5 +1,8 @@
 My Agile Product 3
 ==============
+[![Build Status](https://travis-ci.org/jfx/my-agile-product.svg?branch=develop)](https://travis-ci.org/jfx/my-agile-product)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jfx/my-agile-product/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/jfx/my-agile-product/?branch=develop)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/0a885092-ee28-4c38-8905-b1b0192d027e/mini.png)](https://insight.sensiolabs.com/projects/0a885092-ee28-4c38-8905-b1b0192d027e)
 
 My Agile Product is an open source software to manage functional features of
 of a product by the description of scenarios.
