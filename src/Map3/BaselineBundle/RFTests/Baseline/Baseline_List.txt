@@ -62,11 +62,11 @@ Tab Main
     Given I am a user
     And I go to baselines list    View product #1    View release #1
     When Click Link    id=a_main
-    And Location Should Be    ${URL}/release/1
+    Then Location Should Be    ${URL}/release/1
 
 Tab Baselines
     Given I am a manager
     And I go to baselines list    View product #1    View release #1
     And Element Should Contain    id=badge_baselines    3
     When Click element    id=a_baselines
-    And Location Should Be    ${URL}/rls-baseline/
+    Then Location Should Be    ${URL}/rls-baseline/

@@ -98,7 +98,7 @@ Edit button displayed for manager profile
 
 Edit button not displayed for non manager profile
     Given I am a user
-    And I go to view baseline page    1
+    When I go to view baseline page    1
     Then I should not see action button(s)    Edit
 
 *** Keywords ***

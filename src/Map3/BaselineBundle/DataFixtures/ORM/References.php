@@ -68,6 +68,11 @@ class References extends AbstractFixture implements OrderedFixtureInterface
                 'value'    => 'Value 4 reference four',
                 'baseline' => 'baselinethree-baseline',
             ),
+            array(
+                'label'    => 'Reference Five',
+                'value'    => 'Value 4 reference five',
+                'baseline' => 'baselinetwo-baseline',
+            ),
         );
 
         foreach ($dataArray as $i => $data) {

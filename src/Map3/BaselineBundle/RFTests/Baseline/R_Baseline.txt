@@ -23,3 +23,14 @@ I check baseline view form
     Run Keyword If    ${isClosedBool}    Checkbox Should Be Selected    map3_baseline_closed
     Run Keyword Unless    ${isClosedBool}    Checkbox Should Not Be Selected    map3_baseline_closed
     Element Text Should Be    map3_baseline_details    Details 4 ${baseline}
+
+I go to references list
+    [Arguments]    ${product}    ${release}    ${baseline}
+    I go to baselines list    ${product}    ${release}
+    I click action button    ${baseline}
+    Click link    id=a_references
+
+I fill in reference form
+    [Arguments]    ${reference}
+    Input text    map3_reference_label    ${reference}
+    Input text    map3_reference_value    Value 4 ${reference}

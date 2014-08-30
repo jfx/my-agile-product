@@ -52,6 +52,10 @@ class ReferenceController extends Controller
     {
         $baseline = $this->getCurrentBaselineFromUser();
 
+        if ($baseline === null) {
+            return $this->redirect($this->generateUrl('rls-baseline_index'));
+        }
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3BaselineBundle:Reference');
@@ -81,6 +85,10 @@ class ReferenceController extends Controller
     public function addAction()
     {
         $baseline = $this->getCurrentBaselineFromUser();
+
+        if ($baseline === null) {
+            return $this->redirect($this->generateUrl('rls-baseline_index'));
+        }
 
         $ref = new Reference();
         $ref->setBaseline($baseline);
@@ -128,6 +136,10 @@ class ReferenceController extends Controller
     public function editAction($id)
     {
         $baseline = $this->getCurrentBaselineFromUser();
+
+        if ($baseline === null) {
+            return $this->redirect($this->generateUrl('rls-baseline_index'));
+        }
 
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('Map3BaselineBundle:Reference');
@@ -181,11 +193,15 @@ class ReferenceController extends Controller
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="ROLE_DM_USERPLUS")
      */
     public function delAction($id)
     {
         $baseline = $this->getCurrentBaselineFromUser();
+
+        if ($baseline === null) {
+            return $this->redirect($this->generateUrl('rls-baseline_index'));
+        }
 
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('Map3BaselineBundle:Reference');
@@ -242,10 +258,6 @@ class ReferenceController extends Controller
             ->getUser();
 
         $baseline = $user->getCurrentBaseline();
-
-        if ($baseline === null) {
-            return $this->redirect($this->generateUrl('rls-baseline_index'));
-        }
 
         return $baseline;
     }

@@ -14,7 +14,6 @@ A user+ adds a baseline
     Then Page Should Contain    Baseline added successfully
     And I check baseline view form    B1x
     And I click button    Return to release
-    Element Should Contain    xpath=//option    Release One
     And the table should contain x rows    4
     And the table should contain    B1x    Details 4 B1x
 
@@ -27,7 +26,6 @@ A user+ adds a closed baseline
     Then Page Should Contain    Baseline added successfully
     And I check baseline view form    B1x    2    True
     And I click button    Return to release
-    Element Should Contain    xpath=//option    Release One
     And the table should contain x rows    4
     And the table should contain    B1x    Details 4 B1x
 
@@ -77,19 +75,19 @@ Breadcrumb release link
 Tab Main
     Given I am a user+
     And I go to baselines list    View product #1    View release #1
-    When I click action button    Add
+    And I click action button    Add
     When Click Link    id=a_main
-    And Location Should Be    ${URL}/release/1
+    Then Location Should Be    ${URL}/release/1
 
-Tab Releases
+Tab Baselines
     Given I am a user+
     And I go to baselines list    View product #1    View release #1
-    When I click action button    Add
+    And I click action button    Add
     And Element Should Contain    id=badge_baselines    3
     When Click element    id=a_baselines
-    And Location Should Be    ${URL}/rls-baseline/
+    Then Location Should Be    ${URL}/rls-baseline/
 
-Return to product button
+Return to release button
     Given I am a user+
     And I go to baselines list    View product #1    View release #1
     And I click action button    Add

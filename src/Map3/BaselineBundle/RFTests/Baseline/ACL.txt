@@ -52,3 +52,27 @@ Baseline delete with no user+ on product
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /baseline/del/6    False    False    False    False    False
     ...    False    False    /release/5
+
+Reference list
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-ref/    True    True    True    True    True
+    ...    True    True    /baseline/1
+
+Reference add
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-ref/add    False    True    True    False    False
+    ...    False    False    /baseline/1
+
+Reference edit
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-ref/edit/1    False    True    True    False    False
+    ...    False    False    /baseline/1
+
+Reference delete
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-ref/del/1    False    True    True    False    False
+    ...    False    False    /baseline/1

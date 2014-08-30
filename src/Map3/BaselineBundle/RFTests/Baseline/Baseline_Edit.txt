@@ -11,7 +11,7 @@ A user+ edits a baseline
     When I fill in baseline form    B1Mod    1
     And I save
     Then Page Should Contain    Baseline edited successfully
-    And I check baseline view form    B1Mod    1
+    And I check baseline view form    B1Mod    2
     And I click button    Return to release
     And the table should contain x rows    3
     And the table should contain    B1Mod    Details 4 B1Mod
