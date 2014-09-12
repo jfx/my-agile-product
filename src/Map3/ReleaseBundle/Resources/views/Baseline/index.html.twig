@@ -16,7 +16,7 @@
         <tr>
             <th>
             {% if is_granted('ROLE_DM_USERPLUS') %}
-                    <a class="btn btn-default btn-xs"
+                    <a class="btn btn-xs btn-cust"
                        href="{{ path('baseline_add') }}"
                         title="Add">
                         {{ icon('plus') }}
@@ -35,18 +35,18 @@
             <tr>
                 <td class="action">
                     <a href="{{ path('baseline_view', {'id': baseline.id}) }}"
-                       class="btn btn-default btn-xs"
+                       class="btn btn-xs btn-cust"
                        title="View baseline #{{ baseline.id }}">
                         {{ icon('eye-open') }}
                     </a>
                     {% if is_granted('ROLE_DM_USERPLUS') %}
                     <a href="{{ path('baseline_edit', {'id': baseline.id}) }}"
-                       class="btn btn-default btn-xs"
+                       class="btn btn-xs btn-cust"
                        title="Edit baseline #{{ baseline.id }}">
                         {{ icon('edit') }}
                     </a>
                     <a href="{{ path('baseline_del', {'id': baseline.id}) }}"
-                       class="btn btn-default btn-xs"
+                       class="btn btn-xs btn-cust"
                        title="Delete baseline #{{ baseline.id }}">
                         {{ icon('trash') }}
                     </a>

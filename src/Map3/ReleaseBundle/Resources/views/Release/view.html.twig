@@ -24,9 +24,9 @@
         {{ icon('chevron-left') }} Return to product
     </a>
 {% if is_granted('ROLE_DM_MANAGER') %}
-    <a class="btn btn-default btn-sm"
+    <a class="btn btn-sm btn-cust"
        href="{{ path('release_edit', {'id': release.id}) }}" title="Edit">
-        {{ icon('edit') }} Edit
+        {{ icon('edit', true) }} Edit
     </a>
 {% endif %}
 </div>

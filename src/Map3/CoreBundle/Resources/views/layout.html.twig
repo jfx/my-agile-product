@@ -12,7 +12,6 @@
     {% stylesheets filter='lessphp,cssembed'
         '@Map3CoreBundle/Resources/public/less/map.less'
         '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/build/build_standalone.less'
-        '@Map3CoreBundle/Resources/public/less/mapover.less'
        output='css/all.css'
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
@@ -21,9 +20,7 @@
 
     <style>
     {% block head_internalstyle %}
-    body {
-        background-image: url("{{ asset('bundles/map3core/images/mechanika.png') }}");
-    }
+
     {% endblock head_internalstyle %}
     </style>
 

@@ -19,17 +19,35 @@ td.action {
 @import "../../../../../../vendor/mopa/bootstrap-bundle/Mopa/Bundle/BootstrapBundle/Resources/public/less/mopabootstrapbundle.less";
 
 // Variables
-@link-color : #c0d860;
+@green-light: #c0d860;
+@green-medium: #789048;
+@green-dark: #607848;
+@c-black: #222;
+@c-white: #fff;
 
-@navbar-inverse-bg : #607848;
-@navbar-inverse-border : #789048;
-@navbar-inverse-brand-hover-color : #222;
-@navbar-inverse-link-active-bg : #789048;
-@navbar-inverse-link-color : #fff;
-@navbar-inverse-link-hover-color : #222;
-@navbar-inverse-link-active-color : #fff; 
+@font-size-base: 13px;
+@link-color: @green-light;
 
-@dropdown-link-hover-bg : #c0d860;
-@dropdown-link-active-bg : #789048;
+@navbar-inverse-bg: @green-dark;
+@navbar-inverse-border: @green-medium;
+@navbar-inverse-brand-hover-color: @c-black;
+@navbar-inverse-link-active-bg: @green-medium;
+@navbar-inverse-link-color: @c-white;
+@navbar-inverse-link-hover-color: @c-black;
+@navbar-inverse-link-active-color: @c-white; 
 
-@badge-bg : #c0d860;
+@dropdown-link-hover-bg: @green-light;
+@dropdown-link-active-bg: @green-medium;
+
+@badge-bg: @green-light;
+
+@modal-header-border-color: @green-dark;
+
+.btn-cust {
+  .button-variant(@c-white; @green-medium; @green-dark);
+}
+
+th {
+    background-color: @green-medium;
+    color: white;
+}

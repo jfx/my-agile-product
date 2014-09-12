@@ -24,9 +24,9 @@
         {{ icon('chevron-left') }} Return to release
     </a>
 {% if is_granted('ROLE_DM_USERPLUS') %}
-    <a class="btn btn-default btn-sm"
+    <a class="btn btn-sm btn-cust"
        href="{{ path('baseline_edit', {'id': baseline.id}) }}" title="Edit">
-        {{ icon('edit') }} Edit
+        {{ icon('edit',true) }} Edit
     </a>
 {% endif %}
 </div>

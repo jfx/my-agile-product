@@ -10,7 +10,7 @@
     <thead>
         <tr>
             <th>
-                <a class="btn btn-default btn-xs" href="{{ path('user_add') }}"
+                <a class="btn btn-xs btn-cust" href="{{ path('user_add') }}"
                    title="Add">
                     {{ icon('plus') }}
                 </a>&nbsp;&nbsp;Action
@@ -30,17 +30,17 @@
 {% for user in users %}
             <tr>
                 <td class="action">
-                    <a class="btn btn-default btn-xs"
+                    <a class="btn btn-xs btn-cust"
                        href="{{ path('user_view', {'id': user.id}) }}"
                        title="View user #{{ user.id }}">
                             {{ icon('eye-open') }}
                     </a>
-                    <a class="btn btn-default btn-xs"
+                    <a class="btn btn-xs btn-cust"
                        href="{{ path('user_edit', {'id': user.id}) }}"
                        title="Edit user #{{ user.id }}">
                             {{ icon('edit') }}
                     </a>
-                    <a class="btn btn-default btn-xs"
+                    <a class="btn btn-xs btn-cust"
                        href="{{ path('user_del', {'id': user.id}) }}"
                        title="Delete user #{{ user.id }}">
                             {{ icon('trash') }}

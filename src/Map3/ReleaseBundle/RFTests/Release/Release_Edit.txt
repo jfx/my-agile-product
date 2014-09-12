@@ -48,7 +48,7 @@ Impossible to modify a release with wrong date
     And Click Element    map3_release_name
     And I save
     ${d}    Get Time    day
-    Then Disabled text element should contain    map3_release_releaseDate    2014-09-${d}
+    Then Disabled text element should contain    map3_release_releaseDate    2014-10-${d}
 
 Wrong release Id for a product
     Given I am a manager

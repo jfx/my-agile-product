@@ -17,7 +17,7 @@
             {% if is_granted('ROLE_DM_USERPLUS') %}
             <th>
                 <a href="{{ path('bln-ref_add') }}"
-                    class="btn btn-default btn-xs" title="Add">
+                    class="btn btn-xs btn-cust" title="Add">
                     {{ icon('plus') }}
                 </a>
                 &nbsp;&nbsp;Action
@@ -33,12 +33,12 @@
                 {% if is_granted('ROLE_DM_USERPLUS') %}
                 <td class="action">
                     <a href="{{ path('bln-ref_edit', {'id': ref.id}) }}"
-                       class="btn btn-default btn-xs"
+                       class="btn btn-xs btn-cust"
                        title="Edit reference #{{ ref.id }}">
                         {{ icon('edit') }}
                     </a>
                     <a href="{{ path('bln-ref_del', {'id': ref.id}) }}"
-                       class="btn btn-default btn-xs"
+                       class="btn btn-xs btn-cust"
                        title="Delete reference #{{ ref.id }}">
                         {{ icon('trash') }}
                     </a>
