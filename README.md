@@ -20,7 +20,7 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
-### 0.2.0 ()
+### 0.2.0 (13 September 2014)
 Features:
 
   - Baseline bundle,
