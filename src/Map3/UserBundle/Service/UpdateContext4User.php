@@ -117,16 +117,16 @@ class UpdateContext4User
     /**
      * Set the current release and set product and role.
      *
-     * @param Release|null $release     The release, if null unset current release.
-     * @param boolean      $resetChilds Current childs must be resetted.
+     * @param Release|null $release The release, if null unset current release.
+     * @param boolean      $reset   Current childs must be resetted.
      *
      * @return void
      */
-    public function setCurrentRelease($release, $resetChilds = true)
+    public function setCurrentRelease($release, $reset = true)
     {
         $user = $this->securityContext->getToken()->getUser();
 
-        if ($resetChilds) {
+        if ($reset) {
             $user->unsetCurrentBaseline();
         }
 

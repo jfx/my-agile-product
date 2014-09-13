@@ -14,13 +14,32 @@ My Agile Product features :
 * Web interface,
 * Multi products,
 * Multi users with role,
-* Release and baselines management,
+* Releases and baselines management,
 * Features management with editable tree and table view (planned),
 * Scenarios and steps management with editable tree and table view (planned),
 * Tests management (planned).
 
 - - -
-### 0.1.0 ( 14 August 2014)
+### 0.2.0 ()
+Features:
+
+  - Baseline bundle,
+  - Release tab,
+  - Migration to Bootstrap v3.2.0,
+  - Lessphp from oyejorge,
+  - References management,
+  - Refactor Info services,
+  - Integration in Travis, SensioLabs Insight, Scrutinizer,
+  - New green theme.
+
+Bugfixes:
+
+  - Typo fixes,
+  - Robot Framework tests fixes,
+  - Fix critical SensioLabs violations.
+
+
+### 0.1.0 (14 August 2014)
 Features:
 
   - Initialization from My Agile Project,
