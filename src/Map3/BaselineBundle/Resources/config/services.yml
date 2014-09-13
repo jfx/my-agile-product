@@ -1,0 +1,7 @@
+parameters:
+
+services:
+    map3_baseline.baselineinfo:
+        class: Map3\BaselineBundle\Service\BaselineInfo
+        arguments: [ '@doctrine.orm.entity_manager' ]
+        scope: request

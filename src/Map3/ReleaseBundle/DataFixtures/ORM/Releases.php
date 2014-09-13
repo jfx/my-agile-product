@@ -66,7 +66,7 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
             array(
                 'name'        => 'Release Closed',
                 'details'     => 'Details 4 release closed',
-                'releaseDate' => new DateTime("2013-07-31 12:00:00"),
+                'releaseDate' => new DateTime("2014-08-14 12:00:00"),
                 'closed'      => true,
                 'product'     => 'productone-product',
             ),
@@ -76,6 +76,13 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
                 'releaseDate' => new DateTime("+ 3 months"),
                 'closed'      => false,
                 'product'     => 'producttwo-product',
+            ),
+            array(
+                'name'        => 'Release Four',
+                'details'     => 'Details 4 release 4',
+                'releaseDate' => new DateTime("+ 2 months"),
+                'closed'      => false,
+                'product'     => 'productthree-product',
             ),
         );
 

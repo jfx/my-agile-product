@@ -20,6 +20,7 @@ namespace Map3\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Map3\BaselineBundle\Entity\Baseline;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -98,6 +99,13 @@ class User extends BaseUser
      * @ORM\ManyToOne(targetEntity="Map3\ReleaseBundle\Entity\Release")
      */
     private $currentRelease;
+
+    /**
+     * @var Baseline Current baseline
+     *
+     * @ORM\ManyToOne(targetEntity="Map3\BaselineBundle\Entity\Baseline")
+     */
+    private $currentBaseline;
 
     /**
      * @var string Current role label
@@ -286,6 +294,42 @@ class User extends BaseUser
     public function unsetCurrentRelease()
     {
         $this->currentRelease = null;
+
+        return $this;
+    }
+
+    /**
+     * Set current baseline
+     *
+     * @param Baseline $bln The current baseline
+     *
+     * @return User
+     */
+    public function setCurrentBaseline(Baseline $bln)
+    {
+        $this->currentBaseline = $bln;
+
+        return $this;
+    }
+
+    /**
+     * Get current baseline
+     *
+     * @return Baseline
+     */
+    public function getCurrentBaseline()
+    {
+        return $this->currentBaseline;
+    }
+
+    /**
+     * unset current baseline
+     *
+     * @return User
+     */
+    public function unsetCurrentBaseline()
+    {
+        $this->currentBaseline = null;
 
         return $this;
     }

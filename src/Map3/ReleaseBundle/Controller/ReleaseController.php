@@ -31,7 +31,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Release controller class.
  *
- * @category  MyAgileRelease
+ * @category  MyAgileProduct
  * @package   Release
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
@@ -118,13 +118,20 @@ class ReleaseController extends Controller
         $service = $this->container->get('map3_user.updatecontext4user');
         $service->setCurrentRelease($release);
 
+        $serviceInfo = $this->container->get('map3_release.releaseinfo');
+        $child       = $serviceInfo->getChildCount($release);
+
         $releaseType = new ReleaseType($this->container);
         $releaseType->setDisabled();
         $form = $this->createForm($releaseType, $release);
 
         return $this->render(
             'Map3ReleaseBundle:Release:view.html.twig',
-            array('form' => $form->createView(), 'release' => $release)
+            array(
+                'form' => $form->createView(),
+                'release' => $release,
+                'child'     => $child
+            )
         );
     }
 
@@ -169,9 +176,16 @@ class ReleaseController extends Controller
             );
         }
 
+        $serviceInfo = $this->container->get('map3_release.releaseinfo');
+        $child       = $serviceInfo->getChildCount($release);
+
         return $this->render(
             'Map3ReleaseBundle:Release:edit.html.twig',
-            array('form' => $form->createView(), 'release' => $release)
+            array(
+                'form' => $form->createView(),
+                'release' => $release,
+                'child'     => $child
+            )
         );
     }
 
@@ -232,9 +246,16 @@ class ReleaseController extends Controller
         $releaseType->setDisabled();
         $form = $this->createForm($releaseType, $release);
 
+        $serviceInfo = $this->container->get('map3_release.releaseinfo');
+        $child       = $serviceInfo->getChildCount($release);
+
         return $this->render(
             'Map3ReleaseBundle:Release:del.html.twig',
-            array('form' => $form->createView(), 'release' => $release)
+            array(
+                'form' => $form->createView(),
+                'release' => $release,
+                'child'     => $child
+            )
         );
     }
 

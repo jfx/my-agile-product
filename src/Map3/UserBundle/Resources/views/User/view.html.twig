@@ -26,9 +26,9 @@
    title="Return to list">
     {{ icon('chevron-left') }} Return to list
 </a>
-<a class="btn btn-default btn-sm"
+<a class="btn btn-sm btn-cust"
    href="{{ path('user_edit', {'id': user.id}) }}" title="Edit">
-    {{ icon('edit') }} Edit
+    {{ icon('edit', true) }} Edit
 </a>
 </div>
 {% endblock content %}

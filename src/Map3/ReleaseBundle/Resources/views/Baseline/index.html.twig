@@ -1,0 +1,67 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Baselines list{% endblock title %}
+
+{% block headline %}{{ release_breadcrumb('Baselines list') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    {% include "Map3ReleaseBundle:Release:tabs.html.twig" with {'activeTab' : 'baselines'} %}
+</div>
+<br />
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+            {% if is_granted('ROLE_DM_USERPLUS') %}
+                    <a class="btn btn-xs btn-cust"
+                       href="{{ path('baseline_add') }}"
+                        title="Add">
+                        {{ icon('plus') }}
+                    </a>
+            {% endif %}
+               &nbsp;&nbsp;Action
+            </th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Closed</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for baseline in baselines %}
+            <tr>
+                <td class="action">
+                    <a href="{{ path('baseline_view', {'id': baseline.id}) }}"
+                       class="btn btn-xs btn-cust"
+                       title="View baseline #{{ baseline.id }}">
+                        {{ icon('eye-open') }}
+                    </a>
+                    {% if is_granted('ROLE_DM_USERPLUS') %}
+                    <a href="{{ path('baseline_edit', {'id': baseline.id}) }}"
+                       class="btn btn-xs btn-cust"
+                       title="Edit baseline #{{ baseline.id }}">
+                        {{ icon('edit') }}
+                    </a>
+                    <a href="{{ path('baseline_del', {'id': baseline.id}) }}"
+                       class="btn btn-xs btn-cust"
+                       title="Delete baseline #{{ baseline.id }}">
+                        {{ icon('trash') }}
+                    </a>
+                    {% endif %}
+                </td>
+                <td>{{ baseline.name }}</td>
+                <td>{{ baseline.baselineDatetime|localeDatetime }}</td>
+                <td>{% if baseline.isClosed() %}{{ icon('ok') }}{% else %}-{% endif %}</td>
+                <td>{{ baseline.details }}</td>
+            </tr>
+{% else %}
+            <tr><td colspan="5">No baseline</td></tr>
+{% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,95 @@
+*** Settings ***
+Documentation     In order to manage a baseline
+...               As a user with a user+ role
+...               I need to add a baseline.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user+ adds a baseline
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    B1x
+    And I save
+    Then Page Should Contain    Baseline added successfully
+    And I check baseline view form    B1x
+    And I click button    Return to release
+    And the table should contain x rows    4
+    And the table should contain    B1x    Details 4 B1x
+
+A user+ adds a closed baseline
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    B1x    2    True
+    And I save
+    Then Page Should Contain    Baseline added successfully
+    And I check baseline view form    B1x    2    True
+    And I click button    Return to release
+    And the table should contain x rows    4
+    And the table should contain    B1x    Details 4 B1x
+
+Impossible to add a baseline with a name too short
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    X
+    And I save
+    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+Impossible to add a baseline with wrong date
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Input text    map3_baseline_name    B1x
+    And Input Text    //div[@data-link-field='map3_baseline_baselineDatetime']/input[@type='text']    xx/xx/xxxx
+    And Click Element    map3_baseline_name
+    And I save
+    Then Disabled text element should contain    map3_baseline_baselineDatetime    1899-12-31 00:00
+
+Impossible to add a baseline without selecting a release before
+    Given I am a user+
+    When Go to    ${URL}/baseline/add
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When I click action button    Add
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+
+Breadcrumb product link
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Tab Main
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Click Link    id=a_main
+    Then Location Should Be    ${URL}/release/1
+
+Tab Baselines
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    And Element Should Contain    id=badge_baselines    3
+    When Click element    id=a_baselines
+    Then Location Should Be    ${URL}/rls-baseline/
+
+Return to release button
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I click button    Return to release
+    Then Location Should Be    ${URL}/rls-baseline/

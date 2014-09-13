@@ -11,7 +11,7 @@
     <thead>
         <tr>
             <th>{% if is_granted('ROLE_SUPER_ADMIN') %}
-                <a class="btn btn-default btn-xs" href="{{ path('product_add') }}"
+                <a class="btn btn-xs btn-cust" href="{{ path('product_add') }}"
                    title="Add">
                     {{ icon('plus') }}
                 </a>
@@ -27,18 +27,18 @@
 {% for product in products %}
             <tr>
                 <td class="action">
-                    <a class="btn btn-default btn-xs"
+                    <a class="btn btn-xs btn-cust"
                        href="{{ path('product_view', {'id': product.id}) }}"
                        title="View product #{{ product.id }}">
                             {{ icon('eye-open') }}
                     </a>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <a class="btn btn-default btn-xs"
+                    <a class="btn btn-xs btn-cust"
                        href="{{ path('product_edit', {'id': product.id}) }}"
                        title="Edit product #{{ product.id }}">
                             {{ icon('edit') }}
                     </a>
-                    <a class="btn btn-default btn-xs"
+                    <a class="btn btn-xs btn-cust"
                        href="{{ path('product_del', {'id': product.id}) }}"
                        title="Delete product #{{ product.id }}">
                             {{ icon('trash') }}

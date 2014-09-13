@@ -1,0 +1,81 @@
+*** Settings ***
+Documentation     In order to manage a reference
+...               As a user with a user+ role
+...               I need to add a reference.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user+ adds a reference
+    Given I am a user+
+    When I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When I fill in reference form    R1x
+    And I save
+    Then Page Should Contain    Reference added successfully
+    And the table should contain x rows    4
+    And the table should contain    R1x    Value 4 R1x
+
+Impossible to add a reference with a name too short
+    Given I am a user+
+    When I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When I fill in reference form    X
+    And I save
+    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+Breadcrumb
+    Given I am a user+
+    When I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Add reference
+
+Breadcrumb product link
+    Given I am a user+
+    And I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user+
+    And I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Breadcrumb baseline link
+    Given I am a user+
+    And I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When Click Link    id=br_lvl3
+    Then Location Should Be    ${URL}/baseline/1
+
+Tab Main
+    Given I am a user+
+    And I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When Click Link    id=a_main
+    Then Location Should Be    ${URL}/baseline/1
+
+Tab References
+    Given I am a user+
+    And I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    And Element Should Contain    id=badge_references    3
+    When Click element    id=a_references
+    Then Location Should Be    ${URL}/bln-ref/
+
+Tab Features
+    Given I am a user+
+    And I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    And Element Should Contain    id=badge_features    XX
+    When Click element    id=a_features
+    Then Location Should Be    ${URL}/bln-ref/add#
+
+Return to list button
+    Given I am a user+
+    And I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/bln-ref/

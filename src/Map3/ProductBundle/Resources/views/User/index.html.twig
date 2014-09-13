@@ -17,7 +17,7 @@
             {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DM_MANAGER') %}
             <th>
                     <a href="{{ path('pdt-user_add') }}"
-                        class="btn btn-default btn-xs" title="Add">
+                        class="btn btn-xs btn-cust" title="Add">
                         {{ icon('plus') }}
                     </a>
 
@@ -35,12 +35,12 @@
                 {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_DM_MANAGER') %}
                 <td class="action">
                     <a href="{{ path('pdt-user_edit', {'id': user.id}) }}"
-                       class="btn btn-default btn-xs"
+                       class="btn btn-xs btn-cust"
                        title="Edit user #{{ user.id }}">
                         {{ icon('edit') }}
                     </a>
                     <a href="{{ path('pdt-user_del', {'id': user.id}) }}"
-                       class="btn btn-default btn-xs"
+                       class="btn btn-xs btn-cust"
                        title="Delete user #{{ user.id }}">
                         {{ icon('trash') }}
                     </a>

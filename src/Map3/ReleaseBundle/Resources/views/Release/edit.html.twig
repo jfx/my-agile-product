@@ -1,4 +1,4 @@
-{% extends 'Map3CoreBundle::layoutDatetimepickerjs.html.twig' %}
+{% extends 'Map3CoreBundle::layoutDatepickerjs.html.twig' %}
 
 {% block title %}{{ parent() }} - Release edit - Id : {{ release.id }}{% endblock title %}
 
@@ -6,10 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#">Main</a></li>
-        <li><a href="#">Baselines</a></li>
-</ul>
+    {% include "Map3ReleaseBundle:Release:tabs.html.twig" with {'activeTab' : 'main'} %}
 </div>
 <br />
 <div class="row">

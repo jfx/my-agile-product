@@ -15,3 +15,39 @@ body {
 td.action {
     width:100px;
 }
+
+@import "../../../../../../vendor/mopa/bootstrap-bundle/Mopa/Bundle/BootstrapBundle/Resources/public/less/mopabootstrapbundle.less";
+
+// Variables
+@green-light: #c0d860;
+@green-medium: #789048;
+@green-dark: #607848;
+@c-black: #222;
+@c-white: #fff;
+
+@font-size-base: 13px;
+@link-color: @green-light;
+
+@navbar-inverse-bg: @green-dark;
+@navbar-inverse-border: @green-medium;
+@navbar-inverse-brand-hover-color: @c-black;
+@navbar-inverse-link-active-bg: @green-medium;
+@navbar-inverse-link-color: @c-white;
+@navbar-inverse-link-hover-color: @c-black;
+@navbar-inverse-link-active-color: @c-white; 
+
+@dropdown-link-hover-bg: @green-light;
+@dropdown-link-active-bg: @green-medium;
+
+@badge-bg: @green-light;
+
+@modal-header-border-color: @green-dark;
+
+.btn-cust {
+  .button-variant(@c-white; @green-medium; @green-dark);
+}
+
+th {
+    background-color: @green-medium;
+    color: white;
+}

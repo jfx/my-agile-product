@@ -1,0 +1,72 @@
+*** Settings ***
+Documentation     In order to manage baselines for a release
+...               As a connected user
+...               I need to see baselines list.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Display baselines list on a release for a user
+    Given I am a user
+    When I go to baselines list    View product #1    View release #1
+    Then the table header should contain    Action    Name    Date    Closed    Details
+    And the table should contain x rows    3
+    And the table should contain    Baseline Closed    02/08/2014 12:00    Details 4 baseline closed
+    And the table should contain    Baseline One
+    And the table should contain    Baseline Two
+    And Element Should Contain    id=badge_baselines    3
+
+List with no baseline on a release for a user
+    Given I am a user
+    When I go to baselines list    View product #1    View release #3
+    Then the table header should contain    Action    Name    Date    Closed    Details
+    And the table should contain x rows    1
+    And the table should contain    No baseline
+    And Element Should Contain    id=badge_baselines    0
+
+Impossible to view baselines list without selecting a release before
+    Given I am a user
+    When Go to    ${URL}/rls-baseline/
+    Then Location Should Be    ${URL}/product/
+
+No modify actions buttons for a non-user+ role
+    Given I am a user
+    When I go to baselines list    View product #1    View release #1
+    Then the table should contain x rows    3
+    And I should see action button(s)    View baseline #1
+    And I should not see action button(s)    Add    Edit baseline #1    Delete baseline #1
+
+Action buttons Add/View/Edit/Delete for a user+
+    Given I am a user+
+    When I go to baselines list    View product #1    View release #1
+    Then the table should contain x rows    3
+    And I should see action button(s)    Add    View baseline #1    Edit baseline #1    Delete baseline #1
+
+Breadcrumb
+    Given I am a user
+    When I go to baselines list    View product #1    View release #1
+    Then the breadcrumb should contain    Product One    Release One    Baselines list
+
+Breadcrumb product link
+    Given I am a user
+    And I go to baselines list    View product #1    View release #1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Tab Main
+    Given I am a user
+    And I go to baselines list    View product #1    View release #1
+    When Click Link    id=a_main
+    Then Location Should Be    ${URL}/release/1
+
+Tab Baselines
+    Given I am a manager
+    And I go to baselines list    View product #1    View release #1
+    And Element Should Contain    id=badge_baselines    3
+    When Click element    id=a_baselines
+    Then Location Should Be    ${URL}/rls-baseline/

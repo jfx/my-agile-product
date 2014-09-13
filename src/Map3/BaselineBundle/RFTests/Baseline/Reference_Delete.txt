@@ -1,0 +1,95 @@
+*** Settings ***
+Documentation     In order to manage a reference
+...               As a user with a user+ role
+...               I need to delete a reference.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user+ deletes a reference
+    Given I am a user+
+    And I go to delete reference page    1
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/bln-ref/
+    And Page Should Contain    Reference removed successfully
+    And Page Should not Contain    Reference One
+
+Cancel to delete a reference
+    Given I am a user+
+    And I go to delete reference page    1
+    When I click button    Remove
+    And I do not confirm
+    Then Location Should Be    ${URL}/bln-ref/del/1
+
+Wrong reference Id for a baseline
+    Given I am a user+
+    When I go to references list    View product #1    View release #1    View baseline #1
+    When Go to    ${URL}/bln-ref/del/5
+    Then I should see 404 error page
+
+Wrong baseline Id
+    Given I am a user+
+    When I go to references list    View product #1    View release #1    View baseline #1
+    When Go to    ${URL}/bln-ref/del/999
+    Then I should see 404 error page
+
+Delete a reference without selecting a baseline before
+    Given I am a user+
+    When Go to    ${URL}/bln-ref/del/1
+    Then Location should be    ${URL}/bln-ref/del/1
+    And Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a user+
+    And I go to delete reference page    1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete reference
+
+Breadcrumb product link
+    Given I am a user+
+    And I go to delete reference page    1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user+
+    And I go to delete reference page    1
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Breadcrumb baseline link
+    Given I am a user+
+    And I go to delete reference page    1
+    When Click Link    id=br_lvl3
+    Then Location Should Be    ${URL}/baseline/1
+
+Tab Main
+    Given I am a user+
+    And I go to delete reference page    1
+    When Click Link    id=a_main
+    Then Location Should Be    ${URL}/baseline/1
+
+Tab References
+    Given I am a user+
+    And I go to delete reference page    1
+    And Element Should Contain    id=badge_references    3
+    When Click element    id=a_references
+    Then Location Should Be    ${URL}/bln-ref/
+
+Tab Features
+    Given I am a user+
+    And I go to delete reference page    1
+    And Element Should Contain    id=badge_features    XX
+    When Click element    id=a_features
+    Then Location Should Be    ${URL}/bln-ref/del/1#
+
+Return to list button
+    Given I am a user+
+    And I go to delete reference page    1
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/bln-ref/
+
+*** Keywords ***
+I go to delete reference page
+    [Arguments]    ${id}
+    I go to references list    View product #1    View release #1    View baseline #1
+    I click action button    Delete reference #${id}

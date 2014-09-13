@@ -1,0 +1,19 @@
+bln-ref_index:
+    pattern:  /
+    defaults: { _controller: "Map3BaselineBundle:Reference:index" }
+
+bln-ref_add:
+    pattern:  /add
+    defaults: { _controller: "Map3BaselineBundle:Reference:add" }
+
+bln-ref_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: "Map3BaselineBundle:Reference:edit" }
+    requirements:
+        id:  \d+
+
+bln-ref_del:
+    pattern:  /del/{id}
+    defaults: { _controller: "Map3BaselineBundle:Reference:del" }
+    requirements:
+        id:  \d+

@@ -40,7 +40,7 @@ class ReleaseRepository extends EntityRepository
      *
      * @param Product $product The product.
      *
-     * @return array List of products.
+     * @return array List of relases.
      */
     public function findReleasesByProduct(Product $product)
     {
@@ -60,7 +60,7 @@ class ReleaseRepository extends EntityRepository
      *
      * @param Product $product The product.
      *
-     * @return int List of releases.
+     * @return int count of releases.
      */
     public function countReleasesByProduct(Product $product)
     {

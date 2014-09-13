@@ -64,7 +64,7 @@ class Release
     protected $details;
 
     /**
-     * @var DateTime Start date
+     * @var DateTime release date
      *
      * @ORM\Column(name="releasedate", type="date")
      */

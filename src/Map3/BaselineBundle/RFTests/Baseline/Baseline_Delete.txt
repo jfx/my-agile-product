@@ -1,0 +1,113 @@
+*** Settings ***
+Documentation     In order to manage a baseline
+...               As a user with a user+ role
+...               I need to delete a baseline.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user+ deletes a baseline
+    Given I am a user+
+    And I go to delete baseline page    3
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/rls-baseline/
+    And Page Should Contain    Baseline removed successfully
+    And Page Should not Contain    Baseline Closed
+
+Cancel to delete a baseline
+    Given I am a user+
+    And I go to delete baseline page    2
+    When I click button    Remove
+    And I do not confirm
+    Then Location Should Be    ${URL}/baseline/del/2
+
+Impossible to delete a baseline
+    [Tags]    failedTest
+    Given I am a user+
+    And I go to delete baseline page    1
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/baseline/del/1
+    And Page Should Contain    Impossible to remove this item - Integrity constraint violation !
+
+Wrong baseline Id for a release but same product
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When Go to    ${URL}/baseline/del/4
+    Then Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And Page Should Contain    Release Two
+
+Wrong baseline Id for a release
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When Go to    ${URL}/baseline/del/5
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Wrong baseline Id
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When Go to    ${URL}/baseline/del/999
+    Then I should see 404 error page
+
+Delete a baseline without selecting a product before
+    Given I am a user+
+    When Go to    ${URL}/baseline/del/1
+    Then Location should be    ${URL}/baseline/del/1
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a user+
+    When I go to delete baseline page    1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+
+Breadcrumb product link
+    Given I am a user+
+    And I go to delete baseline page    1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user+
+    And I go to delete baseline page    1
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Breadcrumb baseline link
+    Given I am a user+
+    And I go to delete baseline page    1
+    When Click Link    id=br_lvl3
+    Then Location Should Be    ${URL}/baseline/1
+
+Tab Main
+    Given I am a user+
+    And I go to delete baseline page    1
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/baseline/1
+
+Tab References
+    [Tags]    failedTest
+    Given I am a user+
+    And I go to delete baseline page    1
+    And Element Should Contain    id=badge_references    3
+    When Click element    id=a_references
+    And Location Should Be    ${URL}/bln-ref/
+
+Tab Features
+    [Tags]    failedTest
+    Given I am a user+
+    And I go to delete baseline page    1
+    And Element Should Contain    id=badge_features    XX
+    When Click element    id=a_features
+    And Location Should Be    ${URL}/baseline/del/1#
+
+Return to release button
+    Given I am a user+
+    And I go to delete baseline page    1
+    When I click button    Return to release
+    Then Location Should Be    ${URL}/rls-baseline/
+
+*** Keywords ***
+I go to delete baseline page
+    [Arguments]    ${id}
+    I go to baselines list    View product #1    View release #1
+    I click action button    Delete baseline #${id}

@@ -1,4 +1,4 @@
-{% extends 'Map3CoreBundle::layoutDatetimepickerjs.html.twig' %}
+{% extends 'Map3CoreBundle::layoutDatepickerjs.html.twig' %}
 
 {% block title %}{{ parent() }} - Release view - Id : {{ release.id }}{% endblock title %}
 
@@ -6,10 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#">Main</a></li>
-        <li><a href="#">Baselines</a></li>
-</ul>
+    {% include "Map3ReleaseBundle:Release:tabs.html.twig" with {'activeTab' : 'main'} %}
 </div>
 <br />
 <div class="row">
@@ -27,9 +24,9 @@
         {{ icon('chevron-left') }} Return to product
     </a>
 {% if is_granted('ROLE_DM_MANAGER') %}
-    <a class="btn btn-default btn-sm"
+    <a class="btn btn-sm btn-cust"
        href="{{ path('release_edit', {'id': release.id}) }}" title="Edit">
-        {{ icon('edit') }} Edit
+        {{ icon('edit', true) }} Edit
     </a>
 {% endif %}
 </div>

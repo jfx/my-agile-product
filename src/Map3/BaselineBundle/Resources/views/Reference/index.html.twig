@@ -1,0 +1,61 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - References list{% endblock title %}
+
+{% block headline %}{{ baseline_breadcrumb('References list') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    {% include "Map3BaselineBundle:Baseline:tabs.html.twig" with {'activeTab' : 'references'} %}
+</div>
+<br />
+<div class="row">
+<div class="col-md-8 col-md-offset-2">
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            {% if is_granted('ROLE_DM_USERPLUS') %}
+            <th>
+                <a href="{{ path('bln-ref_add') }}"
+                    class="btn btn-xs btn-cust" title="Add">
+                    {{ icon('plus') }}
+                </a>
+                &nbsp;&nbsp;Action
+            </th>
+            {% endif %}
+            <th>Label</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for ref in refs %}
+            <tr>
+                {% if is_granted('ROLE_DM_USERPLUS') %}
+                <td class="action">
+                    <a href="{{ path('bln-ref_edit', {'id': ref.id}) }}"
+                       class="btn btn-xs btn-cust"
+                       title="Edit reference #{{ ref.id }}">
+                        {{ icon('edit') }}
+                    </a>
+                    <a href="{{ path('bln-ref_del', {'id': ref.id}) }}"
+                       class="btn btn-xs btn-cust"
+                       title="Delete reference #{{ ref.id }}">
+                        {{ icon('trash') }}
+                    </a>
+                </td>
+                {% endif %}
+                <td>{{ ref.label }}</td>
+                <td>{{ ref.value }}</td>
+            </tr>
+{% else %}
+        {% if is_granted('ROLE_DM_USERPLUS') %}
+            <tr><td colspan="3">No reference</td></tr>
+        {% else %}
+            <tr><td colspan="2">No reference</td></tr>
+        {% endif %}
+{% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock content %}

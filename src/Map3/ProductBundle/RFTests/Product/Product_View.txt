@@ -5,7 +5,7 @@ Documentation     In order to see details about a specific product
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
-View a product details
+View product details
     Given I am a user
     And I go to view product 1 page
     And I check product view form    Product One

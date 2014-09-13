@@ -1,0 +1,25 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Reference edit{% endblock title %}
+
+{% block headline %}{{ baseline_breadcrumb('Edit reference') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    {% include "Map3BaselineBundle:Baseline:tabs.html.twig" with {'activeTab' : 'references'} %}
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+        {% include "Map3CoreBundle::form.html.twig" %}
+
+    </div>
+</div>
+<div class="row-fluid">
+    <a href="{{ path('bln-ref_index') }}" class="btn btn-default btn-sm"
+       title="Return to list">
+        {{ icon('chevron-left') }} Return to list
+    </a>
+</div>
+{% endblock content %}
