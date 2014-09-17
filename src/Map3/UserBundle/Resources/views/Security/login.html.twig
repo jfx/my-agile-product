@@ -1,11 +1,17 @@
 {% extends "FOSUserBundle::layout.html.twig" %}
 
 {% block title %}{{ parent() }} - Login{% endblock title %}
-
+    
 {% block page_header %}
-    <div class="page-header">
-    <h4>{% block headline %}my agile product{% endblock headline %}</h4>
+    <div class="login_page_header">
+    <br />
+    <div class="center">
+        <img src="{{ asset('images/login.png') }}" alt="my agile product logo"
+             height="67" width="216" >
     </div>
+    <br />
+    </div>
+    <br />
 {% endblock page_header %}
 
 {% block fos_user_content %}

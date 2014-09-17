@@ -1,4 +1,4 @@
-My Agile Product 3
+My Agile Product
 ==============
 [![Build Status](https://travis-ci.org/jfx/my-agile-product.svg?branch=develop)](https://travis-ci.org/jfx/my-agile-product)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jfx/my-agile-product/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/jfx/my-agile-product/?branch=develop)
@@ -20,6 +20,17 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.3.0 ()
+Features:
+
+  - Design improvements on login page,
+  -
+
+Bugfixes:
+
+  - 
+
+
 ### 0.2.0 (13 September 2014)
 Features:
 
