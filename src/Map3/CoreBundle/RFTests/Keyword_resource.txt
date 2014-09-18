@@ -1,7 +1,8 @@
 *** Settings ***
+Library           String
 Library           OperatingSystem
 Library           Selenium2Library
-Library           String
+Library           ImapLibrary
 Resource          R_PARAMETERS.txt
 Resource          R_Util.txt
 Resource          R_Actions_FCT.txt
@@ -9,7 +10,6 @@ Resource          R_Actions_GUI.txt
 Resource          R_Checks.txt
 Resource          User/R_User.txt
 Resource          R_Google_Account.txt
-Resource          R_Google.txt
 Resource          Product/R_Product.txt
 Resource          Release/R_Release.txt
 Resource          Baseline/R_Baseline.txt

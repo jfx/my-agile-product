@@ -30,3 +30,15 @@ I get sql formated date in X months
     ${y_xm}    ${m_xm} =    Get Time    year,month    ${inxMonth}
     ${formatDate} =    Convert To String    ${y_xm}-${m_xm}-${day}
     [Return]    ${formatDate}
+
+I get content from last email
+    ${latest}=    Wait for Mail    fromEmail=map2.test@gmail.com    toEmail=map2.test@gmail.com    status=UNSEEN    timeout=150
+    ${content}=    Get Email body    ${latest}
+    [Return]    ${content}
+
+I get link from last email
+    ${content}=    I get content from last email
+    ${line}=    Get Lines Containing String    ${content}    http
+    ${link_fetch}=    Fetch From Right    ${line}    http
+    ${link} =    Convert To String    http${link_fetch}
+    [Return]    ${link}

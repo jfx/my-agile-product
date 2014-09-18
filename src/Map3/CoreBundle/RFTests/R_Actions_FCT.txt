@@ -51,6 +51,15 @@ TestSetup
     Run Keyword If    '${ENV}' == 'dev'    Append To File    ${LOG_PATH}/testName.txt    ${SUITE NAME} / ${TEST NAME}
     I open browser
 
+TestMailSetup
+    TestSetup
+    Open Mailbox    server=${IMAP_SERVER}    user=${GM_USER}    password=${GM_PASSWORD}
+    Comment    Mark as read
+
 TestTeardown
     Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
     Close All Browsers
+
+TestMailTeardown
+    TestTeardown
+    Close Mailbox
