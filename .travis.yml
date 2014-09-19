@@ -11,6 +11,8 @@ env: DB=mysql
 before_script:
   - chmod 777 app/cache
   - cp app/config/parameters.yml.dist app/config/parameters.yml
+  - rm -rf vendor
+  - mkdir vendor
   - composer self-update
   - composer install
   - php app/console doctrine:database:create

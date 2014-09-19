@@ -2,7 +2,7 @@
 
 {% block title %}{{ parent() }} - Login{% endblock title %}
     
-{% block page_header %}
+{% block navbar %}
     <div class="login_page_header">
     <br />
     <div class="center">
@@ -12,7 +12,9 @@
     <br />
     </div>
     <br />
-{% endblock page_header %}
+{% endblock navbar %}
+
+{% block headline %}{% endblock headline %}
 
 {% block fos_user_content %}
 {% if error %}
