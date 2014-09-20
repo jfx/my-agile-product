@@ -47,7 +47,7 @@ class CoreControllerTest extends WebTestCase
         $statusCode  = $client->getResponse()->getStatusCode();
         $this->assertTrue(200 === $statusCode);
 
-        $elt = $crawler->filter('html:contains("My Agile Product")');
+        $elt = $crawler->filter('html:contains("my agile product")');
         $eltCount = $elt->count();
         $this->assertGreaterThan(0, $eltCount);
     }
