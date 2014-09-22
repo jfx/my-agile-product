@@ -94,9 +94,9 @@ class FormHandler
      */
     public function process()
     {
-        if ($this->request->getMethod() == 'POST') {
+        if ($this->request->isMethod('POST')) {
 
-            $this->form->bind($this->request);
+            $this->form->handleRequest($this->request);
 
             if ($this->form->isValid()) {
 

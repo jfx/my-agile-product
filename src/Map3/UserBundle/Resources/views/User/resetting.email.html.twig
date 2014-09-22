@@ -3,7 +3,7 @@
 {% block body_text %}
 Hello {{ user.firstname }} {{ user.name }},
 
-{% autoescape false %}
+{% autoescape 'html' %}
 You can reset your password by accessing {{ confirmationUrl }}
 {% endautoescape %}
 

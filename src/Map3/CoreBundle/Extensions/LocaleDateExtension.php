@@ -21,7 +21,7 @@ namespace Map3\CoreBundle\Extensions;
 use DateTime;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig_Extension;
-use Twig_Filter_Method;
+use Twig_SimpleFilter;
 
 /**
  * Twig extension class.
@@ -59,10 +59,11 @@ class LocaleDateExtension extends Twig_Extension
     public function getFilters()
     {
         return array(
-            'localeDate' => new Twig_Filter_Method($this, 'localeDateFilter'),
-            'localeDatetime' => new Twig_Filter_Method(
-                $this,
-                'localeDatetimeFilter'
+            new Twig_SimpleFilter(
+                'localeDate', array($this, 'localeDateFilter')
+            ),
+            new Twig_SimpleFilter(
+                'localeDatetime', array($this, 'localeDatetimeFilter')
             )
         );
     }
