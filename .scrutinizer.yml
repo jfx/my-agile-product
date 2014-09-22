@@ -5,4 +5,10 @@ checks:
         duplication: false
 filter:
     excluded_paths:
-        - 'app/*'
+        - app/*
+        - src/Map3/BaselineBundle/DependencyInjection/*
+        - src/Map3/CoreBundle/DependencyInjection/*
+        - src/Map3/DashboardBundle/DependencyInjection/*
+        - src/Map3/ProductBundle/DependencyInjection/*
+        - src/Map3/ReleaseBundle/DependencyInjection/*
+        - src/Map3/UserBundle/DependencyInjection/*

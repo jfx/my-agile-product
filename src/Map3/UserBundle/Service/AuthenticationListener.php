@@ -94,6 +94,7 @@ class AuthenticationListener
                 $user->addRole($userPdtRole->getRole()->getId());
                 $user->setCurrentRoleLabel($userPdtRole->getRole()->getLabel());
             } catch (Exception $e) {
+                // Exception when no role found.
             }
         }
 

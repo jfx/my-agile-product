@@ -25,6 +25,7 @@ use Map3\BaselineBundle\Entity\Reference;
 use Map3\BaselineBundle\Form\ReferenceType;
 use Map3\CoreBundle\Form\FormHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -78,11 +79,13 @@ class ReferenceController extends Controller
     /**
      * Add a reference.
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_DM_USERPLUS")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
         $baseline = $this->getCurrentBaselineFromUser();
 
@@ -97,8 +100,10 @@ class ReferenceController extends Controller
 
         $handler = new FormHandler(
             $form,
-            $this->getRequest(),
-            $this->container
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session')
         );
 
         if ($handler->process()) {
@@ -127,13 +132,14 @@ class ReferenceController extends Controller
     /**
      * Edit a reference
      *
-     * @param int $id The reference id.
+     * @param int     $id      The reference id
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_DM_USERPLUS")
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
         $baseline = $this->getCurrentBaselineFromUser();
 
@@ -159,8 +165,10 @@ class ReferenceController extends Controller
 
         $handler = new FormHandler(
             $form,
-            $this->getRequest(),
-            $this->container
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session')
         );
 
         if ($handler->process()) {

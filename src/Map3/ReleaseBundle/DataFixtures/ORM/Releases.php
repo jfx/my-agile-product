@@ -85,6 +85,7 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
                 'product'     => 'productthree-product',
             ),
         );
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Release();

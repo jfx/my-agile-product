@@ -92,6 +92,7 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
                 'release'      => 'releasefour-release',
             ),
         );
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Baseline();

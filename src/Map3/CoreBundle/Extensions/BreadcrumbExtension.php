@@ -21,7 +21,7 @@ namespace Map3\CoreBundle\Extensions;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Twig_Extension;
-use Twig_Function_Method;
+use Twig_SimpleFunction;
 
 /**
  * Display breadcrumb for a product or release.
@@ -154,7 +154,7 @@ class BreadcrumbExtension extends Twig_Extension
     /**
      * Get name and Url to view action for current product.
      *
-     * @return array
+     * @return string[]
      */
     private function getProductNameUrl()
     {
@@ -173,7 +173,7 @@ class BreadcrumbExtension extends Twig_Extension
     /**
      * Get name and Url to view action for current release.
      *
-     * @return array
+     * @return string[]
      */
     private function getReleaseNameUrl()
     {
@@ -192,7 +192,7 @@ class BreadcrumbExtension extends Twig_Extension
     /**
      * Get name and Url to view action for current product.
      *
-     * @return array
+     * @return string[]
      */
     private function getBaselineNameUrl()
     {
@@ -216,24 +216,36 @@ class BreadcrumbExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            'breadcrumb' => new Twig_Function_Method(
-                $this,
+            new Twig_SimpleFunction(
                 'breadcrumb',
+                array(
+                    $this,
+                    'breadcrumb'
+                ),
                 array('is_safe' => array('html'))
             ),
-            'product_breadcrumb' => new Twig_Function_Method(
-                $this,
-                'productBreadcrumb',
+            new Twig_SimpleFunction(
+                'product_breadcrumb',
+                array(
+                    $this,
+                    'productBreadcrumb'
+                ),
                 array('is_safe' => array('html'))
             ),
-            'release_breadcrumb' => new Twig_Function_Method(
-                $this,
-                'releaseBreadcrumb',
+            new Twig_SimpleFunction(
+                'release_breadcrumb',
+                array(
+                    $this,
+                    'releaseBreadcrumb'
+                ),
                 array('is_safe' => array('html'))
             ),
-            'baseline_breadcrumb' => new Twig_Function_Method(
-                $this,
-                'baselineBreadcrumb',
+            new Twig_SimpleFunction(
+                'baseline_breadcrumb',
+                array(
+                    $this,
+                    'baselineBreadcrumb'
+                ),
                 array('is_safe' => array('html'))
             )
         );

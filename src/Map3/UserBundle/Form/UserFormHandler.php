@@ -18,12 +18,14 @@
 
 namespace Map3\UserBundle\Form;
 
+use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Model\UserManager;
 use Map3\CoreBundle\Form\FormHandler;
 use Map3\UserBundle\Service\PasswordFactory;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Validator\LegacyValidator;
 
 /**
  * Form handler class.
@@ -51,20 +53,32 @@ class UserFormHandler extends FormHandler
     /**
      * Constructor
      *
-     * @param Form               $form      Form.
-     * @param Request            $request   Http request.
-     * @param ContainerInterface $container Container.
-     * @param UserManager        $um        User manager.
+     * @param Form            $form        Form
+     * @param Request         $request     Http request
+     * @param EntityManager   $em          Entity manager
+     * @param LegacyValidator $validator   Validator
+     * @param Session         $session     Session
+     * @param PasswordFactory $passFactory Password factory
+     * @param UserManager     $um          User manager
      */
     public function __construct(
         Form $form,
         Request $request,
-        ContainerInterface $container,
+        EntityManager $em,
+        LegacyValidator $validator,
+        Session $session,
+        PasswordFactory $passFactory,
         UserManager $um
     ) {
-        parent::__construct($form, $request, $container);
-        $this->passwordFactory = $container->get('map3_user.passwordFactory');
-        $this->userManager = $um;
+        parent::__construct(
+            $form,
+            $request,
+            $em,
+            $validator,
+            $session
+        );
+        $this->passwordFactory = $passFactory;
+        $this->userManager     = $um;
     }
 
     /**

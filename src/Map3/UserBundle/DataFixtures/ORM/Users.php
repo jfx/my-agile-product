@@ -121,6 +121,7 @@ class Users extends AbstractFixture implements
         );
 
         $userManager = $this->container->get('fos_user.user_manager');
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             // In lowercase and no whitespace

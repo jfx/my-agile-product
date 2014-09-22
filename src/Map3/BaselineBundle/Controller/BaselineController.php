@@ -25,6 +25,7 @@ use Map3\BaselineBundle\Form\BaselineType;
 use Map3\CoreBundle\Form\FormHandler;
 use Map3\UserBundle\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -46,11 +47,13 @@ class BaselineController extends Controller
     /**
      * Add a baseline.
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_DM_USERPLUS")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
         $sc = $this->container->get('security.context');
         $user = $sc->getToken()->getUser();
@@ -69,8 +72,10 @@ class BaselineController extends Controller
 
         $handler = new FormHandler(
             $form,
-            $this->getRequest(),
-            $this->container
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session')
         );
 
         if ($handler->process()) {
@@ -132,13 +137,14 @@ class BaselineController extends Controller
     /**
      * Edit a baseline
      *
-     * @param Baseline $baseline The baseline to edit.
+     * @param Baseline $baseline The baseline to edit
+     * @param Request  $request  The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Baseline $baseline)
+    public function editAction(Baseline $baseline, Request $request)
     {
         $service = $this->container->get('map3_user.updatecontext4user');
         $service->setCurrentBaseline($baseline);
@@ -152,8 +158,10 @@ class BaselineController extends Controller
 
         $handler = new FormHandler(
             $form,
-            $this->getRequest(),
-            $this->container
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session')
         );
 
         if ($handler->process()) {

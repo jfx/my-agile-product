@@ -19,6 +19,7 @@
 namespace Map3\CoreBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
+use Knp\Menu\ItemInterface;
 use Map3\UserBundle\Entity\Role;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
@@ -41,7 +42,7 @@ class Builder extends ContainerAware
      * @param FactoryInterface $factory Factory interface.
      * @param array            $options Options.
      *
-     * @return Knp\Menu\ItemInterface
+     * @return ItemInterface
      */
     public function mainMenu(FactoryInterface $factory, array $options)
     {
@@ -98,7 +99,7 @@ class Builder extends ContainerAware
      * @param FactoryInterface $factory Factory interface.
      * @param array            $options Options.
      *
-     * @return Knp\Menu\ItemInterface
+     * @return ItemInterface
      */
     public function rightMenu(FactoryInterface $factory, array $options)
     {

@@ -19,11 +19,10 @@
 namespace Map3\CoreBundle\Form;
 
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\Validator\Validator;
+use Symfony\Component\Validator\Validator\LegacyValidator;
 
 /**
  * Form handler class.
@@ -68,20 +67,24 @@ class FormHandler
     /**
      * Constructor
      *
-     * @param Form               $form      Form.
-     * @param Request            $request   Http request.
-     * @param ContainerInterface $container Container.
+     * @param Form            $form      Form
+     * @param Request         $request   Http request
+     * @param EntityManager   $em        Entity manager
+     * @param LegacyValidator $validator Validator
+     * @param Session         $session   Session
      */
     public function __construct(
         Form $form,
         Request $request,
-        ContainerInterface $container
+        EntityManager $em,
+        LegacyValidator $validator,
+        Session $session
     ) {
         $this->form      = $form;
         $this->request   = $request;
-        $this->em        = $container->get('doctrine')->getManager();
-        $this->validator = $container->get('validator');
-        $this->session   = $container->get('session');
+        $this->em        = $em;
+        $this->validator = $validator;
+        $this->session   = $session;
     }
 
     /**

@@ -18,11 +18,13 @@
 
 namespace Map3\ProductBundle\Form;
 
+use Doctrine\ORM\EntityManager;
 use Map3\CoreBundle\Form\FormHandler;
 use Map3\ProductBundle\Entity\Product;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Validator\Validator\LegacyValidator;
 
 /**
  * User form handler class.
@@ -45,18 +47,28 @@ class UserFormHandler extends FormHandler
     /**
      * Constructor
      *
-     * @param Form               $form      Form.
-     * @param Request            $request   Http request.
-     * @param ContainerInterface $container Container
-     * @param Product            $pdt       The product.
+     * @param Form            $form      Form
+     * @param Request         $request   Http request
+     * @param EntityManager   $em        Entity manager
+     * @param LegacyValidator $validator Validator
+     * @param Session         $session   Session
+     * @param Product         $pdt       The product
      */
     public function __construct(
         Form $form,
         Request $request,
-        ContainerInterface $container,
+        EntityManager $em,
+        LegacyValidator $validator,
+        Session $session,
         Product $pdt
     ) {
-        parent::__construct($form, $request, $container);
+        parent::__construct(
+            $form,
+            $request,
+            $em,
+            $validator,
+            $session
+        );
         $this->product = $pdt;
     }
 

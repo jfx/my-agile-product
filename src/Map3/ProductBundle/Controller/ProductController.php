@@ -25,6 +25,7 @@ use Map3\ProductBundle\Entity\Product;
 use Map3\ProductBundle\Form\ProductType;
 use Map3\UserBundle\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -66,19 +67,23 @@ class ProductController extends Controller
     /**
      * Add a product
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
         $product = new Product();
         $form   = $this->createForm(new ProductType(), $product);
 
         $handler = new FormHandler(
             $form,
-            $this->getRequest(),
-            $this->container
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session')
         );
 
         if ($handler->process()) {
@@ -133,13 +138,14 @@ class ProductController extends Controller
     /**
      * Edit a product
      *
-     * @param Product $product The product to edit.
+     * @param Product $product The product to edit
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Product $product)
+    public function editAction(Product $product, Request $request)
     {
         $service = $this->container->get('map3_user.updatecontext4user');
         $service->setCurrentProduct($product);
@@ -159,8 +165,10 @@ class ProductController extends Controller
 
         $handler = new FormHandler(
             $form,
-            $this->getRequest(),
-            $this->container
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session')
         );
 
         if ($handler->process()) {

@@ -24,6 +24,7 @@ use Map3\UserBundle\Form\UserFormHandler;
 use Map3\UserBundle\Form\UserPasswordType;
 use Map3\UserBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -71,11 +72,13 @@ class UserController extends Controller
     /**
      * Add a user
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
         $userManager = $this->get('fos_user.user_manager');
         $user        = $userManager->createUser();
@@ -85,8 +88,11 @@ class UserController extends Controller
 
         $handler = new UserFormHandler(
             $form,
-            $this->getRequest(),
-            $this->container,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
+            $this->container->get('map3_user.passwordFactory'),
             $userManager
         );
 
@@ -166,13 +172,14 @@ class UserController extends Controller
     /**
      * Edit a user
      *
-     * @param int $id The user id.
+     * @param int     $id      The user id
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
         $userManager = $this->get('fos_user.user_manager');
 
@@ -183,8 +190,11 @@ class UserController extends Controller
 
         $handler = new UserFormHandler(
             $form,
-            $this->getRequest(),
-            $this->container,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
+            $this->container->get('map3_user.passwordFactory'),
             $userManager
         );
 
@@ -280,11 +290,13 @@ class UserController extends Controller
     /**
      * Change own password
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function passwordAction()
+    public function passwordAction(Request $request)
     {
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
@@ -293,8 +305,11 @@ class UserController extends Controller
 
         $handler = new UserFormHandler(
             $form,
-            $this->getRequest(),
-            $this->container,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
+            $this->container->get('map3_user.passwordFactory'),
             $this->get('fos_user.user_manager')
         );
 

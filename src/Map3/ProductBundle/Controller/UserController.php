@@ -26,6 +26,7 @@ use Map3\ProductBundle\Form\UserTypeEditDel;
 use Map3\ProductBundle\Form\UserFormHandler;
 use Map3\UserBundle\Entity\UserPdtRole;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -78,11 +79,13 @@ class UserController extends Controller
     /**
      * Add a user
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN, ROLE_DM_MANAGER")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
         $product = $this->getCurrentProductFromUser();
 
@@ -118,8 +121,10 @@ class UserController extends Controller
 
         $handler = new UserFormHandler(
             $form,
-            $this->getRequest(),
-            $this->container,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
             $product
         );
 
@@ -155,13 +160,14 @@ class UserController extends Controller
     /**
      * Edit a user
      *
-     * @param int $id The user id.
+     * @param int     $id      The user id
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN, ROLE_DM_MANAGER")
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
         $product = $this->getCurrentProductFromUser();
 
@@ -190,8 +196,10 @@ class UserController extends Controller
 
         $handler = new UserFormHandler(
             $form,
-            $this->getRequest(),
-            $this->container,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
             $product
         );
 
