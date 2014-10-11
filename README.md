@@ -1,5 +1,5 @@
 My Agile Product
-==============
+================
 [![Build Status](https://travis-ci.org/jfx/my-agile-product.svg?branch=develop)](https://travis-ci.org/jfx/my-agile-product)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jfx/my-agile-product/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/jfx/my-agile-product/?branch=develop)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/641d53ac-f255-49a3-97cc-17c13409f7fc/mini.png)](https://insight.sensiolabs.com/projects/641d53ac-f255-49a3-97cc-17c13409f7fc)

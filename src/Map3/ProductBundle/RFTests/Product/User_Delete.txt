@@ -27,6 +27,17 @@ A manager removes a user
     And Element Should Contain    id=badge_users    4
     And Page Should not Contain    D1-guest
 
+Check context for user delete with clean context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/pdt-user/del/5
+    Then the breadcrumb should contain    Product One    Delete user
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    1
+    And the context log file should contain    CoreController->getCurrentProductFromUser
+
 Cancel to delete a user
     Given I am a super-admin
     And I go to users list for product    Edit product #1

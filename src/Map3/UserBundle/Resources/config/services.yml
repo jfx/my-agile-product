@@ -3,7 +3,9 @@ parameters:
 services:
     map3_user.updatecontext4user:
         class: Map3\UserBundle\Service\UpdateContext4User
-        arguments: [ '@security.context', '@doctrine.orm.entity_manager', '@fos_user.user_manager' ]
+        arguments: [ '@security.context', '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger' ]
+        tags:
+            - { name: monolog.logger, channel: uctx }
         scope: request
 
     map3_user.AuthenticationListener:

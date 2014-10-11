@@ -23,6 +23,9 @@ use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
+use Map3\UserBundle\Entity\Role;
+use Map3\UserBundle\Entity\User;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
 /**
@@ -38,6 +41,10 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class UpdateContext4User
 {
+    const LEVEL_PRODUCT  = 'PDT';
+    const LEVEL_RELEASE  = 'RLS';
+    const LEVEL_BASELINE = 'BLN';
+
     /**
      * @var SecurityContextInterface S. Context
      *
@@ -55,22 +62,43 @@ class UpdateContext4User
     protected $userManager;
 
     /**
+     * @var Psr\Log\LoggerInterface Logger
+     */
+    protected $logger;
+
+    /**
      * Constructor
      *
-     * @param SecurityContextInterface $securityContext The security context.
-     * @param EntityManager            $entityManager   The entity manager.
-     * @param UserManagerInterface     $userManager     The user manager.
+     * @param SecurityContextInterface $securityContext The security context
+     * @param EntityManager            $entityManager   The entity manager
+     * @param UserManagerInterface     $userManager     The user manager
+     * @param LoggerInterface          $logger          The logger
      */
     public function __construct(
         SecurityContextInterface $securityContext,
         EntityManager $entityManager,
-        UserManagerInterface $userManager
+        UserManagerInterface $userManager,
+        LoggerInterface $logger
     ) {
         $this->securityContext = $securityContext;
         $this->entityManager   = $entityManager;
         $this->userManager     = $userManager;
+        $this->logger          = $logger;
     }
 
+    /**
+     * Set the current product for a user and set role.
+     *
+     * @param Product|null $product The product, if null unset product.
+     *
+     * @return void
+     */
+    public function setCurrentProduct($product)
+    {
+        $this->logger->debug('Init Ctx4U->setCurrentProduct');
+
+        $this->setCurrentProductChilds($product, true);
+    }
     /**
      * Set the current product for a user and set role.
      *
@@ -79,38 +107,54 @@ class UpdateContext4User
      *
      * @return void
      */
-    public function setCurrentProduct($product, $resetChilds = true)
+    private function setCurrentProductChilds($product, $resetChilds = true)
     {
         $user = $this->securityContext->getToken()->getUser();
 
-        $user->unsetProductRole();
-
         if ($resetChilds) {
-            $user->unsetCurrentBaseline();
-            $user->unsetCurrentRelease();
+            $this->unsetChilds($user, self::LEVEL_PRODUCT);
         }
 
         if ($product === null) {
+            $this->logger->debug('User->unsetCurrentProduct');
+            $user->unsetProductRole();
             $user->unsetCurrentProduct();
         } else {
-            $user->setCurrentProduct($product);
+            $currentProduct = $user->getCurrentProduct();
 
-            $repository = $this->entityManager->getRepository(
-                'Map3UserBundle:UserPdtRole'
-            );
+            if ($product != $currentProduct) {
+                $this->logger->debug('User->setCurrentProduct');
 
-            try {
-                $userPdtRole = $repository->findByUserIdProductId(
-                    $user->getId(),
-                    $product->getId()
+                $user->unsetProductRole();
+                $user->setCurrentProduct($product);
+
+                $repository = $this->entityManager->getRepository(
+                    'Map3UserBundle:UserPdtRole'
                 );
-                $user->addRole($userPdtRole->getRole()->getId());
-                $this->securityContext->getToken()->setAuthenticated(false);
-                $user->setCurrentRoleLabel($userPdtRole->getRole()->getLabel());
-            } catch (Exception $e) {
-                $this->securityContext->getToken()->setAuthenticated(false);
+
+                try {
+                    $userPdtRole = $repository->findByUserIdProductId(
+                        $user->getId(),
+                        $product->getId()
+                    );
+                    $roleId = $userPdtRole->getRole()->getId();
+                    $this->logger->debug('Role : '.$roleId);
+                    $user->addRole($roleId);
+                    $this->securityContext->getToken()->setAuthenticated(false);
+                    $user->setCurrentRoleLabel(
+                        $userPdtRole->getRole()->getLabel()
+                    );
+                } catch (Exception $e) {
+                    // Public product by default Guest role added.
+                    $this->logger->debug('Role by default: Guest');
+                    $user->addRole(Role::GUEST_ROLE);
+                    $this->securityContext->getToken()->setAuthenticated(false);
+                }
+            } else {
+                $this->logger->debug('Same product. No change');
             }
         }
+        $this->logger->debug('Update user');
         $this->userManager->updateUser($user);
     }
 
@@ -184,5 +228,26 @@ class UpdateContext4User
 
         $user->setAvailableReleases($releases);
         $this->userManager->updateUser($user);
+    }
+
+    /**
+     * Reset all childs from the level.
+     *
+     * @param User   $user  User
+     * @param string $level The level
+     *
+     * @return void
+     */
+    private function unsetChilds(User $user, $level)
+    {
+        switch ($level) {
+            case self::LEVEL_PRODUCT:
+                $user->unsetCurrentRelease();
+                $user->unsetCurrentBaseline();
+                $this->logger->debug('Reset childs : Release and above');
+                break;
+            default:
+                $this->logger->error('Error calling unsetChilds');
+        }
     }
 }

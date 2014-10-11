@@ -20,12 +20,11 @@ namespace Map3\ProductBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\ProductBundle\Entity\Product;
+use Map3\CoreBundle\Controller\CoreController;
 use Map3\ProductBundle\Form\UserTypeAdd;
 use Map3\ProductBundle\Form\UserTypeEditDel;
 use Map3\ProductBundle\Form\UserFormHandler;
 use Map3\UserBundle\Entity\UserPdtRole;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,14 +39,14 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UserController extends Controller
+class UserController extends CoreController
 {
     /**
      * List of users for a product
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="ROLE_DM_GUEST")
      */
     public function indexAction()
     {
@@ -63,15 +62,11 @@ class UserController extends Controller
 
         $users = $repository->findUsersByProduct($product);
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:index.html.twig',
             array(
                 'users' => $users,
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
     }
@@ -144,15 +139,11 @@ class UserController extends Controller
             );
         }
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
     }
@@ -216,15 +207,11 @@ class UserController extends Controller
             );
         }
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:edit.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
     }
@@ -292,31 +279,12 @@ class UserController extends Controller
         $userType->setDisabled();
         $form = $this->createForm($userType, $userPdtRole);
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:del.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
-    }
-
-    /**
-     * Return the current product from user context.
-     *
-     * @return Product
-     */
-    private function getCurrentProductFromUser()
-    {
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
-
-        $product = $user->getCurrentProduct();
-
-        return $product;
     }
 }

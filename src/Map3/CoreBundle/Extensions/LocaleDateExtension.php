@@ -60,10 +60,12 @@ class LocaleDateExtension extends Twig_Extension
     {
         return array(
             new Twig_SimpleFilter(
-                'localeDate', array($this, 'localeDateFilter')
+                'localeDate',
+                array($this, 'localeDateFilter')
             ),
             new Twig_SimpleFilter(
-                'localeDatetime', array($this, 'localeDatetimeFilter')
+                'localeDatetime',
+                array($this, 'localeDatetimeFilter')
             )
         );
     }

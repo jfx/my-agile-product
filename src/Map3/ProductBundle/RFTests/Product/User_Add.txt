@@ -44,6 +44,17 @@ A super-admin adds a manager
     And I go to users list for product    View product #3
     And I should see action button(s)    Add
 
+Check context for user add from clean context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/pdt-user/add
+    Then the breadcrumb should contain    Product One    Add user
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    1
+    And the context log file should contain    CoreController->getCurrentProductFromUser
+
 Impossible to add when no user available
     Given I am a super-admin
     And I go to users list for product    View product #1

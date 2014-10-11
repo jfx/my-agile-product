@@ -42,3 +42,6 @@ I get link from last email
     ${link_fetch}=    Fetch From Right    ${line}    http
     ${link} =    Convert To String    http${link_fetch}
     [Return]    ${link}
+
+I reset the context log file
+    Remove File    ${LOG_PATH}/uctx_dev.log

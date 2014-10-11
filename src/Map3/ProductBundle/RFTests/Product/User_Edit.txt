@@ -32,6 +32,17 @@ A manager edits a user role
     Then Page Should Contain    User edited successfully
     And the table should contain    User Firstuser    displayuser    User+
 
+Check context for user edit with clean context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/pdt-user/edit/2
+    Then the breadcrumb should contain    Product One    Edit user
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    1
+    And the context log file should contain    CoreController->getCurrentProductFromUser
+
 Impossible to edit a user without selecting a product before
     Given I am a super-admin
     When Go To    ${URL}/pdt-user/edit/2
