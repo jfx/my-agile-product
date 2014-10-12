@@ -257,6 +257,8 @@ class User extends BaseUser
      */
     public function unsetCurrentProduct()
     {
+        $this->unsetProductRole();
+        $this->unsetCurrentRelease();
         $this->currentProduct = null;
 
         return $this;
@@ -293,6 +295,7 @@ class User extends BaseUser
      */
     public function unsetCurrentRelease()
     {
+        $this->unsetCurrentBaseline();
         $this->currentRelease = null;
 
         return $this;

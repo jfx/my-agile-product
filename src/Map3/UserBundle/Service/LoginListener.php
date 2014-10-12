@@ -19,12 +19,12 @@
 namespace Map3\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\Security\Core\Event\AuthenticationEvent;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Psr\Log\LoggerInterface;
 
 /**
- * Authentication listener class.
+ * Login listener class.
  *
  * @category  MyAgileProduct
  * @package   User
@@ -34,7 +34,7 @@ use Symfony\Component\Security\Core\Event\AuthenticationEvent;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class AuthenticationListener
+class LoginListener
 {
     /**
      * @var EntityManager Entity manager
@@ -47,56 +47,47 @@ class AuthenticationListener
     protected $userManager;
 
     /**
+     * @var Psr\Log\LoggerInterface Logger
+     */
+    protected $logger;
+
+    /**
      * Constructor
      *
-     * @param EntityManager        $entityManager The doctrine entity manager.
-     * @param UserManagerInterface $userManager   The user manager.
+     * @param EntityManager        $entityManager The doctrine entity manager
+     * @param UserManagerInterface $userManager   The user manager
+     * @param LoggerInterface      $logger        The logger
      */
     public function __construct(
         EntityManager $entityManager,
-        UserManagerInterface $userManager
+        UserManagerInterface $userManager,
+        LoggerInterface $logger
     ) {
         $this->entityManager = $entityManager;
         $this->userManager   = $userManager;
+        $this->logger        = $logger;
     }
 
     /**
-     * When authentication succeed (login or cookie remember), refresh role for
-     * the current product and refresh list of available products (select box).
+     * When authentication succeed (login or cookie remember), unset context
+     * of user and refresh list of available products (select box).
      *
-     * @param AuthenticationEvent $event The event object.
+     * @param InteractiveLoginEvent $event The event object.
      *
      * @return void
      */
-    public function onSecurityAuthenticationSuccess(AuthenticationEvent $event)
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
+        $this->logger->debug('onSecurityInteractiveLogin');
+
         $token = $event->getAuthenticationToken();
         $user = $token->getUser();
 
-        $repositoryUPR = $this->entityManager->getRepository(
-            'Map3UserBundle:UserPdtRole'
-        );
+        $user->unsetCurrentProduct();
+
         $repositoryRl = $this->entityManager->getRepository(
             'Map3ReleaseBundle:Release'
         );
-
-        // Update current product role
-        $currentProduct = $user->getCurrentProduct();
-
-        $user->unsetProductRole();
-
-        if ($currentProduct !== null) {
-            try {
-                $userPdtRole = $repositoryUPR->findByUserIdProductId(
-                    $user->getId(),
-                    $currentProduct->getId()
-                );
-                $user->addRole($userPdtRole->getRole()->getId());
-                $user->setCurrentRoleLabel($userPdtRole->getRole()->getLabel());
-            } catch (Exception $e) {
-                // Exception when no role found.
-            }
-        }
 
         $releases = $repositoryRl->findAvailableReleasesByUser($user);
 

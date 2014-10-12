@@ -24,7 +24,6 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 use Map3\UserBundle\Entity\Role;
-use Map3\UserBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -41,10 +40,6 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  */
 class UpdateContext4User
 {
-    const LEVEL_PRODUCT  = 'PDT';
-    const LEVEL_RELEASE  = 'RLS';
-    const LEVEL_BASELINE = 'BLN';
-
     /**
      * @var SecurityContextInterface S. Context
      *
@@ -112,12 +107,12 @@ class UpdateContext4User
         $user = $this->securityContext->getToken()->getUser();
 
         if ($resetChilds) {
-            $this->unsetChilds($user, self::LEVEL_PRODUCT);
+            $this->logger->debug('Reset childs : Release and above');
+            $user->unsetCurrentRelease();
         }
 
         if ($product === null) {
             $this->logger->debug('User->unsetCurrentProduct');
-            $user->unsetProductRole();
             $user->unsetCurrentProduct();
         } else {
             $currentProduct = $user->getCurrentProduct();
@@ -228,26 +223,5 @@ class UpdateContext4User
 
         $user->setAvailableReleases($releases);
         $this->userManager->updateUser($user);
-    }
-
-    /**
-     * Reset all childs from the level.
-     *
-     * @param User   $user  User
-     * @param string $level The level
-     *
-     * @return void
-     */
-    private function unsetChilds(User $user, $level)
-    {
-        switch ($level) {
-            case self::LEVEL_PRODUCT:
-                $user->unsetCurrentRelease();
-                $user->unsetCurrentBaseline();
-                $this->logger->debug('Reset childs : Release and above');
-                break;
-            default:
-                $this->logger->error('Error calling unsetChilds');
-        }
     }
 }

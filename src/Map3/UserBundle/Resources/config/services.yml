@@ -8,11 +8,12 @@ services:
             - { name: monolog.logger, channel: uctx }
         scope: request
 
-    map3_user.AuthenticationListener:
-        class: Map3\UserBundle\Service\AuthenticationListener
-        arguments: [ '@doctrine.orm.entity_manager', '@fos_user.user_manager' ]
+    map3_user.LoginListener:
+        class: Map3\UserBundle\Service\LoginListener
+        arguments: [ '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger' ]
         tags:
-            - { name: kernel.event_listener, event: security.authentication.success, method: onSecurityAuthenticationSuccess }
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+            - { name: monolog.logger, channel: uctx }
 
     map3_user.passwordFactory:
         class: Map3\UserBundle\Service\PasswordFactory
