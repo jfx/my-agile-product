@@ -19,6 +19,7 @@
 namespace Map3\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NoResultException;
 use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Map3\ProductBundle\Entity\Product;
@@ -60,7 +61,17 @@ class UpdateContext4User
      * @var Psr\Log\LoggerInterface Logger
      */
     protected $logger;
+    
+    /**
+     * @var Map3\UserBundle\Entity\User User entity
+     */
+    protected $user;
 
+    /**
+     * @var boolean userHasChanged Has User changed ?
+     */
+    protected $userHasChanged = false;
+    
     /**
      * Constructor
      *
@@ -79,6 +90,8 @@ class UpdateContext4User
         $this->entityManager   = $entityManager;
         $this->userManager     = $userManager;
         $this->logger          = $logger;
+        
+        $this->user = $this->securityContext->getToken()->getUser();
     }
 
     /**
@@ -93,6 +106,8 @@ class UpdateContext4User
         $this->logger->debug('Init Ctx4U->setCurrentProduct');
 
         $this->setCurrentProductChilds($product, true);
+        
+        $this->updateUserIfChanged();
     }
     /**
      * Set the current product for a user and set role.
@@ -104,24 +119,25 @@ class UpdateContext4User
      */
     private function setCurrentProductChilds($product, $resetChilds = true)
     {
-        $user = $this->securityContext->getToken()->getUser();
-
         if ($resetChilds) {
             $this->logger->debug('Reset childs : Release and above');
-            $user->unsetCurrentRelease();
+            $this->userHasChanged = true;
+            $this->user->unsetCurrentRelease();
         }
 
         if ($product === null) {
             $this->logger->debug('User->unsetCurrentProduct');
-            $user->unsetCurrentProduct();
+            $this->userHasChanged = true;
+            $this->user->unsetCurrentProduct();
         } else {
-            $currentProduct = $user->getCurrentProduct();
+            $currentProduct = $this->user->getCurrentProduct();
 
             if ($product != $currentProduct) {
                 $this->logger->debug('User->setCurrentProduct');
 
-                $user->unsetProductRole();
-                $user->setCurrentProduct($product);
+                $this->userHasChanged = true;
+                $this->user->unsetProductRole();
+                $this->user->setCurrentProduct($product);
 
                 $repository = $this->entityManager->getRepository(
                     'Map3UserBundle:UserPdtRole'
@@ -129,53 +145,82 @@ class UpdateContext4User
 
                 try {
                     $userPdtRole = $repository->findByUserIdProductId(
-                        $user->getId(),
+                        $this->user->getId(),
                         $product->getId()
                     );
                     $roleId = $userPdtRole->getRole()->getId();
                     $this->logger->debug('Role : '.$roleId);
-                    $user->addRole($roleId);
+                    $this->userHasChanged = true;
+                    $this->user->addRole($roleId);
                     $this->securityContext->getToken()->setAuthenticated(false);
-                    $user->setCurrentRoleLabel(
+                    $this->user->setCurrentRoleLabel(
                         $userPdtRole->getRole()->getLabel()
                     );
-                } catch (Exception $e) {
+                } catch (NoResultException $e) {
                     // Public product by default Guest role added.
                     $this->logger->debug('Role by default: Guest');
-                    $user->addRole(Role::GUEST_ROLE);
+                    $this->userHasChanged = true;
+                    $this->user->addRole(Role::GUEST_ROLE);
                     $this->securityContext->getToken()->setAuthenticated(false);
                 }
             } else {
                 $this->logger->debug('Same product. No change');
             }
         }
-        $this->logger->debug('Update user');
-        $this->userManager->updateUser($user);
     }
 
     /**
      * Set the current release and set product and role.
      *
      * @param Release|null $release The release, if null unset current release.
-     * @param boolean      $reset   Current childs must be resetted.
      *
      * @return void
      */
-    public function setCurrentRelease($release, $reset = true)
+    public function setCurrentRelease($release)
     {
-        $user = $this->securityContext->getToken()->getUser();
+        $this->logger->debug('Init Ctx4U->setCurrentRelease');
 
-        if ($reset) {
-            $user->unsetCurrentBaseline();
+        $this->setCurrentReleaseChilds($release, true);
+        
+        $this->updateUserIfChanged();
+    }
+    
+    /**
+     * Set the current release and set product and role.
+     *
+     * @param Release|null $release     The release, if null unset current 
+     *                                  release.
+     * @param boolean      $resetChilds Current childs must be resetted.
+     *
+     * @return void
+     */
+    private function setCurrentReleaseChilds($release, $resetChilds = true)
+    {
+        if ($resetChilds) {
+            $this->logger->debug('Reset childs : Baseline and above');
+            $this->userHasChanged = true;
+            $this->user->unsetCurrentBaseline();
         }
 
         if ($release === null) {
-            $user->unsetCurrentRelease();
+            $this->logger->debug('User->unsetCurrentRelease');
+            $this->userHasChanged = true;
+            $this->user->unsetCurrentRelease();
         } else {
-            $user->setCurrentRelease($release);
+            $currentRelease = $this->user->getCurrentRelease();
 
-            $product = $release->getProduct();
-            $this->setCurrentProduct($product, false);
+            if ($release != $currentRelease) {
+                $this->logger->debug('User->setCurrentRelease');
+                $this->user->setCurrentRelease($release);
+                
+                $this->updateUserIfChanged(true);
+                $this->userHasChanged = false;
+                
+                $product = $release->getProduct();
+                $this->setCurrentProductChilds($product, false);
+            } else {
+                $this->logger->debug('Same release. No change');
+            }
         }
     }
 
@@ -189,18 +234,58 @@ class UpdateContext4User
      */
     public function setCurrentBaseline($baseline)
     {
-        $user = $this->securityContext->getToken()->getUser();
+        $this->logger->debug('Init Ctx4U->setCurrentBaseline');
 
-        if ($baseline === null) {
-            $user->unsetCurrentBaseline();
-        } else {
-            $user->setCurrentBaseline($baseline);
-
-            $release = $baseline->getRelease();
-            $this->setCurrentRelease($release, false);
-        }
+        $this->setCurrentBaselineChilds($baseline);
+        
+        $this->updateUserIfChanged();
     }
 
+    /**
+     * Set the current release and set product and role.
+     *
+     * @param Release|null $release The release, if null unset current release.
+     *
+     * @return void
+     */
+    private function setCurrentBaselineChilds($baseline)
+    {
+        if ($baseline === null) {
+            $this->logger->debug('User->unsetCurrentBaseline');
+            $this->userHasChanged = true;
+            $this->user->unsetCurrentBaseline();
+        } else {
+            $currentBaseline = $user->getCurrentBaseline();
+
+            if ($baseline != $currentBaseline) {
+                $this->logger->debug('User->setCurrentBaseline');
+                $this->user->setCurrentBaseline($baseline);
+                
+                $this->updateUserIfChanged(true);
+                $this->userHasChanged = false;
+                
+                $release = $baseline->getRelease();
+                $this->setCurrentReleaseChilds($release, false);
+            } else {
+                $this->logger->debug('Same baseline. No change');
+            }
+        }
+    }
+    
+    /**
+     * Update user if context of user has changed.
+     *
+     * @param boolean $userHasChanged Has User changed ?
+     *
+     * @return void
+     */
+    public function updateUserIfChanged()
+    {
+        if ($this->userHasChanged) {
+            $this->logger->debug('Update user');
+            $this->userManager->updateUser($this->user);   
+        }
+    }
     /**
      * Refresh available products list.
      *

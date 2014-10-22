@@ -35,19 +35,19 @@ Baseline delete
     Then I check the following ACL    /baseline/del/1    False    True    True    False    False
     ...    False    False    /release/1
 
-Baseline add with no user+ on product
+Baseline add with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /baseline/add    False    False    False    False    False
     ...    False    False    /release/5
 
-Baseline edit with no user+ on product
+Baseline edit with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /baseline/edit/6    False    False    False    False    False
     ...    False    False    /release/5
 
-Baseline delete with no user+ on product
+Baseline delete with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /baseline/del/6    False    False    False    False    False

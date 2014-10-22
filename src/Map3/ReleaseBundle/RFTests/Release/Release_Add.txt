@@ -14,7 +14,6 @@ A manager adds a release
     Then Page Should Contain    Release added successfully
     And I check release view form    R1x
     And I click button    Return to product
-    Element Should Contain    xpath=//option    R1x
     And the table should contain x rows    4
     And the table should contain    R1x    Details 4 R1x
 
@@ -29,6 +28,17 @@ A manager adds a closed release
     And I click button    Return to product
     And the table should contain x rows    4
     And the table should contain    R1x    Details 4 R1x
+
+Check context for releases list with clean context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/add
+    Then the breadcrumb should contain    Product One    Add release
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->getCurrentProductFromUserWithReset(true)    CoreController->unsetCurrentRelease    Reset childs : Baseline and above    User->unsetCurrentRelease    Update user
 
 Impossible to add a release with a name too short
     Given I am a manager

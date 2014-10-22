@@ -111,10 +111,8 @@ class ProductController extends CoreController
      */
     public function viewAction(Product $product)
     {
-        $this->setCurrentProduct($product);
-
-        $this->userIsGranted(array(Role::GUEST_ROLE));
-
+        $this->setCurrentProduct($product, array(Role::GUEST_ROLE));
+        
         $productType = new ProductType();
         $productType->setDisabled();
         $form = $this->createForm($productType, $product);
@@ -140,9 +138,10 @@ class ProductController extends CoreController
      */
     public function editAction(Product $product, Request $request)
     {
-        $this->setCurrentProduct($product);
-
-        $this->userIsGranted(array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE));
+        $this->setCurrentProduct(
+            $product, 
+            array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE)
+        );
 
         $form    = $this->createForm(new ProductType(), $product);
         $handler = $this->getFormHandler($form, $request);
@@ -213,7 +212,7 @@ class ProductController extends CoreController
                 );
             }
         }
-        $this->setCurrentProduct($product);
+        $this->setCurrentProduct($product, array('ROLE_SUPER_ADMIN'));
 
         $productType = new ProductType();
         $productType->setDisabled();
@@ -237,9 +236,7 @@ class ProductController extends CoreController
      */
     public function tabsAction($activeTab)
     {
-        $sc = $this->container->get('security.context');
-        $user = $sc->getToken()->getUser();
-        $product = $user->getCurrentProduct();
+        $product = $this->getCurrentProductFromUserWithReset(false);
 
         $child = array();
 

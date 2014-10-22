@@ -50,11 +50,7 @@ class UserController extends CoreController
      */
     public function indexAction()
     {
-        $product = $this->getCurrentProductFromUser();
-
-        if ($product === null) {
-            return $this->redirect($this->generateUrl('product_index'));
-        }
+        $product = $this->getCurrentProductFromUserWithReset();
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -82,8 +78,9 @@ class UserController extends CoreController
      */
     public function addAction(Request $request)
     {
-        $product = $this->getCurrentProductFromUser();
+        $product = $this->getCurrentProductFromUserWithReset();
 
+        // Possible if role is super-admin
         if ($product === null) {
             return $this->redirect($this->generateUrl('product_index'));
         }
@@ -125,12 +122,6 @@ class UserController extends CoreController
 
         if ($handler->process()) {
 
-            $userPdtRoleInForm = $form->getData();
-            $userId = $userPdtRoleInForm->getUser()->getId();
-
-            $service = $this->container->get('map3_user.updatecontext4user');
-            $service->refreshAvailableProducts4UserId($userId);
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User added successfully !');
 
@@ -160,8 +151,9 @@ class UserController extends CoreController
      */
     public function editAction($id, Request $request)
     {
-        $product = $this->getCurrentProductFromUser();
+        $product = $this->getCurrentProductFromUserWithReset();
 
+        // Possible if role is super-admin
         if ($product === null) {
             return $this->redirect($this->generateUrl('product_index'));
         }
@@ -196,9 +188,6 @@ class UserController extends CoreController
 
         if ($handler->process()) {
 
-            $service = $this->container->get('map3_user.updatecontext4user');
-            $service->refreshAvailableProducts4UserId($id);
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User edited successfully !');
 
@@ -227,8 +216,9 @@ class UserController extends CoreController
      */
     public function delAction($id)
     {
-        $product = $this->getCurrentProductFromUser();
+        $product = $this->getCurrentProductFromUserWithReset();
 
+        // Possible if role is super-admin
         if ($product === null) {
             return $this->redirect($this->generateUrl('product_index'));
         }
@@ -253,11 +243,6 @@ class UserController extends CoreController
 
             try {
                 $em->flush();
-
-                $service = $this->container->get(
-                    'map3_user.updatecontext4user'
-                );
-                $service->refreshAvailableProducts4UserId($id);
 
                 $this->get('session')->getFlashBag()
                     ->add('success', 'User removed successfully !');

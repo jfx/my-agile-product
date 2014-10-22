@@ -20,6 +20,7 @@ namespace Map3\CoreBundle\Controller;
 
 use Map3\CoreBundle\Form\FormHandler;
 use Map3\ProductBundle\Entity\Product;
+use Map3\ReleaseBundle\Entity\Release;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,33 +92,44 @@ abstract class CoreController extends Controller
      * Set product in context
      *
      * @param Product $product The product.
+     * @param array   $roles    Roles to check.
      *
      * @return void
      */
-    protected function setCurrentProduct(Product $product)
+    protected function setCurrentProduct(Product $product, array $roles)
     {
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->setCurrentProduct');
 
         $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
         $serviceUpdate->setCurrentProduct($product);
+        
+        $this->userIsGranted($roles);
     }
 
     /**
      * Return the current product from user context.
+     * 
+     * @param boolean $reset Reset release and above
      *
      * @return Product
      */
-    protected function getCurrentProductFromUser()
+    protected function getCurrentProductFromUserWithReset($reset = true)
     {
         $logger = $this->get('monolog.logger.uctx');
-        $logger->debug('CoreController->getCurrentProductFromUser');
+        $msg  = 'CoreController->getCurrentProductFromUserWithReset(';
+        $msg .= var_export($reset, true).')';
+        $logger->debug($msg);
 
         $user = $this->container->get('security.context')->getToken()
             ->getUser();
 
         $product = $user->getCurrentProduct();
 
+        if ($reset) {
+            $this->unsetCurrentRelease();
+        }
+        
         return $product;
     }
 
@@ -133,5 +145,118 @@ abstract class CoreController extends Controller
 
         $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
         $serviceUpdate->setCurrentProduct(null);
+    }
+
+    /**
+     * Set release in context
+     *
+     * @param Release $release The release.
+     * @param array   $roles    Roles to check.
+     *
+     * @return void
+     */
+    protected function setCurrentRelease(Release $release, array $roles)
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $logger->debug('CoreController->setCurrentRelease');
+
+        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate->setCurrentRelease($release);
+        
+        $this->userIsGranted($roles);
+    }
+
+    /**
+     * Return the current release from user context.
+     * 
+     * @param boolean $reset Reset baseline and above
+     *
+     * @return Release
+     */
+    protected function getCurrentReleaseFromUserWithReset($reset = true)
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $msg  = 'CoreController->getCurrentReleaseFromUserWithReset(';
+        $msg .= var_export($reset, true).')';
+        $logger->debug($msg);
+
+        $user = $this->container->get('security.context')->getToken()
+            ->getUser();
+
+        $release = $user->getCurrentRelease();
+
+        if ($reset) {
+            $this->unsetCurrentBaseline();
+        }        
+        return $release;
+    }
+
+    /**
+     * Unset release in context
+     *
+     * @return void
+     */
+    protected function unsetCurrentRelease()
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $logger->debug('CoreController->unsetCurrentRelease');
+
+        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate->setCurrentRelease(null);
+    }
+    
+    /**
+     * Set baseline in context
+     *
+     * @param Baseline $baseline The baseline
+     * @param array    $roles    Roles to check
+     *
+     * @return void
+     */
+    protected function setCurrentBaseline(Baseline $baseline, array $roles)
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $logger->debug('CoreController->setCurrentBaseline');
+
+        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate->setCurrentBaseline($baseline);
+        
+        $this->userIsGranted($roles);
+    }
+
+    /**
+     * Return the current baseline from user context.
+     * 
+     * @param boolean $reset Reset baseline and above
+     *
+     * @return Release
+     */
+    protected function getCurrentBaselineFromUserWithReset($reset = true)
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $msg  = 'CoreController->getCurrentBaselineFromUserWithReset(';
+        $msg .= var_export($reset, true).')';
+        $logger->debug($msg);
+
+        $user = $this->container->get('security.context')->getToken()
+            ->getUser();
+
+        $baseline = $user->getCurrentBaseline();
+       
+        return $baseline;
+    }
+
+    /**
+     * Unset baseline in context
+     *
+     * @return void
+     */
+    protected function unsetCurrentBaseline()
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $logger->debug('CoreController->unsetCurrentBaseline');
+
+        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate->setCurrentBaseline(null);
     }
 }

@@ -40,15 +40,11 @@ class ReleaseController extends CoreController
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="ROLE_DM_GUEST")
      */
     public function indexAction()
     {
-        $product = $this->getCurrentProductFromUser();
-
-        if ($product === null) {
-            return $this->redirect($this->generateUrl('product_index'));
-        }
+        $product = $this->getCurrentProductFromUserWithReset();
 
         $repository = $this->getDoctrine()
             ->getManager()
