@@ -20,6 +20,7 @@ namespace Map3\ReleaseBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\CoreController;
+use Map3\ReleaseBundle\Entity\Release;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -38,18 +39,16 @@ class BaselineController extends CoreController
     /**
      * List of baselines
      *
+     * @param Release $release The release
+     * 
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_GUEST")
+     * @Secure(roles="ROLE_USER")
      */
-    public function indexAction()
+    public function indexAction(Release $release)
     {
-        $release = $this->getCurrentReleaseFromUserWithReset();
-
-        if ($release === null) {
-            return $this->redirect($this->generateUrl('pdt-release_index'));
-        }
-
+        $this->setCurrentRelease($release, array('ROLE_DM_GUEST'));
+                
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3BaselineBundle:Baseline');

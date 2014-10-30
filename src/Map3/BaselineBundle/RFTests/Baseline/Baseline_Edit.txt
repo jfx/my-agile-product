@@ -32,6 +32,78 @@ A manager opens a closed release
     Then Page Should Contain    Baseline edited successfully
     And Checkbox Should Not Be Selected    map3_baseline_closed
 
+Check context for baseline edit with clean context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Edit
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+
+Check context for baseline edit without context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Edit
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USERPLUS    Update user
+
+Check context for baseline edit with previous context
+    [Tags]    context
+    Given I am logging as    d2-manager    d2-manager    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/edit/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role by default: Guest    Update user
+
+Check context for baseline edit with same previous product
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Edit
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for baseline edit with same previous release
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Edit
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+
+Check context for baseline edit with same previous context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Edit
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    4
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+
 Impossible to edit a release with a name too short
     Given I am a manager
     And I go to edit baseline page    1
@@ -71,6 +143,7 @@ Edit a baseline without selecting a product before
     Given I am a user+
     When Go to    ${URL}/baseline/edit/1
     Then Location should be    ${URL}/baseline/edit/1
+    And the breadcrumb should contain    Product One    Release One    Baseline One    Edit
     And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 Breadcrumb
@@ -108,7 +181,7 @@ Tab References
     And I go to edit baseline page    1
     And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
-    And Location Should Be    ${URL}/bln-ref/
+    And Location Should Be    ${URL}/bln-refs/1
 
 Tab Features
     [Tags]    failedTest
@@ -122,7 +195,7 @@ Return to release button
     Given I am a user+
     And I go to edit baseline page    1
     When I click button    Return to release
-    Then Location Should Be    ${URL}/rls-baseline/
+    Then Location Should Be    ${URL}/baselines/1
 
 *** Keywords ***
 I go to edit baseline page

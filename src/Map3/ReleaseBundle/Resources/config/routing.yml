@@ -1,7 +1,9 @@
 map3_release:
     resource: "@Map3ReleaseBundle/Resources/config/routing/release.yml"
     prefix:   /release
-
-map3_rls-baseline:
-    resource: "@Map3ReleaseBundle/Resources/config/routing/baseline.yml"
-    prefix:   /rls-baseline
+    
+rls-baseline_index:
+    pattern:  /baselines/{id}
+    defaults: { _controller: "Map3ReleaseBundle:Baseline:index" }
+    requirements:
+        id:  \d+

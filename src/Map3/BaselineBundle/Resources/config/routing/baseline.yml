@@ -1,21 +1,15 @@
 baseline_view:
     pattern:  /{id}
     defaults: { _controller: "Map3BaselineBundle:Baseline:view" }
-    requirements:
-        id:  \d+
 
 baseline_add:
-    pattern:  /add
+    pattern:  /add/{id}
     defaults: { _controller: "Map3BaselineBundle:Baseline:add" }
 
 baseline_edit:
     pattern:  /edit/{id}
     defaults: { _controller: "Map3BaselineBundle:Baseline:edit" }
-    requirements:
-        id:  \d+
 
 baseline_del:
     pattern:  /del/{id}
     defaults: { _controller: "Map3BaselineBundle:Baseline:del" }
-    requirements:
-        id:  \d+

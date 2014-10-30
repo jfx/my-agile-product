@@ -29,7 +29,7 @@ A manager adds a closed release
     And the table should contain x rows    4
     And the table should contain    R1x    Details 4 R1x
 
-Check context for releases list with clean context
+Check context for release add with clean context
     [Tags]    context
     Given I am logging as    d1-manager    d1-manager    Hello    True
     When Go To    ${URL_DEV}/product/1

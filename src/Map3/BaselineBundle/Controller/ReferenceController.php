@@ -18,13 +18,11 @@
 
 namespace Map3\BaselineBundle\Controller;
 
-use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Entity\Reference;
 use Map3\BaselineBundle\Form\ReferenceType;
-use Map3\CoreBundle\Form\FormHandler;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Map3\CoreBundle\Controller\CoreController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,22 +38,20 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class ReferenceController extends Controller
+class ReferenceController extends CoreController
 {
     /**
      * List of references
      *
+     * @param Baseline $baseline The baseline 
+     * 
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function indexAction()
+    public function indexAction(Baseline $baseline)
     {
-        $baseline = $this->getCurrentBaselineFromUser();
-
-        if ($baseline === null) {
-            return $this->redirect($this->generateUrl('rls-baseline_index'));
-        }
+        $this->setCurrentBaseline($baseline, array('ROLE_DM_GUEST'));
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -63,15 +59,11 @@ class ReferenceController extends Controller
 
         $refs = $repository->findReferencesByBaseline($baseline);
 
-        $service = $this->container->get('map3_baseline.baselineinfo');
-        $child   = $service->getChildCount($baseline);
-
         return $this->render(
             'Map3BaselineBundle:Reference:index.html.twig',
             array(
                 'refs'     => $refs,
-                'baseline' => $baseline,
-                'child'    => $child
+                'baseline' => $baseline
             )
         );
     }
@@ -79,32 +71,22 @@ class ReferenceController extends Controller
     /**
      * Add a reference.
      *
-     * @param Request $request The request
+     * @param Baseline $baseline The baseline 
+     * @param Request  $request  The request
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_USERPLUS")
+     * @Secure(roles="ROLE_USER")
      */
-    public function addAction(Request $request)
+    public function addAction(Baseline $baseline, Request $request)
     {
-        $baseline = $this->getCurrentBaselineFromUser();
-
-        if ($baseline === null) {
-            return $this->redirect($this->generateUrl('rls-baseline_index'));
-        }
+        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
 
         $ref = new Reference();
         $ref->setBaseline($baseline);
 
         $form = $this->createForm(new ReferenceType(), $ref);
-
-        $handler = new FormHandler(
-            $form,
-            $request,
-            $this->container->get('doctrine')->getManager(),
-            $this->container->get('validator'),
-            $this->container->get('session')
-        );
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
@@ -112,19 +94,18 @@ class ReferenceController extends Controller
                 ->add('success', 'Reference added successfully !');
 
             return $this->redirect(
-                $this->generateUrl('bln-ref_index')
+                $this->generateUrl(
+                    'bln-refs_index',
+                    array('id' => $baseline->getId())
+                )
             );
         }
-
-        $service = $this->container->get('map3_baseline.baselineinfo');
-        $child   = $service->getChildCount($baseline);
 
         return $this->render(
             'Map3BaselineBundle:Reference:add.html.twig',
             array(
-                'form' => $form->createView(),
-                'baseline' => $baseline,
-                'child'    => $child
+                'form'     => $form->createView(),
+                'baseline' => $baseline
             )
         );
     }
@@ -132,44 +113,20 @@ class ReferenceController extends Controller
     /**
      * Edit a reference
      *
-     * @param int     $id      The reference id
-     * @param Request $request The request
+     * @param Reference $reference The reference to edit
+     * @param Request   $request   The request
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_USERPLUS")
+     * @Secure(roles="ROLE_USER")
      */
-    public function editAction($id, Request $request)
+    public function editAction(Reference $reference, Request $request)
     {
-        $baseline = $this->getCurrentBaselineFromUser();
+        $baseline = $reference->getBaseline();
+        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
 
-        if ($baseline === null) {
-            return $this->redirect($this->generateUrl('rls-baseline_index'));
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('Map3BaselineBundle:Reference');
-
-        try {
-            $ref = $repository->findByReferenceIdBaselineId(
-                $id,
-                $baseline->getId()
-            );
-        } catch (Exception $e) {
-            throw $this->createNotFoundException(
-                'Reference[id='.$id.'] not found for this baseline'
-            );
-        }
-
-        $form = $this->createForm(new ReferenceType(), $ref);
-
-        $handler = new FormHandler(
-            $form,
-            $request,
-            $this->container->get('doctrine')->getManager(),
-            $this->container->get('validator'),
-            $this->container->get('session')
-        );
+        $form = $this->createForm(new ReferenceType(), $reference);
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
@@ -177,19 +134,17 @@ class ReferenceController extends Controller
                 ->add('success', 'Reference edited successfully !');
 
             return $this->redirect(
-                $this->generateUrl('bln-ref_index')
+                $this->generateUrl(
+                    'bln-refs_index',
+                    array('id' => $baseline->getId())
+                )
             );
         }
-
-        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
-        $child       = $serviceInfo->getChildCount($baseline);
-
         return $this->render(
             'Map3BaselineBundle:Reference:edit.html.twig',
             array(
-                'form' => $form->createView(),
-                'baseline' => $baseline,
-                'child'    => $child
+                'form'     => $form->createView(),
+                'baseline' => $baseline
             )
         );
     }
@@ -197,76 +152,44 @@ class ReferenceController extends Controller
     /**
      * Delete a reference
      *
-     * @param int $id The reference id.
+     * @param Reference $reference The reference to edit 
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_USERPLUS")
+     * @Secure(roles="ROLE_USER")
      */
-    public function delAction($id)
+    public function delAction(Reference $reference)
     {
-        $baseline = $this->getCurrentBaselineFromUser();
-
-        if ($baseline === null) {
-            return $this->redirect($this->generateUrl('rls-baseline_index'));
-        }
-
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('Map3BaselineBundle:Reference');
-
-        try {
-            $ref = $repository->findByReferenceIdBaselineId(
-                $id,
-                $baseline->getId()
-            );
-        } catch (Exception $e) {
-            throw $this->createNotFoundException(
-                'Reference[id='.$id.'] not found for this baseline'
-            );
-        }
+        $baseline = $reference->getBaseline();
+        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
 
         if ($this->get('request')->getMethod() == 'POST') {
 
-            $em->remove($ref);
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($reference);
             $em->flush();
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'Reference removed successfully !');
 
             return $this->redirect(
-                $this->generateUrl('bln-ref_index')
+                $this->generateUrl(
+                    'bln-refs_index',
+                    array('id' => $baseline->getId())
+                )
             );
         }
 
         $refType = new ReferenceType();
         $refType->setDisabled();
-        $form = $this->createForm($refType, $ref);
-
-        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
-        $child       = $serviceInfo->getChildCount($baseline);
+        $form = $this->createForm($refType, $reference);
 
         return $this->render(
             'Map3BaselineBundle:Reference:del.html.twig',
             array(
-                'form' => $form->createView(),
-                'baseline' => $baseline,
-                'child' => $child
+                'form'     => $form->createView(),
+                'baseline' => $baseline
             )
         );
-    }
-
-    /**
-     * Return the current baseline from user context.
-     *
-     * @return Baseline
-     */
-    private function getCurrentBaselineFromUser()
-    {
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
-
-        $baseline = $user->getCurrentBaseline();
-
-        return $baseline;
     }
 }

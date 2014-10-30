@@ -15,6 +15,79 @@ A user+ adds a reference
     And the table should contain x rows    4
     And the table should contain    R1x    Value 4 R1x
 
+Check context for reference add with clean context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-ref/add/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Add reference
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    4
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+
+Check context for reference add without context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-ref/add/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Add reference
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
+
+Check context for reference add with previous context
+    [Tags]    context
+    Given I am logging as    d1-none    d1-none    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And Go To    ${URL_DEV}/baseline/5
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-ref/add/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+
+Check context for reference add with same previous product
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-ref/add/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Add reference
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for reference add with same previous release
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-ref/add/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Add reference
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+
+Check context for reference add with same previous context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/bln-refs/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-ref/add/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Add reference
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    4
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+
 Impossible to add a reference with a name too short
     Given I am a user+
     When I go to references list    View product #1    View release #1    View baseline #1
@@ -63,7 +136,7 @@ Tab References
     And I click action button    Add
     And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
-    Then Location Should Be    ${URL}/bln-ref/
+    Then Location Should Be    ${URL}/bln-refs/1
 
 Tab Features
     Given I am a user+
@@ -71,11 +144,11 @@ Tab Features
     And I click action button    Add
     And Element Should Contain    id=badge_features    XX
     When Click element    id=a_features
-    Then Location Should Be    ${URL}/bln-ref/add#
+    Then Location Should Be    ${URL}/bln-ref/add/1#
 
 Return to list button
     Given I am a user+
     And I go to references list    View product #1    View release #1    View baseline #1
     And I click action button    Add
     When I click button    Return to list
-    Then Location Should Be    ${URL}/bln-ref/
+    Then Location Should Be    ${URL}/bln-refs/1

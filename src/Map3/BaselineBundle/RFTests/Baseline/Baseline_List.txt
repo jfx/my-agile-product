@@ -23,10 +23,82 @@ List with no baseline on a release for a user
     And the table should contain    No baseline
     And Element Should Contain    id=badge_baselines    0
 
-Impossible to view baselines list without selecting a release before
+Check context for baselines list with clean context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baselines/1
+    Then the breadcrumb should contain    Product One    Release One    Baselines list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Check context for baselines list without context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baselines/1
+    Then the breadcrumb should contain    Product One    Release One    Baselines list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
+
+Check context for baselines list with previous context
+    [Tags]    context
+    Given I am logging as    d1-none    d1-none    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baselines/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+
+Check context for baselines list with same previous product
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baselines/1
+    Then the breadcrumb should contain    Product One    Release One    Baselines list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for baselines list with same previous release
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baselines/1
+    Then the breadcrumb should contain    Product One    Release One    Baselines list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Check context for baselines list with same previous context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baselines/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baselines/1
+    Then the breadcrumb should contain    Product One    Release One    Baselines list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Display baselines list without selecting a product before
     Given I am a user
-    When Go to    ${URL}/rls-baseline/
-    Then Location Should Be    ${URL}/product/
+    When Go to    ${URL}/baselines/1
+    Then Location should be    ${URL}/baselines/1
+    And the breadcrumb should contain    Product One    Release One    Baselines list
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 No modify actions buttons for a non-user+ role
     Given I am a user
@@ -69,4 +141,4 @@ Tab Baselines
     And I go to baselines list    View product #1    View release #1
     And Element Should Contain    id=badge_baselines    3
     When Click element    id=a_baselines
-    Then Location Should Be    ${URL}/rls-baseline/
+    Then Location Should Be    ${URL}/baselines/1

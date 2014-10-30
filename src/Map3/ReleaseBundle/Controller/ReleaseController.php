@@ -21,7 +21,6 @@ namespace Map3\ReleaseBundle\Controller;
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\CoreController;
-use Map3\CoreBundle\Form\FormHandler;
 use Map3\ReleaseBundle\Entity\Release;
 use Map3\ReleaseBundle\Form\ReleaseType;
 use Symfony\Component\HttpFoundation\Request;
@@ -89,7 +88,7 @@ class ReleaseController extends CoreController
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_GUEST")
+     * @Secure(roles="ROLE_USER")
      */
     public function viewAction(Release $release)
     {
@@ -116,7 +115,7 @@ class ReleaseController extends CoreController
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_MANAGER")
+     * @Secure(roles="ROLE_USER")
      */
     public function editAction(Release $release, Request $request)
     {
@@ -153,7 +152,7 @@ class ReleaseController extends CoreController
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_MANAGER")
+     * @Secure(roles="ROLE_USER")
      */
     public function delAction(Release $release)
     {
@@ -216,7 +215,7 @@ class ReleaseController extends CoreController
      */
     public function tabsAction($activeTab)
     {
-        $release = $this->getCurrentProductFromUserWithReset(false);
+        $release = $this->getCurrentReleaseFromUserWithReset(false);
 
         $child = array();
 

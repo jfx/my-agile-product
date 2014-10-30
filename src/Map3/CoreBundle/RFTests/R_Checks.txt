@@ -91,5 +91,11 @@ the context log file should contain x lines
 the context log file should contain
     [Arguments]    @{list}
     ${file}=    Get File    ${LOG_PATH}/uctx_dev.log
-    :FOR    ${item}    IN    @{list}
+    : FOR    ${item}    IN    @{list}
     \    Should Contain    ${file}    ${item}
+
+the context log file should not contain
+    [Arguments]    @{list}
+    ${file}=    Get File    ${LOG_PATH}/uctx_dev.log
+    : FOR    ${item}    IN    @{list}
+    \    Should Not Contain    ${file}    ${item}

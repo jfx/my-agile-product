@@ -17,7 +17,7 @@
             <th>
             {% if is_granted('ROLE_DM_USERPLUS') %}
                     <a class="btn btn-xs btn-cust"
-                       href="{{ path('baseline_add') }}"
+                       href="{{ path('baseline_add', {'id': release.id}) }}"
                         title="Add">
                         {{ icon('plus') }}
                     </a>

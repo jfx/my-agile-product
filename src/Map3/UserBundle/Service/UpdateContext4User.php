@@ -213,8 +213,7 @@ class UpdateContext4User
                 $this->logger->debug('User->setCurrentRelease');
                 $this->user->setCurrentRelease($release);
                 
-                $this->updateUserIfChanged(true);
-                $this->userHasChanged = false;
+                $this->userHasChanged = true;
                 
                 $product = $release->getProduct();
                 $this->setCurrentProductChilds($product, false);
@@ -228,7 +227,7 @@ class UpdateContext4User
      * Set the current baseline and set release/product and role.
      *
      * @param Baseline|null $baseline The baseline, if null unset current
-     * baseline.
+     *                                baseline.
      *
      * @return void
      */
@@ -244,7 +243,8 @@ class UpdateContext4User
     /**
      * Set the current release and set product and role.
      *
-     * @param Release|null $release The release, if null unset current release.
+     * @param Baseline|null $baseline The baseline, if null unset current
+     *                                baseline.
      *
      * @return void
      */
@@ -255,14 +255,13 @@ class UpdateContext4User
             $this->userHasChanged = true;
             $this->user->unsetCurrentBaseline();
         } else {
-            $currentBaseline = $user->getCurrentBaseline();
+            $currentBaseline = $this->user->getCurrentBaseline();
 
             if ($baseline != $currentBaseline) {
                 $this->logger->debug('User->setCurrentBaseline');
                 $this->user->setCurrentBaseline($baseline);
-                
-                $this->updateUserIfChanged(true);
-                $this->userHasChanged = false;
+
+                $this->userHasChanged = true;
                 
                 $release = $baseline->getRelease();
                 $this->setCurrentReleaseChilds($release, false);
@@ -274,8 +273,6 @@ class UpdateContext4User
     
     /**
      * Update user if context of user has changed.
-     *
-     * @param boolean $userHasChanged Has User changed ?
      *
      * @return void
      */
