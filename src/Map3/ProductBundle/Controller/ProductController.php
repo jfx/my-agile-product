@@ -161,7 +161,7 @@ class ProductController extends CoreController
         return $this->render(
             'Map3ProductBundle:Product:edit.html.twig',
             array(
-                'form' => $form->createView(),
+                'form'    => $form->createView(),
                 'product' => $product
             )
         );
@@ -221,7 +221,7 @@ class ProductController extends CoreController
         return $this->render(
             'Map3ProductBundle:Product:del.html.twig',
             array(
-                'form' => $form->createView(),
+                'form'    => $form->createView(),
                 'product' => $product
             )
         );
@@ -256,8 +256,8 @@ class ProductController extends CoreController
         return $this->render(
             'Map3ProductBundle:Product:tabs.html.twig',
             array(
-                'product' => $product,
-                'child' => $child,
+                'product'   => $product,
+                'child'     => $child,
                 'activeTab' => $activeTab
             )
         );

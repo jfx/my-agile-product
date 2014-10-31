@@ -35,8 +35,8 @@ Check context for user delete with clean context
     When Go To    ${URL_DEV}/pdt-user/del/5
     Then the breadcrumb should contain    Product One    Delete user
     And Page should contain    Useradmin*
-    And the context log file should contain x lines    1
-    And the context log file should contain    CoreController->getCurrentProductFromUser
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->getCurrentProductFromUserWithReset(true)    CoreController->unsetCurrentRelease    Reset childs : Baseline and above    User->unsetCurrentRelease    Update user
 
 Cancel to delete a user
     Given I am a super-admin
@@ -93,7 +93,7 @@ Tab Releases
     And I click action button    Delete user #5
     And Element Should Contain    id=badge_releases    3
     When Click Link    id=a_releases
-    Then Location Should Be    ${URL}/pdt-release/
+    Then Location Should Be    ${URL}/releases/1
 
 Tab Users
     Given I am a super-admin

@@ -52,8 +52,8 @@ Check context for user add from clean context
     When Go To    ${URL_DEV}/pdt-user/add
     Then the breadcrumb should contain    Product One    Add user
     And Page should contain    Useradmin*
-    And the context log file should contain x lines    1
-    And the context log file should contain    CoreController->getCurrentProductFromUser
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->getCurrentProductFromUserWithReset(true)    CoreController->unsetCurrentRelease    Reset childs : Baseline and above    User->unsetCurrentRelease    Update user
 
 Impossible to add when no user available
     Given I am a super-admin
@@ -64,6 +64,10 @@ Impossible to add when no user available
     Then Page Should Contain    User added successfully
     And I click action button    Add
     And Select From List By Label    map3_user_user    No-product Firstno-product
+    When I save
+    Then Page Should Contain    User added successfully
+    And I click action button    Add
+    And Select From List By Label    map3_user_user    D2-manager Firstd2-manager
     When I save
     Then Page Should Contain    User added successfully
     And I click action button    Add
@@ -100,7 +104,7 @@ Tab Releases
     When I click action button    Add
     And Element Should Contain    id=badge_releases    3
     When Click Link    id=a_releases
-    Then Location Should Be    ${URL}/pdt-release/
+    Then Location Should Be    ${URL}/releases/1
 
 Tab Users
     Given I am a super-admin
