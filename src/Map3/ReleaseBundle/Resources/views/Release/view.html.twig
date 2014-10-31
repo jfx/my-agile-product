@@ -19,7 +19,8 @@
     </div>
 </div>
 <div class="row-fluid">
-    <a class="btn btn-default btn-sm" href="{{ path('pdt-release_index') }}"
+    <a href="{{ path('pdt-release_index', {'id': product.id}) }}"
+       class="btn btn-default btn-sm"
        title="Return to product">
         {{ icon('chevron-left') }} Return to product
     </a>

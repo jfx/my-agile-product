@@ -21,6 +21,7 @@ namespace Map3\ReleaseBundle\Controller;
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\CoreController;
+use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 use Map3\ReleaseBundle\Form\ReleaseType;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,15 +45,16 @@ class ReleaseController extends CoreController
     /**
      * Add a release.
      *
+     * @param Product $product The product
      * @param Request $request The request
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_MANAGER")
+     * @Secure(roles="ROLE_USER")
      */
-    public function addAction(Request $request)
+    public function addAction(Product $product, Request $request)
     {
-        $product = $this->getCurrentProductFromUserWithReset();
+        $this->setCurrentProduct($product, array('ROLE_DM_MANAGER'));
 
         $release = new Release();
         $release->setProduct($product);
@@ -101,7 +103,8 @@ class ReleaseController extends CoreController
         return $this->render(
             'Map3ReleaseBundle:Release:view.html.twig',
             array(
-                'form' => $form->createView(),
+                'form'    => $form->createView(),
+                'product' => $release->getProduct(),
                 'release' => $release
             )
         );
@@ -136,10 +139,12 @@ class ReleaseController extends CoreController
                 $this->generateUrl('release_view', array('id' => $id))
             );
         }
+
         return $this->render(
             'Map3ReleaseBundle:Release:edit.html.twig',
             array(
-                'form' => $form->createView(),
+                'form'    => $form->createView(),
+                'product' => $release->getProduct(),
                 'release' => $release
             )
         );
@@ -158,6 +163,8 @@ class ReleaseController extends CoreController
     {
         $this->setCurrentRelease($release, array('ROLE_DM_MANAGER'));
 
+        $product = $release->getProduct();
+
         if ($this->get('request')->getMethod() == 'POST') {
 
             $this->unsetCurrentRelease();
@@ -172,7 +179,10 @@ class ReleaseController extends CoreController
                     ->add('success', 'Release removed successfully !');
 
                 return $this->redirect(
-                    $this->generateUrl('pdt-release_index')
+                    $this->generateUrl(
+                        'pdt-release_index',
+                        array('id' => $product->getId())
+                    )
                 );
 
             } catch (Exception $e) {
@@ -200,7 +210,8 @@ class ReleaseController extends CoreController
         return $this->render(
             'Map3ReleaseBundle:Release:del.html.twig',
             array(
-                'form' => $form->createView(),
+                'form'    => $form->createView(),
+                'product' => $product,
                 'release' => $release
             )
         );
@@ -220,7 +231,7 @@ class ReleaseController extends CoreController
         $child = array();
 
         $entityManager = $this->container->get('doctrine')->getManager();
-        
+
         $repositoryBln = $entityManager->getRepository(
             'Map3BaselineBundle:Baseline'
         );
@@ -228,12 +239,12 @@ class ReleaseController extends CoreController
         $child['baselines']  = $repositoryBln->countBaselinesByRelease(
             $release
         );
-        
+
         return $this->render(
             'Map3ReleaseBundle:Release:tabs.html.twig',
             array(
-                'release' => $release,
-                'child' => $child,
+                'release'   => $release,
+                'child'     => $child,
                 'activeTab' => $activeTab
             )
         );

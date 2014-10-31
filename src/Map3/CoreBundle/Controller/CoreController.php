@@ -93,7 +93,7 @@ abstract class CoreController extends Controller
      * Set product in context
      *
      * @param Product $product The product.
-     * @param array   $roles    Roles to check.
+     * @param array   $roles   Roles to check.
      *
      * @return void
      */
@@ -104,13 +104,13 @@ abstract class CoreController extends Controller
 
         $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
         $serviceUpdate->setCurrentProduct($product);
-        
+
         $this->userIsGranted($roles);
     }
 
     /**
      * Return the current product from user context.
-     * 
+     *
      * @param boolean $reset Reset release and above
      *
      * @return Product
@@ -130,7 +130,7 @@ abstract class CoreController extends Controller
         if ($reset) {
             $this->unsetCurrentRelease();
         }
-        
+
         return $product;
     }
 
@@ -152,7 +152,7 @@ abstract class CoreController extends Controller
      * Set release in context
      *
      * @param Release $release The release.
-     * @param array   $roles    Roles to check.
+     * @param array   $roles   Roles to check.
      *
      * @return void
      */
@@ -163,13 +163,13 @@ abstract class CoreController extends Controller
 
         $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
         $serviceUpdate->setCurrentRelease($release);
-        
+
         $this->userIsGranted($roles);
     }
 
     /**
      * Return the current release from user context.
-     * 
+     *
      * @param boolean $reset Reset baseline and above
      *
      * @return Release
@@ -188,7 +188,8 @@ abstract class CoreController extends Controller
 
         if ($reset) {
             $this->unsetCurrentBaseline();
-        }        
+        }
+
         return $release;
     }
 
@@ -205,7 +206,7 @@ abstract class CoreController extends Controller
         $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
         $serviceUpdate->setCurrentRelease(null);
     }
-    
+
     /**
      * Set baseline in context
      *
@@ -221,13 +222,13 @@ abstract class CoreController extends Controller
 
         $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
         $serviceUpdate->setCurrentBaseline($baseline);
-        
+
         $this->userIsGranted($roles);
     }
 
     /**
      * Return the current baseline from user context.
-     * 
+     *
      * @param boolean $reset Reset baseline and above
      *
      * @return Release
@@ -243,7 +244,7 @@ abstract class CoreController extends Controller
             ->getUser();
 
         $baseline = $user->getCurrentBaseline();
-       
+
         return $baseline;
     }
 

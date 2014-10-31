@@ -43,8 +43,8 @@ class ReferenceController extends CoreController
     /**
      * List of references
      *
-     * @param Baseline $baseline The baseline 
-     * 
+     * @param Baseline $baseline The baseline
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
@@ -71,7 +71,7 @@ class ReferenceController extends CoreController
     /**
      * Add a reference.
      *
-     * @param Baseline $baseline The baseline 
+     * @param Baseline $baseline The baseline
      * @param Request  $request  The request
      *
      * @return Response A Response instance
@@ -140,6 +140,7 @@ class ReferenceController extends CoreController
                 )
             );
         }
+
         return $this->render(
             'Map3BaselineBundle:Reference:edit.html.twig',
             array(
@@ -152,7 +153,7 @@ class ReferenceController extends CoreController
     /**
      * Delete a reference
      *
-     * @param Reference $reference The reference to edit 
+     * @param Reference $reference The reference to edit
      *
      * @return Response A Response instance
      *

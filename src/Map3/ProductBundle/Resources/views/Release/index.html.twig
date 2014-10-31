@@ -17,7 +17,7 @@
             <th>
             {% if is_granted('ROLE_DM_MANAGER') %}
                     <a class="btn btn-xs btn-cust"
-                       href="{{ path('release_add') }}"
+                       href="{{ path('release_add', {'id': product.id}) }}"
                         title="Add">
                         {{ icon('plus') }}
                     </a>

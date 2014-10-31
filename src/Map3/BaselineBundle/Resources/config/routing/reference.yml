@@ -1,12 +1,11 @@
 bln-ref_add:
     pattern:  /add/{id}
     defaults: { _controller: "Map3BaselineBundle:Reference:add" }
-        
+
 bln-ref_edit:
     pattern:  /edit/{id}
     defaults: { _controller: "Map3BaselineBundle:Reference:edit" }
-        
+
 bln-ref_del:
     pattern:  /del/{id}
     defaults: { _controller: "Map3BaselineBundle:Reference:del" }
-        

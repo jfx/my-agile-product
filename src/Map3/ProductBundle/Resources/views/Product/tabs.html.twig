@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs" role="tablist">
     <li {% if activeTab == 'main' %}class="active"{% endif %}><a id="a_main" href="{{ path('product_view', {'id' : product.id}) }}">{{ icon('phone') }}&nbsp;&nbsp;Main</a></li>
-    <li {% if activeTab == 'releases' %}class="active"{% endif %}><a id="a_releases" href="{{ path('pdt-release_index') }}">{{ icon('step-forward') }}&nbsp;&nbsp;Releases&nbsp;&nbsp;<span id="badge_releases" class="badge badge-info">{{ child.releases }}</span></a></li>
+    <li {% if activeTab == 'releases' %}class="active"{% endif %}><a id="a_releases" href="{{ path('pdt-release_index', {'id' : product.id}) }}">{{ icon('step-forward') }}&nbsp;&nbsp;Releases&nbsp;&nbsp;<span id="badge_releases" class="badge badge-info">{{ child.releases }}</span></a></li>
     <li {% if activeTab == 'users' %}class="active"{% endif %}><a id="a_users" href="{{ path('pdt-user_index') }}">{{ icon('globe') }}&nbsp;&nbsp;Users&nbsp;&nbsp;<span id="badge_users" class="badge badge-info">{{ child.users }}</span></a></li>
 </ul>

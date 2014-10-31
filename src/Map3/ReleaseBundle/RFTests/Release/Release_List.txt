@@ -26,19 +26,51 @@ List with no release on a product for a user
 Check context for releases list with clean context
     [Tags]    context
     Given I am logging as    d1-manager    d1-manager    Hello    True
-    When Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/product/1
     And I reset the context log file
-    When Go To    ${URL_DEV}/pdt-release/
+    When Go To    ${URL_DEV}/releases/1
+    Then the breadcrumb should contain    Product One    Releases list
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    Same product. No change    Update user
+
+Check context for releases list without context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/releases/1
     Then the breadcrumb should contain    Product One    Releases list
     And Page should contain    Userd1-manager (Manager)
     And the context log file should contain x lines    7
-    And the context log file should contain    CoreController->getCurrentProductFromUserWithReset(true)    CoreController->unsetCurrentRelease    Reset childs : Baseline and above    User->unsetCurrentRelease    Update user
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    Role : ROLE_DM_MANAGER    Update user
 
-Impossible to view releases list without selecting a product before
+Check context for releases list with previous context
+    [Tags]    context
+    Given I am logging as    d1-none    d1-none    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/releases/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+
+Check context for releases list with same previous context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/releases/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/releases/1
+    Then the breadcrumb should contain    Product One    Releases list
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    Same product. No change    Update user
+
+Display releases list without selecting a product before
     Given I am a user
-    When Go to    ${URL}/pdt-release/
-    Then Location should be    ${URL}/pdt-release/
-    And Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    When Go to    ${URL}/releases/1
+    Then Location should be    ${URL}/releases/1
+    And the breadcrumb should contain    Product One    Releases list
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 No modify actions buttons for a non-manager
     Given I am a user
@@ -75,7 +107,7 @@ Tab Releases
     And I go to releases list    View product #1
     And Element Should Contain    id=badge_releases    3
     When Click element    id=a_releases
-    And Location Should Be    ${URL}/pdt-release/
+    And Location Should Be    ${URL}/releases/1
 
 Tab Users
     Given I am a user

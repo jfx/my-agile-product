@@ -85,7 +85,7 @@ class LoginListener
 
         $user->unsetCurrentProduct();
         $token->setAuthenticated(false);
-        
+
         $repositoryRl = $this->entityManager->getRepository(
             'Map3ReleaseBundle:Release'
         );

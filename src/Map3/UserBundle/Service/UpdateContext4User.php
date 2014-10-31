@@ -20,7 +20,6 @@ namespace Map3\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
-use Exception;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
@@ -61,7 +60,7 @@ class UpdateContext4User
      * @var Psr\Log\LoggerInterface Logger
      */
     protected $logger;
-    
+
     /**
      * @var Map3\UserBundle\Entity\User User entity
      */
@@ -71,7 +70,7 @@ class UpdateContext4User
      * @var boolean userHasChanged Has User changed ?
      */
     protected $userHasChanged = false;
-    
+
     /**
      * Constructor
      *
@@ -90,7 +89,7 @@ class UpdateContext4User
         $this->entityManager   = $entityManager;
         $this->userManager     = $userManager;
         $this->logger          = $logger;
-        
+
         $this->user = $this->securityContext->getToken()->getUser();
     }
 
@@ -106,7 +105,7 @@ class UpdateContext4User
         $this->logger->debug('Init Ctx4U->setCurrentProduct');
 
         $this->setCurrentProductChilds($product, true);
-        
+
         $this->updateUserIfChanged();
     }
     /**
@@ -172,7 +171,7 @@ class UpdateContext4User
     /**
      * Set the current release and set product and role.
      *
-     * @param Release|null $release The release, if null unset current release.
+     * @param Release|null $release The release, if null unset current release
      *
      * @return void
      */
@@ -181,16 +180,15 @@ class UpdateContext4User
         $this->logger->debug('Init Ctx4U->setCurrentRelease');
 
         $this->setCurrentReleaseChilds($release, true);
-        
+
         $this->updateUserIfChanged();
     }
-    
+
     /**
      * Set the current release and set product and role.
      *
-     * @param Release|null $release     The release, if null unset current 
-     *                                  release.
-     * @param boolean      $resetChilds Current childs must be resetted.
+     * @param Release|null $release     The release, if null unset release
+     * @param boolean      $resetChilds Current childs must be resetted
      *
      * @return void
      */
@@ -212,9 +210,9 @@ class UpdateContext4User
             if ($release != $currentRelease) {
                 $this->logger->debug('User->setCurrentRelease');
                 $this->user->setCurrentRelease($release);
-                
+
                 $this->userHasChanged = true;
-                
+
                 $product = $release->getProduct();
                 $this->setCurrentProductChilds($product, false);
             } else {
@@ -236,7 +234,7 @@ class UpdateContext4User
         $this->logger->debug('Init Ctx4U->setCurrentBaseline');
 
         $this->setCurrentBaselineChilds($baseline);
-        
+
         $this->updateUserIfChanged();
     }
 
@@ -262,7 +260,7 @@ class UpdateContext4User
                 $this->user->setCurrentBaseline($baseline);
 
                 $this->userHasChanged = true;
-                
+
                 $release = $baseline->getRelease();
                 $this->setCurrentReleaseChilds($release, false);
             } else {
@@ -270,7 +268,7 @@ class UpdateContext4User
             }
         }
     }
-    
+
     /**
      * Update user if context of user has changed.
      *
@@ -280,7 +278,7 @@ class UpdateContext4User
     {
         if ($this->userHasChanged) {
             $this->logger->debug('Update user');
-            $this->userManager->updateUser($this->user);   
+            $this->userManager->updateUser($this->user);
         }
     }
     /**

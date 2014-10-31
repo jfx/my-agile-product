@@ -112,7 +112,7 @@ class ProductController extends CoreController
     public function viewAction(Product $product)
     {
         $this->setCurrentProduct($product, array(Role::GUEST_ROLE));
-        
+
         $productType = new ProductType();
         $productType->setDisabled();
         $form = $this->createForm($productType, $product);
@@ -139,7 +139,7 @@ class ProductController extends CoreController
     public function editAction(Product $product, Request $request)
     {
         $this->setCurrentProduct(
-            $product, 
+            $product,
             array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE)
         );
 

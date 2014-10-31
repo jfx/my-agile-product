@@ -40,7 +40,7 @@ class BaselineController extends CoreController
      * List of baselines
      *
      * @param Release $release The release
-     * 
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
@@ -48,7 +48,7 @@ class BaselineController extends CoreController
     public function indexAction(Release $release)
     {
         $this->setCurrentRelease($release, array('ROLE_DM_GUEST'));
-                
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3BaselineBundle:Baseline');

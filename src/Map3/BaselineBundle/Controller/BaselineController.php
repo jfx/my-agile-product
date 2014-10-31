@@ -55,7 +55,7 @@ class BaselineController extends CoreController
     public function addAction(Release $release, Request $request)
     {
         $this->setCurrentRelease($release, array('ROLE_DM_USERPLUS'));
-        
+
         $baseline = new Baseline();
         $baseline->setRelease($release);
 
@@ -171,7 +171,7 @@ class BaselineController extends CoreController
         $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
 
         $release = $baseline->getRelease();
-        
+
         if ($this->get('request')->getMethod() == 'POST') {
 
             $this->unsetCurrentBaseline();
@@ -193,7 +193,7 @@ class BaselineController extends CoreController
                 );
 
             } catch (Exception $e) {
-                
+
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     'Impossible to remove this item'
@@ -238,7 +238,7 @@ class BaselineController extends CoreController
         $child = array();
 
         $entityManager = $this->container->get('doctrine')->getManager();
-        
+
         $repositoryRef = $entityManager->getRepository(
             'Map3BaselineBundle:Reference'
         );
@@ -246,7 +246,7 @@ class BaselineController extends CoreController
         $child['references']  = $repositoryRef->countReferencesByBaseline(
             $baseline
         );
-        
+
         return $this->render(
             'Map3BaselineBundle:Baseline:tabs.html.twig',
             array(
