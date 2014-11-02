@@ -5,19 +5,10 @@ Documentation     In order to make navigation ease in use
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
-Switch release with select box
-    Given I am a user
-    When I select in menu select    Release One
-    Then Location Should Be    ${URL}/release/1
-    And the role should be    User
-    When I select in menu select    Release Three
-    Then Location Should Be    ${URL}/release/4
-    And the role should be    User+
-
-Select box should contain available releases
+Select box should contain available baselines
     When I am a user
-    Then Page Should Contain Element    xpath=//optgroup[@label='Product One']
-    And Element Should Contain    id=map3_select_search    Release One
+    Then Page Should Contain Element    xpath=//optgroup[@label='Product One / Release One : 02/12/2014']
+    And Element Should Contain    id=map3_select_search    Baseline One : 12/11/2014
     And Element Should Contain    id=map3_select_search    Release Two
     Page Should Contain Element    xpath=//optgroup[@label='Product Two']
     And Element Should Contain    id=map3_select_search    Release Three
@@ -33,6 +24,15 @@ Select box should not contain release with no role
 Select box should not be displayed when no release
     When I am a super-admin
     Then Page Should Not Contain Element    id=map3_select_search
+
+Switch release with select box
+    Given I am a user
+    When I select in menu select    Release One
+    Then Location Should Be    ${URL}/release/1
+    And the role should be    User
+    When I select in menu select    Release Three
+    Then Location Should Be    ${URL}/release/4
+    And the role should be    User+
 
 *** Keywords ***
 I select in menu select

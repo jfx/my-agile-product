@@ -69,10 +69,10 @@ class SelectController extends Controller
      */
     public function requestAction(Request $request)
     {
-        $releaseId = $request->request->get('map3_select')['search'];
+        $baselineId = $request->request->get('map3_select')['search'];
 
         return $this->redirect(
-            $this->generateUrl('release_view', array('id' => $releaseId))
+            $this->generateUrl('baseline_view', array('id' => $baselineId))
         );
     }
 }

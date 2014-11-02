@@ -48,18 +48,27 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $dateTimeB1 = new DateTime("+ 10 days");
+        $dateTimeB1->setTime(12, 00, 00);
+        $dateTimeB2 = new DateTime("+ 20 days");
+        $dateTimeB2->setTime(12, 00, 00);
+        $dateTimeB3 = new DateTime("+ 1 months");
+        $dateTimeB3->setTime(12, 00, 00);
+        $dateTimeB4 = new DateTime("+ 2 months");
+        $dateTimeB4->setTime(12, 00, 00);
+        
         $dataArray = array(
             array(
                 'name'         => 'Baseline One',
                 'details'      => 'Details 4 baseline 1',
-                'baselineDate' => new DateTime("+ 10 days"),
+                'baselineDate' => $dateTimeB1,
                 'closed'       => false,
                 'release'      => 'releaseone-release',
             ),
             array(
                 'name'         => 'Baseline Two',
                 'details'      => 'Details 4 baseline 2',
-                'baselineDate' => new DateTime("+ 20 days"),
+                'baselineDate' => $dateTimeB2,
                 'closed'       => false,
                 'release'      => 'releaseone-release',
             ),
@@ -73,14 +82,14 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
             array(
                 'name'         => 'Baseline Three',
                 'details'      => 'Details 4 baseline 3',
-                'baselineDate' => new DateTime("+ 1 months"),
+                'baselineDate' => $dateTimeB3,
                 'closed'       => false,
                 'release'      => 'releasetwo-release',
             ),
             array(
                 'name'         => 'Baseline Four',
                 'details'      => 'Details 4 baseline 4',
-                'baselineDate' => new DateTime("+ 2 months"),
+                'baselineDate' => $dateTimeB4,
                 'closed'       => false,
                 'release'      => 'releasethree-release',
             ),

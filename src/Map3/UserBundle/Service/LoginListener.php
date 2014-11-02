@@ -18,8 +18,10 @@
 
 namespace Map3\UserBundle\Service;
 
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Model\UserManagerInterface;
+use Map3\CoreBundle\Extensions\LocaleDateExtension;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Psr\Log\LoggerInterface;
 
@@ -42,14 +44,20 @@ class LoginListener
     protected $entityManager;
 
     /**
-     * @var FOS\UserBundle\Model\UserManagerInterface User manager
+     * @var UserManagerInterface User manager
      */
     protected $userManager;
 
     /**
-     * @var Psr\Log\LoggerInterface Logger
+     * @var LoggerInterface Logger
      */
     protected $logger;
+
+    /**
+     *
+     * @var LocaleDateExtension Date extension 
+     */
+    protected $dateExtension;
 
     /**
      * Constructor
@@ -61,11 +69,13 @@ class LoginListener
     public function __construct(
         EntityManager $entityManager,
         UserManagerInterface $userManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        LocaleDateExtension $localDateExtension
     ) {
         $this->entityManager = $entityManager;
         $this->userManager   = $userManager;
         $this->logger        = $logger;
+        $this->dateExtension = $localDateExtension;
     }
 
     /**
@@ -83,16 +93,39 @@ class LoginListener
         $token = $event->getAuthenticationToken();
         $user = $token->getUser();
 
+        // Unset current product release baseline
         $user->unsetCurrentProduct();
         $token->setAuthenticated(false);
 
-        $repositoryRl = $this->entityManager->getRepository(
-            'Map3ReleaseBundle:Release'
+        $repository = $this->entityManager->getRepository(
+            'Map3BaselineBundle:Baseline'
         );
 
-        $releases = $repositoryRl->findAvailableReleasesByUser($user);
+        $baselinesFromDB = $repository->findAvailableBaselinesByUser($user);
 
-        $user->setAvailableReleases($releases);
+        $baselines = array();
+
+        foreach ($baselinesFromDB as $row) {
+
+            $releaseDate = new DateTime($row['r_date']);
+            $formatedReleaseDate = $this->dateExtension->localeDateFilter(
+                $releaseDate
+            );
+            $releaseLabel  = $row['p_name'].' / '.$row['r_name'].' : ';
+            $releaseLabel .= $formatedReleaseDate;
+
+            if (!array_key_exists($releaseLabel, $baselines)) {
+                $baselines[$releaseLabel] = array();
+            }
+            $baselineDate = new DateTime($row['b_date']);
+            $formatedBaselineDate = $this->dateExtension->localeDateTimeFilter(
+                $baselineDate
+            );
+            $baselineLabel = $row['b_name'].' : '.$formatedBaselineDate;
+            $baselines[$releaseLabel][$row['b_id']] = $baselineLabel;
+        }
+
+        $user->setAvailableBaselines($baselines);
         $this->userManager->updateUser($user);
     }
 }
