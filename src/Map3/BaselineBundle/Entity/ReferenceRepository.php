@@ -54,28 +54,6 @@ class ReferenceRepository extends EntityRepository
     }
 
     /**
-     * Get a reference for a reference id and baseline id.
-     *
-     * @param int $refId The reference id.
-     * @param int $blnId The baseline id.
-     *
-     * @return Reference.
-     */
-    public function findByReferenceIdBaselineId($refId, $blnId)
-    {
-        $qb = $this->createQueryBuilder('r')
-            ->innerJoin('r.baseline', 'b')
-            ->where('r.id = :refId')
-            ->andWhere('b.id = :blnId')
-            ->setParameter('refId', $refId)
-            ->setParameter('blnId', $blnId);
-
-        $result = $qb->getQuery()->getSingleResult();
-
-        return $result;
-    }
-
-    /**
      * Count all references for a baseline.
      *
      * @param Baseline $bln The baseline.

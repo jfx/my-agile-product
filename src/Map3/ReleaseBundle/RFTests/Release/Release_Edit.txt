@@ -102,8 +102,7 @@ Impossible to modify a release with wrong date
     When Input Text    //div[@data-link-field='map3_release_releaseDate']/input[@type='text']    xx/xx/xxxx
     And Click Element    map3_release_name
     And I save
-    ${d} =    Get Time    day
-    ${sql_date} =    And I get sql formated date in X months    ${d}    1
+    ${sql_date} =    And I get sql formated date in X months    20    1
     Then Disabled text element should contain    map3_release_releaseDate    ${sql_date}
 
 Wrong release Id for a product

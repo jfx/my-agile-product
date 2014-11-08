@@ -11,7 +11,7 @@ View release details
     When I click action button    View release #3
     Then Location Should Be    ${URL}/release/3
     And Disabled text element should contain    map3_release_name    Release Closed
-    And Disabled text element should contain    map3_release_releaseDate    2014-08-14
+    And Disabled text element should contain    map3_release_releaseDate    2014-08-20
     And Checkbox Should Be Selected    map3_release_closed
 
 Check context for release view with clean context

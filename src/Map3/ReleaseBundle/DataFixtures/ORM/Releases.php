@@ -48,39 +48,48 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
+        $dateR1 = new DateTime();
+        $dateR1->setDate(date("Y"), date("m")+1, 20)->setTime(12, 0, 0);
+        $dateR2 = new DateTime();
+        $dateR2->setDate(date("Y"), date("m")+2, 20)->setTime(12, 0, 0);
+        $dateR3 = new DateTime();
+        $dateR3->setDate(date("Y"), date("m")+3, 20)->setTime(12, 0, 0);
+        $dateR4 = new DateTime();
+        $dateR4->setDate(date("Y"), date("m")+2, 20)->setTime(12, 0, 0);
+
         $dataArray = array(
             array(
                 'name'        => 'Release One',
                 'details'     => 'Details 4 release 1',
-                'releaseDate' => new DateTime("+ 1 months"),
+                'releaseDate' => $dateR1,
                 'closed'      => false,
                 'product'     => 'productone-product',
             ),
             array(
                 'name'        => 'Release Two',
                 'details'     => 'Details 4 release 2',
-                'releaseDate' => new DateTime("+ 2 months"),
+                'releaseDate' => $dateR2,
                 'closed'      => false,
                 'product'     => 'productone-product',
             ),
             array(
                 'name'        => 'Release Closed',
                 'details'     => 'Details 4 release closed',
-                'releaseDate' => new DateTime("2014-08-14 12:00:00"),
+                'releaseDate' => new DateTime("2014-08-20 12:00:00"),
                 'closed'      => true,
                 'product'     => 'productone-product',
             ),
             array(
                 'name'        => 'Release Three',
                 'details'     => 'Details 4 release 3',
-                'releaseDate' => new DateTime("+ 3 months"),
+                'releaseDate' => $dateR3,
                 'closed'      => false,
                 'product'     => 'producttwo-product',
             ),
             array(
                 'name'        => 'Release Four',
                 'details'     => 'Details 4 release 4',
-                'releaseDate' => new DateTime("+ 2 months"),
+                'releaseDate' => $dateR4,
                 'closed'      => false,
                 'product'     => 'productthree-product',
             ),

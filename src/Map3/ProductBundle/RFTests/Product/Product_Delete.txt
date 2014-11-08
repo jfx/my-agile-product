@@ -28,9 +28,9 @@ Delete a product saved in user context
     And I go to delete product page    5
     When I click button    Remove
     And I confirm
-    Then Location Should Be    ${URL}/product/
-    And Page Should Contain    Product removed successfully
-    And Page Should not Contain    Product Five
+    Then Run Keyword And Expect Error    *    Then Location Should Be    ${URL}/product/
+    Then Run Keyword And Expect Error    *    And Page Should Contain    Product removed successfully
+    Then Run Keyword And Expect Error    *    And Page Should not Contain    Product Five
 
 Check context for product view with clean context
     [Tags]    context

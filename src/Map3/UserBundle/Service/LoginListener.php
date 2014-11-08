@@ -55,7 +55,7 @@ class LoginListener
 
     /**
      *
-     * @var LocaleDateExtension Date extension 
+     * @var LocaleDateExtension Date extension
      */
     protected $dateExtension;
 
@@ -65,17 +65,18 @@ class LoginListener
      * @param EntityManager        $entityManager The doctrine entity manager
      * @param UserManagerInterface $userManager   The user manager
      * @param LoggerInterface      $logger        The logger
+     * @param LocaleDateExtension  $dateExtension Date extension
      */
     public function __construct(
         EntityManager $entityManager,
         UserManagerInterface $userManager,
         LoggerInterface $logger,
-        LocaleDateExtension $localDateExtension
+        LocaleDateExtension $dateExtension
     ) {
         $this->entityManager = $entityManager;
         $this->userManager   = $userManager;
         $this->logger        = $logger;
-        $this->dateExtension = $localDateExtension;
+        $this->dateExtension = $dateExtension;
     }
 
     /**

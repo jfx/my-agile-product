@@ -48,27 +48,29 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $dateTimeB1 = new DateTime("+ 10 days");
-        $dateTimeB1->setTime(12, 00, 00);
-        $dateTimeB2 = new DateTime("+ 20 days");
-        $dateTimeB2->setTime(12, 00, 00);
-        $dateTimeB3 = new DateTime("+ 1 months");
-        $dateTimeB3->setTime(12, 00, 00);
-        $dateTimeB4 = new DateTime("+ 2 months");
-        $dateTimeB4->setTime(12, 00, 00);
-        
+        $dateB1 = new DateTime();
+        $dateB1->setDate(date("Y"), date("m")+1, 10)->setTime(12, 0, 0);
+        $dateB2 = new DateTime();
+        $dateB2->setDate(date("Y"), date("m")+1, 15)->setTime(12, 0, 0);
+        $dateB3 = new DateTime();
+        $dateB3->setDate(date("Y"), date("m")+1, 15)->setTime(12, 0, 0);
+        $dateB4 = new DateTime();
+        $dateB4->setDate(date("Y"), date("m")+2, 15)->setTime(12, 0, 0);
+        $dateB5 = new DateTime();
+        $dateB5->setDate(date("Y"), date("m")+1, 15)->setTime(12, 0, 0);
+
         $dataArray = array(
             array(
                 'name'         => 'Baseline One',
                 'details'      => 'Details 4 baseline 1',
-                'baselineDate' => $dateTimeB1,
+                'baselineDate' => $dateB1,
                 'closed'       => false,
                 'release'      => 'releaseone-release',
             ),
             array(
                 'name'         => 'Baseline Two',
                 'details'      => 'Details 4 baseline 2',
-                'baselineDate' => $dateTimeB2,
+                'baselineDate' => $dateB2,
                 'closed'       => false,
                 'release'      => 'releaseone-release',
             ),
@@ -82,21 +84,21 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
             array(
                 'name'         => 'Baseline Three',
                 'details'      => 'Details 4 baseline 3',
-                'baselineDate' => $dateTimeB3,
+                'baselineDate' => $dateB3,
                 'closed'       => false,
                 'release'      => 'releasetwo-release',
             ),
             array(
                 'name'         => 'Baseline Four',
                 'details'      => 'Details 4 baseline 4',
-                'baselineDate' => $dateTimeB4,
+                'baselineDate' => $dateB4,
                 'closed'       => false,
                 'release'      => 'releasethree-release',
             ),
             array(
                 'name'         => 'Baseline Five',
                 'details'      => 'Details 4 baseline 5',
-                'baselineDate' => new DateTime("+ 1 months"),
+                'baselineDate' => $dateB5,
                 'closed'       => false,
                 'release'      => 'releasefour-release',
             ),

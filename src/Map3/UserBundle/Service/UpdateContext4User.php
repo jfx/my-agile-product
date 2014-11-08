@@ -281,27 +281,4 @@ class UpdateContext4User
             $this->userManager->updateUser($this->user);
         }
     }
-    /**
-     * Refresh available products list.
-     *
-     * @param int $userId The user id.
-     *
-     * @return void
-     */
-    public function refreshAvailableProducts4UserId($userId)
-    {
-        if (! $user = $this->userManager->findUserBy(array('id' => $userId))) {
-            throw $this->createNotFoundException(
-                'User[id='.$userId.'] not found'
-            );
-        }
-        $repository = $this->entityManager->getRepository(
-            'Map3ReleaseBundle:Release'
-        );
-
-        $releases = $repository->findAvailableReleasesByUser($user);
-
-        $user->setAvailableReleases($releases);
-        $this->userManager->updateUser($user);
-    }
 }
