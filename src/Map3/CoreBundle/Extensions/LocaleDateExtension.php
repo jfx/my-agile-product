@@ -54,7 +54,7 @@ class LocaleDateExtension extends Twig_Extension
     /**
      * Returns a list of filters to add to the existing list.
      *
-     * @return array An array of filters
+     * @return Twig_SimpleFilter[] An array of filters
      */
     public function getFilters()
     {

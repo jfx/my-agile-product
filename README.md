@@ -25,10 +25,16 @@ Features:
 
   - Design improvements on login page,
   - Check email by IMAP for Robot Framework tests,
+  - Improvements of set context for user with RF tests,
+  - Select menu by opened baseline with optgroup Product - release,
 
 Bugfixes:
 
   - Fix scrutinizer major issues,
+  - Fix SensioLabs Insight critical and major violations,
+  - Fix Error 500 when URL : xxx.localhost/login,
+  - Release and baseline data fixtures improvements,
+  
 
 
 ### 0.2.0 (13 September 2014)

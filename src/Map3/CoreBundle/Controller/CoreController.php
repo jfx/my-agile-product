@@ -92,8 +92,8 @@ abstract class CoreController extends Controller
     /**
      * Set product in context
      *
-     * @param Product $product The product.
-     * @param array   $roles   Roles to check.
+     * @param Product  $product The product.
+     * @param string[] $roles   Roles to check.
      *
      * @return void
      */
@@ -151,8 +151,8 @@ abstract class CoreController extends Controller
     /**
      * Set release in context
      *
-     * @param Release $release The release.
-     * @param array   $roles   Roles to check.
+     * @param Release  $release The release.
+     * @param string[] $roles   Roles to check.
      *
      * @return void
      */
@@ -211,7 +211,7 @@ abstract class CoreController extends Controller
      * Set baseline in context
      *
      * @param Baseline $baseline The baseline
-     * @param array    $roles    Roles to check
+     * @param string[] $roles    Roles to check
      *
      * @return void
      */

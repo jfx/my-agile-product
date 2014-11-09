@@ -34,28 +34,28 @@ Wrong username
     And I fill in login form    wrong_user    user
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    Invalid username or password
+    And Page Should Contain    Invalid credentials
 
 Wrong email
     Given Go to    ${LOGIN_URL}
     And I fill in login form    wrong_user@example.com    user
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    Invalid username or password
+    And Page Should Contain    Invalid credentials
 
 Wrong password for username
     Given Go to    ${LOGIN_URL}
     And I fill in login form    useruser    wrong_pass
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    Invalid username or password
+    And Page Should Contain    Invalid credentials
 
 Wrong password for email
     Given Go to    ${LOGIN_URL}
     And I fill in login form    user@example.com    wrong_pass
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    Invalid username or password
+    And Page Should Contain    Invalid credentials
 
 Wrong password for locked user
     Given Go to    ${LOGIN_URL}
