@@ -20,13 +20,13 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
-### 0.3.0 ()
+### 0.3.0 (10 November 2014)
 Features:
 
   - Design improvements on login page,
   - Check email by IMAP for Robot Framework tests,
   - Improvements of set context for user with RF tests,
-  - Select menu by opened baseline with optgroup Product - release,
+  - Select menu by opened baseline with optgroup Product - release.
 
 Bugfixes:
 
@@ -34,8 +34,8 @@ Bugfixes:
   - Fix SensioLabs Insight critical and major violations,
   - Fix Error 500 when URL : xxx.localhost/login,
   - Release and baseline data fixtures improvements,
+  - Compatibility with PHP 5.6.
   
-
 
 ### 0.2.0 (13 September 2014)
 Features:
