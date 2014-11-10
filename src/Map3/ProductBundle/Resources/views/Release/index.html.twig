@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    {% include "Map3ProductBundle:Product:tabs.html.twig" with {'activeTab' : 'releases'} %}
+    {{ render(controller("Map3ProductBundle:Product:tabs", {'activeTab' : 'releases'})) }}
 </div>
 <br />
 <div class="row">
@@ -17,7 +17,7 @@
             <th>
             {% if is_granted('ROLE_DM_MANAGER') %}
                     <a class="btn btn-xs btn-cust"
-                       href="{{ path('release_add') }}"
+                       href="{{ path('release_add', {'id': product.id}) }}"
                         title="Add">
                         {{ icon('plus') }}
                     </a>

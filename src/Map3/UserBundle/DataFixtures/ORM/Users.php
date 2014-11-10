@@ -113,6 +113,12 @@ class Users extends AbstractFixture implements
                 'locked'     => false
             ),
             array(
+                'name'       => 'd2-manager',
+                'details'    => 'manager role on product 2',
+                'superadmin' => false,
+                'locked'     => false
+            ),
+            array(
                 'name'       => 'no-product',
                 'details'    => 'user with no role on product',
                 'superadmin' => false,
@@ -121,6 +127,7 @@ class Users extends AbstractFixture implements
         );
 
         $userManager = $this->container->get('fos_user.user_manager');
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             // In lowercase and no whitespace

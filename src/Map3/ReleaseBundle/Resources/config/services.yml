@@ -1,7 +1,3 @@
 parameters:
 
 services:
-    map3_release.releaseinfo:
-        class: Map3\ReleaseBundle\Service\ReleaseInfo
-        arguments: [ '@doctrine.orm.entity_manager' ]
-        scope: request

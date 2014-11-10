@@ -61,19 +61,19 @@ class MenuSelectType extends DefaultType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $currentRelease = $this->user->getCurrentRelease();
-        if ($currentRelease === null) {
-            $currentReleaseId = 0;
+        $currentBaseline = $this->user->getCurrentBaseline();
+        if ($currentBaseline === null) {
+            $currentBaselineId = 0;
         } else {
-            $currentReleaseId = $currentRelease->getId();
+            $currentBaselineId = $currentBaseline->getId();
         }
-        $availableReleases = $this->user->getAvailableReleases();
+        $availableBaselines = $this->user->getAvailableBaselines();
 
-        if (count($availableReleases) > 0) {
+        if (count($availableBaselines) > 0) {
 
             $keyExists = false;
-            foreach ($availableReleases as $releases4aProduct) {
-                if (array_key_exists($currentReleaseId, $releases4aProduct)) {
+            foreach ($availableBaselines as $releases4aProduct) {
+                if (array_key_exists($currentBaselineId, $releases4aProduct)) {
                     $keyExists = true;
                 }
             }
@@ -83,8 +83,8 @@ class MenuSelectType extends DefaultType
                     'choice',
                     array(
                         'label' => false,
-                        'choices' => $availableReleases,
-                        'data' => $currentReleaseId,
+                        'choices' => $availableBaselines,
+                        'data' => $currentBaselineId,
                         'horizontal_input_wrapper_class' => 'col-lg-12',
                         'attr' => array(
                             'onChange' => "this.form.submit()"
@@ -97,7 +97,7 @@ class MenuSelectType extends DefaultType
                     'choice',
                     array(
                         'label' => false,
-                        'choices' => $availableReleases,
+                        'choices' => $availableBaselines,
                         'empty_value' => '',
                         'horizontal_input_wrapper_class' => 'col-lg-12',
                         'attr' => array(

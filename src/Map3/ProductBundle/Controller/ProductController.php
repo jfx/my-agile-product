@@ -20,13 +20,12 @@ namespace Map3\ProductBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Form\FormHandler;
+use Map3\CoreBundle\Controller\CoreController;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ProductBundle\Form\ProductType;
 use Map3\UserBundle\Entity\Role;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Product controller class.
@@ -40,7 +39,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @since     3
  *
  */
-class ProductController extends Controller
+class ProductController extends CoreController
 {
     /**
      * List of products
@@ -51,6 +50,8 @@ class ProductController extends Controller
      */
     public function indexAction()
     {
+        $this->unsetCurrentProduct();
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3ProductBundle:Product');
@@ -66,20 +67,20 @@ class ProductController extends Controller
     /**
      * Add a product
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
+        $this->unsetCurrentProduct();
+
         $product = new Product();
         $form   = $this->createForm(new ProductType(), $product);
 
-        $handler = new FormHandler(
-            $form,
-            $this->getRequest(),
-            $this->container
-        );
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
@@ -110,11 +111,7 @@ class ProductController extends Controller
      */
     public function viewAction(Product $product)
     {
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
-        $serviceUpdate->setCurrentProduct($product);
-
-        $serviceInfo = $this->container->get('map3_product.productinfo');
-        $child       = $serviceInfo->getChildCount($product);
+        $this->setCurrentProduct($product, array(Role::GUEST_ROLE));
 
         $productType = new ProductType();
         $productType->setDisabled();
@@ -124,8 +121,7 @@ class ProductController extends Controller
             'Map3ProductBundle:Product:view.html.twig',
             array(
                 'form'      => $form->createView(),
-                'product'   => $product,
-                'child'     => $child
+                'product'   => $product
             )
         );
     }
@@ -133,35 +129,22 @@ class ProductController extends Controller
     /**
      * Edit a product
      *
-     * @param Product $product The product to edit.
+     * @param Product $product The product to edit
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Product $product)
+    public function editAction(Product $product, Request $request)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentProduct($product);
-
-        $sc = $this->container->get('security.context');
-        $sc->isGranted(Role::MANAGER_ROLE);
-
-        if (!($sc->isGranted('ROLE_SUPER_ADMIN')
-            || $sc->isGranted(Role::MANAGER_ROLE))
-        ) {
-            throw new AccessDeniedException(
-                'You are not allowed to access this resource'
-            );
-        }
+        $this->setCurrentProduct(
+            $product,
+            array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE)
+        );
 
         $form    = $this->createForm(new ProductType(), $product);
-
-        $handler = new FormHandler(
-            $form,
-            $this->getRequest(),
-            $this->container
-        );
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
@@ -174,15 +157,12 @@ class ProductController extends Controller
                 $this->generateUrl('product_view', array('id' => $id))
             );
         }
-        $serviceInfo = $this->container->get('map3_product.productinfo');
-        $child       = $serviceInfo->getChildCount($product);
 
         return $this->render(
             'Map3ProductBundle:Product:edit.html.twig',
             array(
-                'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'form'    => $form->createView(),
+                'product' => $product
             )
         );
     }
@@ -198,13 +178,11 @@ class ProductController extends Controller
      */
     public function delAction(Product $product)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-
         if ($this->get('request')->getMethod() == 'POST') {
 
             $em = $this->getDoctrine()->getManager();
 
-            $service->setCurrentProduct(null);
+            $this->unsetCurrentProduct();
 
             $em->remove($product);
 
@@ -234,21 +212,53 @@ class ProductController extends Controller
                 );
             }
         }
-        $service->setCurrentProduct($product);
+        $this->setCurrentProduct($product, array('ROLE_SUPER_ADMIN'));
 
         $productType = new ProductType();
         $productType->setDisabled();
         $form = $this->createForm($productType, $product);
 
-        $serviceInfo = $this->container->get('map3_product.productinfo');
-        $child       = $serviceInfo->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:Product:del.html.twig',
             array(
-                'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'form'    => $form->createView(),
+                'product' => $product
+            )
+        );
+    }
+
+    /**
+     * Tab for product
+     *
+     * @param string $activeTab The active tab
+     *
+     * @return Response A Response instance
+     */
+    public function tabsAction($activeTab)
+    {
+        $product = $this->getCurrentProductFromUserWithReset(false);
+
+        $child = array();
+
+        $entityManager = $this->container->get('doctrine')->getManager();
+
+        $repositoryRl = $entityManager->getRepository(
+            'Map3ReleaseBundle:Release'
+        );
+
+        $repositoryUPR = $entityManager->getRepository(
+            'Map3UserBundle:UserPdtRole'
+        );
+
+        $child['releases']  = $repositoryRl->countReleasesByProduct($product);
+        $child['users'] = $repositoryUPR->countUsersByProduct($product);
+
+        return $this->render(
+            'Map3ProductBundle:Product:tabs.html.twig',
+            array(
+                'product'   => $product,
+                'child'     => $child,
+                'activeTab' => $activeTab
             )
         );
     }

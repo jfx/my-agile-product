@@ -20,12 +20,12 @@ namespace Map3\ProductBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\ProductBundle\Entity\Product;
+use Map3\CoreBundle\Controller\CoreController;
 use Map3\ProductBundle\Form\UserTypeAdd;
 use Map3\ProductBundle\Form\UserTypeEditDel;
 use Map3\ProductBundle\Form\UserFormHandler;
 use Map3\UserBundle\Entity\UserPdtRole;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -39,22 +39,18 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UserController extends Controller
+class UserController extends CoreController
 {
     /**
      * List of users for a product
      *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_USER")
+     * @Secure(roles="ROLE_DM_GUEST")
      */
     public function indexAction()
     {
-        $product = $this->getCurrentProductFromUser();
-
-        if ($product === null) {
-            return $this->redirect($this->generateUrl('product_index'));
-        }
+        $product = $this->getCurrentProductFromUserWithReset();
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -62,15 +58,11 @@ class UserController extends Controller
 
         $users = $repository->findUsersByProduct($product);
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:index.html.twig',
             array(
                 'users' => $users,
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
     }
@@ -78,14 +70,17 @@ class UserController extends Controller
     /**
      * Add a user
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN, ROLE_DM_MANAGER")
      */
-    public function addAction()
+    public function addAction(Request $request)
     {
-        $product = $this->getCurrentProductFromUser();
+        $product = $this->getCurrentProductFromUserWithReset();
 
+        // Possible if role is super-admin
         if ($product === null) {
             return $this->redirect($this->generateUrl('product_index'));
         }
@@ -118,18 +113,14 @@ class UserController extends Controller
 
         $handler = new UserFormHandler(
             $form,
-            $this->getRequest(),
-            $this->container,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
             $product
         );
 
         if ($handler->process()) {
-
-            $userPdtRoleInForm = $form->getData();
-            $userId = $userPdtRoleInForm->getUser()->getId();
-
-            $service = $this->container->get('map3_user.updatecontext4user');
-            $service->refreshAvailableProducts4UserId($userId);
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'User added successfully !');
@@ -139,15 +130,11 @@ class UserController extends Controller
             );
         }
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
     }
@@ -155,16 +142,18 @@ class UserController extends Controller
     /**
      * Edit a user
      *
-     * @param int $id The user id.
+     * @param int     $id      The user id
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN, ROLE_DM_MANAGER")
      */
-    public function editAction($id)
+    public function editAction($id, Request $request)
     {
-        $product = $this->getCurrentProductFromUser();
+        $product = $this->getCurrentProductFromUserWithReset();
 
+        // Possible if role is super-admin
         if ($product === null) {
             return $this->redirect($this->generateUrl('product_index'));
         }
@@ -190,15 +179,14 @@ class UserController extends Controller
 
         $handler = new UserFormHandler(
             $form,
-            $this->getRequest(),
-            $this->container,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
             $product
         );
 
         if ($handler->process()) {
-
-            $service = $this->container->get('map3_user.updatecontext4user');
-            $service->refreshAvailableProducts4UserId($id);
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'User edited successfully !');
@@ -208,15 +196,11 @@ class UserController extends Controller
             );
         }
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:edit.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
     }
@@ -232,8 +216,9 @@ class UserController extends Controller
      */
     public function delAction($id)
     {
-        $product = $this->getCurrentProductFromUser();
+        $product = $this->getCurrentProductFromUserWithReset();
 
+        // Possible if role is super-admin
         if ($product === null) {
             return $this->redirect($this->generateUrl('product_index'));
         }
@@ -259,11 +244,6 @@ class UserController extends Controller
             try {
                 $em->flush();
 
-                $service = $this->container->get(
-                    'map3_user.updatecontext4user'
-                );
-                $service->refreshAvailableProducts4UserId($id);
-
                 $this->get('session')->getFlashBag()
                     ->add('success', 'User removed successfully !');
 
@@ -284,31 +264,12 @@ class UserController extends Controller
         $userType->setDisabled();
         $form = $this->createForm($userType, $userPdtRole);
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:User:del.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
-    }
-
-    /**
-     * Return the current product from user context.
-     *
-     * @return Product
-     */
-    private function getCurrentProductFromUser()
-    {
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
-
-        $product = $user->getCurrentProduct();
-
-        return $product;
     }
 }

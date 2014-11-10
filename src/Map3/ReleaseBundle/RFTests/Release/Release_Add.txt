@@ -14,7 +14,6 @@ A manager adds a release
     Then Page Should Contain    Release added successfully
     And I check release view form    R1x
     And I click button    Return to product
-    Element Should Contain    xpath=//option    R1x
     And the table should contain x rows    4
     And the table should contain    R1x    Details 4 R1x
 
@@ -29,6 +28,48 @@ A manager adds a closed release
     And I click button    Return to product
     And the table should contain x rows    4
     And the table should contain    R1x    Details 4 R1x
+
+Check context for release add with clean context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/add/1
+    Then the breadcrumb should contain    Product One    Add release
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    Same product. No change    Update user
+
+Check context for release add without context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/add/1
+    Then the breadcrumb should contain    Product One    Add release
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    Role : ROLE_DM_MANAGER    Update user
+
+Check context for release add with previous context
+    [Tags]    context
+    Given I am logging as    d1-none    d1-none    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/add/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+
+Check context for release add with same previous context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/release/add/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/add/1
+    Then the breadcrumb should contain    Product One    Add release
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    Same product. No change    Update user
 
 Impossible to add a release with a name too short
     Given I am a manager
@@ -48,10 +89,12 @@ Impossible to add a release with wrong date
     And I save
     Then Disabled text element should contain    map3_release_releaseDate    1901-12-13
 
-Impossible to add a release without selecting a product before
+Add a release without selecting a product before
     Given I am a manager
-    When Go to    ${URL}/release/add
-    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    When Go to    ${URL}/release/add/1
+    Then Location should be    ${URL}/release/add/1
+    And the breadcrumb should contain    Product One    Add release
+    Then Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 Breadcrumb
     Given I am a manager
@@ -79,7 +122,7 @@ Tab Releases
     When I click action button    Add
     And Element Should Contain    id=badge_releases    3
     When Click element    id=a_releases
-    And Location Should Be    ${URL}/pdt-release/
+    And Location Should Be    ${URL}/releases/1
 
 Tab Users
     Given I am a manager
@@ -94,4 +137,4 @@ Return to product button
     And I go to releases list    View product #1
     And I click action button    Add
     When I click button    Return to product
-    Then Location Should Be    ${URL}/pdt-release/
+    Then Location Should Be    ${URL}/releases/1

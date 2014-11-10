@@ -1,4 +1,4 @@
 <ul class="nav nav-tabs" role="tablist">
     <li {% if activeTab == 'main' %}class="active"{% endif %}><a id="a_main" href="{{ path('release_view', {'id' : release.id}) }}">{{ icon('step-forward') }}&nbsp;&nbsp;Main</a></li>
-    <li {% if activeTab == 'baselines' %}class="active"{% endif %}><a id="a_baselines" href="{{ path('rls-baseline_index') }}">{{ icon('flag') }}&nbsp;&nbsp;Baselines&nbsp;&nbsp;<span id="badge_baselines" class="badge badge-info">{{ child.baselines }}</span></a></li>
+    <li {% if activeTab == 'baselines' %}class="active"{% endif %}><a id="a_baselines" href="{{ path('rls-baseline_index', {'id' : release.id}) }}">{{ icon('flag') }}&nbsp;&nbsp;Baselines&nbsp;&nbsp;<span id="badge_baselines" class="badge badge-info">{{ child.baselines }}</span></a></li>
 </ul>

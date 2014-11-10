@@ -21,7 +21,7 @@ Product view
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /product/1    True    True    True    True    True
-    ...    True    True
+    ...    False    True
 
 Product edit
     Comment    URL    super-admin    manager    user+    user    guest
@@ -39,7 +39,7 @@ User list
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /pdt-user/    True    True    True    True    True
-    ...    True    True    /product/1
+    ...    False    True    /product/1
 
 User add
     Comment    URL    super-admin    manager    user+    user    guest

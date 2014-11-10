@@ -6,6 +6,8 @@ map3_pdt-user:
     resource: "@Map3ProductBundle/Resources/config/routing/user.yml"
     prefix:   /pdt-user
 
-map3_pdt-release:
-    resource: "@Map3ProductBundle/Resources/config/routing/release.yml"
-    prefix:   /pdt-release
+pdt-release_index:
+    pattern:  /releases/{id}
+    defaults: { _controller: "Map3ProductBundle:Release:index" }
+    requirements:
+        id:  \d+

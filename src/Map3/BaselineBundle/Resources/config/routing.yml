@@ -1,7 +1,17 @@
 map3_baseline:
     resource: "@Map3BaselineBundle/Resources/config/routing/baseline.yml"
     prefix:   /baseline
+    requirements:
+        id:  \d+
 
 map3_bln-ref:
     resource: "@Map3BaselineBundle/Resources/config/routing/reference.yml"
     prefix:   /bln-ref
+    requirements:
+        id:  \d+
+
+bln-refs_index:
+    pattern:  /bln-refs/{id}
+    defaults: { _controller: "Map3BaselineBundle:Reference:index" }
+    requirements:
+        id:  \d+

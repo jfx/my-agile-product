@@ -19,6 +19,7 @@
 namespace Map3\BaselineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Map3\UserBundle\Entity\User;
 
 /**
  * Baseline entity repository class.
@@ -71,5 +72,38 @@ class BaselineRepository extends EntityRepository
         $count = $qb->getQuery()->getSingleScalarResult();
 
         return $count;
+    }
+
+    /**
+     * Get all baselines for a user as a resource.
+     *
+     * @param User $user The user.
+     *
+     * @return array List of releases.
+     */
+    public function findAvailableBaselinesByUser(User $user)
+    {
+        $sql  = ' select b.id as b_id, b.name as b_name,';
+        $sql .= ' b.baselinedatetime as b_date,';
+        $sql .= ' r.id as r_id, r.name as r_name, r.releasedate as r_date,';
+        $sql .= ' p.name as p_name';
+        $sql .= ' from map3_baseline b';
+        $sql .= ' inner join map3_release r on b.release_id = r.id';
+        $sql .= ' inner join map3_product p on r.product_id = p.id';
+        $sql .= ' inner join map3_user_pdt_role upr on upr.product_id = p.id';
+        $sql .= ' where b.closed = 0';
+        $sql .= ' and upr.user_id = :userId';
+        $sql .= ' and upr.role_id != \'ROLE_DM_NONE\'';
+        $sql .= ' order by p.name, r.releasedate, b.baselinedatetime';
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $stmt = $conn->prepare($sql);
+        $userId = $user->getId();
+        $stmt->bindParam('userId', $userId);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        return $results;
     }
 }

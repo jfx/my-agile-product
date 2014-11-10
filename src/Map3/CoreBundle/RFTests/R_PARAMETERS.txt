@@ -14,3 +14,4 @@ ${USER_NOPRODUCT}    no-product
 ${CONSOLE_PATH}    /opt/Dropbox/Nprojects/Map3/app/console
 ${LOG_PATH}       /opt/Dropbox/Nprojects/Map3/app/logs
 ${FORBIDDEN_ACCESS_TEXT}    403 Forbidden
+${IMAP_SERVER}    imap.gmail.com

@@ -19,7 +19,8 @@
 namespace Map3\ProductBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Map3\CoreBundle\Controller\CoreController;
+use Map3\ProductBundle\Entity\Product;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,24 +34,20 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class ReleaseController extends Controller
+class ReleaseController extends CoreController
 {
     /**
      * List of releases
+     *
+     * @param Product $product The product
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function indexAction()
+    public function indexAction(Product $product)
     {
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
-        $product = $user->getCurrentProduct();
-
-        if ($product === null) {
-            return $this->redirect($this->generateUrl('product_index'));
-        }
+        $this->setCurrentProduct($product, array('ROLE_DM_GUEST'));
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -58,15 +55,11 @@ class ReleaseController extends Controller
 
         $releases = $repository->findReleasesByProduct($product);
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ProductBundle:Release:index.html.twig',
             array(
                 'releases' => $releases,
-                'product' => $product,
-                'child' => $child
+                'product'  => $product
             )
         );
     }

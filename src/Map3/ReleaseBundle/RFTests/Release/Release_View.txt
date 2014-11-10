@@ -11,8 +11,64 @@ View release details
     When I click action button    View release #3
     Then Location Should Be    ${URL}/release/3
     And Disabled text element should contain    map3_release_name    Release Closed
-    And Disabled text element should contain    map3_release_releaseDate    2014-08-14
+    And Disabled text element should contain    map3_release_releaseDate    2014-08-20
     And Checkbox Should Be Selected    map3_release_closed
+
+Check context for release view with clean context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/1
+    Then the breadcrumb should contain    Product One    Release One    View
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Update user    Same product. No change
+
+Check context for release view without context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/1
+    Then the breadcrumb should contain    Product One    Release One    View
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
+
+Check context for release view with previous context
+    [Tags]    context
+    Given I am logging as    d1-none    d1-none    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Update user    User->setCurrentProduct    Role : ROLE_DM_NONE
+
+Check context for release view with same previous product
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/1
+    Then the breadcrumb should contain    Product One    Release One    View
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Update user    Same product. No change
+
+Check context for release view with same previous context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/1
+    Then the breadcrumb should contain    Product One    Release One    View
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
 
 Wrong release Id for a product
     Given I am a manager
@@ -31,6 +87,7 @@ View a release without selecting a product before
     Given I am a user
     When Go to    ${URL}/release/1
     Then Location should be    ${URL}/release/1
+    And the breadcrumb should contain    Product One    Release One    View
     And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 Edit button for a manager role on product
@@ -72,13 +129,13 @@ Tab Baselines
     And I go to view release #1 page
     And Element Should Contain    id=badge_baselines    3
     When Click element    id=a_baselines
-    And Location Should Be    ${URL}/rls-baseline/
+    And Location Should Be    ${URL}/baselines/1
 
 Return to product button
     Given I am a user
     And I go to view release #1 page
     When I click button    Return to product
-    Then Location Should Be    ${URL}/pdt-release/
+    Then Location Should Be    ${URL}/releases/1
 
 Edit button displayed for manager profile
     Given I am a manager

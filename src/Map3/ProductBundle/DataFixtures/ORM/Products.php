@@ -69,6 +69,7 @@ class Products extends AbstractFixture implements OrderedFixtureInterface
                 'details' => 'Details 4 Product Five'
             )
         );
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Product();

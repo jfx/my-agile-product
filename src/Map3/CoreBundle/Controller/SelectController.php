@@ -21,6 +21,7 @@ namespace Map3\CoreBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Form\MenuSelectType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -60,17 +61,18 @@ class SelectController extends Controller
     /**
      * Select a release in combobox
      *
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function requestAction()
+    public function requestAction(Request $request)
     {
-        $request = $this->getRequest();
-        $releaseId = $request->request->get('map3_select')['search'];
+        $baselineId = $request->request->get('map3_select')['search'];
 
         return $this->redirect(
-            $this->generateUrl('release_view', array('id' => $releaseId))
+            $this->generateUrl('baseline_view', array('id' => $baselineId))
         );
     }
 }

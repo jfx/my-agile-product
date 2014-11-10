@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    {% include "Map3ProductBundle:Product:tabs.html.twig" with {'activeTab' : 'main'} %}
+    {{ render(controller("Map3ProductBundle:Product:tabs", {'activeTab' : 'main'})) }}
 </div>
 <br />
 <div class="row">

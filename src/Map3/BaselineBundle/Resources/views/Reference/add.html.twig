@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    {% include "Map3BaselineBundle:Baseline:tabs.html.twig" with {'activeTab' : 'references'} %}
+    {{ render(controller("Map3BaselineBundle:Baseline:tabs", {'activeTab' : 'references'})) }}
 </div>
 <br />
 <div class="row">
@@ -17,7 +17,8 @@
     </div>
 </div>
 <div class="row-fluid">
-    <a href="{{ path('bln-ref_index') }}" class="btn btn-default btn-sm"
+    <a href="{{ path('bln-refs_index', {'id': baseline.id}) }}"
+       class="btn btn-default btn-sm"
        title="Return to list">
         {{ icon('chevron-left') }} Return to list
     </a>

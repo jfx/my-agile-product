@@ -10,9 +10,65 @@ A manager deletes a release
     And I go to delete release page    3
     When I click button    Remove
     And I confirm
-    Then Location Should Be    ${URL}/pdt-release/
+    Then Location Should Be    ${URL}/releases/1
     And Page Should Contain    Release removed successfully
     And Page Should not Contain    Release Closed
+
+Check context for release delete with clean context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/del/1
+    Then the breadcrumb should contain    Product One    Release One    Delete
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for release delete without context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/del/1
+    Then the breadcrumb should contain    Product One    Release One    Delete
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_MANAGER    Update user
+
+Check context for release delete with previous context
+    [Tags]    context
+    Given I am logging as    d2-manager    d2-manager    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/del/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Update user    User->setCurrentProduct    Role by default: Guest
+
+Check context for release delete with same previous product
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/del/1
+    Then the breadcrumb should contain    Product One    Release One    Delete
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Update user    Same product. No change
+
+Check context for release delete with same previous context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/del/1
+    Then the breadcrumb should contain    Product One    Release One    Delete
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
 
 Cancel to delete a release
     Given I am a manager
@@ -75,13 +131,13 @@ Tab Baselines
     And I go to delete release page    1
     And Element Should Contain    id=badge_baselines    3
     When Click element    id=a_baselines
-    And Location Should Be    ${URL}/rls-baseline/
+    And Location Should Be    ${URL}/baselines/1
 
 Return to product button
     Given I am a manager
     And I go to delete release page    1
     When I click button    Return to product
-    Then Location Should Be    ${URL}/pdt-release/
+    Then Location Should Be    ${URL}/releases/1
 
 *** Keywords ***
 I go to delete release page

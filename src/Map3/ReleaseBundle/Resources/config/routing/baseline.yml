@@ -1,3 +1,0 @@
-rls-baseline_index:
-    pattern:  /
-    defaults: { _controller: "Map3ReleaseBundle:Baseline:index" }

@@ -78,7 +78,13 @@ class UserPdtRoles extends AbstractFixture implements OrderedFixtureInterface
                 'product' => 'productone-product',
                 'role'    => 'manager-role'
             ),
+            array(
+                'user'    => 'd2-manager-user',
+                'product' => 'producttwo-product',
+                'role'    => 'manager-role'
+            ),
         );
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new UserPdtRole();

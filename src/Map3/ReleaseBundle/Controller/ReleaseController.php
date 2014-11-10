@@ -20,13 +20,12 @@ namespace Map3\ReleaseBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Form\FormHandler;
+use Map3\CoreBundle\Controller\CoreController;
+use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 use Map3\ReleaseBundle\Form\ReleaseType;
-use Map3\UserBundle\Entity\Role;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Release controller class.
@@ -40,48 +39,32 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @since     3
  *
  */
-class ReleaseController extends Controller
+class ReleaseController extends CoreController
 {
 
     /**
      * Add a release.
      *
+     * @param Product $product The product
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_MANAGER")
+     * @Secure(roles="ROLE_USER")
      */
-    public function addAction()
+    public function addAction(Product $product, Request $request)
     {
-        $sc = $this->container->get('security.context');
-        $user = $sc->getToken()->getUser();
-        $product = $user->getCurrentProduct();
+        $this->setCurrentProduct($product, array('ROLE_DM_MANAGER'));
 
-        // Low probability If you have not a product,
-        // you have not a ROLE_DM -> Error 403
-        if ($product === null) {
-            return $this->redirect($this->generateUrl('product_index'));
-        }
         $release = new Release();
         $release->setProduct($product);
 
-        $form   = $this->createForm(
-            new ReleaseType($this->container),
-            $release
-        );
-
-        $handler = new FormHandler(
-            $form,
-            $this->getRequest(),
-            $this->container
-        );
+        $form = $this->createForm(new ReleaseType($this->container), $release);
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
             $id = $release->getId();
-
-            $service = $this->container->get('map3_user.updatecontext4user');
-            $service->refreshAvailableProducts4UserId($user->getId());
-            $sc->getToken()->setAuthenticated(false);
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'Release added successfully !');
@@ -91,15 +74,11 @@ class ReleaseController extends Controller
             );
         }
 
-        $service = $this->container->get('map3_product.productinfo');
-        $child   = $service->getChildCount($product);
-
         return $this->render(
             'Map3ReleaseBundle:Release:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product,
-                'child' => $child
+                'product' => $product
             )
         );
     }
@@ -115,11 +94,7 @@ class ReleaseController extends Controller
      */
     public function viewAction(Release $release)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentRelease($release);
-
-        $serviceInfo = $this->container->get('map3_release.releaseinfo');
-        $child       = $serviceInfo->getChildCount($release);
+        $this->setCurrentRelease($release, array('ROLE_DM_GUEST'));
 
         $releaseType = new ReleaseType($this->container);
         $releaseType->setDisabled();
@@ -128,9 +103,9 @@ class ReleaseController extends Controller
         return $this->render(
             'Map3ReleaseBundle:Release:view.html.twig',
             array(
-                'form' => $form->createView(),
-                'release' => $release,
-                'child'     => $child
+                'form'    => $form->createView(),
+                'product' => $release->getProduct(),
+                'release' => $release
             )
         );
     }
@@ -138,35 +113,24 @@ class ReleaseController extends Controller
     /**
      * Edit a release
      *
-     * @param Release $release The release to edit.
+     * @param Release $release The release to edit
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Release $release)
+    public function editAction(Release $release, Request $request)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentRelease($release);
-
-        $this->checkManagerRole();
+        $this->setCurrentRelease($release, array('ROLE_DM_MANAGER'));
 
         $form = $this->createForm(new ReleaseType($this->container), $release);
 
-        $handler = new FormHandler(
-            $form,
-            $this->getRequest(),
-            $this->container
-        );
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
             $id = $release->getId();
-
-            $sc = $this->container->get('security.context');
-            $user = $sc->getToken()->getUser();
-            $service->refreshAvailableProducts4UserId($user->getId());
-            $sc->getToken()->setAuthenticated(false);
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'Release edited successfully !');
@@ -176,15 +140,12 @@ class ReleaseController extends Controller
             );
         }
 
-        $serviceInfo = $this->container->get('map3_release.releaseinfo');
-        $child       = $serviceInfo->getChildCount($release);
-
         return $this->render(
             'Map3ReleaseBundle:Release:edit.html.twig',
             array(
-                'form' => $form->createView(),
-                'release' => $release,
-                'child'     => $child
+                'form'    => $form->createView(),
+                'product' => $release->getProduct(),
+                'release' => $release
             )
         );
     }
@@ -200,14 +161,13 @@ class ReleaseController extends Controller
      */
     public function delAction(Release $release)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentRelease($release);
+        $this->setCurrentRelease($release, array('ROLE_DM_MANAGER'));
 
-        $this->checkManagerRole();
+        $product = $release->getProduct();
 
         if ($this->get('request')->getMethod() == 'POST') {
 
-            $service->setCurrentRelease(null);
+            $this->unsetCurrentRelease();
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($release);
@@ -215,13 +175,14 @@ class ReleaseController extends Controller
             try {
                 $em->flush();
 
-                $this->refreshAvailableProducts();
-
                 $this->get('session')->getFlashBag()
                     ->add('success', 'Release removed successfully !');
 
                 return $this->redirect(
-                    $this->generateUrl('pdt-release_index')
+                    $this->generateUrl(
+                        'pdt-release_index',
+                        array('id' => $product->getId())
+                    )
                 );
 
             } catch (Exception $e) {
@@ -246,51 +207,46 @@ class ReleaseController extends Controller
         $releaseType->setDisabled();
         $form = $this->createForm($releaseType, $release);
 
-        $serviceInfo = $this->container->get('map3_release.releaseinfo');
-        $child       = $serviceInfo->getChildCount($release);
-
         return $this->render(
             'Map3ReleaseBundle:Release:del.html.twig',
             array(
-                'form' => $form->createView(),
-                'release' => $release,
-                'child'     => $child
+                'form'    => $form->createView(),
+                'product' => $product,
+                'release' => $release
             )
         );
     }
 
     /**
-     * Refresh available products displayed in select box
+     * Tab for release
      *
-     * @return void
+     * @param string $activeTab The active tab
      *
+     * @return Response A Response instance
      */
-    private function refreshAvailableProducts()
+    public function tabsAction($activeTab)
     {
-        $sc = $this->container->get('security.context');
-        $user = $sc->getToken()->getUser();
+        $release = $this->getCurrentReleaseFromUserWithReset(false);
 
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->refreshAvailableProducts4UserId($user->getId());
+        $child = array();
 
-        $sc->getToken()->setAuthenticated(false);
-    }
+        $entityManager = $this->container->get('doctrine')->getManager();
 
-    /**
-     * Check role of user
-     *
-     * @return void
-     *
-     */
-    private function checkManagerRole()
-    {
-        $sc = $this->container->get('security.context');
+        $repositoryBln = $entityManager->getRepository(
+            'Map3BaselineBundle:Baseline'
+        );
 
-        if (!($sc->isGranted(Role::MANAGER_ROLE))) {
+        $child['baselines']  = $repositoryBln->countBaselinesByRelease(
+            $release
+        );
 
-            throw new AccessDeniedException(
-                'You are not allowed to access this resource'
-            );
-        }
+        return $this->render(
+            'Map3ReleaseBundle:Release:tabs.html.twig',
+            array(
+                'release'   => $release,
+                'child'     => $child,
+                'activeTab' => $activeTab
+            )
+        );
     }
 }

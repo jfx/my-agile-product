@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    {% include "Map3BaselineBundle:Baseline:tabs.html.twig" with {'activeTab' : 'references'} %}
+    {{ render(controller("Map3BaselineBundle:Baseline:tabs", {'activeTab' : 'references'})) }}
 </div>
 <br />
 <div class="row">
@@ -16,7 +16,7 @@
         <tr>
             {% if is_granted('ROLE_DM_USERPLUS') %}
             <th>
-                <a href="{{ path('bln-ref_add') }}"
+                <a href="{{ path('bln-ref_add', {'id': baseline.id}) }}"
                     class="btn btn-xs btn-cust" title="Add">
                     {{ icon('plus') }}
                 </a>

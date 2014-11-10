@@ -22,11 +22,10 @@ use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Form\BaselineType;
-use Map3\CoreBundle\Form\FormHandler;
-use Map3\UserBundle\Entity\Role;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Map3\CoreBundle\Controller\CoreController;
+use Map3\ReleaseBundle\Entity\Release;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Baseline controller class.
@@ -40,25 +39,23 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @since     3
  *
  */
-class BaselineController extends Controller
+class BaselineController extends CoreController
 {
 
     /**
      * Add a baseline.
      *
+     * @param Release $release The release
+     * @param Request $request The request
+     *
      * @return Response A Response instance
      *
-     * @Secure(roles="ROLE_DM_USERPLUS")
+     * @Secure(roles="ROLE_USER")
      */
-    public function addAction()
+    public function addAction(Release $release, Request $request)
     {
-        $sc = $this->container->get('security.context');
-        $user = $sc->getToken()->getUser();
-        $release = $user->getCurrentRelease();
+        $this->setCurrentRelease($release, array('ROLE_DM_USERPLUS'));
 
-        if ($release === null) {
-            return $this->redirect($this->generateUrl('pdt-release_index'));
-        }
         $baseline = new Baseline();
         $baseline->setRelease($release);
 
@@ -67,11 +64,7 @@ class BaselineController extends Controller
             $baseline
         );
 
-        $handler = new FormHandler(
-            $form,
-            $this->getRequest(),
-            $this->container
-        );
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
@@ -85,15 +78,11 @@ class BaselineController extends Controller
             );
         }
 
-        $service = $this->container->get('map3_release.releaseinfo');
-        $child   = $service->getChildCount($release);
-
         return $this->render(
             'Map3BaselineBundle:Baseline:add.html.twig',
             array(
-                'form' => $form->createView(),
-                'release' => $release,
-                'child' => $child
+                'form'    => $form->createView(),
+                'release' => $release
             )
         );
     }
@@ -109,22 +98,18 @@ class BaselineController extends Controller
      */
     public function viewAction(Baseline $baseline)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentBaseline($baseline);
+        $this->setCurrentBaseline($baseline, array('ROLE_DM_GUEST'));
 
         $baselineType = new BaselineType($this->container);
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
-        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
-        $child       = $serviceInfo->getChildCount($baseline);
-
         return $this->render(
             'Map3BaselineBundle:Baseline:view.html.twig',
             array(
-                'form' => $form->createView(),
-                'baseline' => $baseline,
-                'child' => $child
+                'form'     => $form->createView(),
+                'release'  => $baseline->getRelease(),
+                'baseline' => $baseline
             )
         );
     }
@@ -132,29 +117,23 @@ class BaselineController extends Controller
     /**
      * Edit a baseline
      *
-     * @param Baseline $baseline The baseline to edit.
+     * @param Baseline $baseline The baseline to edit
+     * @param Request  $request  The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Baseline $baseline)
+    public function editAction(Baseline $baseline, Request $request)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentBaseline($baseline);
-
-        $this->checkUserPlusRole();
+        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
 
         $form = $this->createForm(
             new BaselineType($this->container),
             $baseline
         );
 
-        $handler = new FormHandler(
-            $form,
-            $this->getRequest(),
-            $this->container
-        );
+        $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
 
@@ -168,15 +147,12 @@ class BaselineController extends Controller
             );
         }
 
-        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
-        $child       = $serviceInfo->getChildCount($baseline);
-
         return $this->render(
             'Map3BaselineBundle:Baseline:edit.html.twig',
             array(
-                'form' => $form->createView(),
-                'baseline' => $baseline,
-                'child' => $child
+                'form'     => $form->createView(),
+                'release'  => $baseline->getRelease(),
+                'baseline' => $baseline
             )
         );
     }
@@ -192,14 +168,13 @@ class BaselineController extends Controller
      */
     public function delAction(Baseline $baseline)
     {
-        $service = $this->container->get('map3_user.updatecontext4user');
-        $service->setCurrentBaseline($baseline);
+        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
 
-        $this->checkUserPlusRole();
+        $release = $baseline->getRelease();
 
         if ($this->get('request')->getMethod() == 'POST') {
 
-            $service->setCurrentBaseline(null);
+            $this->unsetCurrentBaseline();
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($baseline);
@@ -211,7 +186,10 @@ class BaselineController extends Controller
                     ->add('success', 'Baseline removed successfully !');
 
                 return $this->redirect(
-                    $this->generateUrl('rls-baseline_index')
+                    $this->generateUrl(
+                        'rls-baseline_index',
+                        array('id' => $release->getId())
+                    )
                 );
 
             } catch (Exception $e) {
@@ -236,34 +214,46 @@ class BaselineController extends Controller
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
-        $serviceInfo = $this->container->get('map3_baseline.baselineinfo');
-        $child       = $serviceInfo->getChildCount($baseline);
-
         return $this->render(
             'Map3BaselineBundle:Baseline:del.html.twig',
             array(
-                'form' => $form->createView(),
-                'baseline' => $baseline,
-                'child' => $child
+                'form'     => $form->createView(),
+                'release'  => $release,
+                'baseline' => $baseline
             )
         );
     }
 
     /**
-     * Check role of user
+     * Tab for baseline
      *
-     * @return void
+     * @param string $activeTab The active tab
      *
+     * @return Response A Response instance
      */
-    private function checkUserPlusRole()
+    public function tabsAction($activeTab)
     {
-        $sc = $this->container->get('security.context');
+        $baseline = $this->getCurrentBaselineFromUserWithReset(false);
 
-        if (!($sc->isGranted(Role::USERPLUS_ROLE))) {
+        $child = array();
 
-            throw new AccessDeniedException(
-                'You are not allowed to access this resource'
-            );
-        }
+        $entityManager = $this->container->get('doctrine')->getManager();
+
+        $repositoryRef = $entityManager->getRepository(
+            'Map3BaselineBundle:Reference'
+        );
+
+        $child['references']  = $repositoryRef->countReferencesByBaseline(
+            $baseline
+        );
+
+        return $this->render(
+            'Map3BaselineBundle:Baseline:tabs.html.twig',
+            array(
+                'baseline'  => $baseline,
+                'child'     => $child,
+                'activeTab' => $activeTab
+            )
+        );
     }
 }

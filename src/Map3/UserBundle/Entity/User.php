@@ -119,7 +119,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="available_releases", type="array")
      */
-    private $availableReleases;
+    private $availableBaselines;
 
     /**
      * Constructor
@@ -127,7 +127,7 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->availableReleases = array();
+        $this->availableBaselines = array();
     }
 
     /**
@@ -257,6 +257,8 @@ class User extends BaseUser
      */
     public function unsetCurrentProduct()
     {
+        $this->unsetProductRole();
+        $this->unsetCurrentRelease();
         $this->currentProduct = null;
 
         return $this;
@@ -293,6 +295,7 @@ class User extends BaseUser
      */
     public function unsetCurrentRelease()
     {
+        $this->unsetCurrentBaseline();
         $this->currentRelease = null;
 
         return $this;
@@ -359,27 +362,27 @@ class User extends BaseUser
     }
 
     /**
-     * Set available releases
+     * Set available baselines
      *
-     * @param array $releases List of releases
+     * @param array $baselines List of baselines
      *
      * @return User
      */
-    public function setAvailableReleases($releases)
+    public function setAvailableBaselines($baselines)
     {
-        $this->availableReleases = $releases;
+        $this->availableBaselines = $baselines;
 
         return $this;
     }
 
     /**
-     * Get available releases
+     * Get available baselines
      *
      * @return array
      */
-    public function getAvailableReleases()
+    public function getAvailableBaselines()
     {
-        return $this->availableReleases;
+        return $this->availableBaselines;
     }
 
     /**

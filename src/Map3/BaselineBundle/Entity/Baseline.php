@@ -182,7 +182,7 @@ class Baseline
      *
      * @param boolean $closed Closed status.
      *
-     * @return Release
+     * @return Baseline
      */
     public function setClosed($closed)
     {

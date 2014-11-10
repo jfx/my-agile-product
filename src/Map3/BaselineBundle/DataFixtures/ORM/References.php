@@ -74,6 +74,7 @@ class References extends AbstractFixture implements OrderedFixtureInterface
                 'baseline' => 'baselinetwo-baseline',
             ),
         );
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Reference();

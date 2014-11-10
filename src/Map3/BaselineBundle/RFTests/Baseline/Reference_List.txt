@@ -23,10 +23,84 @@ List with no reference for a baseline for a user
     And the table should contain    No reference
     And Element Should Contain    id=badge_references    0
 
-Impossible to view baselines list without selecting a release before
+View baselines list without selecting a release before
     Given I am a user
-    When Go to    ${URL}/bln-ref/
-    Then Location Should Be    ${URL}/product/
+    When Go to    ${URL}/bln-refs/1
+    Then Location Should Be    ${URL}/bln-refs/1
+    And the breadcrumb should contain    Product One    Release One    Baseline One    References list
+
+Check context for reference list with clean context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-refs/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    References list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    4
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+
+Check context for reference list without context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-refs/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    References list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
+
+Check context for reference list with previous context
+    [Tags]    context
+    Given I am logging as    d1-none    d1-none    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And Go To    ${URL_DEV}/baseline/5
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-refs/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+
+Check context for reference list with same previous product
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-refs/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    References list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for reference list with same previous release
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-refs/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    References list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+
+Check context for reference list with same previous context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/bln-refs/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/bln-refs/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    References list
+    And Page should contain    Useruser (User)
+    And the context log file should contain x lines    4
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
 
 No actions buttons for a non-user+ role
     Given I am a user
@@ -74,11 +148,11 @@ Tab References
     And I go to references list    View product #1    View release #1    View baseline #1
     And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
-    Then Location Should Be    ${URL}/bln-ref/
+    Then Location Should Be    ${URL}/bln-refs/1
 
 Tab Features
     Given I am a user
     And I go to references list    View product #1    View release #1    View baseline #1
     And Element Should Contain    id=badge_features    XX
     When Click element    id=a_features
-    Then Location Should Be    ${URL}/bln-ref/#
+    Then Location Should Be    ${URL}/bln-refs/1#

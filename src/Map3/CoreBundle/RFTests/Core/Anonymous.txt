@@ -8,7 +8,7 @@ Resource          ../Keyword_resource.txt
 Login Page
     [Tags]    init
     When I go to login page
-    Then Page Should Contain    My Agile Product
+    Then Page Should Contain    my agile product
 
 *** Keywords ***
 I go to login page

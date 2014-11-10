@@ -8,20 +8,20 @@ Resource          ../Keyword_resource.txt
 Release list
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL    /pdt-release/    True    True    True    True    True
-    ...    True    True    /product/1
+    Then I check the following ACL    /releases/1    True    True    True    True    True
+    ...    False    True
 
 Release view
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /release/1    True    True    True    True    True
-    ...    True    True    /product/1
+    ...    False    True    /product/1
 
 Release add
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL    /release/add    False    True    False    False    False
-    ...    False    False    /product/1
+    Then I check the following ACL    /release/add/1    False    True    False    False    False
+    ...    False    False
 
 Release edit
     Comment    URL    super-admin    manager    user+    user    guest
@@ -35,19 +35,19 @@ Release delete
     Then I check the following ACL    /release/del/1    False    True    False    False    False
     ...    False    False    /product/1
 
-Release add with no manager on product
+Release add with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL    /release/add    False    False    False    False    False
-    ...    False    False    /product/2
+    Then I check the following ACL    /release/add/2    False    False    False    False    False
+    ...    False    False
 
-Release edit with no manager on product
+Release edit with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /release/edit/4    False    False    False    False    False
     ...    False    False    /product/2
 
-Release delete with no manager on product
+Release delete with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /release/del/4    False    False    False    False    False

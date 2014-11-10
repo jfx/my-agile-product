@@ -29,6 +29,83 @@ A user+ adds a closed baseline
     And the table should contain x rows    4
     And the table should contain    B1x    Details 4 B1x
 
+Check context for baseline add with clean context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Check context for baseline add without context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USERPLUS    Update user
+
+Check context for baseline add with previous context
+    [Tags]    context
+    Given I am logging as    d2-manager    d2-manager    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role by default: Guest    Update user
+
+Check context for baseline add with same previous product
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for baseline add with same previous release
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Check context for baseline add with same previous context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/add/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Add a baseline without selecting a product before
+    Given I am a user+
+    When Go to    ${URL}/baseline/add/1
+    Then Location should be    ${URL}/baseline/add/1
+    And the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
 Impossible to add a baseline with a name too short
     Given I am a user+
     And I go to baselines list    View product #1    View release #1
@@ -46,11 +123,6 @@ Impossible to add a baseline with wrong date
     And Click Element    map3_baseline_name
     And I save
     Then Disabled text element should contain    map3_baseline_baselineDatetime    1899-12-31 00:00
-
-Impossible to add a baseline without selecting a release before
-    Given I am a user+
-    When Go to    ${URL}/baseline/add
-    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 Breadcrumb
     Given I am a user+
@@ -85,11 +157,11 @@ Tab Baselines
     And I click action button    Add
     And Element Should Contain    id=badge_baselines    3
     When Click element    id=a_baselines
-    Then Location Should Be    ${URL}/rls-baseline/
+    Then Location Should Be    ${URL}/baselines/1
 
 Return to release button
     Given I am a user+
     And I go to baselines list    View product #1    View release #1
     And I click action button    Add
     When I click button    Return to release
-    Then Location Should Be    ${URL}/rls-baseline/
+    Then Location Should Be    ${URL}/baselines/1

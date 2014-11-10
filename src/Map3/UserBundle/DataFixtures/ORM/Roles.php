@@ -54,6 +54,7 @@ class Roles extends AbstractFixture implements OrderedFixtureInterface
             array('id' => 'ROLE_DM_USERPLUS', 'label' => 'User+'),
             array('id' => 'ROLE_DM_MANAGER', 'label' => 'Manager')
         );
+        $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Role();

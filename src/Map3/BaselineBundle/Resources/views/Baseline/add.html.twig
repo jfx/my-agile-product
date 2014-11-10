@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="row-fluid">
-    {% include "Map3ReleaseBundle:Release:tabs.html.twig" with {'activeTab' : 'baselines'} %}
+    {{ render(controller("Map3ReleaseBundle:Release:tabs", {'activeTab' : 'baselines'})) }}
 </div>
 <br />
 <div class="row">
@@ -17,7 +17,7 @@
     </div>
 </div>
 <div class="row-fluid">
-    <a class="btn btn-default btn-sm" href="{{ path('rls-baseline_index') }}"
+    <a class="btn btn-default btn-sm" href="{{ path('rls-baseline_index', {'id': release.id}) }}"
        title="Return to release">
         {{ icon('chevron-left') }} Return to release
     </a>

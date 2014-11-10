@@ -20,7 +20,6 @@ namespace Map3\ReleaseBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Map3\ProductBundle\Entity\Product;
-use Map3\UserBundle\Entity\User;
 
 /**
  * Release entity repository class.
@@ -73,44 +72,5 @@ class ReleaseRepository extends EntityRepository
         $count = $qb->getQuery()->getSingleScalarResult();
 
         return $count;
-    }
-
-    /**
-     * Get all releases for a user as a resource.
-     *
-     * @param User $user The user.
-     *
-     * @return array List of releases.
-     */
-    public function findAvailableReleasesByUser(User $user)
-    {
-        $sql  = ' select r.id as r_id, r.name as r_name, p.name as p_name';
-        $sql .= ' from map3_release r';
-        $sql .= ' inner join map3_product p on r.product_id = p.id';
-        $sql .= ' inner join map3_user_pdt_role upr on upr.product_id = p.id';
-        $sql .= ' where r.closed = 0';
-        $sql .= ' and upr.user_id = :userId';
-        $sql .= ' and upr.role_id != \'ROLE_DM_NONE\'';
-        $sql .= ' order by p.name, r.name';
-
-        $conn = $this->getEntityManager()->getConnection();
-
-        $stmt = $conn->prepare($sql);
-        $userId = $user->getId();
-        $stmt->bindParam('userId', $userId);
-        $stmt->execute();
-        $results = $stmt->fetchAll();
-
-        $return = array();
-
-        foreach ($results as $row) {
-
-            if (!array_key_exists($row['p_name'], $return)) {
-                $return[$row['p_name']] = array();
-            }
-            $return[$row['p_name']][$row['r_id']] = $row['r_name'];
-        }
-
-        return $return;
     }
 }

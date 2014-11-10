@@ -7,4 +7,4 @@ Resource          ../Keyword_resource.txt
 *** Test Cases ***
 Footer text
     When I am a user
-    Then Page Should Contain    My Agile Product v
+    Then Page Should Contain    my agile product v

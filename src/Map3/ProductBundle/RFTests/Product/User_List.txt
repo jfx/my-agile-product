@@ -25,6 +25,17 @@ List with no user for a connected user
     And the table should contain    No user
     And Element Should Contain    id=badge_users    0
 
+Check context for users list with clean context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/pdt-user/
+    Then the breadcrumb should contain    Product One    Users list
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->getCurrentProductFromUserWithReset(true)    CoreController->unsetCurrentRelease    Reset childs : Baseline and above    User->unsetCurrentRelease    Update user
+
 No modify actions buttons in users list for a non super-admin profile
     Given I am a user
     When I go to users list for product    View product #1
@@ -40,7 +51,7 @@ Action buttons Add/View/Edit/Delete for a non super-admin profile
 Impossible to display users list without selecting a product before
     Given I am a user
     When Go to    ${URL}/pdt-user/
-    Then Location Should Be    ${URL}/product/
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 Breadcrumb
     Given I am a user
@@ -64,7 +75,7 @@ Tab Releases
     And I go to users list for product    View product #1
     And Element Should Contain    id=badge_releases    3
     When Click element    id=a_releases
-    And Location Should Be    ${URL}/pdt-release/
+    And Location Should Be    ${URL}/releases/1
 
 Tab Users
     Given I am a user

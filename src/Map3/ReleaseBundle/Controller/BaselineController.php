@@ -19,7 +19,8 @@
 namespace Map3\ReleaseBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Map3\CoreBundle\Controller\CoreController;
+use Map3\ReleaseBundle\Entity\Release;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,24 +34,20 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class BaselineController extends Controller
+class BaselineController extends CoreController
 {
     /**
      * List of baselines
+     *
+     * @param Release $release The release
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function indexAction()
+    public function indexAction(Release $release)
     {
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
-        $release = $user->getCurrentRelease();
-
-        if ($release === null) {
-            return $this->redirect($this->generateUrl('pdt-release_index'));
-        }
+        $this->setCurrentRelease($release, array('ROLE_DM_GUEST'));
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -58,15 +55,11 @@ class BaselineController extends Controller
 
         $baselines = $repository->findBaselinesByRelease($release);
 
-        $service = $this->container->get('map3_release.releaseinfo');
-        $child   = $service->getChildCount($release);
-
         return $this->render(
             'Map3ReleaseBundle:Baseline:index.html.twig',
             array(
                 'baselines' => $baselines,
-                'release' => $release,
-                'child' => $child
+                'release' => $release
             )
         );
     }
