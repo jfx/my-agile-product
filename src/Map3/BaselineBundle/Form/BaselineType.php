@@ -76,8 +76,8 @@ class BaselineType extends DefaultType
                 array(
                     'required' => false,
                     'attr'  => array(
-                        'rows'  => 4
-                    )
+                        'rows'  => 4,
+                    ),
                 )
             );
     }

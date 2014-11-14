@@ -62,14 +62,14 @@ Wrong password for locked user
     And I fill in login form    userlock    wrong_pass
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    User account is locked
+    And Page Should Contain    Account is locked.
 
 Locked user cannot login
     Given Go to    ${LOGIN_URL}
     And I fill in login form    userlock    lock
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    User account is locked
+    And Page Should Contain    Account is locked.
 
 *** Keywords ***
 I fill in login form

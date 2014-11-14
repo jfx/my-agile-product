@@ -74,7 +74,6 @@ class BreadcrumbExtension extends Twig_Extension
         $lvl_count = 0;
 
         foreach ($levels as $level) {
-
             $id = 'br_lvl'.++$lvl_count;
 
             if (is_array($level)) {
@@ -84,7 +83,6 @@ class BreadcrumbExtension extends Twig_Extension
                 $breadcrumb .= '  <li id="'.$id.'" class="active">';
                 $breadcrumb .= $level.'</li>';
             }
-
         }
         $breadcrumb .= '</ol>';
 
@@ -103,7 +101,7 @@ class BreadcrumbExtension extends Twig_Extension
         $breadcrumb = $this->breadcrumb(
             array(
                 $this->getProductNameUrl(),
-                $action
+                $action,
             )
         );
 
@@ -123,7 +121,7 @@ class BreadcrumbExtension extends Twig_Extension
             array(
                 $this->getProductNameUrl(),
                 $this->getReleaseNameUrl(),
-                $action
+                $action,
             )
         );
 
@@ -144,7 +142,7 @@ class BreadcrumbExtension extends Twig_Extension
                 $this->getProductNameUrl(),
                 $this->getReleaseNameUrl(),
                 $this->getBaselineNameUrl(),
-                $action
+                $action,
             )
         );
 
@@ -220,7 +218,7 @@ class BreadcrumbExtension extends Twig_Extension
                 'breadcrumb',
                 array(
                     $this,
-                    'breadcrumb'
+                    'breadcrumb',
                 ),
                 array('is_safe' => array('html'))
             ),
@@ -228,7 +226,7 @@ class BreadcrumbExtension extends Twig_Extension
                 'product_breadcrumb',
                 array(
                     $this,
-                    'productBreadcrumb'
+                    'productBreadcrumb',
                 ),
                 array('is_safe' => array('html'))
             ),
@@ -236,7 +234,7 @@ class BreadcrumbExtension extends Twig_Extension
                 'release_breadcrumb',
                 array(
                     $this,
-                    'releaseBreadcrumb'
+                    'releaseBreadcrumb',
                 ),
                 array('is_safe' => array('html'))
             ),
@@ -244,10 +242,10 @@ class BreadcrumbExtension extends Twig_Extension
                 'baseline_breadcrumb',
                 array(
                     $this,
-                    'baselineBreadcrumb'
+                    'baselineBreadcrumb',
                 ),
                 array('is_safe' => array('html'))
-            )
+            ),
         );
     }
 

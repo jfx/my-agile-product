@@ -83,7 +83,6 @@ class ProductController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $product->getId();
 
             $this->get('session')->getFlashBag()
@@ -121,7 +120,7 @@ class ProductController extends CoreController
             'Map3ProductBundle:Product:view.html.twig',
             array(
                 'form'      => $form->createView(),
-                'product'   => $product
+                'product'   => $product,
             )
         );
     }
@@ -147,7 +146,6 @@ class ProductController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $product->getId();
 
             $this->get('session')->getFlashBag()
@@ -162,7 +160,7 @@ class ProductController extends CoreController
             'Map3ProductBundle:Product:edit.html.twig',
             array(
                 'form'    => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -179,7 +177,6 @@ class ProductController extends CoreController
     public function delAction(Product $product)
     {
         if ($this->get('request')->getMethod() == 'POST') {
-
             $em = $this->getDoctrine()->getManager();
 
             $this->unsetCurrentProduct();
@@ -195,9 +192,7 @@ class ProductController extends CoreController
                 return $this->redirect(
                     $this->generateUrl('product_index')
                 );
-
             } catch (Exception $e) {
-
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     'Impossible to remove this item'
@@ -222,7 +217,7 @@ class ProductController extends CoreController
             'Map3ProductBundle:Product:del.html.twig',
             array(
                 'form'    => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -258,7 +253,7 @@ class ProductController extends CoreController
             array(
                 'product'   => $product,
                 'child'     => $child,
-                'activeTab' => $activeTab
+                'activeTab' => $activeTab,
             )
         );
     }

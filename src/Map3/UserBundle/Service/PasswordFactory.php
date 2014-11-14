@@ -70,7 +70,6 @@ class PasswordFactory
         $charsLength = strlen(self::$chars) - 1;
 
         for ($i = 0; $i < $length; $i++) {
-
             $position = mt_rand(0, $charsLength);
             $password .= self::$chars{$position};
         }

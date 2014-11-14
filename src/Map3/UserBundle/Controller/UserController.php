@@ -97,7 +97,6 @@ class UserController extends Controller
         );
 
         if ($handler->process()) {
-
             $id = $user->getId();
 
             $this->get('session')->getFlashBag()
@@ -199,7 +198,6 @@ class UserController extends Controller
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User edited successfully !');
 
@@ -232,7 +230,6 @@ class UserController extends Controller
         }
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             try {
                 $userManager->deleteUser($user);
 
@@ -314,7 +311,6 @@ class UserController extends Controller
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'Password modified !');
         }

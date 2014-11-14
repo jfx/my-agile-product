@@ -94,7 +94,6 @@ class UserFormHandler extends FormHandler
         $route = $this->request->get('_route');
 
         if (($route == 'user_add') && ($entity->getPlainPassword() === null)) {
-
             $password = $this->passwordFactory->generatePassword();
             $entity->setPlainPassword($password);
         }

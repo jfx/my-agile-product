@@ -18,7 +18,6 @@
 
 namespace Map3\CoreBundle\Form;
 
-use Map3\CoreBundle\Form\DefaultType;
 use Map3\UserBundle\Entity\User;
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -60,7 +59,6 @@ class MenuSelectType extends DefaultType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
         $currentBaseline = $this->user->getCurrentBaseline();
         if ($currentBaseline === null) {
             $currentBaselineId = 0;
@@ -70,7 +68,6 @@ class MenuSelectType extends DefaultType
         $availableBaselines = $this->user->getAvailableBaselines();
 
         if (count($availableBaselines) > 0) {
-
             $keyExists = false;
             foreach ($availableBaselines as $releases4aProduct) {
                 if (array_key_exists($currentBaselineId, $releases4aProduct)) {
@@ -87,8 +84,8 @@ class MenuSelectType extends DefaultType
                         'data' => $currentBaselineId,
                         'horizontal_input_wrapper_class' => 'col-lg-12',
                         'attr' => array(
-                            'onChange' => "this.form.submit()"
-                        )
+                            'onChange' => "this.form.submit()",
+                        ),
                     )
                 );
             } else {
@@ -101,8 +98,8 @@ class MenuSelectType extends DefaultType
                         'empty_value' => '',
                         'horizontal_input_wrapper_class' => 'col-lg-12',
                         'attr' => array(
-                            'onChange' => "this.form.submit()"
-                        )
+                            'onChange' => "this.form.submit()",
+                        ),
                     )
                 );
             }

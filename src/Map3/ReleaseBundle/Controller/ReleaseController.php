@@ -41,7 +41,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ReleaseController extends CoreController
 {
-
     /**
      * Add a release.
      *
@@ -63,7 +62,6 @@ class ReleaseController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $release->getId();
 
             $this->get('session')->getFlashBag()
@@ -78,7 +76,7 @@ class ReleaseController extends CoreController
             'Map3ReleaseBundle:Release:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -105,7 +103,7 @@ class ReleaseController extends CoreController
             array(
                 'form'    => $form->createView(),
                 'product' => $release->getProduct(),
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -129,7 +127,6 @@ class ReleaseController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $release->getId();
 
             $this->get('session')->getFlashBag()
@@ -145,7 +142,7 @@ class ReleaseController extends CoreController
             array(
                 'form'    => $form->createView(),
                 'product' => $release->getProduct(),
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -166,7 +163,6 @@ class ReleaseController extends CoreController
         $product = $release->getProduct();
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $this->unsetCurrentRelease();
 
             $em = $this->getDoctrine()->getManager();
@@ -184,9 +180,7 @@ class ReleaseController extends CoreController
                         array('id' => $product->getId())
                     )
                 );
-
             } catch (Exception $e) {
-
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     'Impossible to remove this item'
@@ -212,7 +206,7 @@ class ReleaseController extends CoreController
             array(
                 'form'    => $form->createView(),
                 'product' => $product,
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -245,7 +239,7 @@ class ReleaseController extends CoreController
             array(
                 'release'   => $release,
                 'child'     => $child,
-                'activeTab' => $activeTab
+                'activeTab' => $activeTab,
             )
         );
     }

@@ -107,7 +107,6 @@ class LoginListener
         $baselines = array();
 
         foreach ($baselinesFromDB as $row) {
-
             $releaseDate = new DateTime($row['r_date']);
             $formatedReleaseDate = $this->dateExtension->localeDateFilter(
                 $releaseDate

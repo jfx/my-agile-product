@@ -62,7 +62,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:index.html.twig',
             array(
                 'users' => $users,
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -92,7 +92,6 @@ class UserController extends CoreController
         $count = $repositoryUser->getCountAvailableUserByProduct($product);
 
         if ($count < 1) {
-
             $this->get('session')->getFlashBag()
                 ->add('danger', 'No user to add !');
 
@@ -121,7 +120,6 @@ class UserController extends CoreController
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User added successfully !');
 
@@ -134,7 +132,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -187,7 +185,6 @@ class UserController extends CoreController
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User edited successfully !');
 
@@ -200,7 +197,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:edit.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -238,7 +235,6 @@ class UserController extends CoreController
         }
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $em->remove($userPdtRole);
 
             try {
@@ -251,7 +247,6 @@ class UserController extends CoreController
                     $this->generateUrl('pdt-user_index')
                 );
             } catch (Exception $e) {
-
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     'Impossible to remove this item'
@@ -268,7 +263,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:del.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }

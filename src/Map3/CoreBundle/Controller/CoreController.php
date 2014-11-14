@@ -78,7 +78,6 @@ abstract class CoreController extends Controller
         $isGranted = false;
 
         foreach ($roles as $role) {
-
             $isGranted = $isGranted || $sc->isGranted($role);
         }
 

@@ -20,7 +20,6 @@ namespace Map3\UserBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Map3\ProductBundle\Entity\Product;
-use Map3\UserBundle\Entity\User;
 
 /**
  * User Product Role entity repository class.
@@ -140,7 +139,7 @@ class UserPdtRoleRepository extends EntityRepository
     {
         $qb = $this->_em->createQueryBuilder();
 
-        $qb ->select('userqb.id')
+        $qb->select('userqb.id')
             ->from($this->_entityName, 'upr')
             ->join('upr.user', 'userqb')
             ->join('upr.product', 'productqb')

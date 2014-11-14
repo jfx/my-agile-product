@@ -63,7 +63,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:index.html.twig',
             array(
                 'refs'     => $refs,
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -89,7 +89,6 @@ class ReferenceController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'Reference added successfully !');
 
@@ -105,7 +104,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:add.html.twig',
             array(
                 'form'     => $form->createView(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -129,7 +128,6 @@ class ReferenceController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'Reference edited successfully !');
 
@@ -145,7 +143,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:edit.html.twig',
             array(
                 'form'     => $form->createView(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -165,7 +163,6 @@ class ReferenceController extends CoreController
         $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $em = $this->getDoctrine()->getManager();
             $em->remove($reference);
             $em->flush();
@@ -189,7 +186,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:del.html.twig',
             array(
                 'form'     => $form->createView(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }

@@ -59,7 +59,7 @@ class UserPasswordType extends DefaultType
                     'mapped' => false,
                     'constraints' => new UserPassword(),
                     'invalid_message'
-                        => 'This value should be the user current password'
+                        => 'This value should be the user current password',
                 )
             )
             ->add(
@@ -72,7 +72,7 @@ class UserPasswordType extends DefaultType
                     'invalid_message' => 'The entered passwords don\'t match',
                     'constraints' => new Length(
                         array('min' => 6, 'max' => 50)
-                    )
+                    ),
                 )
             );
     }

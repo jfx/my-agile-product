@@ -95,11 +95,9 @@ class FormHandler
     public function process()
     {
         if ($this->request->isMethod('POST')) {
-
             $this->form->handleRequest($this->request);
 
             if ($this->form->isValid()) {
-
                 $this->onSuccess($this->form->getData());
 
                 return true;
@@ -107,7 +105,6 @@ class FormHandler
                 $errors = $this->validator->validate($this->form->getData());
 
                 foreach ($errors as $error) {
-
                     $this->session->getFlashBag()->add(
                         'danger',
                         ucfirst($error->getPropertyPath())

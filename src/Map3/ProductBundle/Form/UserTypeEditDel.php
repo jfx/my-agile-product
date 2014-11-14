@@ -54,7 +54,7 @@ class UserTypeEditDel extends UserType
                 'text',
                 array(
                     'label' => 'User',
-                    'disabled' => true
+                    'disabled' => true,
                 )
             )
             ->add(

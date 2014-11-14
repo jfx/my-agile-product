@@ -62,7 +62,7 @@ class UserTypeAdd extends UserType
                     'query_builder' =>
                         function (UserRepository $er) use ($product) {
                             return $er->getQBAvailableUserByProduct($product);
-                        }
+                        },
                 )
             )
             ->add(

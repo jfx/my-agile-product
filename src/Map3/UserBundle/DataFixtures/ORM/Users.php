@@ -74,55 +74,55 @@ class Users extends AbstractFixture implements
                 'name'       => 'admin',
                 'details'    => 'Admin user',
                 'superadmin' => true,
-                'locked'     => false
+                'locked'     => false,
             ),
             array(
                 'name'       => 'user',
                 'details'    => 'user role on product 1 + user+ on product 2',
                 'superadmin' => false,
-                'locked'     => false
+                'locked'     => false,
             ),
             array(
                 'name'       => 'lock',
                 'details'    => 'Locked user',
                 'superadmin' => false,
-                'locked'     => true
+                'locked'     => true,
             ),
             array(
                 'name'       => 'd1-none',
                 'details'    => 'none role on product 1',
                 'superadmin' => false,
-                'locked'     => false
+                'locked'     => false,
             ),
             array(
                 'name'       => 'd1-guest',
                 'details'    => 'guest role on product 1',
                 'superadmin' => false,
-                'locked'     => false
+                'locked'     => false,
             ),
             array(
                 'name'       => 'd1-user+',
                 'details'    => 'user+ role on product 1',
                 'superadmin' => false,
-                'locked'     => false
+                'locked'     => false,
             ),
             array(
                 'name'       => 'd1-manager',
                 'details'    => 'manager role on product 1',
                 'superadmin' => false,
-                'locked'     => false
+                'locked'     => false,
             ),
             array(
                 'name'       => 'd2-manager',
                 'details'    => 'manager role on product 2',
                 'superadmin' => false,
-                'locked'     => false
+                'locked'     => false,
             ),
             array(
                 'name'       => 'no-product',
                 'details'    => 'user with no role on product',
                 'superadmin' => false,
-                'locked'     => false
+                'locked'     => false,
             ),
         );
 

@@ -59,7 +59,7 @@ class BaselineController extends CoreController
             'Map3ReleaseBundle:Baseline:index.html.twig',
             array(
                 'baselines' => $baselines,
-                'release' => $release
+                'release' => $release,
             )
         );
     }

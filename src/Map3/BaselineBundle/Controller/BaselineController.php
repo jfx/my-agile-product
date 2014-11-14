@@ -41,7 +41,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BaselineController extends CoreController
 {
-
     /**
      * Add a baseline.
      *
@@ -67,7 +66,6 @@ class BaselineController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $baseline->getId();
 
             $this->get('session')->getFlashBag()
@@ -82,7 +80,7 @@ class BaselineController extends CoreController
             'Map3BaselineBundle:Baseline:add.html.twig',
             array(
                 'form'    => $form->createView(),
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -109,7 +107,7 @@ class BaselineController extends CoreController
             array(
                 'form'     => $form->createView(),
                 'release'  => $baseline->getRelease(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -136,7 +134,6 @@ class BaselineController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $baseline->getId();
 
             $this->get('session')->getFlashBag()
@@ -152,7 +149,7 @@ class BaselineController extends CoreController
             array(
                 'form'     => $form->createView(),
                 'release'  => $baseline->getRelease(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -173,7 +170,6 @@ class BaselineController extends CoreController
         $release = $baseline->getRelease();
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $this->unsetCurrentBaseline();
 
             $em = $this->getDoctrine()->getManager();
@@ -191,9 +187,7 @@ class BaselineController extends CoreController
                         array('id' => $release->getId())
                     )
                 );
-
             } catch (Exception $e) {
-
                 $this->get('session')->getFlashBag()->add(
                     'danger',
                     'Impossible to remove this item'
@@ -219,7 +213,7 @@ class BaselineController extends CoreController
             array(
                 'form'     => $form->createView(),
                 'release'  => $release,
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -252,7 +246,7 @@ class BaselineController extends CoreController
             array(
                 'baseline'  => $baseline,
                 'child'     => $child,
-                'activeTab' => $activeTab
+                'activeTab' => $activeTab,
             )
         );
     }

@@ -80,11 +80,9 @@ class UserFormHandler extends FormHandler
     public function process()
     {
         if ($this->request->isMethod('POST')) {
-
             $this->form->handleRequest($this->request);
 
             if ($this->form->isValid()) {
-
                 $entity = $this->form->getData();
                 $entity->setProduct($this->product);
 

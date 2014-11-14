@@ -395,7 +395,6 @@ class User extends BaseUser
         $this->currentRoleLabel = null;
 
         foreach ($this->getRoles() as $key => $role) {
-
             if (substr($role, 0, 7) == 'ROLE_DM') {
                 $this->removeRole($role);
             }

@@ -34,5 +34,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class Map3BaselineBundle extends Bundle
 {
-
 }

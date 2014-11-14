@@ -20,8 +20,6 @@ namespace Map3\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Map3\ProductBundle\Entity\Product;
-use Map3\UserBundle\Entity\Role;
-use Map3\UserBundle\Entity\User;
 
 /**
  * UserPdtRole entity class.
@@ -39,7 +37,6 @@ use Map3\UserBundle\Entity\User;
  */
 class UserPdtRole
 {
-
     /**
      * @var User User
      *
