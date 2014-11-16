@@ -20,10 +20,10 @@ namespace Map3\UserBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Map3\CoreBundle\Controller\CoreController;
 use Map3\UserBundle\Form\UserFormHandler;
 use Map3\UserBundle\Form\UserPasswordType;
 use Map3\UserBundle\Form\UserType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class UserController extends Controller
+class UserController extends CoreController
 {
     /**
      * List of users
@@ -50,6 +50,8 @@ class UserController extends Controller
      */
     public function indexAction()
     {
+        $this->unsetCurrentProduct();
+        
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3UserBundle:User');
@@ -80,6 +82,8 @@ class UserController extends Controller
      */
     public function addAction(Request $request)
     {
+        $this->unsetCurrentProduct();
+        
         $userManager = $this->get('fos_user.user_manager');
         $user        = $userManager->createUser();
         $form        = $this->createForm(new UserType(), $user);
@@ -124,6 +128,8 @@ class UserController extends Controller
      */
     public function viewAction($id)
     {
+        $this->unsetCurrentProduct();
+        
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -151,6 +157,8 @@ class UserController extends Controller
      */
     public function viewroleAction($id)
     {
+        $this->unsetCurrentProduct();
+        
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -180,6 +188,8 @@ class UserController extends Controller
      */
     public function editAction($id, Request $request)
     {
+        $this->unsetCurrentProduct();
+        
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -223,6 +233,8 @@ class UserController extends Controller
      */
     public function delAction($id)
     {
+        $this->unsetCurrentProduct();
+        
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -271,6 +283,8 @@ class UserController extends Controller
      */
     public function profileAction()
     {
+        $this->unsetCurrentProduct();
+        
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
@@ -295,6 +309,8 @@ class UserController extends Controller
      */
     public function passwordAction(Request $request)
     {
+        $this->unsetCurrentProduct();
+        
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
@@ -330,6 +346,8 @@ class UserController extends Controller
      */
     public function roleAction()
     {
+        $this->unsetCurrentProduct();
+        
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
