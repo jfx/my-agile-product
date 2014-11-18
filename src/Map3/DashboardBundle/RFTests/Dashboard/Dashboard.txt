@@ -6,7 +6,7 @@ Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
 Dashboard link
-    given I am a user
+    Given I am a user
     When Click element    link=Dashboard
     Then Location Should Be    ${URL}/
 

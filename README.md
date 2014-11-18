@@ -20,6 +20,16 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.4.0 ()
+Features:
+
+  - Unset user context when logout,
+
+Bugfixes:
+
+  - Unset user context for admin controllers,
+  
+
 ### 0.3.0 (10 November 2014)
 Features:
 

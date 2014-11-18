@@ -37,4 +37,5 @@ security:
             logout:
                 path:          /logout
                 target:        /login
+                handlers:      [map3_user.LogoutContextHandler]
             anonymous:         false
