@@ -45,7 +45,7 @@ class DefaultController extends CoreController
     public function indexAction()
     {
         $this->unsetCurrentProduct();
-        
+
         return $this->render('Map3DashboardBundle:Default:index.html.twig');
     }
 }

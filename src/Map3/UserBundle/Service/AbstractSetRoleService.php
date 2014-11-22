@@ -18,15 +18,16 @@
 
 namespace Map3\UserBundle\Service;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\NoResultException;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
+use Map3\ProductBundle\Entity\Product;
+use Map3\UserBundle\Entity\Role;
+use Map3\UserBundle\Entity\User;
 use Psr\Log\LoggerInterface;
 
 /**
- * Logout handler class.
+ * Set role for a user and a product.
  *
  * @category  MyAgileProduct
  * @package   User
@@ -36,8 +37,13 @@ use Psr\Log\LoggerInterface;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class LogoutContextHandler implements LogoutHandlerInterface
+class AbstractSetRoleService
 {
+    /**
+     * @var EntityManager Entity manager
+     */
+    protected $entityManager;
+
     /**
      * @var UserManagerInterface User manager
      */
@@ -49,42 +55,39 @@ class LogoutContextHandler implements LogoutHandlerInterface
     protected $logger;
 
     /**
-     * Constructor
-     *
-     * @param UserManagerInterface $userManager The user manager
-     * @param LoggerInterface      $logger      The logger
+     * @var User User entity
      */
-    public function __construct(
-        UserManagerInterface $userManager,
-        LoggerInterface $logger
-    ) {
-        $this->userManager = $userManager;
-        $this->logger      = $logger;
-    }
+    protected $user;
 
     /**
-     * This method is called by the LogoutListener when a user has requested
-     * to be logged out. Usually, you would unset session variables, or remove
-     * cookies, etc.
+     * Set the role for the product.
      *
-     * @param Request        $request  Request
-     * @param Response       $response Response
-     * @param TokenInterface $token    The token
+     * @param Product $product The product
      *
      * @return void
      */
-    public function logout(
-        Request $request,
-        Response $response,
-        TokenInterface $token
-    ) {
-        $user = $token->getUser();
+    public function setUserRole4Product(Product $product)
+    {
+        $repository = $this->entityManager->getRepository(
+            'Map3UserBundle:UserPdtRole'
+        );
 
-        $this->logger->debug('Logout - unsetCurrentProduct()');
+        try {
+            $userPdtRole = $repository->findByUserIdProductId(
+                $this->user->getId(),
+                $product->getId()
+            );
+            $roleId = $userPdtRole->getRole()->getId();
+            $this->logger->debug('Role : '.$roleId);
+            $this->user->addRole($roleId);
 
-        $user->unsetCurrentProduct();
-        $token->setAuthenticated(false);
-
-        $this->userManager->updateUser($user);
+            $this->user->setCurrentRoleLabel(
+                $userPdtRole->getRole()->getLabel()
+            );
+        } catch (NoResultException $e) {
+            // Public product by default Guest role added.
+            $this->logger->debug('Role by default: Guest');
+            $this->user->addRole(Role::GUEST_ROLE);
+        }
     }
 }

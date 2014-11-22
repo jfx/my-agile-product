@@ -12,6 +12,15 @@ A user logs out
     Then Location Should Be    ${URL}/login
     And I am disconnected
 
+Automated log out after timeout
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    user    user    Hello    True
+    And I am waiting for timeout
+    And Go To    ${URL_DEV}/product/
+    And Location Should Be    ${URL_DEV}/login
+    [Teardown]    TestLifetimeTeardown
+
 Check context for logout
     [Tags]    context
     Given I am logging as    user    user    Hello    True

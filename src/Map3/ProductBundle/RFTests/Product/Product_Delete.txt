@@ -19,7 +19,6 @@ Delete a product saved in user context
     Given I am a user
     And I go to products list
     And I click action button    View product #5
-    And I log out
     And I am a user+
     And I go to products list
     And I click action button    View product #5

@@ -41,3 +41,16 @@ I go to user view page
     I go to users list
     I click action button    View user #${id}
     Location Should Be    ${URL}/user/${id}
+
+TestLifetimeSetup
+    Move File    ${CONFIG_PATH}/config.yml    ${CONFIG_PATH}/config_bck.yml
+    ${config_file} =    Get File    ${CONFIG_PATH}/config_bck.yml
+    ${config_file} =    Replace String Using Regexp    ${config_file}    cookie_lifetime:\.+    cookie_lifetime: ${COOKIE_LIFETIME}
+    Create File    ${CONFIG_PATH}/config.yml    ${config_file}
+    TestSetup
+
+TestLifetimeTeardown
+    TestTeardown
+    ${status}    ${value} =    Run Keyword And Ignore Error    File Should Exist    ${CONFIG_PATH}/config_bck.yml
+    Run Keyword If    '${status}' == 'PASS'    Remove File    ${CONFIG_PATH}/config.yml
+    Run Keyword If    '${status}' == 'PASS'    Move File    ${CONFIG_PATH}/config_bck.yml    ${CONFIG_PATH}/config.yml

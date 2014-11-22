@@ -19,11 +19,9 @@
 namespace Map3\UserBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NoResultException;
 use FOS\UserBundle\Model\UserManagerInterface;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
-use Map3\UserBundle\Entity\Role;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 
@@ -38,33 +36,13 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UpdateContext4User
+class UpdateContext4User extends AbstractSetRoleService
 {
     /**
      * @var SecurityContextInterface S. Context
      *
      */
     protected $securityContext;
-
-    /**
-     * @var EntityManager Entity manager
-     */
-    protected $entityManager;
-
-    /**
-     * @var FOS\UserBundle\Model\UserManagerInterface User manager
-     */
-    protected $userManager;
-
-    /**
-     * @var Psr\Log\LoggerInterface Logger
-     */
-    protected $logger;
-
-    /**
-     * @var Map3\UserBundle\Entity\User User entity
-     */
-    protected $user;
 
     /**
      * @var boolean userHasChanged Has User changed ?
@@ -108,6 +86,7 @@ class UpdateContext4User
 
         $this->updateUserIfChanged();
     }
+
     /**
      * Set the current product for a user and set role.
      *
@@ -138,30 +117,8 @@ class UpdateContext4User
                 $this->user->unsetProductRole();
                 $this->user->setCurrentProduct($product);
 
-                $repository = $this->entityManager->getRepository(
-                    'Map3UserBundle:UserPdtRole'
-                );
-
-                try {
-                    $userPdtRole = $repository->findByUserIdProductId(
-                        $this->user->getId(),
-                        $product->getId()
-                    );
-                    $roleId = $userPdtRole->getRole()->getId();
-                    $this->logger->debug('Role : '.$roleId);
-                    $this->userHasChanged = true;
-                    $this->user->addRole($roleId);
-                    $this->securityContext->getToken()->setAuthenticated(false);
-                    $this->user->setCurrentRoleLabel(
-                        $userPdtRole->getRole()->getLabel()
-                    );
-                } catch (NoResultException $e) {
-                    // Public product by default Guest role added.
-                    $this->logger->debug('Role by default: Guest');
-                    $this->userHasChanged = true;
-                    $this->user->addRole(Role::GUEST_ROLE);
-                    $this->securityContext->getToken()->setAuthenticated(false);
-                }
+                $this->setUserRole4Product($product);
+                $this->securityContext->getToken()->setAuthenticated(false);
             } else {
                 $this->logger->debug('Same product. No change');
             }

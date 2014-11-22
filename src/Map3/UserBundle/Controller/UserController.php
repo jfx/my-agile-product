@@ -51,7 +51,7 @@ class UserController extends CoreController
     public function indexAction()
     {
         $this->unsetCurrentProduct();
-        
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3UserBundle:User');
@@ -83,7 +83,7 @@ class UserController extends CoreController
     public function addAction(Request $request)
     {
         $this->unsetCurrentProduct();
-        
+
         $userManager = $this->get('fos_user.user_manager');
         $user        = $userManager->createUser();
         $form        = $this->createForm(new UserType(), $user);
@@ -129,7 +129,7 @@ class UserController extends CoreController
     public function viewAction($id)
     {
         $this->unsetCurrentProduct();
-        
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -158,7 +158,7 @@ class UserController extends CoreController
     public function viewroleAction($id)
     {
         $this->unsetCurrentProduct();
-        
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -189,7 +189,7 @@ class UserController extends CoreController
     public function editAction($id, Request $request)
     {
         $this->unsetCurrentProduct();
-        
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -234,7 +234,7 @@ class UserController extends CoreController
     public function delAction($id)
     {
         $this->unsetCurrentProduct();
-        
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -284,7 +284,7 @@ class UserController extends CoreController
     public function profileAction()
     {
         $this->unsetCurrentProduct();
-        
+
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
@@ -310,7 +310,7 @@ class UserController extends CoreController
     public function passwordAction(Request $request)
     {
         $this->unsetCurrentProduct();
-        
+
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
@@ -347,7 +347,7 @@ class UserController extends CoreController
     public function roleAction()
     {
         $this->unsetCurrentProduct();
-        
+
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
