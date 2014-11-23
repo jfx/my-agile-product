@@ -39,7 +39,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @since     3
  *
  */
-abstract class CoreController extends Controller
+abstract class AbstractCoreController extends Controller
 {
     /**
      * Get the form handler
@@ -101,7 +101,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->setCurrentProduct');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentProduct($product);
 
         $this->userIsGranted($roles);
@@ -143,7 +145,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->unsetCurrentProduct');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentProduct(null);
     }
 
@@ -160,7 +164,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->setCurrentRelease');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentRelease($release);
 
         $this->userIsGranted($roles);
@@ -202,7 +208,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->unsetCurrentRelease');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentRelease(null);
     }
 
@@ -219,7 +227,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->setCurrentBaseline');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentBaseline($baseline);
 
         $this->userIsGranted($roles);
@@ -257,7 +267,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->unsetCurrentBaseline');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentBaseline(null);
     }
 }

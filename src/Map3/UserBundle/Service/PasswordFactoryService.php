@@ -29,7 +29,7 @@ namespace Map3\UserBundle\Service;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class PasswordFactory
+class PasswordFactoryService
 {
     /**
      * @var int Default length of generated password.

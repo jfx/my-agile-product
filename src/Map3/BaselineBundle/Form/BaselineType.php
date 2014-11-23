@@ -18,7 +18,7 @@
 
 namespace Map3\BaselineBundle\Form;
 
-use Map3\CoreBundle\Form\DefaultType;
+use Map3\CoreBundle\Form\AbstractDefaultType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -34,7 +34,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @since     3
  *
  */
-class BaselineType extends DefaultType
+class BaselineType extends AbstractDefaultType
 {
     /**
      * Builds the form.

@@ -57,7 +57,7 @@ Check context for login
     [Tags]    context
     Given I reset the context log file
     When I am logging as    user    user    Hello    True
-    Then the context log file should contain x lines    7
+    Then the context log file should contain x lines    8
     And the context log file should contain    LoginListener->onSecurityInteractiveLogin    No product in user context    Update user
 
 Check context for login after timeout with previous context

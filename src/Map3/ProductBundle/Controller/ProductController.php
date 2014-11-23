@@ -20,7 +20,7 @@ namespace Map3\ProductBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ProductBundle\Form\ProductType;
 use Map3\UserBundle\Entity\Role;
@@ -39,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class ProductController extends CoreController
+class ProductController extends AbstractCoreController
 {
     /**
      * List of products

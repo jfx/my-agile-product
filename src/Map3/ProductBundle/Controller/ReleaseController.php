@@ -19,7 +19,7 @@
 namespace Map3\ProductBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class ReleaseController extends CoreController
+class ReleaseController extends AbstractCoreController
 {
     /**
      * List of releases

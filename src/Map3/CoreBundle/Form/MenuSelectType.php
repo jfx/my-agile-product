@@ -32,7 +32,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class MenuSelectType extends DefaultType
+class MenuSelectType extends AbstractDefaultType
 {
     /**
      * @var User User object

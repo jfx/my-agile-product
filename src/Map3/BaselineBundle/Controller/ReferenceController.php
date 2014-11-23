@@ -22,7 +22,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Entity\Reference;
 use Map3\BaselineBundle\Form\ReferenceType;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,7 +38,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class ReferenceController extends CoreController
+class ReferenceController extends AbstractCoreController
 {
     /**
      * List of references

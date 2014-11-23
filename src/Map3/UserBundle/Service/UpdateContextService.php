@@ -36,7 +36,7 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UpdateContext4User extends AbstractSetRoleService
+class UpdateContextService extends AbstractSetRoleService
 {
     /**
      * @var SecurityContextInterface S. Context

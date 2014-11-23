@@ -18,7 +18,7 @@
 
 namespace Map3\UserBundle\Form;
 
-use Map3\CoreBundle\Form\DefaultType;
+use Map3\CoreBundle\Form\AbstractDefaultType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints\Length;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UserPasswordType extends DefaultType
+class UserPasswordType extends AbstractDefaultType
 {
     /**
      * Builds the form.

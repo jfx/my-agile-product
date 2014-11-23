@@ -20,7 +20,7 @@ namespace Map3\ProductBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Form\UserTypeAdd;
 use Map3\ProductBundle\Form\UserTypeEditDel;
 use Map3\ProductBundle\Form\UserFormHandler;
@@ -39,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UserController extends CoreController
+class UserController extends AbstractCoreController
 {
     /**
      * List of users for a product

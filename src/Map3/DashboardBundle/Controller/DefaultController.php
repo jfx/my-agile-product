@@ -19,7 +19,7 @@
 namespace Map3\DashboardBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class DefaultController extends CoreController
+class DefaultController extends AbstractCoreController
 {
     /**
      * Dashboard

@@ -20,7 +20,7 @@ namespace Map3\UserBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\UserBundle\Form\UserFormHandler;
 use Map3\UserBundle\Form\UserPasswordType;
 use Map3\UserBundle\Form\UserType;
@@ -39,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class UserController extends CoreController
+class UserController extends AbstractCoreController
 {
     /**
      * List of users
@@ -96,7 +96,7 @@ class UserController extends CoreController
             $this->container->get('doctrine')->getManager(),
             $this->container->get('validator'),
             $this->container->get('session'),
-            $this->container->get('map3_user.passwordFactory'),
+            $this->container->get('map3_user.passwordFactoryService'),
             $userManager
         );
 
@@ -203,7 +203,7 @@ class UserController extends CoreController
             $this->container->get('doctrine')->getManager(),
             $this->container->get('validator'),
             $this->container->get('session'),
-            $this->container->get('map3_user.passwordFactory'),
+            $this->container->get('map3_user.passwordFactoryService'),
             $userManager
         );
 
@@ -322,7 +322,7 @@ class UserController extends CoreController
             $this->container->get('doctrine')->getManager(),
             $this->container->get('validator'),
             $this->container->get('session'),
-            $this->container->get('map3_user.passwordFactory'),
+            $this->container->get('map3_user.passwordFactoryService'),
             $this->get('fos_user.user_manager')
         );
 

@@ -18,7 +18,7 @@
 
 namespace Map3\ProductBundle\Form;
 
-use Map3\CoreBundle\Form\DefaultType;
+use Map3\CoreBundle\Form\AbstractDefaultType;
 use Map3\ProductBundle\Entity\Product;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -34,7 +34,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @since     3
  *
  */
-abstract class UserType extends DefaultType
+abstract class UserType extends AbstractDefaultType
 {
     /**
      * @var Product Product
