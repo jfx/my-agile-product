@@ -18,7 +18,7 @@
 
 namespace Map3\UserBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\UserBundle\Form\UserFormHandler;
@@ -246,15 +246,10 @@ class UserController extends AbstractCoreController
                 $userManager->deleteUser($user);
 
                 $success = true;
-            } catch (Exception $e) {
+            } catch (DBALException $e) {
                 $success = false;
 
-                $this->get('session')->getFlashBag()
-                    ->add(
-                        'danger',
-                        'Impossible to remove this item'
-                        .' - Integrity constraint violation !'
-                    );
+                $this->catchIntegrityConstraintViolation($e);
             }
             if ($success) {
                 $this->get('session')->getFlashBag()

@@ -18,7 +18,8 @@
 
 namespace Map3\ProductBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NoResultException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Form\UserTypeAdd;
@@ -164,7 +165,7 @@ class UserController extends AbstractCoreController
                 $id,
                 $product->getId()
             );
-        } catch (Exception $e) {
+        } catch (NoResultException $e) {
             throw $this->createNotFoundException(
                 'User[id='.$id.'] not found for this product'
             );
@@ -228,7 +229,7 @@ class UserController extends AbstractCoreController
                 $id,
                 $product->getId()
             );
-        } catch (Exception $e) {
+        } catch (NoResultException $e) {
             throw $this->createNotFoundException(
                 'User[id='.$id.'] not found for this product'
             );
@@ -246,12 +247,8 @@ class UserController extends AbstractCoreController
                 return $this->redirect(
                     $this->generateUrl('pdt-user_index')
                 );
-            } catch (Exception $e) {
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
+            } catch (DBALException $e) {                
+                $this->catchIntegrityConstraintViolation($e);
             }
         }
 

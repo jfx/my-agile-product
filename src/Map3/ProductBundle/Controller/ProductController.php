@@ -18,7 +18,7 @@
 
 namespace Map3\ProductBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
@@ -192,12 +192,9 @@ class ProductController extends AbstractCoreController
                 return $this->redirect(
                     $this->generateUrl('product_index')
                 );
-            } catch (Exception $e) {
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
+            } catch (DBALException $e) {
+
+                $this->catchIntegrityConstraintViolation($e);
 
                 return $this->redirect(
                     $this->generateUrl(

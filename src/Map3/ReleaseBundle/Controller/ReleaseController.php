@@ -18,7 +18,7 @@
 
 namespace Map3\ReleaseBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
@@ -180,12 +180,8 @@ class ReleaseController extends AbstractCoreController
                         array('id' => $product->getId())
                     )
                 );
-            } catch (Exception $e) {
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
+            } catch (DBALException $e) {
+                $this->catchIntegrityConstraintViolation($e);
 
                 // With exception entity manager is closed.
                 return $this->redirect(

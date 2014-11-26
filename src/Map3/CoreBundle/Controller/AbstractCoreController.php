@@ -18,6 +18,7 @@
 
 namespace Map3\CoreBundle\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\CoreBundle\Form\FormHandler;
 use Map3\ProductBundle\Entity\Product;
@@ -65,7 +66,7 @@ abstract class AbstractCoreController extends Controller
     /**
      * Check if user is granted
      *
-     * @param array $roles The list of roles.
+     * @param string[] $roles The list of roles
      *
      * @return void
      *
@@ -271,5 +272,29 @@ abstract class AbstractCoreController extends Controller
             'map3_user.updateContextService'
         );
         $serviceUpdate->setCurrentBaseline(null);
+    }
+    
+    /**
+     * catch Integrity constraint violation
+     * 
+     * @param DBALException $e Exception
+     *
+     * @return void
+     * 
+     * @throws DBALException
+     */
+    protected function catchIntegrityConstraintViolation(DBALException $e)
+    {
+        if (($e->getCode() == 0)
+            && ($e->getPrevious()->getCode() == '23000')
+        ) {
+            $this->get('session')->getFlashBag()->add(
+                'danger',
+                'Impossible to remove this item'
+                .' - Integrity constraint violation !'
+            );
+        } else {
+            throw $e;
+        }
     }
 }

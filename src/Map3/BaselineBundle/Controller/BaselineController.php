@@ -18,7 +18,7 @@
 
 namespace Map3\BaselineBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Form\BaselineType;
@@ -187,13 +187,9 @@ class BaselineController extends AbstractCoreController
                         array('id' => $release->getId())
                     )
                 );
-            } catch (Exception $e) {
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
-
+            } catch (DBALException $e) {
+                $this->catchIntegrityConstraintViolation($e);
+                
                 // With exception entity manager is closed.
                 return $this->redirect(
                     $this->generateUrl(

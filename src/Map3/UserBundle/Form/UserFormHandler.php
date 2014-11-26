@@ -41,7 +41,7 @@ use Symfony\Component\Validator\Validator\LegacyValidator;
 class UserFormHandler extends FormHandler
 {
     /**
-     * @var PasswordFactory Password factory
+     * @var PasswordFactoryService Password factory
      */
     protected $passwordFactory;
 
