@@ -15,21 +15,22 @@ Delete a product
     And Page Should not Contain    Product Five
 
 Delete a product saved in user context
-    [Tags]    failedTest
+    [Tags]    context
     Given I am a user
     And I go to products list
     And I click action button    View product #5
     And I am a user+
     And I go to products list
     And I click action button    View product #5
-    And I log out
-    And I am a super-admin
+    And I am logging as    admin    admin    Hello    True
     And I go to delete product page    5
+    And I reset the context log file
     When I click button    Remove
     And I confirm
-    Then Run Keyword And Expect Error    *    Then Location Should Be    ${URL}/product/
-    Then Run Keyword And Expect Error    *    And Page Should Contain    Product removed successfully
-    Then Run Keyword And Expect Error    *    And Page Should not Contain    Product Five
+    Then Location Should Be    ${URL_DEV}/product/
+    And Page Should Contain    Product removed successfully
+    And Page Should not Contain    Product Five
+    And the context log file should contain    RemoveContextService->removeProduct    $user->unsetCurrentProduct
 
 Check context for product view with clean context
     [Tags]    context

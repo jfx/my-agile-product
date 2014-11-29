@@ -19,7 +19,9 @@
 namespace Map3\UserBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Map3\BaselineBundle\Entity\Baseline;
 use Map3\ProductBundle\Entity\Product;
+use Map3\ReleaseBundle\Entity\Release;
 
 /**
  * User entity repository class.
@@ -45,6 +47,63 @@ class UserRepository extends EntityRepository
             ->orderBy('u.name, u.firstname');
 
         $results = $queryBuilder->getQuery()->getResult();
+
+        return $results;
+    }
+
+    /**
+     * Get all users with a product in their context.
+     *
+     * @param Product $product The product.
+     *
+     * @return User[] List of users and role.
+     */
+    public function findUsersByProductInContext(Product $product)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->innerJoin('u.currentProduct', 'p')
+            ->where('p.id = :productId')
+            ->setParameter('productId', $product->getId());
+
+        $results = $qb->getQuery()->getResult();
+
+        return $results;
+    }
+
+    /**
+     * Get all users with a release in their context
+     *
+     * @param Release $release The release
+     *
+     * @return User[] List of users
+     */
+    public function findUsersByReleaseInContext(Release $release)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->innerJoin('u.currentRelease', 'r')
+            ->where('r.id = :releaseId')
+            ->setParameter('releaseId', $release->getId());
+
+        $results = $qb->getQuery()->getResult();
+
+        return $results;
+    }
+
+    /**
+     * Get all users with a baseline in their context
+     *
+     * @param Baseline $baseline The baseline
+     *
+     * @return User[] List of users
+     */
+    public function findUsersByBaselineInContext(Baseline $baseline)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->innerJoin('u.currentBaseline', 'b')
+            ->where('b.id = :baselineId')
+            ->setParameter('baselineId', $baseline->getId());
+
+        $results = $qb->getQuery()->getResult();
 
         return $results;
     }

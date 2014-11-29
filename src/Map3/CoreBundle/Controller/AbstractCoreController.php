@@ -273,14 +273,14 @@ abstract class AbstractCoreController extends Controller
         );
         $serviceUpdate->setCurrentBaseline(null);
     }
-    
+
     /**
      * catch Integrity constraint violation
-     * 
+     *
      * @param DBALException $e Exception
      *
      * @return void
-     * 
+     *
      * @throws DBALException
      */
     protected function catchIntegrityConstraintViolation(DBALException $e)

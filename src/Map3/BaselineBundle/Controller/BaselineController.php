@@ -172,6 +172,11 @@ class BaselineController extends AbstractCoreController
         if ($this->get('request')->getMethod() == 'POST') {
             $this->unsetCurrentBaseline();
 
+            $serviceRemove = $this->container->get(
+                'map3_user.removeContextService'
+            );
+            $serviceRemove->removeBaseline($baseline);
+
             $em = $this->getDoctrine()->getManager();
             $em->remove($baseline);
 
@@ -189,7 +194,7 @@ class BaselineController extends AbstractCoreController
                 );
             } catch (DBALException $e) {
                 $this->catchIntegrityConstraintViolation($e);
-                
+
                 // With exception entity manager is closed.
                 return $this->redirect(
                     $this->generateUrl(

@@ -165,6 +165,11 @@ class ReleaseController extends AbstractCoreController
         if ($this->get('request')->getMethod() == 'POST') {
             $this->unsetCurrentRelease();
 
+            $serviceRemove = $this->container->get(
+                'map3_user.removeContextService'
+            );
+            $serviceRemove->removeRelease($release);
+
             $em = $this->getDoctrine()->getManager();
             $em->remove($release);
 

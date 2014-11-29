@@ -247,7 +247,7 @@ class UserController extends AbstractCoreController
                 return $this->redirect(
                     $this->generateUrl('pdt-user_index')
                 );
-            } catch (DBALException $e) {                
+            } catch (DBALException $e) {
                 $this->catchIntegrityConstraintViolation($e);
             }
         }

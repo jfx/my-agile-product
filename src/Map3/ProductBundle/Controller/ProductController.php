@@ -181,6 +181,11 @@ class ProductController extends AbstractCoreController
 
             $this->unsetCurrentProduct();
 
+            $serviceRemove = $this->container->get(
+                'map3_user.removeContextService'
+            );
+            $serviceRemove->removeProduct($product);
+
             $em->remove($product);
 
             try {
@@ -193,7 +198,6 @@ class ProductController extends AbstractCoreController
                     $this->generateUrl('product_index')
                 );
             } catch (DBALException $e) {
-
                 $this->catchIntegrityConstraintViolation($e);
 
                 return $this->redirect(

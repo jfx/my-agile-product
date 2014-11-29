@@ -8,6 +8,13 @@ services:
             - { name: monolog.logger, channel: uctx }
         scope: request
 
+    map3_user.removeContextService:
+        class: Map3\UserBundle\Service\RemoveContextService
+        arguments: [ '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger' ]
+        tags:
+            - { name: monolog.logger, channel: uctx }
+        scope: request
+
     map3_user.loginListener:
         class: Map3\UserBundle\Service\LoginListener
         arguments: [ '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger', '@map3.localeDate' ]

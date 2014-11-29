@@ -14,6 +14,24 @@ A manager deletes a release
     And Page Should Contain    Release removed successfully
     And Page Should not Contain    Release Closed
 
+Delete a release saved in user context
+    [Tags]    context
+    Given I am a user
+    And I go to releases list    View product #1
+    And I click action button    View release #3
+    And I am a user+
+    And I go to releases list    View product #1
+    And I click action button    View release #3
+    And I am logging as    d1-manager    d1-manager    Hello    True
+    And I go to delete release page    3
+    And I reset the context log file
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL_DEV}/releases/1
+    And Page Should Contain    Release removed successfully
+    And Page Should not Contain    Release Closed
+    And the context log file should contain    RemoveContextService->removeRelease    $user->unsetCurrentRelease
+
 Check context for release delete with clean context
     [Tags]    context
     Given I am logging as    d1-manager    d1-manager    Hello    True
