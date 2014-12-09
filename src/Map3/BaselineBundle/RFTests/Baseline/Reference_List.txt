@@ -17,7 +17,7 @@ Display references list for a baseline for a user+
 
 List with no reference for a baseline for a user
     Given I am a user
-    When I go to references list    View product #1    View release #1    View baseline #3
+    When I go to references list    View product #2    View release #4    View baseline #6
     Then the table header should contain    Label    Value
     And the table should contain x rows    1
     And the table should contain    No reference
@@ -58,7 +58,7 @@ Check context for reference list with previous context
     Given I am logging as    d1-none    d1-none    Hello    True
     And Go To    ${URL_DEV}/product/2
     And Go To    ${URL_DEV}/release/4
-    And Go To    ${URL_DEV}/baseline/5
+    And Go To    ${URL_DEV}/baseline/6
     And I reset the context log file
     When Go To    ${URL_DEV}/bln-refs/1
     Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
@@ -101,6 +101,12 @@ Check context for reference list with same previous context
     And the context log file should contain x lines    4
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
+
+No actions buttons for a closed baseline
+    Given I am a user+
+    When I go to references list    View product #1    View release #1    View baseline #3
+    Then the table should contain x rows    1
+    And I should not see action button(s)    Add    Edit reference #6    Delete reference #6
 
 No actions buttons for a non-user+ role
     Given I am a user

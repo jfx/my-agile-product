@@ -52,11 +52,27 @@ Change a user to super-admin profile
 Change a super-admin profile to a non super-admin profile
     Given I am a super-admin
     And I go to users list
-    And I click action button    Edit user #1
+    And I click action button    Edit user #2
+    When Select Checkbox    map3_user_superAdmin
+    And I save
+    Then Page Should Contain    User edited successfully
+    And Checkbox Should Be Selected    map3_user_superAdmin
+    And I go to users list
+    And I click action button    Edit user #2
     When Unselect Checkbox    map3_user_superAdmin
     And I save
     Then Page Should Contain    User edited successfully
     And Checkbox Should Not Be Selected    map3_user_superAdmin
+
+Self change a super-admin profile to a non super-admin profile
+    [Tags]    failedTest
+    Given I am a super-admin
+    And I go to users list
+    And I click action button    Edit user #1
+    When Unselect Checkbox    map3_user_superAdmin
+    And I save
+    Then Run Keyword And Expect Error    *    Then Page Should Contain    User edited successfully
+    Then Run Keyword And Expect Error    *    And Checkbox Should Not Be Selected    map3_user_superAdmin
 
 Unlock a user
     Given I am a super-admin

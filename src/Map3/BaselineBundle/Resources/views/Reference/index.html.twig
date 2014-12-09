@@ -14,7 +14,7 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            {% if is_granted('ROLE_DM_USERPLUS') %}
+            {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
             <th>
                 <a href="{{ path('bln-ref_add', {'id': baseline.id}) }}"
                     class="btn btn-xs btn-cust" title="Add">
@@ -30,7 +30,7 @@
     <tbody>
 {% for ref in refs %}
             <tr>
-                {% if is_granted('ROLE_DM_USERPLUS') %}
+                {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN')) %}
                 <td class="action">
                     <a href="{{ path('bln-ref_edit', {'id': ref.id}) }}"
                        class="btn btn-xs btn-cust"
@@ -48,7 +48,7 @@
                 <td>{{ ref.value }}</td>
             </tr>
 {% else %}
-        {% if is_granted('ROLE_DM_USERPLUS') %}
+        {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN')) %}
             <tr><td colspan="3">No reference</td></tr>
         {% else %}
             <tr><td colspan="2">No reference</td></tr>

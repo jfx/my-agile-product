@@ -16,21 +16,25 @@ A user+ edits a baseline
     And the table should contain x rows    3
     And the table should contain    B1Mod    Details 4 B1Mod
 
-A manager closes a release
+A manager closes a baseline
     Given I am a manager
     And I go to edit baseline page    1
     When Select Checkbox    map3_baseline_closed
     And I save
     Then Page Should Contain    Baseline edited successfully
     And Checkbox Should Be Selected    map3_baseline_closed
+    And Click element    id=a_references
+    And I should not see action button(s)    Add    Edit reference #1    Delete reference #1
 
-A manager opens a closed release
+A manager opens a closed baseline
     Given I am a manager
     And I go to edit baseline page    3
     When Unselect Checkbox    map3_baseline_closed
     And I save
     Then Page Should Contain    Baseline edited successfully
     And Checkbox Should Not Be Selected    map3_baseline_closed
+    And Click element    id=a_references
+    And I should see action button(s)    Add    Edit reference #6    Delete reference #6
 
 Check context for baseline edit with clean context
     [Tags]    context
@@ -104,14 +108,14 @@ Check context for baseline edit with same previous context
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
 
-Impossible to edit a release with a name too short
+Impossible to edit a baseline with a name too short
     Given I am a manager
     And I go to edit baseline page    1
     When Input Text    map3_baseline_name    X
     And I save
     Then Page Should Contain    This value is too short. It should have 2 characters or more.
 
-Impossible to modify a release with wrong date
+Impossible to modify a baseline with wrong date
     Given I am a manager
     And I go to edit baseline page    3
     When Input Text    //div[@data-link-field='map3_baseline_baselineDatetime']/input[@type='text']    xx/xx/xxxx
@@ -130,7 +134,7 @@ Wrong baseline Id for a release but same product
 Wrong baseline Id for a release
     Given I am a user+
     And I go to baselines list    View product #1    View release #1
-    When Go to    ${URL}/baseline/edit/5
+    When Go to    ${URL}/baseline/edit/6
     Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
 
 Wrong baseline Id

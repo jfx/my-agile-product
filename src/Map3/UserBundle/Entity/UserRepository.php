@@ -24,7 +24,7 @@ use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 
 /**
- * User entity repository class.
+ * User entity repository class
  *
  * @category  MyAgileProduct
  * @package   User
@@ -37,9 +37,9 @@ use Map3\ReleaseBundle\Entity\Release;
 class UserRepository extends EntityRepository
 {
     /**
-     * Get all users ordered by name, firstname.
+     * Get all users ordered by name, firstname
      *
-     * @return array List of users.
+     * @return array List of users
      */
     public function findAllOrderByNameFirstname()
     {
@@ -52,11 +52,11 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get all users with a product in their context.
+     * Get all users with a product in their context
      *
-     * @param Product $product The product.
+     * @param Product $product The product
      *
-     * @return User[] List of users and role.
+     * @return User[] List of users and role
      */
     public function findUsersByProductInContext(Product $product)
     {
@@ -109,11 +109,11 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get count of all available user for a product.
+     * Get count of all available user for a product
      *
-     * @param Product $product The product.
+     * @param Product $product The product
      *
-     * @return int.
+     * @return int
      */
     public function getCountAvailableUserByProduct(Product $product)
     {
@@ -131,11 +131,11 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get the query builder of all available user for a product.
+     * Get the query builder of all available user for a product
      *
-     * @param Product $product The product.
+     * @param Product $product The product
      *
-     * @return QueryBuilder.
+     * @return QueryBuilder
      */
     public function getQBAvailableUserByProduct(Product $product)
     {
@@ -151,9 +151,9 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get the DQL query of all added user for a product.
+     * Get the DQL query of all added user for a product
      *
-     * @return DQL query.
+     * @return DQL query
      */
     private function getDQLAddedUserByProduct()
     {

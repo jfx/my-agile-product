@@ -21,6 +21,7 @@ namespace Map3\ReleaseBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ReleaseBundle\Entity\Release;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -47,7 +48,7 @@ class BaselineController extends AbstractCoreController
      */
     public function indexAction(Release $release)
     {
-        $this->setCurrentRelease($release, array('ROLE_DM_GUEST'));
+        $this->setCurrentRelease($release, array(Role::GUEST_ROLE));
 
         $repository = $this->getDoctrine()
             ->getManager()

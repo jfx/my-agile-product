@@ -23,6 +23,7 @@ use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Entity\Reference;
 use Map3\BaselineBundle\Form\ReferenceType;
 use Map3\CoreBundle\Controller\AbstractCoreController;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -51,7 +52,7 @@ class ReferenceController extends AbstractCoreController
      */
     public function indexAction(Baseline $baseline)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_GUEST'));
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -80,7 +81,10 @@ class ReferenceController extends AbstractCoreController
      */
     public function addAction(Baseline $baseline, Request $request)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline, 
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
 
         $ref = new Reference();
         $ref->setBaseline($baseline);
@@ -122,7 +126,10 @@ class ReferenceController extends AbstractCoreController
     public function editAction(Reference $reference, Request $request)
     {
         $baseline = $reference->getBaseline();
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
 
         $form = $this->createForm(new ReferenceType(), $reference);
         $handler = $this->getFormHandler($form, $request);
@@ -160,7 +167,10 @@ class ReferenceController extends AbstractCoreController
     public function delAction(Reference $reference)
     {
         $baseline = $reference->getBaseline();
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline, 
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
 
         if ($this->get('request')->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();

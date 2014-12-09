@@ -53,7 +53,7 @@ class FormHandler
     protected $em;
 
     /**
-     * @var Validator Validator
+     * @var LegacyValidator Validator
      *
      */
     protected $validator;

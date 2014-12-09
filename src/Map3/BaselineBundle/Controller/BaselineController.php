@@ -24,6 +24,7 @@ use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Form\BaselineType;
 use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ReleaseBundle\Entity\Release;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -53,7 +54,10 @@ class BaselineController extends AbstractCoreController
      */
     public function addAction(Release $release, Request $request)
     {
-        $this->setCurrentRelease($release, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentRelease(
+            $release,
+            array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
+        );
 
         $baseline = new Baseline();
         $baseline->setRelease($release);
@@ -96,7 +100,7 @@ class BaselineController extends AbstractCoreController
      */
     public function viewAction(Baseline $baseline)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_GUEST'));
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
         $baselineType = new BaselineType($this->container);
         $baselineType->setDisabled();
@@ -124,7 +128,10 @@ class BaselineController extends AbstractCoreController
      */
     public function editAction(Baseline $baseline, Request $request)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline, 
+            array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
+        );
 
         $form = $this->createForm(
             new BaselineType($this->container),
@@ -139,6 +146,9 @@ class BaselineController extends AbstractCoreController
             $this->get('session')->getFlashBag()
                 ->add('success', 'Baseline edited successfully !');
 
+            // To update role when change closed status
+            $this->unsetCurrentBaseline();
+            
             return $this->redirect(
                 $this->generateUrl('baseline_view', array('id' => $id))
             );
@@ -165,7 +175,10 @@ class BaselineController extends AbstractCoreController
      */
     public function delAction(Baseline $baseline)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
+        );
 
         $release = $baseline->getRelease();
 

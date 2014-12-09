@@ -118,7 +118,7 @@ class UpdateContextService extends AbstractSetRoleService
                 $this->user->setCurrentProduct($product);
 
                 $this->setUserRole4Product($product);
-                $this->securityContext->getToken()->setAuthenticated(false);
+                //$this->securityContext->getToken()->setAuthenticated(false);
             } else {
                 $this->logger->debug('Same product. No change');
             }
@@ -235,6 +235,7 @@ class UpdateContextService extends AbstractSetRoleService
     {
         if ($this->userHasChanged) {
             $this->logger->debug('Update user');
+            $this->securityContext->getToken()->setAuthenticated(false);
             $this->userManager->updateUser($this->user);
         }
     }

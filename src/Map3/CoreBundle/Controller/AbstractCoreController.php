@@ -64,7 +64,7 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Check if user is granted
+     * Check if user is granted for all given roles
      *
      * @param string[] $roles The list of roles
      *
@@ -73,6 +73,36 @@ abstract class AbstractCoreController extends Controller
      * @throws AccessDeniedException
      */
     protected function userIsGranted(array $roles)
+    {
+        $sc = $this->container->get('security.context');
+
+        if (count($roles) > 0) {
+            $isGranted = $sc->isGranted($roles[0]);
+        } else {
+            $isGranted = false;            
+        }
+
+        foreach ($roles as $role) {
+            $isGranted = $isGranted && $sc->isGranted($role);
+        }
+
+        if (!($isGranted)) {
+            throw new AccessDeniedException(
+                'You are not allowed to access this resource'
+            );
+        }
+    }
+
+    /**
+     * Check if user is granted for one given role
+     *
+     * @param string[] $roles The list of roles
+     *
+     * @return void
+     *
+     * @throws AccessDeniedException
+     */
+    protected function userIsGrantedAnyRole(array $roles)
     {
         $sc = $this->container->get('security.context');
 
@@ -88,7 +118,7 @@ abstract class AbstractCoreController extends Controller
             );
         }
     }
-
+    
     /**
      * Set product in context
      *
@@ -108,6 +138,27 @@ abstract class AbstractCoreController extends Controller
         $serviceUpdate->setCurrentProduct($product);
 
         $this->userIsGranted($roles);
+    }
+
+        /**
+     * Set product in context
+     *
+     * @param Product  $product The product.
+     * @param string[] $roles   Roles to check.
+     *
+     * @return void
+     */
+    protected function setCurrentProductAnyRole(Product $product, array $roles)
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $logger->debug('CoreController->setCurrentProductAnyRole');
+
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
+        $serviceUpdate->setCurrentProduct($product);
+
+        $this->userIsGrantedAnyRole($roles);
     }
 
     /**

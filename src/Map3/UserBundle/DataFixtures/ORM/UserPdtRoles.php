@@ -79,6 +79,11 @@ class UserPdtRoles extends AbstractFixture implements OrderedFixtureInterface
                 'role'    => 'manager-role',
             ),
             array(
+                'user'    => 'd1-manager-user',
+                'product' => 'productfour-product',
+                'role'    => 'manager-role',
+            ),
+            array(
                 'user'    => 'd2-manager-user',
                 'product' => 'producttwo-product',
                 'role'    => 'manager-role',

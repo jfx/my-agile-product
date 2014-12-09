@@ -137,7 +137,7 @@ class ProductController extends AbstractCoreController
      */
     public function editAction(Product $product, Request $request)
     {
-        $this->setCurrentProduct(
+        $this->setCurrentProductAnyRole(
             $product,
             array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE)
         );

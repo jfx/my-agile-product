@@ -21,6 +21,7 @@ namespace Map3\ProductBundle\Controller;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -47,7 +48,7 @@ class ReleaseController extends AbstractCoreController
      */
     public function indexAction(Product $product)
     {
-        $this->setCurrentProduct($product, array('ROLE_DM_GUEST'));
+        $this->setCurrentProduct($product, array(Role::GUEST_ROLE));
 
         $repository = $this->getDoctrine()
             ->getManager()

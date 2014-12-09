@@ -6,13 +6,13 @@ Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
 Select box should contain available baselines
-    ${date_r1} =     I get formated date in X months    20    1
-    ${date_b1} =     I get formated date in X months    10    1
-    ${date_b2} =     I get formated date in X months    15    1
-    ${date_r2} =     I get formated date in X months    20    2
-    ${date_b3} =     I get formated date in X months    15    1
-    ${date_r3} =     I get formated date in X months    20    3
-    ${date_b4} =     I get formated date in X months    15    2
+    ${date_r1} =    I get formated date in X months    20    1
+    ${date_b1} =    I get formated date in X months    10    1
+    ${date_b2} =    I get formated date in X months    15    1
+    ${date_r2} =    I get formated date in X months    20    2
+    ${date_b3} =    I get formated date in X months    15    1
+    ${date_r3} =    I get formated date in X months    20    3
+    ${date_b4} =    I get formated date in X months    15    2
     When I am a user
     Then Page Should Contain Element    xpath=//optgroup[@label='Product One / Release One : ${date_r1}']
     And Element Should Contain    id=map3_select_search    Baseline One : ${date_b1} 12:00
@@ -27,7 +27,7 @@ Select box should not contain closed release
     Then Run Keyword And Expect Error    *    Element Should Contain    id=map3_select_search    Baseline Closed : 02/08/2014 12:00
 
 Select box should not contain baseline with no role
-    ${date_b5} =     I get formated date in X months    15    1
+    ${date_b5} =    I get formated date in X months    15    1
     When I am a user
     Then Run Keyword And Expect Error    *    Element Should Contain    id=map3_select_search    Baseline Five : ${date_b5} 12:00
 
@@ -35,19 +35,19 @@ Select box should not be displayed when no role on any baseline
     I am a user with no role
     Then Page Should Not Contain Element    id=map3_select_search
 
-Select box should not be displayed when no release
+Select box should not be displayed when no baseline
     When I am a super-admin
     Then Page Should Not Contain Element    id=map3_select_search
 
-Switch release with select box
-    ${date_b1} =     I get formated date in X months    10    1
-    ${date_b4} =     I get formated date in X months    15    2
+Switch baseline with select box
+    ${date_b1} =    I get formated date in X months    10    1
+    ${date_b4} =    I get formated date in X months    15    2
     Given I am a user
     When I select in menu select    Baseline One : ${date_b1} 12:00
     Then Location Should Be    ${URL}/baseline/1
     And the role should be    User
     When I select in menu select    Baseline Four : ${date_b4} 12:00
-    Then Location Should Be    ${URL}/baseline/5
+    Then Location Should Be    ${URL}/baseline/6
     And the role should be    User+
 
 *** Keywords ***

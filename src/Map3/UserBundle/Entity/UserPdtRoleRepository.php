@@ -22,7 +22,7 @@ use Doctrine\ORM\EntityRepository;
 use Map3\ProductBundle\Entity\Product;
 
 /**
- * User Product Role entity repository class.
+ * User Product Role entity repository class
  *
  * @category  MyAgileProduct
  * @package   User
@@ -35,11 +35,11 @@ use Map3\ProductBundle\Entity\Product;
 class UserPdtRoleRepository extends EntityRepository
 {
     /**
-     * Get all resources with role for a product.
+     * Get all resources with role for a product
      *
-     * @param Product $product The product.
+     * @param Product $product The product
      *
-     * @return array List of users and role.
+     * @return array List of users and role
      */
     public function findUsersByProduct(Product $product)
     {
@@ -60,9 +60,9 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Count all resources with role for a product.
+     * Count all resources with role for a product
      *
-     * @param Product $product The product.
+     * @param Product $product The product
      *
      * @return int
      */
@@ -81,11 +81,11 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Get all products for a user as a resource.
+     * Get all products for a user as a resource
      *
-     * @param User $user The user.
+     * @param User $user The user
      *
-     * @return array List of products.
+     * @return array List of products
      */
     public function findAvailableProductsByUser(User $user)
     {
@@ -106,12 +106,12 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Get a role for a user and product.
+     * Get a role for a user and product
      *
-     * @param int $userId    The user id.
-     * @param int $productId The product id.
+     * @param int $userId    The user id
+     * @param int $productId The product id
      *
-     * @return array role.
+     * @return array roles
      */
     public function findByUserIdProductId($userId, $productId)
     {
@@ -129,11 +129,11 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Get the query builder of all user if for a product id.
+     * Get the query builder of all user if for a product id
      *
-     * @param int $param The product id.
+     * @param int $param The product id
      *
-     * @return QueryBuilder.
+     * @return QueryBuilder
      */
     public function getQBUserIdByProductParam($param)
     {
