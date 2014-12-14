@@ -1,6 +1,6 @@
 *** Keywords ***
 I open browser
-    Open Browser    ${LOGIN_URL}    ${BROWSER}    \    http://127.0.0.1:4444/wd/hub
+    Open Browser    ${LOGIN_URL}    ${BROWSER}    \    ${HUB}
     Maximize Browser Window
     Run Keyword If    '${ENV}' == 'dev'    Wait Until Page Contains Element    xpath=//a[@title='Close Toolbar']
     Run Keyword If    '${ENV}' == 'dev'    Click element    xpath=//a[@title='Close Toolbar']

@@ -82,7 +82,7 @@ class ReferenceController extends AbstractCoreController
     public function addAction(Baseline $baseline, Request $request)
     {
         $this->setCurrentBaseline(
-            $baseline, 
+            $baseline,
             array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
         );
 
@@ -168,7 +168,7 @@ class ReferenceController extends AbstractCoreController
     {
         $baseline = $reference->getBaseline();
         $this->setCurrentBaseline(
-            $baseline, 
+            $baseline,
             array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
         );
 

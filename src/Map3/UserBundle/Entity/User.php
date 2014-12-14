@@ -278,6 +278,7 @@ class User extends BaseUser
         if (!$rl->isClosed()) {
             $this->addRole(Role::RLS_OPEN_ROLE);
         }
+
         return $this;
     }
 
@@ -319,7 +320,7 @@ class User extends BaseUser
         if (!$bln->isClosed()) {
             $this->addRole(Role::BLN_OPEN_ROLE);
         }
-        
+
         return $this;
     }
 

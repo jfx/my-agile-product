@@ -129,7 +129,7 @@ class BaselineController extends AbstractCoreController
     public function editAction(Baseline $baseline, Request $request)
     {
         $this->setCurrentBaseline(
-            $baseline, 
+            $baseline,
             array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
         );
 
@@ -148,7 +148,7 @@ class BaselineController extends AbstractCoreController
 
             // To update role when change closed status
             $this->unsetCurrentBaseline();
-            
+
             return $this->redirect(
                 $this->generateUrl('baseline_view', array('id' => $id))
             );

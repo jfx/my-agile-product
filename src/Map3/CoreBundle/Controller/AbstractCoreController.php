@@ -79,7 +79,7 @@ abstract class AbstractCoreController extends Controller
         if (count($roles) > 0) {
             $isGranted = $sc->isGranted($roles[0]);
         } else {
-            $isGranted = false;            
+            $isGranted = false;
         }
 
         foreach ($roles as $role) {
@@ -118,7 +118,7 @@ abstract class AbstractCoreController extends Controller
             );
         }
     }
-    
+
     /**
      * Set product in context
      *

@@ -1,6 +1,7 @@
 *** Variables ***
 ${ENV}            dev
-${BROWSER}        chrome    # chrome | firefox
+${BROWSER}        chrome    # chrome | firefox | phantomjs
+${HUB}            http://127.0.0.1:4444/wd/hub    # http://127.0.0.1:4444/wd/hub | http://127.0.0.1:5555
 ${URL_DEV}        http://map3dev.localhost/app_dev.php
 ${URL}            ${URL_DEV}
 ${LOGIN_URL}      ${URL}/login

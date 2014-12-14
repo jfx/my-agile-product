@@ -140,10 +140,10 @@ class ReleaseController extends AbstractCoreController
             }
             $this->get('session')->getFlashBag()
                 ->add('success', 'Release edited successfully !');
-            
+
             // To update role when change closed status
             $this->unsetCurrentRelease();
-                    
+
             return $this->redirect(
                 $this->generateUrl('release_view', array('id' => $id))
             );
