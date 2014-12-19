@@ -18,7 +18,7 @@
 
 namespace Map3\UserBundle\Form;
 
-use Map3\CoreBundle\Form\DefaultType;
+use Map3\CoreBundle\Form\AbstractDefaultType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Email;
@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints\Length;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UserType extends DefaultType
+class UserType extends AbstractDefaultType
 {
     /**
      * Builds the form.
@@ -71,8 +71,8 @@ class UserType extends DefaultType
                 'text',
                 array(
                     'constraints' => array(
-                        new Length(array('min' => 2, 'max' => 50))
-                    )
+                        new Length(array('min' => 2, 'max' => 50)),
+                    ),
                 )
             )
             ->add(
@@ -80,7 +80,7 @@ class UserType extends DefaultType
                 'password',
                 array(
                     'label' => 'Password',
-                    'required' => false
+                    'required' => false,
                 )
             )
             ->add(
@@ -88,8 +88,8 @@ class UserType extends DefaultType
                 'text',
                 array(
                     'constraints' => array(
-                        new Email(array('message' => 'Invalid email address'))
-                    )
+                        new Email(array('message' => 'Invalid email address')),
+                    ),
                 )
             )
             ->add(
@@ -97,7 +97,7 @@ class UserType extends DefaultType
                 'checkbox',
                 array(
                     'label' => 'Super-admin',
-                    'required' => false
+                    'required' => false,
                 )
             )
             ->add(
@@ -106,15 +106,15 @@ class UserType extends DefaultType
                 array(
                     'required' => false,
                     'attr'  => array(
-                        'rows'  => 4
-                    )
+                        'rows'  => 4,
+                    ),
                 )
             )
             ->add(
                 'locked',
                 'checkbox',
                 array(
-                    'required' => false
+                    'required' => false,
                 )
             );
     }

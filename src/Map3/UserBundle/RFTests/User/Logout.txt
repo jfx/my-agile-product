@@ -12,6 +12,26 @@ A user logs out
     Then Location Should Be    ${URL}/login
     And I am disconnected
 
+Automated log out after timeout
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    user    user    Hello    True
+    And I am waiting for timeout
+    And Go To    ${URL_DEV}/product/
+    And Location Should Be    ${URL_DEV}/login
+    [Teardown]    TestLifetimeTeardown
+
+Check context for logout
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Click element    link=Log out
+    Then Location Should Be    ${URL_DEV}/login
+    And the context log file should contain x lines    1
+    And the context log file should contain    Logout - unsetCurrentProduct()
+    And I am disconnected
+
 *** Keywords ***
 I am disconnected
     Go To    ${URL}/

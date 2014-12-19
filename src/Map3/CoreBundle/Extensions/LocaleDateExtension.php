@@ -66,7 +66,7 @@ class LocaleDateExtension extends Twig_Extension
             new Twig_SimpleFilter(
                 'localeDatetime',
                 array($this, 'localeDatetimeFilter')
-            )
+            ),
         );
     }
 

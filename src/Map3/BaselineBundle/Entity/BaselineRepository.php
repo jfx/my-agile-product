@@ -106,4 +106,23 @@ class BaselineRepository extends EntityRepository
 
         return $results;
     }
+
+    /**
+     * Close all opened baselines for a release
+     *
+     * @param Release $rls The release
+     *
+     * @return void
+     */
+    public function closeBaselinesByRelease($rls)
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->update()
+            ->set('b.closed', 1)
+            ->where('b.release = :releaseId')
+            ->andWhere('b.closed = 0')
+            ->setParameter('releaseId', $rls->getId());
+
+        $qb->getQuery()->execute();
+    }
 }

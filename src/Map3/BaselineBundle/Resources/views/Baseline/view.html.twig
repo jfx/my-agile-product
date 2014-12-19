@@ -23,7 +23,7 @@
        title="Return to release">
         {{ icon('chevron-left') }} Return to release
     </a>
-{% if is_granted('ROLE_DM_USERPLUS') %}
+{% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_RLS')) %}
     <a class="btn btn-sm btn-cust"
        href="{{ path('baseline_edit', {'id': baseline.id}) }}" title="Edit">
         {{ icon('edit',true) }} Edit

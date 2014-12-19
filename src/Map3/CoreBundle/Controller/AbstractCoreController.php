@@ -18,6 +18,7 @@
 
 namespace Map3\CoreBundle\Controller;
 
+use Doctrine\DBAL\DBALException;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\CoreBundle\Form\FormHandler;
 use Map3\ProductBundle\Entity\Product;
@@ -39,7 +40,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @since     3
  *
  */
-abstract class CoreController extends Controller
+abstract class AbstractCoreController extends Controller
 {
     /**
      * Get the form handler
@@ -63,9 +64,9 @@ abstract class CoreController extends Controller
     }
 
     /**
-     * Check if user is granted
+     * Check if user is granted for all given roles
      *
-     * @param array $roles The list of roles.
+     * @param string[] $roles The list of roles
      *
      * @return void
      *
@@ -75,10 +76,39 @@ abstract class CoreController extends Controller
     {
         $sc = $this->container->get('security.context');
 
+        if (count($roles) > 0) {
+            $isGranted = $sc->isGranted($roles[0]);
+        } else {
+            $isGranted = false;
+        }
+
+        foreach ($roles as $role) {
+            $isGranted = $isGranted && $sc->isGranted($role);
+        }
+
+        if (!($isGranted)) {
+            throw new AccessDeniedException(
+                'You are not allowed to access this resource'
+            );
+        }
+    }
+
+    /**
+     * Check if user is granted for one given role
+     *
+     * @param string[] $roles The list of roles
+     *
+     * @return void
+     *
+     * @throws AccessDeniedException
+     */
+    protected function userIsGrantedAnyRole(array $roles)
+    {
+        $sc = $this->container->get('security.context');
+
         $isGranted = false;
 
         foreach ($roles as $role) {
-
             $isGranted = $isGranted || $sc->isGranted($role);
         }
 
@@ -102,10 +132,33 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->setCurrentProduct');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentProduct($product);
 
         $this->userIsGranted($roles);
+    }
+
+        /**
+     * Set product in context
+     *
+     * @param Product  $product The product.
+     * @param string[] $roles   Roles to check.
+     *
+     * @return void
+     */
+    protected function setCurrentProductAnyRole(Product $product, array $roles)
+    {
+        $logger = $this->get('monolog.logger.uctx');
+        $logger->debug('CoreController->setCurrentProductAnyRole');
+
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
+        $serviceUpdate->setCurrentProduct($product);
+
+        $this->userIsGrantedAnyRole($roles);
     }
 
     /**
@@ -144,7 +197,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->unsetCurrentProduct');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentProduct(null);
     }
 
@@ -161,7 +216,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->setCurrentRelease');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentRelease($release);
 
         $this->userIsGranted($roles);
@@ -203,7 +260,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->unsetCurrentRelease');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentRelease(null);
     }
 
@@ -220,7 +279,9 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->setCurrentBaseline');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentBaseline($baseline);
 
         $this->userIsGranted($roles);
@@ -258,7 +319,33 @@ abstract class CoreController extends Controller
         $logger = $this->get('monolog.logger.uctx');
         $logger->debug('CoreController->unsetCurrentBaseline');
 
-        $serviceUpdate = $this->container->get('map3_user.updatecontext4user');
+        $serviceUpdate = $this->container->get(
+            'map3_user.updateContextService'
+        );
         $serviceUpdate->setCurrentBaseline(null);
+    }
+
+    /**
+     * catch Integrity constraint violation
+     *
+     * @param DBALException $e Exception
+     *
+     * @return void
+     *
+     * @throws DBALException
+     */
+    protected function catchIntegrityConstraintViolation(DBALException $e)
+    {
+        if (($e->getCode() == 0)
+            && ($e->getPrevious()->getCode() == '23000')
+        ) {
+            $this->get('session')->getFlashBag()->add(
+                'danger',
+                'Impossible to remove this item'
+                .' - Integrity constraint violation !'
+            );
+        } else {
+            throw $e;
+        }
     }
 }

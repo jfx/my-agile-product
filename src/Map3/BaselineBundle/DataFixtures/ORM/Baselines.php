@@ -89,6 +89,13 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
                 'release'      => 'releasetwo-release',
             ),
             array(
+                'name'         => 'Baseline Six',
+                'details'      => 'Details 4 baseline 6',
+                'baselineDate' => $dateB4,
+                'closed'       => false,
+                'release'      => 'releasetwo-release',
+            ),
+            array(
                 'name'         => 'Baseline Four',
                 'details'      => 'Details 4 baseline 4',
                 'baselineDate' => $dateB4,
@@ -102,7 +109,13 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
                 'closed'       => false,
                 'release'      => 'releasefour-release',
             ),
-        );
+            array(
+                'name'         => 'Baseline Closed 4 release closed',
+                'details'      => 'Details 4 baseline closed',
+                'baselineDate' => new DateTime("2014-08-15 12:00:00"),
+                'closed'       => true,
+                'release'      => 'releaseclosed-release',
+            ),        );
         $objectList = array();
 
         foreach ($dataArray as $i => $data) {

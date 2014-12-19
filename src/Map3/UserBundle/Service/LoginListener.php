@@ -36,23 +36,8 @@ use Psr\Log\LoggerInterface;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class LoginListener
+class LoginListener extends AbstractSetRoleService
 {
-    /**
-     * @var EntityManager Entity manager
-     */
-    protected $entityManager;
-
-    /**
-     * @var UserManagerInterface User manager
-     */
-    protected $userManager;
-
-    /**
-     * @var LoggerInterface Logger
-     */
-    protected $logger;
-
     /**
      *
      * @var LocaleDateExtension Date extension
@@ -89,25 +74,34 @@ class LoginListener
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
-        $this->logger->debug('onSecurityInteractiveLogin');
+        $this->logger->debug('LoginListener->onSecurityInteractiveLogin');
 
         $token = $event->getAuthenticationToken();
-        $user = $token->getUser();
+        $this->user = $token->getUser();
 
-        // Unset current product release baseline
-        $user->unsetCurrentProduct();
-        $token->setAuthenticated(false);
+        // Update context
+        $product = $this->user->getCurrentProduct();
+
+        if ($product !== null) {
+            $this->user->unsetProductRole();
+            $this->logger->debug('LoginListener->setUserRole4Product');
+            $this->setUserRole4Product($product);
+            $token->setAuthenticated(false);
+        } else {
+            $this->logger->debug('No product in user context');
+        }
 
         $repository = $this->entityManager->getRepository(
             'Map3BaselineBundle:Baseline'
         );
 
-        $baselinesFromDB = $repository->findAvailableBaselinesByUser($user);
+        $baselinesFromDB = $repository->findAvailableBaselinesByUser(
+            $this->user
+        );
 
         $baselines = array();
 
         foreach ($baselinesFromDB as $row) {
-
             $releaseDate = new DateTime($row['r_date']);
             $formatedReleaseDate = $this->dateExtension->localeDateFilter(
                 $releaseDate
@@ -126,7 +120,8 @@ class LoginListener
             $baselines[$releaseLabel][$row['b_id']] = $baselineLabel;
         }
 
-        $user->setAvailableBaselines($baselines);
-        $this->userManager->updateUser($user);
+        $this->user->setAvailableBaselines($baselines);
+        $this->logger->debug('Update user');
+        $this->userManager->updateUser($this->user);
     }
 }

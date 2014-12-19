@@ -101,7 +101,6 @@ class CoverageListener
         $testNameFilePath = $kernel->getLogDir().'/'.self::$testNameFile;
 
         if (file_exists($testNameFilePath)) {
-
             $content = htmlspecialchars(file_get_contents($testNameFilePath));
             $this->testName = substr($content, 0, 100);
         }

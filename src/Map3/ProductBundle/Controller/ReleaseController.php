@@ -19,8 +19,9 @@
 namespace Map3\ProductBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -34,7 +35,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class ReleaseController extends CoreController
+class ReleaseController extends AbstractCoreController
 {
     /**
      * List of releases
@@ -47,7 +48,7 @@ class ReleaseController extends CoreController
      */
     public function indexAction(Product $product)
     {
-        $this->setCurrentProduct($product, array('ROLE_DM_GUEST'));
+        $this->setCurrentProduct($product, array(Role::GUEST_ROLE));
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -59,7 +60,7 @@ class ReleaseController extends CoreController
             'Map3ProductBundle:Release:index.html.twig',
             array(
                 'releases' => $releases,
-                'product'  => $product
+                'product'  => $product,
             )
         );
     }

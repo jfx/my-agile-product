@@ -50,24 +50,24 @@ class Products extends AbstractFixture implements OrderedFixtureInterface
         $dataArray = array(
             array(
                 'name' => 'Product One',
-                'details' => 'Details 4 Product One'
+                'details' => 'Details 4 Product One',
             ),
             array(
                 'name' => 'Product Two',
-                'details' => 'Details 4 Product Two'
+                'details' => 'Details 4 Product Two',
             ),
             array(
                 'name' => 'Product Three',
-                'details' => 'Details 4 Product Three'
+                'details' => 'Details 4 Product Three',
             ),
             array(
                 'name' => 'Product Four',
-                'details' => 'Details 4 Product Four'
+                'details' => 'Details 4 Product Four',
             ),
             array(
                 'name' => 'Product Five',
-                'details' => 'Details 4 Product Five'
-            )
+                'details' => 'Details 4 Product Five',
+            ),
         );
         $objectList = array();
 

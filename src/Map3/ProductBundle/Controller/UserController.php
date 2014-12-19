@@ -18,9 +18,10 @@
 
 namespace Map3\ProductBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NoResultException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Form\UserTypeAdd;
 use Map3\ProductBundle\Form\UserTypeEditDel;
 use Map3\ProductBundle\Form\UserFormHandler;
@@ -39,7 +40,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UserController extends CoreController
+class UserController extends AbstractCoreController
 {
     /**
      * List of users for a product
@@ -62,7 +63,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:index.html.twig',
             array(
                 'users' => $users,
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -92,7 +93,6 @@ class UserController extends CoreController
         $count = $repositoryUser->getCountAvailableUserByProduct($product);
 
         if ($count < 1) {
-
             $this->get('session')->getFlashBag()
                 ->add('danger', 'No user to add !');
 
@@ -121,7 +121,6 @@ class UserController extends CoreController
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User added successfully !');
 
@@ -134,7 +133,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -166,7 +165,7 @@ class UserController extends CoreController
                 $id,
                 $product->getId()
             );
-        } catch (Exception $e) {
+        } catch (NoResultException $e) {
             throw $this->createNotFoundException(
                 'User[id='.$id.'] not found for this product'
             );
@@ -187,7 +186,6 @@ class UserController extends CoreController
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User edited successfully !');
 
@@ -200,7 +198,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:edit.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -231,14 +229,13 @@ class UserController extends CoreController
                 $id,
                 $product->getId()
             );
-        } catch (Exception $e) {
+        } catch (NoResultException $e) {
             throw $this->createNotFoundException(
                 'User[id='.$id.'] not found for this product'
             );
         }
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $em->remove($userPdtRole);
 
             try {
@@ -250,13 +247,8 @@ class UserController extends CoreController
                 return $this->redirect(
                     $this->generateUrl('pdt-user_index')
                 );
-            } catch (Exception $e) {
-
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
+            } catch (DBALException $e) {
+                $this->catchIntegrityConstraintViolation($e);
             }
         }
 
@@ -268,7 +260,7 @@ class UserController extends CoreController
             'Map3ProductBundle:User:del.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }

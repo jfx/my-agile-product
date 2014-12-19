@@ -31,10 +31,10 @@ security:
                 provider:      fos_userbundle
                 remember_me:   true
                 csrf_provider: form.csrf_provider
-                always_use_default_target_path: true
             remember_me:
                 key:           %secret%
             logout:
                 path:          /logout
                 target:        /login
+                handlers:      [map3_user.logoutContextHandler]
             anonymous:         false

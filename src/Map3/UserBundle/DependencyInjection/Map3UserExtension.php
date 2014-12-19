@@ -48,7 +48,7 @@ class Map3UserExtension extends Extension
      * @return void
      *
      * @throws InvalidArgumentException When provided tag is not defined in
-     * this extension
+     *                                  this extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {

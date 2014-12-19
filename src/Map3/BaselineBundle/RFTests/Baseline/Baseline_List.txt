@@ -17,7 +17,7 @@ Display baselines list on a release for a user
 
 List with no baseline on a release for a user
     Given I am a user
-    When I go to baselines list    View product #1    View release #3
+    When I go to baselines list    View product #4    View release #6
     Then the table header should contain    Action    Name    Date    Closed    Details
     And the table should contain x rows    1
     And the table should contain    No baseline
@@ -99,6 +99,13 @@ Display baselines list without selecting a product before
     Then Location should be    ${URL}/baselines/1
     And the breadcrumb should contain    Product One    Release One    Baselines list
     And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+No modify actions buttons for a closed release
+    Given I am a user+
+    When I go to baselines list    View product #1    View release #3
+    Then the table should contain x rows    1
+    And I should see action button(s)    View baseline #8
+    And I should not see action button(s)    Add    Edit baseline #8    Delete baseline #8
 
 No modify actions buttons for a non-user+ role
     Given I am a user

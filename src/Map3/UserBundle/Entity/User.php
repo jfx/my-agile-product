@@ -275,6 +275,10 @@ class User extends BaseUser
     {
         $this->currentRelease = $rl;
 
+        if (!$rl->isClosed()) {
+            $this->addRole(Role::RLS_OPEN_ROLE);
+        }
+
         return $this;
     }
 
@@ -296,6 +300,7 @@ class User extends BaseUser
     public function unsetCurrentRelease()
     {
         $this->unsetCurrentBaseline();
+        $this->removeRole(Role::RLS_OPEN_ROLE);
         $this->currentRelease = null;
 
         return $this;
@@ -311,6 +316,10 @@ class User extends BaseUser
     public function setCurrentBaseline(Baseline $bln)
     {
         $this->currentBaseline = $bln;
+
+        if (!$bln->isClosed()) {
+            $this->addRole(Role::BLN_OPEN_ROLE);
+        }
 
         return $this;
     }
@@ -333,6 +342,7 @@ class User extends BaseUser
     public function unsetCurrentBaseline()
     {
         $this->currentBaseline = null;
+        $this->removeRole(Role::BLN_OPEN_ROLE);
 
         return $this;
     }
@@ -395,7 +405,6 @@ class User extends BaseUser
         $this->currentRoleLabel = null;
 
         foreach ($this->getRoles() as $key => $role) {
-
             if (substr($role, 0, 7) == 'ROLE_DM') {
                 $this->removeRole($role);
             }

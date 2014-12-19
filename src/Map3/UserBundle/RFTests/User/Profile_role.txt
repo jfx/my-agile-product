@@ -18,6 +18,15 @@ No role
     Then the table should contain x rows    1
     And the table should contain    No role
 
+Check context for user role with clean context
+    [Tags]    context
+    Given I am logging as    user    user    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/user/role
+    Then the breadcrumb should contain    Admin    Profile    Roles
+    And the context log file should contain x lines    5
+    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
+
 Breadcrumb
     Given I am a user
     When I go to profile role page

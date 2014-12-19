@@ -44,7 +44,7 @@ Check context for reference add with previous context
     Given I am logging as    d1-none    d1-none    Hello    True
     And Go To    ${URL_DEV}/product/2
     And Go To    ${URL_DEV}/release/4
-    And Go To    ${URL_DEV}/baseline/5
+    And Go To    ${URL_DEV}/baseline/6
     And I reset the context log file
     When Go To    ${URL_DEV}/bln-ref/add/1
     Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}

@@ -52,7 +52,7 @@ class Builder extends ContainerAware
             'Dashboard',
             array(
                 'icon' => 'dashboard',
-                'route' => 'map3_dashboard_index'
+                'route' => 'map3_dashboard_index',
             )
         );
 
@@ -69,7 +69,7 @@ class Builder extends ContainerAware
             'Profile',
             array(
                 'icon' => 'user',
-                'route' => 'user_profile'
+                'route' => 'user_profile',
             )
         );
 
@@ -79,14 +79,14 @@ class Builder extends ContainerAware
             'Users',
             array(
                 'icon' => 'globe',
-                'route' => 'user_index'
+                'route' => 'user_index',
             )
         );
         $dropdownAdmin->addChild(
             'Products',
             array(
                 'icon' => 'phone',
-                'route' => 'product_index'
+                'route' => 'product_index',
             )
         );
 
@@ -127,20 +127,20 @@ class Builder extends ContainerAware
         if ($user->isSuperAdmin()) {
             $star = '*';
         } else {
-            $star ='';
+            $star = '';
         }
         $menu->addChild(
             $username.$star.' '.$roleLabel2Display,
             array(
                 'icon' => 'user',
-                'route' => 'user_profile'
+                'route' => 'user_profile',
             )
         );
         $menu->addChild(
             'Log out',
             array(
                 'icon' => 'log-out',
-                'route' => 'fos_user_security_logout'
+                'route' => 'fos_user_security_logout',
             )
         );
 

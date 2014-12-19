@@ -29,7 +29,7 @@ A manager edits a product
     And the table should contain x rows    5
     And the table should contain    P1Mod    Details 4 P1Mod
 
-Check context for product view with clean context
+Check context for product edit with clean context
     [Tags]    context
     Given I am logging as    d1-manager    d1-manager    Hello    True
     And I reset the context log file
@@ -39,7 +39,7 @@ Check context for product view with clean context
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    ROLE_DM_MANAGER    Update user
 
-Check context for product view with previous context
+Check context for product edit with previous context
     [Tags]    context
     Given I am logging as    d1-manager    d1-manager    Hello    True
     And Go To    ${URL_DEV}/product/2
@@ -52,7 +52,7 @@ Check context for product view with previous context
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    ROLE_DM_MANAGER    Update user
 
-Check context for product view with same previous context
+Check context for product edit with same previous context
     [Tags]    context
     Given I am logging as    d1-manager    d1-manager    Hello    True
     And Go To    ${URL_DEV}/product/1

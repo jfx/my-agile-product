@@ -18,12 +18,13 @@
 
 namespace Map3\BaselineBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Form\BaselineType;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ReleaseBundle\Entity\Release;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,9 +40,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class BaselineController extends CoreController
+class BaselineController extends AbstractCoreController
 {
-
     /**
      * Add a baseline.
      *
@@ -54,7 +54,10 @@ class BaselineController extends CoreController
      */
     public function addAction(Release $release, Request $request)
     {
-        $this->setCurrentRelease($release, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentRelease(
+            $release,
+            array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
+        );
 
         $baseline = new Baseline();
         $baseline->setRelease($release);
@@ -67,7 +70,6 @@ class BaselineController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $baseline->getId();
 
             $this->get('session')->getFlashBag()
@@ -82,7 +84,7 @@ class BaselineController extends CoreController
             'Map3BaselineBundle:Baseline:add.html.twig',
             array(
                 'form'    => $form->createView(),
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -98,7 +100,7 @@ class BaselineController extends CoreController
      */
     public function viewAction(Baseline $baseline)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_GUEST'));
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
         $baselineType = new BaselineType($this->container);
         $baselineType->setDisabled();
@@ -109,7 +111,7 @@ class BaselineController extends CoreController
             array(
                 'form'     => $form->createView(),
                 'release'  => $baseline->getRelease(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -126,7 +128,10 @@ class BaselineController extends CoreController
      */
     public function editAction(Baseline $baseline, Request $request)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
+        );
 
         $form = $this->createForm(
             new BaselineType($this->container),
@@ -136,11 +141,13 @@ class BaselineController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $baseline->getId();
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'Baseline edited successfully !');
+
+            // To update role when change closed status
+            $this->unsetCurrentBaseline();
 
             return $this->redirect(
                 $this->generateUrl('baseline_view', array('id' => $id))
@@ -152,7 +159,7 @@ class BaselineController extends CoreController
             array(
                 'form'     => $form->createView(),
                 'release'  => $baseline->getRelease(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -168,13 +175,20 @@ class BaselineController extends CoreController
      */
     public function delAction(Baseline $baseline)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
+        );
 
         $release = $baseline->getRelease();
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $this->unsetCurrentBaseline();
+
+            $serviceRemove = $this->container->get(
+                'map3_user.removeContextService'
+            );
+            $serviceRemove->removeBaseline($baseline);
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($baseline);
@@ -191,14 +205,8 @@ class BaselineController extends CoreController
                         array('id' => $release->getId())
                     )
                 );
-
-            } catch (Exception $e) {
-
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
+            } catch (DBALException $e) {
+                $this->catchIntegrityConstraintViolation($e);
 
                 // With exception entity manager is closed.
                 return $this->redirect(
@@ -219,7 +227,7 @@ class BaselineController extends CoreController
             array(
                 'form'     => $form->createView(),
                 'release'  => $release,
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -252,7 +260,7 @@ class BaselineController extends CoreController
             array(
                 'baseline'  => $baseline,
                 'child'     => $child,
-                'activeTab' => $activeTab
+                'activeTab' => $activeTab,
             )
         );
     }

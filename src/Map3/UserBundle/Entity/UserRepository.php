@@ -19,10 +19,12 @@
 namespace Map3\UserBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Map3\BaselineBundle\Entity\Baseline;
 use Map3\ProductBundle\Entity\Product;
+use Map3\ReleaseBundle\Entity\Release;
 
 /**
- * User entity repository class.
+ * User entity repository class
  *
  * @category  MyAgileProduct
  * @package   User
@@ -35,9 +37,9 @@ use Map3\ProductBundle\Entity\Product;
 class UserRepository extends EntityRepository
 {
     /**
-     * Get all users ordered by name, firstname.
+     * Get all users ordered by name, firstname
      *
-     * @return array List of users.
+     * @return array List of users
      */
     public function findAllOrderByNameFirstname()
     {
@@ -50,11 +52,68 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get count of all available user for a product.
+     * Get all users with a product in their context
      *
-     * @param Product $product The product.
+     * @param Product $product The product
      *
-     * @return int.
+     * @return User[] List of users and role
+     */
+    public function findUsersByProductInContext(Product $product)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->innerJoin('u.currentProduct', 'p')
+            ->where('p.id = :productId')
+            ->setParameter('productId', $product->getId());
+
+        $results = $qb->getQuery()->getResult();
+
+        return $results;
+    }
+
+    /**
+     * Get all users with a release in their context
+     *
+     * @param Release $release The release
+     *
+     * @return User[] List of users
+     */
+    public function findUsersByReleaseInContext(Release $release)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->innerJoin('u.currentRelease', 'r')
+            ->where('r.id = :releaseId')
+            ->setParameter('releaseId', $release->getId());
+
+        $results = $qb->getQuery()->getResult();
+
+        return $results;
+    }
+
+    /**
+     * Get all users with a baseline in their context
+     *
+     * @param Baseline $baseline The baseline
+     *
+     * @return User[] List of users
+     */
+    public function findUsersByBaselineInContext(Baseline $baseline)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->innerJoin('u.currentBaseline', 'b')
+            ->where('b.id = :baselineId')
+            ->setParameter('baselineId', $baseline->getId());
+
+        $results = $qb->getQuery()->getResult();
+
+        return $results;
+    }
+
+    /**
+     * Get count of all available user for a product
+     *
+     * @param Product $product The product
+     *
+     * @return int
      */
     public function getCountAvailableUserByProduct(Product $product)
     {
@@ -72,11 +131,11 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get the query builder of all available user for a product.
+     * Get the query builder of all available user for a product
      *
-     * @param Product $product The product.
+     * @param Product $product The product
      *
-     * @return QueryBuilder.
+     * @return QueryBuilder
      */
     public function getQBAvailableUserByProduct(Product $product)
     {
@@ -92,9 +151,9 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get the DQL query of all added user for a product.
+     * Get the DQL query of all added user for a product
      *
-     * @return DQL query.
+     * @return DQL query
      */
     private function getDQLAddedUserByProduct()
     {

@@ -18,9 +18,9 @@
 
 namespace Map3\ProductBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ProductBundle\Form\ProductType;
 use Map3\UserBundle\Entity\Role;
@@ -39,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class ProductController extends CoreController
+class ProductController extends AbstractCoreController
 {
     /**
      * List of products
@@ -83,7 +83,6 @@ class ProductController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $product->getId();
 
             $this->get('session')->getFlashBag()
@@ -121,7 +120,7 @@ class ProductController extends CoreController
             'Map3ProductBundle:Product:view.html.twig',
             array(
                 'form'      => $form->createView(),
-                'product'   => $product
+                'product'   => $product,
             )
         );
     }
@@ -138,7 +137,7 @@ class ProductController extends CoreController
      */
     public function editAction(Product $product, Request $request)
     {
-        $this->setCurrentProduct(
+        $this->setCurrentProductAnyRole(
             $product,
             array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE)
         );
@@ -147,7 +146,6 @@ class ProductController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $product->getId();
 
             $this->get('session')->getFlashBag()
@@ -162,7 +160,7 @@ class ProductController extends CoreController
             'Map3ProductBundle:Product:edit.html.twig',
             array(
                 'form'    => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -179,10 +177,14 @@ class ProductController extends CoreController
     public function delAction(Product $product)
     {
         if ($this->get('request')->getMethod() == 'POST') {
-
             $em = $this->getDoctrine()->getManager();
 
             $this->unsetCurrentProduct();
+
+            $serviceRemove = $this->container->get(
+                'map3_user.removeContextService'
+            );
+            $serviceRemove->removeProduct($product);
 
             $em->remove($product);
 
@@ -195,14 +197,8 @@ class ProductController extends CoreController
                 return $this->redirect(
                     $this->generateUrl('product_index')
                 );
-
-            } catch (Exception $e) {
-
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
+            } catch (DBALException $e) {
+                $this->catchIntegrityConstraintViolation($e);
 
                 return $this->redirect(
                     $this->generateUrl(
@@ -222,7 +218,7 @@ class ProductController extends CoreController
             'Map3ProductBundle:Product:del.html.twig',
             array(
                 'form'    => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -258,7 +254,7 @@ class ProductController extends CoreController
             array(
                 'product'   => $product,
                 'child'     => $child,
-                'activeTab' => $activeTab
+                'activeTab' => $activeTab,
             )
         );
     }

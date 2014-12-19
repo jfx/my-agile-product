@@ -34,9 +34,9 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
 class RoleRepository extends SortableRepository
 {
     /**
-     * Get the default role (user).
+     * Get the default role (user)
      *
-     * @return Role.
+     * @return Role
      */
     public function findDefaultRole()
     {
@@ -44,9 +44,9 @@ class RoleRepository extends SortableRepository
     }
 
     /**
-     * Get the query builder of all roles ordered.
+     * Get the query builder of all roles ordered
      *
-     * @return QueryBuilder.
+     * @return QueryBuilder
      */
     public function getQBAllOrdered()
     {

@@ -19,7 +19,7 @@
 namespace Map3\DashboardBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class DefaultController extends Controller
+class DefaultController extends AbstractCoreController
 {
     /**
      * Dashboard
@@ -44,6 +44,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $this->unsetCurrentProduct();
+
         return $this->render('Map3DashboardBundle:Default:index.html.twig');
     }
 }

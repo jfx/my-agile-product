@@ -29,7 +29,7 @@ namespace Map3\UserBundle\Service;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class PasswordFactory
+class PasswordFactoryService
 {
     /**
      * @var int Default length of generated password.
@@ -70,7 +70,6 @@ class PasswordFactory
         $charsLength = strlen(self::$chars) - 1;
 
         for ($i = 0; $i < $length; $i++) {
-
             $position = mt_rand(0, $charsLength);
             $password .= self::$chars{$position};
         }

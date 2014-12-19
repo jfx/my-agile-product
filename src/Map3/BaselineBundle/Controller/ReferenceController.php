@@ -22,7 +22,8 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Entity\Reference;
 use Map3\BaselineBundle\Form\ReferenceType;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class ReferenceController extends CoreController
+class ReferenceController extends AbstractCoreController
 {
     /**
      * List of references
@@ -51,7 +52,7 @@ class ReferenceController extends CoreController
      */
     public function indexAction(Baseline $baseline)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_GUEST'));
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -63,7 +64,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:index.html.twig',
             array(
                 'refs'     => $refs,
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -80,7 +81,10 @@ class ReferenceController extends CoreController
      */
     public function addAction(Baseline $baseline, Request $request)
     {
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
 
         $ref = new Reference();
         $ref->setBaseline($baseline);
@@ -89,7 +93,6 @@ class ReferenceController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'Reference added successfully !');
 
@@ -105,7 +108,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:add.html.twig',
             array(
                 'form'     => $form->createView(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -123,13 +126,15 @@ class ReferenceController extends CoreController
     public function editAction(Reference $reference, Request $request)
     {
         $baseline = $reference->getBaseline();
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
 
         $form = $this->createForm(new ReferenceType(), $reference);
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'Reference edited successfully !');
 
@@ -145,7 +150,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:edit.html.twig',
             array(
                 'form'     => $form->createView(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }
@@ -162,10 +167,12 @@ class ReferenceController extends CoreController
     public function delAction(Reference $reference)
     {
         $baseline = $reference->getBaseline();
-        $this->setCurrentBaseline($baseline, array('ROLE_DM_USERPLUS'));
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $em = $this->getDoctrine()->getManager();
             $em->remove($reference);
             $em->flush();
@@ -189,7 +196,7 @@ class ReferenceController extends CoreController
             'Map3BaselineBundle:Reference:del.html.twig',
             array(
                 'form'     => $form->createView(),
-                'baseline' => $baseline
+                'baseline' => $baseline,
             )
         );
     }

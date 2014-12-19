@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-            {% if is_granted('ROLE_DM_USERPLUS') %}
+            {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_RLS')) %}
                     <a class="btn btn-xs btn-cust"
                        href="{{ path('baseline_add', {'id': release.id}) }}"
                         title="Add">
@@ -39,7 +39,7 @@
                        title="View baseline #{{ baseline.id }}">
                         {{ icon('eye-open') }}
                     </a>
-                    {% if is_granted('ROLE_DM_USERPLUS') %}
+                    {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_RLS')) %}
                     <a href="{{ path('baseline_edit', {'id': baseline.id}) }}"
                        class="btn btn-xs btn-cust"
                        title="Edit baseline #{{ baseline.id }}">

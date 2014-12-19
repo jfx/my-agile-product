@@ -19,7 +19,6 @@
 namespace Map3\BaselineBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Map3\BaselineBundle\Entity\Baseline;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

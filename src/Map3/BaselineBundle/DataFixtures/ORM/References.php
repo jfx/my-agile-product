@@ -73,6 +73,11 @@ class References extends AbstractFixture implements OrderedFixtureInterface
                 'value'    => 'Value 4 reference five',
                 'baseline' => 'baselinetwo-baseline',
             ),
+            array(
+                'label'    => 'Reference 4 baseline closed',
+                'value'    => 'Value 4 reference 4 baseline closed',
+                'baseline' => 'baselineclosed-baseline',
+            ),
         );
         $objectList = array();
 

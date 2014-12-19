@@ -19,8 +19,9 @@
 namespace Map3\ReleaseBundle\Controller;
 
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ReleaseBundle\Entity\Release;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -34,7 +35,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class BaselineController extends CoreController
+class BaselineController extends AbstractCoreController
 {
     /**
      * List of baselines
@@ -47,7 +48,7 @@ class BaselineController extends CoreController
      */
     public function indexAction(Release $release)
     {
-        $this->setCurrentRelease($release, array('ROLE_DM_GUEST'));
+        $this->setCurrentRelease($release, array(Role::GUEST_ROLE));
 
         $repository = $this->getDoctrine()
             ->getManager()
@@ -59,7 +60,7 @@ class BaselineController extends CoreController
             'Map3ReleaseBundle:Baseline:index.html.twig',
             array(
                 'baselines' => $baselines,
-                'release' => $release
+                'release' => $release,
             )
         );
     }

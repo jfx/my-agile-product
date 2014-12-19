@@ -33,7 +33,7 @@ use Symfony\Component\Form\FormView;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-abstract class DefaultType extends AbstractType
+abstract class AbstractDefaultType extends AbstractType
 {
     /**
      * @var boolean $isDisabled Disabled status
@@ -43,7 +43,7 @@ abstract class DefaultType extends AbstractType
     /**
      * Set disabled status
      *
-     * @return DefaultType
+     * @return AbstractDefaultType
      */
     public function setDisabled()
     {

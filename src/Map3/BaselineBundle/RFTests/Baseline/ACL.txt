@@ -23,16 +23,34 @@ Baseline add
     Then I check the following ACL    /baseline/add/1    False    True    True    False    False
     ...    False    False
 
+Baseline add 4 a closed release
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/add/3    False    False    False    False    False
+    ...    False    False
+
 Baseline edit
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /baseline/edit/1    False    True    True    False    False
     ...    False    False
 
+Baseline edit 4 a closed release
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/edit/7    False    False    False    False    False
+    ...    False    False
+
 Baseline delete
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL    /baseline/del/1    False    True    True    False    False
+    Then I check the following ACL    /baseline/del/5    False    True    True    False    False
+    ...    False    False
+
+Baseline delete 4 a closed release
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /baseline/del/7    False    False    False    False    False
     ...    False    False
 
 Baseline add with no role on product
@@ -44,13 +62,13 @@ Baseline add with no role on product
 Baseline edit with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL    /baseline/edit/6    False    False    False    False    False
+    Then I check the following ACL    /baseline/edit/7    False    False    False    False    False
     ...    False    False
 
 Baseline delete with no role on product
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL    /baseline/del/6    False    False    False    False    False
+    Then I check the following ACL    /baseline/del/7    False    False    False    False    False
     ...    False    False
 
 Reference list
@@ -65,14 +83,32 @@ Reference add
     Then I check the following ACL    /bln-ref/add/1    False    True    True    False    False
     ...    False    False
 
+Reference add 4 a closed baseline
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-ref/add/3    False    False    False    False    False
+    ...    False    False
+
 Reference edit
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /bln-ref/edit/1    False    True    True    False    False
     ...    False    False
 
+Reference edit 4 a closed baseline
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-ref/edit/6    False    False    False    False    False
+    ...    False    False
+
 Reference delete
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL    /bln-ref/del/1    False    True    True    False    False
+    ...    False    False
+
+Reference delete 4 a closed baseline
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-ref/del/6    False    False    False    False    False
     ...    False    False

@@ -29,6 +29,68 @@ Successfull admin login with email
     When Click element    xpath=//button[@title='Login']
     Then Page Should Contain    Hello Firstadmin Admin !
 
+Successfull user login with redirect after timeout
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    user    user    Hello    True
+    And I am waiting for timeout
+    And Go To    ${URL_DEV}/product/
+    And Location Should Be    ${URL_DEV}/login
+    When I fill in login form    useruser    user
+    And Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL_DEV}/product/
+    [Teardown]    TestLifetimeTeardown
+
+Successfull login with remember me
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given Go To    ${URL_DEV}/login
+    And I fill in login form    useruser    user
+    And Select Checkbox    remember_me
+    And Click element    xpath=//button[@title='Login']
+    And I am waiting for timeout
+    When Go To    ${URL_DEV}/product/
+    Then Location Should Be    ${URL_DEV}/product/
+    [Teardown]    TestLifetimeTeardown
+
+Check context for login
+    [Tags]    context
+    Given I reset the context log file
+    When I am logging as    user    user    Hello    True
+    Then the context log file should contain x lines    8
+    And the context log file should contain    LoginListener->onSecurityInteractiveLogin    No product in user context    Update user
+
+Check context for login after timeout with previous context
+    [Tags]    context    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/baseline/1
+    And I am waiting for timeout
+    And Go To    ${URL_DEV}/baseline/1
+    And Location Should Be    ${URL_DEV}/login
+    And I reset the context log file
+    When I fill in login form    useruser    user
+    And Click element    xpath=//button[@title='Login']
+    Then Location Should Be    ${URL_DEV}/baseline/1
+    And the context log file should contain x lines    8
+    And the context log file should contain    LoginListener->onSecurityInteractiveLogin    LoginListener->setUserRole4Product    Role : ROLE_DM_USER    Update user
+    [Teardown]    TestLifetimeTeardown
+
+Check context for remember me login after timeout
+    [Tags]    context    timeout
+    [Setup]    TestLifetimeSetup
+    Given Go To    ${URL_DEV}/login
+    And I fill in login form    useruser    user
+    And Select Checkbox    remember_me
+    And Click element    xpath=//button[@title='Login']
+    And I am waiting for timeout
+    And I reset the context log file
+    When Go To    ${URL_DEV}/product/
+    Then Location Should Be    ${URL_DEV}/product/
+    And the context log file should contain x lines    8
+    And the context log file should contain    LoginListener->onSecurityInteractiveLogin    No product in user context    Update user
+    [Teardown]    TestLifetimeTeardown
+
 Wrong username
     Given Go to    ${LOGIN_URL}
     And I fill in login form    wrong_user    user
@@ -62,14 +124,14 @@ Wrong password for locked user
     And I fill in login form    userlock    wrong_pass
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    User account is locked
+    And Page Should Contain    Account is locked.
 
 Locked user cannot login
     Given Go to    ${LOGIN_URL}
     And I fill in login form    userlock    lock
     When Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL}/login
-    And Page Should Contain    User account is locked
+    And Page Should Contain    Account is locked.
 
 *** Keywords ***
 I fill in login form

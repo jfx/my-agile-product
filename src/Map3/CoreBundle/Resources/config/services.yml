@@ -1,7 +1,7 @@
 parameters:
 
 services:
-    map3.CoverageListener:
+    map3.coverageListener:
         class: Map3\CoreBundle\Service\CoverageListener
         arguments: [ '@kernel', '%app.codeCoverage%' ]
         tags:

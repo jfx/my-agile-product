@@ -18,12 +18,12 @@
 
 namespace Map3\UserBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\UserBundle\Form\UserFormHandler;
 use Map3\UserBundle\Form\UserPasswordType;
 use Map3\UserBundle\Form\UserType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class UserController extends Controller
+class UserController extends AbstractCoreController
 {
     /**
      * List of users
@@ -50,6 +50,8 @@ class UserController extends Controller
      */
     public function indexAction()
     {
+        $this->unsetCurrentProduct();
+
         $repository = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3UserBundle:User');
@@ -80,6 +82,8 @@ class UserController extends Controller
      */
     public function addAction(Request $request)
     {
+        $this->unsetCurrentProduct();
+
         $userManager = $this->get('fos_user.user_manager');
         $user        = $userManager->createUser();
         $form        = $this->createForm(new UserType(), $user);
@@ -92,12 +96,11 @@ class UserController extends Controller
             $this->container->get('doctrine')->getManager(),
             $this->container->get('validator'),
             $this->container->get('session'),
-            $this->container->get('map3_user.passwordFactory'),
+            $this->container->get('map3_user.passwordFactoryService'),
             $userManager
         );
 
         if ($handler->process()) {
-
             $id = $user->getId();
 
             $this->get('session')->getFlashBag()
@@ -125,6 +128,8 @@ class UserController extends Controller
      */
     public function viewAction($id)
     {
+        $this->unsetCurrentProduct();
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -152,6 +157,8 @@ class UserController extends Controller
      */
     public function viewroleAction($id)
     {
+        $this->unsetCurrentProduct();
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -181,6 +188,8 @@ class UserController extends Controller
      */
     public function editAction($id, Request $request)
     {
+        $this->unsetCurrentProduct();
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -194,12 +203,11 @@ class UserController extends Controller
             $this->container->get('doctrine')->getManager(),
             $this->container->get('validator'),
             $this->container->get('session'),
-            $this->container->get('map3_user.passwordFactory'),
+            $this->container->get('map3_user.passwordFactoryService'),
             $userManager
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'User edited successfully !');
 
@@ -225,6 +233,8 @@ class UserController extends Controller
      */
     public function delAction($id)
     {
+        $this->unsetCurrentProduct();
+
         $userManager = $this->get('fos_user.user_manager');
 
         if (! $user = $userManager->findUserBy(array('id' => $id))) {
@@ -232,20 +242,14 @@ class UserController extends Controller
         }
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             try {
                 $userManager->deleteUser($user);
 
                 $success = true;
-            } catch (Exception $e) {
+            } catch (DBALException $e) {
                 $success = false;
 
-                $this->get('session')->getFlashBag()
-                    ->add(
-                        'danger',
-                        'Impossible to remove this item'
-                        .' - Integrity constraint violation !'
-                    );
+                $this->catchIntegrityConstraintViolation($e);
             }
             if ($success) {
                 $this->get('session')->getFlashBag()
@@ -274,6 +278,8 @@ class UserController extends Controller
      */
     public function profileAction()
     {
+        $this->unsetCurrentProduct();
+
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
@@ -298,6 +304,8 @@ class UserController extends Controller
      */
     public function passwordAction(Request $request)
     {
+        $this->unsetCurrentProduct();
+
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 
@@ -309,12 +317,11 @@ class UserController extends Controller
             $this->container->get('doctrine')->getManager(),
             $this->container->get('validator'),
             $this->container->get('session'),
-            $this->container->get('map3_user.passwordFactory'),
+            $this->container->get('map3_user.passwordFactoryService'),
             $this->get('fos_user.user_manager')
         );
 
         if ($handler->process()) {
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'Password modified !');
         }
@@ -334,6 +341,8 @@ class UserController extends Controller
      */
     public function roleAction()
     {
+        $this->unsetCurrentProduct();
+
         $user = $this->container->get('security.context')
             ->getToken()->getUser();
 

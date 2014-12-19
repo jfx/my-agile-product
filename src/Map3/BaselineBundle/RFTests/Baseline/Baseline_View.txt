@@ -40,7 +40,7 @@ Check context for baseline view with previous context
     Given I am logging as    d1-none    d1-none    Hello    True
     And Go To    ${URL_DEV}/product/2
     And Go To    ${URL_DEV}/release/4
-    And Go To    ${URL_DEV}/baseline/5
+    And Go To    ${URL_DEV}/baseline/6
     And I reset the context log file
     When Go To    ${URL_DEV}/baseline/1
     Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
@@ -96,7 +96,7 @@ Wrong baseline Id for a release but same product
 Wrong baseline Id for a release
     Given I am a user
     And I go to baselines list    View product #1    View release #1
-    When Go to    ${URL}/baseline/5
+    When Go to    ${URL}/baseline/6
     Then Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
     And Page Should Contain    Release Three
 
@@ -164,11 +164,16 @@ Return to release button
     When I click button    Return to release
     Then Location Should Be    ${URL}/baselines/1
 
-Edit button displayed for manager profile
+Edit button displayed for user+ profile
     Given I am a user+
     And I go to view baseline page    1
     When I click button    Edit
     Then Location Should Be    ${URL}/baseline/edit/1
+
+Edit button not displayed for closed release
+    Given I am a user
+    When I go to view baseline page    3
+    Then I should not see action button(s)    Edit
 
 Edit button not displayed for non manager profile
     Given I am a user

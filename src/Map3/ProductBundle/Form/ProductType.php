@@ -18,7 +18,7 @@
 
 namespace Map3\ProductBundle\Form;
 
-use Map3\CoreBundle\Form\DefaultType;
+use Map3\CoreBundle\Form\AbstractDefaultType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -34,7 +34,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @since     3
  *
  */
-class ProductType extends DefaultType
+class ProductType extends AbstractDefaultType
 {
     /**
      * Builds the form.
@@ -61,8 +61,8 @@ class ProductType extends DefaultType
                 array(
                     'required' => false,
                     'attr'  => array(
-                        'rows' => 4
-                    )
+                        'rows' => 4,
+                    ),
                 )
             );
     }

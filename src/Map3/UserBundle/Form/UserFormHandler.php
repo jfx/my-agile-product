@@ -21,7 +21,7 @@ namespace Map3\UserBundle\Form;
 use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Model\UserManager;
 use Map3\CoreBundle\Form\FormHandler;
-use Map3\UserBundle\Service\PasswordFactory;
+use Map3\UserBundle\Service\PasswordFactoryService;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -41,7 +41,7 @@ use Symfony\Component\Validator\Validator\LegacyValidator;
 class UserFormHandler extends FormHandler
 {
     /**
-     * @var PasswordFactory Password factory
+     * @var PasswordFactoryService Password factory
      */
     protected $passwordFactory;
 
@@ -53,13 +53,13 @@ class UserFormHandler extends FormHandler
     /**
      * Constructor
      *
-     * @param Form            $form        Form
-     * @param Request         $request     Http request
-     * @param EntityManager   $em          Entity manager
-     * @param LegacyValidator $validator   Validator
-     * @param Session         $session     Session
-     * @param PasswordFactory $passFactory Password factory
-     * @param UserManager     $um          User manager
+     * @param Form                   $form        Form
+     * @param Request                $request     Http request
+     * @param EntityManager          $em          Entity manager
+     * @param LegacyValidator        $validator   Validator
+     * @param Session                $session     Session
+     * @param PasswordFactoryService $passFactory Password factory
+     * @param UserManager            $um          User manager
      */
     public function __construct(
         Form $form,
@@ -67,7 +67,7 @@ class UserFormHandler extends FormHandler
         EntityManager $em,
         LegacyValidator $validator,
         Session $session,
-        PasswordFactory $passFactory,
+        PasswordFactoryService $passFactory,
         UserManager $um
     ) {
         parent::__construct(
@@ -94,7 +94,6 @@ class UserFormHandler extends FormHandler
         $route = $this->request->get('_route');
 
         if (($route == 'user_add') && ($entity->getPlainPassword() === null)) {
-
             $password = $this->passwordFactory->generatePassword();
             $entity->setPlainPassword($password);
         }

@@ -15,24 +15,24 @@ Delete a product
     And Page Should not Contain    Product Five
 
 Delete a product saved in user context
-    [Tags]    failedTest
+    [Tags]    context
     Given I am a user
     And I go to products list
     And I click action button    View product #5
-    And I log out
     And I am a user+
     And I go to products list
     And I click action button    View product #5
-    And I log out
-    And I am a super-admin
+    And I am logging as    admin    admin    Hello    True
     And I go to delete product page    5
+    And I reset the context log file
     When I click button    Remove
     And I confirm
-    Then Run Keyword And Expect Error    *    Then Location Should Be    ${URL}/product/
-    Then Run Keyword And Expect Error    *    And Page Should Contain    Product removed successfully
-    Then Run Keyword And Expect Error    *    And Page Should not Contain    Product Five
+    Then Location Should Be    ${URL_DEV}/product/
+    And Page Should Contain    Product removed successfully
+    And Page Should not Contain    Product Five
+    And the context log file should contain    RemoveContextService->removeProduct    $user->unsetCurrentProduct
 
-Check context for product view with clean context
+Check context for product delete with clean context
     [Tags]    context
     Given I am logging as    admin    admin    Hello    True
     And I reset the context log file
@@ -45,10 +45,10 @@ Check context for product view with clean context
     When I click button    Remove
     And I confirm
     Then Page Should Contain    Product removed successfully
-    And the context log file should contain x lines    10
-    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
+    And the context log file should contain x lines    11
+    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user    RemoveContextService->removeProduct
 
-Check context for product view with previous context
+Check context for product delete with previous context
     [Tags]    context
     Given I am logging as    admin    admin    Hello    True
     And Go To    ${URL_DEV}/product/2
@@ -62,10 +62,10 @@ Check context for product view with previous context
     When I click button    Remove
     And I confirm
     Then Page Should Contain    Product removed successfully
-    And the context log file should contain x lines    10
-    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
+    And the context log file should contain x lines    11
+    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user    RemoveContextService->removeProduct
 
-Check context for product view with same previous context
+Check context for product delete with same previous context
     [Tags]    context
     Given I am logging as    admin    admin    Hello    True
     And Go To    ${URL_DEV}/product/5
@@ -79,7 +79,7 @@ Check context for product view with same previous context
     When I click button    Remove
     And I confirm
     Then Page Should Contain    Product removed successfully
-    And the context log file should contain x lines    10
+    And the context log file should contain x lines    11
     And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
 
 Cancel to delete a product

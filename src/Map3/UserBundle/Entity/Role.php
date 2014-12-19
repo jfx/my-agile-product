@@ -37,11 +37,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Role
 {
-    const GUEST_ROLE    = 'ROLE_DM_GUEST';
-    const DEFAULT_ROLE  = 'ROLE_DM_USER';
-    const USERPLUS_ROLE = 'ROLE_DM_USERPLUS';
-    const MANAGER_ROLE  = 'ROLE_DM_MANAGER';
-    const LABEL_NONE    = 'None';
+    const GUEST_ROLE     = 'ROLE_DM_GUEST';
+    const DEFAULT_ROLE   = 'ROLE_DM_USER';
+    const USERPLUS_ROLE  = 'ROLE_DM_USERPLUS';
+    const MANAGER_ROLE   = 'ROLE_DM_MANAGER';
+    const RLS_OPEN_ROLE  = 'ROLE_OPEN_RLS';
+    const BLN_OPEN_ROLE  = 'ROLE_OPEN_BLN';
+    const LABEL_NONE     = 'None';
 
     /**
      * @var string Id

@@ -18,12 +18,13 @@
 
 namespace Map3\ReleaseBundle\Controller;
 
-use Exception;
+use Doctrine\DBAL\DBALException;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\CoreController;
+use Map3\CoreBundle\Controller\AbstractCoreController;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 use Map3\ReleaseBundle\Form\ReleaseType;
+use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,9 +40,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class ReleaseController extends CoreController
+class ReleaseController extends AbstractCoreController
 {
-
     /**
      * Add a release.
      *
@@ -54,7 +54,7 @@ class ReleaseController extends CoreController
      */
     public function addAction(Product $product, Request $request)
     {
-        $this->setCurrentProduct($product, array('ROLE_DM_MANAGER'));
+        $this->setCurrentProduct($product, array(Role::MANAGER_ROLE));
 
         $release = new Release();
         $release->setProduct($product);
@@ -63,7 +63,6 @@ class ReleaseController extends CoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $release->getId();
 
             $this->get('session')->getFlashBag()
@@ -78,7 +77,7 @@ class ReleaseController extends CoreController
             'Map3ReleaseBundle:Release:add.html.twig',
             array(
                 'form' => $form->createView(),
-                'product' => $product
+                'product' => $product,
             )
         );
     }
@@ -94,7 +93,7 @@ class ReleaseController extends CoreController
      */
     public function viewAction(Release $release)
     {
-        $this->setCurrentRelease($release, array('ROLE_DM_GUEST'));
+        $this->setCurrentRelease($release, array(Role::GUEST_ROLE));
 
         $releaseType = new ReleaseType($this->container);
         $releaseType->setDisabled();
@@ -105,7 +104,7 @@ class ReleaseController extends CoreController
             array(
                 'form'    => $form->createView(),
                 'product' => $release->getProduct(),
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -122,18 +121,28 @@ class ReleaseController extends CoreController
      */
     public function editAction(Release $release, Request $request)
     {
-        $this->setCurrentRelease($release, array('ROLE_DM_MANAGER'));
+        $this->setCurrentRelease($release, array(Role::MANAGER_ROLE));
 
         $form = $this->createForm(new ReleaseType($this->container), $release);
 
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-
             $id = $release->getId();
 
+            if ($release->isClosed()) {
+                $entityManager = $this->container->get('doctrine')
+                    ->getManager();
+                $baselineRepo = $entityManager->getRepository(
+                    'Map3BaselineBundle:Baseline'
+                );
+                $baselineRepo->closeBaselinesByRelease($release);
+            }
             $this->get('session')->getFlashBag()
                 ->add('success', 'Release edited successfully !');
+
+            // To update role when change closed status
+            $this->unsetCurrentRelease();
 
             return $this->redirect(
                 $this->generateUrl('release_view', array('id' => $id))
@@ -145,7 +154,7 @@ class ReleaseController extends CoreController
             array(
                 'form'    => $form->createView(),
                 'product' => $release->getProduct(),
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -161,13 +170,17 @@ class ReleaseController extends CoreController
      */
     public function delAction(Release $release)
     {
-        $this->setCurrentRelease($release, array('ROLE_DM_MANAGER'));
+        $this->setCurrentRelease($release, array(Role::MANAGER_ROLE));
 
         $product = $release->getProduct();
 
         if ($this->get('request')->getMethod() == 'POST') {
-
             $this->unsetCurrentRelease();
+
+            $serviceRemove = $this->container->get(
+                'map3_user.removeContextService'
+            );
+            $serviceRemove->removeRelease($release);
 
             $em = $this->getDoctrine()->getManager();
             $em->remove($release);
@@ -184,14 +197,8 @@ class ReleaseController extends CoreController
                         array('id' => $product->getId())
                     )
                 );
-
-            } catch (Exception $e) {
-
-                $this->get('session')->getFlashBag()->add(
-                    'danger',
-                    'Impossible to remove this item'
-                    .' - Integrity constraint violation !'
-                );
+            } catch (DBALException $e) {
+                $this->catchIntegrityConstraintViolation($e);
 
                 // With exception entity manager is closed.
                 return $this->redirect(
@@ -212,7 +219,7 @@ class ReleaseController extends CoreController
             array(
                 'form'    => $form->createView(),
                 'product' => $product,
-                'release' => $release
+                'release' => $release,
             )
         );
     }
@@ -245,7 +252,7 @@ class ReleaseController extends CoreController
             array(
                 'release'   => $release,
                 'child'     => $child,
-                'activeTab' => $activeTab
+                'activeTab' => $activeTab,
             )
         );
     }

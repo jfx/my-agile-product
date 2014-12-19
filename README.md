@@ -20,6 +20,22 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.4.0 (16 December 2014)
+Features:
+
+  - Unset user context when logout,
+  - Impossible to modify child for a closed release or baseline,
+  - Update role in LoginListener.
+
+Bugfixes:
+
+  - Unset user context for admin controllers,
+  - Remove objects to delete from all users,
+  - Improve catch exception when deleting element,
+  - More selective catch exception when thrown not found,
+  - Fix class naming conventions for services and abstract classes.
+  
+
 ### 0.3.0 (10 November 2014)
 Features:
 

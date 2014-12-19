@@ -52,7 +52,7 @@ class Roles extends AbstractFixture implements OrderedFixtureInterface
             array('id' => 'ROLE_DM_GUEST', 'label' => 'Guest'),
             array('id' => 'ROLE_DM_USER', 'label' => 'User'),
             array('id' => 'ROLE_DM_USERPLUS', 'label' => 'User+'),
-            array('id' => 'ROLE_DM_MANAGER', 'label' => 'Manager')
+            array('id' => 'ROLE_DM_MANAGER', 'label' => 'Manager'),
         );
         $objectList = array();
 
