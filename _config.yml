@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
+url: https://www.myagileproduct.org
 baseurl: 
 title: my agile product
 email: your-email@domain.com
@@ -18,8 +18,10 @@ description: > # "Write an awesome description for your new site here.
 # Build settings
 markdown: kramdown
 permalink: pretty
-# permalink: none
 exclude: [nbproject]
+
+gems:
+- jekyll-sitemap
 
 # ----------------------- #
 #   3rd Party Settings    #
