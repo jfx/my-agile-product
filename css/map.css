@@ -18,13 +18,16 @@ h4,
 h5,
 h6 {
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 700;
 }
 
 
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus {
     color: #607848;
+}
+
+.navbar-brand {
+    font-weight: 700;
 }
 
 .lead {
@@ -97,6 +100,10 @@ h6 {
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 2px;
+}
+
+.content {
+    padding: 50px 0;
 }
 
 .content-section-a {

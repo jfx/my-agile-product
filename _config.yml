@@ -31,9 +31,9 @@ social:
   - title: Download
     icon: cloud-download
     url: https://github.com/jfx/my-agile-product/releases
-#  - title: Demo
-#    icon: laptop
-#    url:
+  - title: Demo
+    icon: laptop
+    url: /demo
   - title: github
     icon: github
     url: https://github.com/jfx/my-agile-product
