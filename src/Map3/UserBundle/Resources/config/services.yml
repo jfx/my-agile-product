@@ -3,7 +3,7 @@ parameters:
 services:
     map3_user.updateContextService:
         class: Map3\UserBundle\Service\UpdateContextService
-        arguments: [ '@security.context', '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger' ]
+        arguments: [ '@security.token_storage', '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger' ]
         tags:
             - { name: monolog.logger, channel: uctx }
         scope: request

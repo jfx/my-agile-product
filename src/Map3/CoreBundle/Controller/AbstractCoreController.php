@@ -74,16 +74,16 @@ abstract class AbstractCoreController extends Controller
      */
     protected function userIsGranted(array $roles)
     {
-        $sc = $this->container->get('security.context');
+        $ac = $this->get('security.authorization_checker');
 
         if (count($roles) > 0) {
-            $isGranted = $sc->isGranted($roles[0]);
+            $isGranted = $ac->isGranted($roles[0]);
         } else {
             $isGranted = false;
         }
 
         foreach ($roles as $role) {
-            $isGranted = $isGranted && $sc->isGranted($role);
+            $isGranted = $isGranted && $ac->isGranted($role);
         }
 
         if (!($isGranted)) {
@@ -104,12 +104,12 @@ abstract class AbstractCoreController extends Controller
      */
     protected function userIsGrantedAnyRole(array $roles)
     {
-        $sc = $this->container->get('security.context');
+        $ac = $this->get('security.authorization_checker');
 
         $isGranted = false;
 
         foreach ($roles as $role) {
-            $isGranted = $isGranted || $sc->isGranted($role);
+            $isGranted = $isGranted || $ac->isGranted($role);
         }
 
         if (!($isGranted)) {
@@ -175,8 +175,7 @@ abstract class AbstractCoreController extends Controller
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $product = $user->getCurrentProduct();
 
@@ -238,8 +237,7 @@ abstract class AbstractCoreController extends Controller
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $release = $user->getCurrentRelease();
 
@@ -301,8 +299,7 @@ abstract class AbstractCoreController extends Controller
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
-        $user = $this->container->get('security.context')->getToken()
-            ->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $baseline = $user->getCurrentBaseline();
 

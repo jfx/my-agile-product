@@ -58,7 +58,9 @@ class UserController extends AbstractCoreController
 
         $users = $repository->findAllOrderByNameFirstname();
 
-        if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->get('security.authorization_checker')
+            ->isGranted('ROLE_SUPER_ADMIN')
+        ) {
             return $this->render(
                 'Map3UserBundle:User:index.html.twig',
                 array('users' => $users)
@@ -280,8 +282,7 @@ class UserController extends AbstractCoreController
     {
         $this->unsetCurrentProduct();
 
-        $user = $this->container->get('security.context')
-            ->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $userType = new UserType();
         $userType->setDisabled();
@@ -306,8 +307,7 @@ class UserController extends AbstractCoreController
     {
         $this->unsetCurrentProduct();
 
-        $user = $this->container->get('security.context')
-            ->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $form  = $this->createForm(new UserPasswordType(), $user);
 
@@ -343,8 +343,7 @@ class UserController extends AbstractCoreController
     {
         $this->unsetCurrentProduct();
 
-        $user = $this->container->get('security.context')
-            ->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $repository = $this->getDoctrine()->getManager()->getRepository(
             'Map3UserBundle:UserPdtRole'

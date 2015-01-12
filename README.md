@@ -20,6 +20,16 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.5.0 ()
+Features:
+
+  - Migration to symfony 2.6
+
+Bugfixes:
+
+  - 
+
+
 ### 0.4.0 (16 December 2014)
 Features:
 

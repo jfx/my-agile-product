@@ -111,8 +111,8 @@ class Builder extends ContainerAware
             )
         );
 
-        $securityContext = $this->container->get('security.context');
-        $user = $securityContext->getToken()->getUser();
+        $token = $this->container->get('security.token_storage')->getToken();
+        $user = $token->getUser();
         $username = ucfirst($user->getUsername());
         $roleLabel = $user->getCurrentRoleLabel();
 

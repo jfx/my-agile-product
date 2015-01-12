@@ -47,8 +47,7 @@ class SelectController extends Controller
      */
     public function displayAction()
     {
-        $securityContext = $this->get('security.context');
-        $user = $securityContext->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $form = $this->createForm(new MenuSelectType($user));
 

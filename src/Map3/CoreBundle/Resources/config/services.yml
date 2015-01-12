@@ -16,6 +16,6 @@ services:
 
     map3.breadcrumb:
         class: Map3\CoreBundle\Extensions\BreadcrumbExtension
-        arguments: [ '@security.context', '@router' ]
+        arguments: [ '@security.token_storage', '@router' ]
         tags:
             - { name: twig.extension }

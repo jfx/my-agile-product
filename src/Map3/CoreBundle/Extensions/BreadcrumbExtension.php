@@ -19,7 +19,7 @@
 namespace Map3\CoreBundle\Extensions;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Twig_Extension;
 use Twig_SimpleFunction;
 
@@ -37,9 +37,9 @@ use Twig_SimpleFunction;
 class BreadcrumbExtension extends Twig_Extension
 {
     /**
-     * @var SecurityContextInterface S. Context
+     * @var TokenStorageInterface Token storage interface
      */
-    protected $securityContext;
+    protected $tokenStorage;
 
     /**
      * @var Router Router service
@@ -49,21 +49,21 @@ class BreadcrumbExtension extends Twig_Extension
     /**
      * Constructor
      *
-     * @param SecurityContextInterface $securityContext The security context.
-     * @param Router                   $router          The router service.
+     * @param TokenStorageInterface $tokenStorage The token storage
+     * @param Router                $router       The router service
      */
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         Router $router
     ) {
-        $this->securityContext = $securityContext;
-        $this->router      = $router;
+        $this->tokenStorage = $tokenStorage;
+        $this->router       = $router;
     }
 
     /**
-     * Display general breadcrumb.
+     * Display general breadcrumb
      *
-     * @param array $levels Label of levels.
+     * @param array $levels Label of levels
      *
      * @return string
      */
@@ -90,9 +90,9 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Display product breadcrumb.
+     * Display product breadcrumb
      *
-     * @param string $action Label of action displayed.
+     * @param string $action Label of action displayed
      *
      * @return string
      */
@@ -109,9 +109,9 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Display release breadcrumb.
+     * Display release breadcrumb
      *
-     * @param string $action Label of action displayed.
+     * @param string $action Label of action displayed
      *
      * @return string
      */
@@ -129,9 +129,9 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Display baseline breadcrumb.
+     * Display baseline breadcrumb
      *
-     * @param string $action Label of action displayed.
+     * @param string $action Label of action displayed
      *
      * @return string
      */
@@ -150,13 +150,13 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Get name and Url to view action for current product.
+     * Get name and Url to view action for current product
      *
      * @return string[]
      */
     private function getProductNameUrl()
     {
-        $user = $this->securityContext->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
 
         $product = $user->getCurrentProduct();
         $productUrl = $this->router->generate(
@@ -169,13 +169,13 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Get name and Url to view action for current release.
+     * Get name and Url to view action for current release
      *
      * @return string[]
      */
     private function getReleaseNameUrl()
     {
-        $user = $this->securityContext->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
 
         $release = $user->getCurrentRelease();
         $releaseUrl = $this->router->generate(
@@ -188,13 +188,13 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Get name and Url to view action for current product.
+     * Get name and Url to view action for current product
      *
      * @return string[]
      */
     private function getBaselineNameUrl()
     {
-        $user = $this->securityContext->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
 
         $baseline = $user->getCurrentBaseline();
         $baselineUrl = $this->router->generate(
@@ -207,7 +207,7 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Returns a list of functions to add to the existing list.
+     * Returns a list of functions to add to the existing list
      *
      * @return Twig_SimpleFunction[] An array of functions
      */
@@ -250,7 +250,7 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Returns the name of this extension.
+     * Returns the name of this extension
      *
      * @return string
      */
