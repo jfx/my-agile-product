@@ -1,0 +1,10 @@
+[
+{% for node in children %}
+{
+"id"       : "C_{{ node.id }}",
+"text"     : "{{ node.name }}",
+"type"     : "category",
+"children" : true
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+]

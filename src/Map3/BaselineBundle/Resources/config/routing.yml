@@ -15,3 +15,9 @@ bln-refs_index:
     defaults: { _controller: "Map3BaselineBundle:Reference:index" }
     requirements:
         id:  \d+
+
+bln-features_index:
+    pattern:  /bln-features/{id}
+    defaults: { _controller: "Map3BaselineBundle:Feature:index" }
+    requirements:
+        id:  \d+

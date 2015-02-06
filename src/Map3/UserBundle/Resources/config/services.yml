@@ -1,6 +1,18 @@
 parameters:
 
 services:
+    map3_user.ajaxAuthenticationListener:
+        class: Map3\UserBundle\Service\AjaxAuthenticationListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 250 }
+
+    map3_user.loginListener:
+        class: Map3\UserBundle\Service\LoginListener
+        arguments: [ '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger', '@map3.localeDate' ]
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+            - { name: monolog.logger, channel: uctx }
+
     map3_user.updateContextService:
         class: Map3\UserBundle\Service\UpdateContextService
         arguments: [ '@security.token_storage', '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger' ]
@@ -14,13 +26,6 @@ services:
         tags:
             - { name: monolog.logger, channel: uctx }
         scope: request
-
-    map3_user.loginListener:
-        class: Map3\UserBundle\Service\LoginListener
-        arguments: [ '@doctrine.orm.entity_manager', '@fos_user.user_manager', '@logger', '@map3.localeDate' ]
-        tags:
-            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
-            - { name: monolog.logger, channel: uctx }
 
     map3_user.logoutContextHandler:
         class: Map3\UserBundle\Service\LogoutContextHandler

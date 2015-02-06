@@ -1,0 +1,21 @@
+*** Settings ***
+Documentation     In order to secure the application
+...               As a user
+...               I need to have access only to granted pages
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Feature Tree
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-features/1    True    True    True    True    True
+    ...    False    True
+
+Children category Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/children?pid=C_9    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite

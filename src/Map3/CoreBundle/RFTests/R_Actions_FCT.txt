@@ -15,6 +15,20 @@ I am logging as
     Click element    xpath=//button[@title='Login']
     Page Should Contain    ${check}
 
+I am logging as by request
+    [Arguments]    ${user}    ${password}=DEFAULT    ${check}=Hello    ${force_dev}=False
+    Run Keyword If    ${force_dev}    create session    ${SESSION}    ${URL_DEV}
+    Run Keyword Unless    ${force_dev}    create session    ${SESSION}    ${URL}
+    ${password}    Set Variable If    '${password}' == 'DEFAULT'    ${user}    ${password}
+    ${resp}=    get request    ${SESSION}    /login
+    ${line}=    Get Lines Containing String    ${resp.content}    _csrf_token
+    ${token}=    XML.Get Element Attribute    ${line}    value    xpath=.
+    ${data}=    Create Dictionary    _csrf_token=${token}    _username=user${user}    _password=${password}
+    ${headers}=    Create Dictionary    Content-Type    application/x-www-form-urlencoded
+    ${resp}=    Post request    ${SESSION}    /login_check    data=${data}    headers=${headers}
+    Should Be Equal As Strings    ${resp.status_code}    200
+    Should Contain    ${resp.content}    ${check}
+
 I am a super-admin
     Run Keyword    I am logging as    ${USER_ADMIN}
 
@@ -43,18 +57,17 @@ I am waiting for timeout
     sleep    15
 
 TestSetup
-    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:database:drop --force
-    Should Be Equal As Integers    ${rc}    0
-    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:database:create
-    Should Be Equal As Integers    ${rc}    0
-    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:schema:update --force
-    Should Be Equal As Integers    ${rc}    0
-    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:fixtures:load --no-interaction
-    Should Be Equal As Integers    ${rc}    0
-    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
-    Run Keyword If    '${ENV}' == 'dev'    Append To File    ${LOG_PATH}/testName.txt    ${SUITE NAME} / ${TEST NAME}
+    EnvPrerequisite
     I open browser
 
 TestTeardown
-    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
+    EnvPostrequisite
     Close All Browsers
+
+TestLifetimeSetup
+    SetLifetime
+    TestSetup
+
+TestLifetimeTeardown
+    TestTeardown
+    UnsetLifetime

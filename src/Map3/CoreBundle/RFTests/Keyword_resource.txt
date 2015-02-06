@@ -1,7 +1,10 @@
 *** Settings ***
 Library           String
+Library           Collections
 Library           OperatingSystem
+Library           XML
 Library           Selenium2Library
+Library           RequestsLibrary
 Library           ImapLibrary
 Resource          R_PARAMETERS.txt
 Resource          R_Util.txt
@@ -13,5 +16,6 @@ Resource          R_Google_Account.txt
 Resource          Product/R_Product.txt
 Resource          Release/R_Release.txt
 Resource          Baseline/R_Baseline.txt
+Resource          Feature/R_Feature.txt
 
 *** Keywords ***

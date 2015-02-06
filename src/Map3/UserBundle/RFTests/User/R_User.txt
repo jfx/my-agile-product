@@ -31,8 +31,8 @@ I check user view form
     Disabled text element should contain    map3_user_email    ${name}@example.com
     Run Keyword If    ${isSuperAdminBool}    Checkbox Should Be Selected    map3_user_superAdmin
     Run Keyword Unless    ${isSuperAdminBool}    Checkbox Should Not Be Selected    map3_user_superAdmin
-    Run Keyword If    ${detailsBool}    Element Text Should Be    map3_user_details    ${details}
-    Run Keyword Unless    ${detailsBool}    Element Text Should Be    map3_user_details    Details 4 ${name}
+    Run Keyword If    ${detailsBool}    Selenium2Library.Element Text Should Be    map3_user_details    ${details}
+    Run Keyword Unless    ${detailsBool}    Selenium2Library.Element Text Should Be    map3_user_details    Details 4 ${name}
     Run Keyword If    ${isLockedBool}    Checkbox Should Be Selected    map3_user_locked
     Run Keyword Unless    ${isLockedBool}    Checkbox Should Not Be Selected    map3_user_locked
 
@@ -41,16 +41,3 @@ I go to user view page
     I go to users list
     I click action button    View user #${id}
     Location Should Be    ${URL}/user/${id}
-
-TestLifetimeSetup
-    Move File    ${CONFIG_PATH}/config.yml    ${CONFIG_PATH}/config_bck.yml
-    ${config_file} =    Get File    ${CONFIG_PATH}/config_bck.yml
-    ${config_file} =    Replace String Using Regexp    ${config_file}    cookie_lifetime:\.+    cookie_lifetime: ${COOKIE_LIFETIME}
-    Create File    ${CONFIG_PATH}/config.yml    ${config_file}
-    TestSetup
-
-TestLifetimeTeardown
-    TestTeardown
-    ${status}    ${value} =    Run Keyword And Ignore Error    File Should Exist    ${CONFIG_PATH}/config_bck.yml
-    Run Keyword If    '${status}' == 'PASS'    Remove File    ${CONFIG_PATH}/config.yml
-    Run Keyword If    '${status}' == 'PASS'    Move File    ${CONFIG_PATH}/config_bck.yml    ${CONFIG_PATH}/config.yml

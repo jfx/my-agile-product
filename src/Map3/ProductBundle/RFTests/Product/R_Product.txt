@@ -17,4 +17,4 @@ I fill in product form
 I check product view form
     [Arguments]    ${product}
     Disabled text element should contain    map3_product_name    ${product}
-    Element Text Should Be    map3_product_details    Details 4 ${product}
+    Selenium2Library.Element Text Should Be    map3_product_details    Details 4 ${product}

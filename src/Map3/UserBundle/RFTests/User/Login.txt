@@ -134,7 +134,3 @@ Locked user cannot login
     And Page Should Contain    Account is locked.
 
 *** Keywords ***
-I fill in login form
-    [Arguments]    ${user}    ${pass}
-    Input Text    username    ${user}
-    Input Text    password    ${pass}

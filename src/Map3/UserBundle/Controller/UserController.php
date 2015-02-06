@@ -52,15 +52,15 @@ class UserController extends AbstractCoreController
     {
         $this->unsetCurrentProduct();
 
-        $repository = $this->getDoctrine()
-            ->getManager()
+        $repository = $this->getDoctrine()->getManager()
             ->getRepository('Map3UserBundle:User');
 
         $users = $repository->findAllOrderByNameFirstname();
 
-        if ($this->get('security.authorization_checker')
-            ->isGranted('ROLE_SUPER_ADMIN')
-        ) {
+        $isGranted = $this->get('security.authorization_checker')
+            ->isGranted('ROLE_SUPER_ADMIN');
+
+        if ($isGranted) {
             return $this->render(
                 'Map3UserBundle:User:index.html.twig',
                 array('users' => $users)

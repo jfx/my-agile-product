@@ -22,4 +22,4 @@ I check release view form
     Disabled text element should contain    map3_release_releaseDate    ${formatDate}
     Run Keyword If    ${isClosedBool}    Checkbox Should Be Selected    map3_release_closed
     Run Keyword Unless    ${isClosedBool}    Checkbox Should Not Be Selected    map3_release_closed
-    Element Text Should Be    map3_release_details    Details 4 ${release}
+    Selenium2Library.Element Text Should Be    map3_release_details    Details 4 ${release}

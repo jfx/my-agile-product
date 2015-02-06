@@ -3,41 +3,38 @@ I check the following ACL
     [Arguments]    ${acl_url}    ${acl_super-admin}    ${acl_manager}    ${acl_user+}    ${acl_user}    ${acl_guest}
     ...    ${acl_none}    ${acl_noproduct}    ${acl_prerequisite}=False
     ${isPrerequiste} =    Set Variable If    '${acl_prerequisite}' == 'False'    False    True
-    I am a super-admin
-    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
-    Go to    ${URL}${acl_url}
-    Run Keyword If    ${acl_super-admin}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    I log out
-    I am a manager
-    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
-    Go to    ${URL}${acl_url}
-    Run Keyword If    ${acl_manager}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    I log out
-    I am a user+
-    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
-    Go to    ${URL}${acl_url}
-    Run Keyword If    ${acl_user+}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    I log out
-    I am a user
-    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
-    Go to    ${URL}${acl_url}
-    Run Keyword If    ${acl_user}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    I log out
-    I am a guest
-    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
-    Go to    ${URL}${acl_url}
-    Run Keyword If    ${acl_guest}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    I log out
-    I am a user with no role
-    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
-    Go to    ${URL}${acl_url}
-    Run Keyword If    ${acl_none}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    I log out
-    I am a user with no role on any product
-    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
-    Go to    ${URL}${acl_url}
-    Run Keyword If    ${acl_noproduct}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    I log out
+    @{acls}=    Create List    ${acl_super-admin}    ${acl_manager}    ${acl_user+}    ${acl_user}    ${acl_guest}
+    ...    ${acl_none}    ${acl_noproduct}
+    @{users}=    Create List    ${USER_ADMIN}    ${USER_MANAGER}    ${USER_USER+}    ${USER_USER}    ${USER_GUEST}
+    ...    ${USER_NONE}    ${USER_NOPRODUCT}
+    ${i} =    Set Variable    0
+    : FOR    ${user}    IN    @{users}
+    \    I am logging as    ${user}
+    \    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
+    \    Go to    ${URL}${acl_url}
+    \    ${acl} =    Get From List    ${acls}    ${i}
+    \    Run Keyword If    ${acl}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain
+    \    ...    ${FORBIDDEN_ACCESS_TEXT}
+    \    I log out
+    \    ${i} =    Evaluate    ${i} + 1
+
+I check the following ACL by request
+    [Arguments]    ${acl_url}    ${acl_super-admin}    ${acl_manager}    ${acl_user+}    ${acl_user}    ${acl_guest}
+    ...    ${acl_none}    ${acl_noproduct}    ${acl_prerequisite}=False
+    ${isPrerequiste} =    Set Variable If    '${acl_prerequisite}' == 'False'    False    True
+    @{acls}=    Create List    ${acl_super-admin}    ${acl_manager}    ${acl_user+}    ${acl_user}    ${acl_guest}
+    ...    ${acl_none}    ${acl_noproduct}
+    @{users}=    Create List    ${USER_ADMIN}    ${USER_MANAGER}    ${USER_USER+}    ${USER_USER}    ${USER_GUEST}
+    ...    ${USER_NONE}    ${USER_NOPRODUCT}
+    ${i} =    Set Variable    0
+    : FOR    ${user}    IN    @{users}
+    \    I am logging as by request    ${user}
+    \    Run Keyword If    ${isPrerequiste}    Ajax Get Request    ${acl_prerequisite}
+    \    ${resp}=    Ajax Get Request    ${acl_url}
+    \    ${acl} =    Get From List    ${acls}    ${i}
+    \    Run Keyword If    ${acl}    Then Should Be Equal As Strings    ${resp.status_code}    200    ELSE
+    \    ...    Then Should Be Equal As Strings    ${resp.status_code}    403
+    \    ${i} =    Evaluate    ${i} + 1
 
 the table should contain x rows
     [Arguments]    ${count}
@@ -99,3 +96,15 @@ the context log file should not contain
     ${file}=    Get File    ${LOG_PATH}/uctx_dev.log
     : FOR    ${item}    IN    @{list}
     \    Should Not Contain    ${file}    ${item}
+
+the element should contain items
+    [Arguments]    ${element}    @{list}
+    : FOR    ${item}    IN    @{list}
+    \    Should Contain    ${element}    ${item}
+    \    log    ${item} found !
+
+the node name should be equal to
+    [Arguments]    ${id}    ${name}
+    Wait Until Page Contains Element    id=${id}    ${WAIT_TIMEOUT}
+    ${node_name} =    Get Text    id=${id}
+    Should Be Equal As Strings    ${node_name}    ${name}

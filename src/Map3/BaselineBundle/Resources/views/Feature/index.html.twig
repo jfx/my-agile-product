@@ -1,0 +1,78 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Features tree{% endblock title %}
+
+{% block headline %}{{ baseline_breadcrumb('Features tree') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    {{ render(controller("Map3BaselineBundle:Baseline:tabs", {'activeTab' : 'features'})) }}
+</div>
+<br />
+<div class="row">
+<div class="col-md-5">
+    <div id="jstree1" class="jstree-panel"></div>
+    <p>Right click on node for context menu</p>
+</div>
+<div class="col-md-7">
+    <div class="msg-error"></div>
+</div>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+
+<script>
+$(function () {
+    $('#jstree1').jstree({
+        "core" : {
+            "data" : {
+                "type" :     "GET",
+                "url" :      "{{ path('bln-ftree_children', {'bid' : baseline.id}) }}",
+                "dataType" : "json",
+                "data"     : function (node) {
+                    return { "pid" : node.id };
+                }
+            },
+            "error" : function(error) {
+                var dataJson = $.parseJSON(error.data);
+
+                if ((typeof dataJson.xhr.responseJSON.message === "undefined")
+                    || (dataJson.xhr.responseJSON.message.length == 0)) {
+                    var msg = 'Internal error';
+                } else {
+                    if (dataJson.xhr.status == 403) {
+                        var msg = 'Authentication has expired';
+                    } else {
+                        var msg = dataJson.xhr.responseJSON.message;
+                    }
+                }
+                $( "div.msg-error" ).html(
+                    '<div class="alert alert-danger alert-dismissible" role="alert">'
+                    + '<button type="button" class="close" data-dismiss="alert">'
+                    + '<span aria-hidden="true">&times;</span>'
+                    + '<span class="sr-only">Close</span>'
+                    + '</button>'
+                    + msg
+                    + ' - Please, '
+                    + '<a id="reload" href="#" title="Reload" onclick="location.reload(true);">'
+                    + 'reload the page</a>'
+                    + '</div>'
+                );
+            }
+        },
+        "types" : {
+            "baseline" : {
+                "icon" : "glyphicon glyphicon-flag"
+            },
+            "category" : {
+                "icon" : "glyphicon glyphicon-folder-close"
+            }
+        },
+        "state" : { "key" : "{{ host }}_{{ baseline.id }}_ftree" },
+        "plugins" : [ "types", "state" ]
+    });
+});
+</script>
+{% endblock foot_script %}

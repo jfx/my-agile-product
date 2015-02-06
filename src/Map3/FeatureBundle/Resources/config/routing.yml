@@ -1,0 +1,3 @@
+map3_bln-ftree:
+    resource: "@Map3FeatureBundle/Resources/config/routing/ftree.yml"
+    prefix:   /bln-ftree
