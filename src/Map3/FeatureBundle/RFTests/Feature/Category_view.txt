@@ -2,31 +2,6 @@
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
-Click to display sub-categories for a root node
-    Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    C_1_anchor    Baseline One
-    And Page should not contain    Category 1
-    When Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
-    Then Page should contain    Category 1
-    And the node name should be equal to    C_9_anchor    Category 1
-    And the node name should be equal to    C_10_anchor    Category 2
-    And the node name should be equal to    C_11_anchor    Category 3
-
-Click to hide sub-categories for a root node
-    Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    C_1_anchor    Baseline One
-    And Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
-    And Wait Until Page Contains Element    C_9_anchor    ${WAIT_TIMEOUT}
-    And Element Should Be Visible    C_9_anchor
-    When Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
-    Then Element Should Not Be Visible    C_9_anchor
-    And Element Should Not Be Visible    C_10_anchor
-    And Element Should Not Be Visible    C_11_anchor
-
 Click to display sub-categories for a category node
     Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
@@ -35,27 +10,11 @@ Click to display sub-categories for a category node
     When Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
     Wait Until Page Contains    Category 1    ${WAIT_TIMEOUT}
     When Click Element    xpath=//li[@id='C_9']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     Then Page should contain    Category 11
     And the node name should be equal to    C_12_anchor    Category 11
     And the node name should be equal to    C_13_anchor    Category 12
     And the node name should be equal to    C_14_anchor    Category 13
-
-Click to hide sub-categories for a category node
-    Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    C_1_anchor    Baseline One
-    And Page should not contain    Category 1
-    And Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
-    And Wait Until Page Contains    Category 1    ${WAIT_TIMEOUT}
-    And Click Element    xpath=//li[@id='C_9']/i[@class='jstree-icon jstree-ocl']
-    And Wait Until Page Contains Element    C_12_anchor    ${WAIT_TIMEOUT}
-    And Element Should Be Visible    C_12_anchor
-    When Click Element    xpath=//li[@id='C_9']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
-    Then Element Should Not Be Visible    C_12_anchor
-    And Element Should Not Be Visible    C_13_anchor
-    And Element Should Not Be Visible    C_14_anchor
 
 Request children for root category node
     [Tags]    request

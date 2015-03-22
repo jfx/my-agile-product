@@ -1,0 +1,14 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<form class="form-horizontal well">
+    {{ form_widget(form) }}
+</form>
+
+{% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_RLS'))%}
+    <a class="btn btn-sm btn-cust"
+       href="{{ path('baseline_edit', {'id': baseline.id}) }}" title="Edit">
+        {{ icon('edit',true) }} Edit
+    </a>
+{% endif %}
+
+{% include 'Map3CoreBundle::datetimepickerjs.html.twig' %}

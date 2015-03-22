@@ -1,0 +1,7 @@
+bln-cat_view:
+    pattern:  /{id}
+    defaults: { _controller: "Map3FeatureBundle:Category:view" }
+
+bln-cat_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: "Map3FeatureBundle:Category:edit" }

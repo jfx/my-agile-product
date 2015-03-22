@@ -56,6 +56,10 @@ I log out
 I am waiting for timeout
     sleep    15
 
+I am waiting for ajax request
+    [Arguments]    ${x}=1
+    Repeat Keyword    ${x}    sleep    ${WAIT_AJAX}
+
 TestSetup
     EnvPrerequisite
     I open browser

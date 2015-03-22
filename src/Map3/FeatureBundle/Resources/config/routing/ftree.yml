@@ -1,5 +1,7 @@
 bln-ftree_children:
-    pattern:  /{bid}/children
+    pattern:  /children
     defaults: { _controller: "Map3FeatureBundle:Tree:children", _format: json }
-    requirements:
-        bid:  \d+
+
+bln-ftree_node:
+    pattern:  /node
+    defaults: { _controller: "Map3FeatureBundle:Tree:node" }

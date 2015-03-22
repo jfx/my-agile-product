@@ -1,0 +1,23 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<form id="formPanel" novalidate="novalidate" class="form-horizontal well" method="post">
+
+    {{ form_widget(form) }}
+
+    <div class="center">
+        <a class="btn btn-sm btn-cust" onclick="formSubmit();" title="Save">
+            {{ icon('ok', true) }}&nbsp;&nbsp;Save&nbsp;&nbsp;
+        </a>
+    </div>
+</form>
+
+<script>
+function formSubmit() {
+    $.post('{{ path('bln-cat_edit', {'id': category.id}) }}', $("#formPanel").serialize(), function (resp) {
+        $("div.node-panel").hide();
+        $("div.node-panel").html(resp).show();
+    });        
+}
+</script>
+
+

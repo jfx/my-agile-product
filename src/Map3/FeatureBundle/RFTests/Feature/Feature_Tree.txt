@@ -8,31 +8,41 @@ Resource          ../Keyword_resource.txt
 Display the features tree for a baseline for a user
     Given I am a user
     When I go to features tree    View product #1    View release #1    View baseline #1
-    Then the node name should be equal to    C_1_anchor    Baseline One
+    Then the node name should be equal to    B_1_anchor    Baseline One
     And Element Should Contain    id=badge_features    XX
 
 Tree with no feature for a baseline
     Given I am a user
     When I go to features tree    View product #1    View release #3    View baseline #8
-    Then the node name should be equal to    C_8_anchor    Baseline Closed 4 release closed
+    Then the node name should be equal to    B_8_anchor    Baseline Closed 4 release closed
     And Element Should Contain    id=badge_features    XX
 
 View features tree without selecting a baseline before
     Given I am a user
     When Go to    ${URL}/bln-features/1
     Then Location Should Be    ${URL}/bln-features/1
-    And the node name should be equal to    C_1_anchor    Baseline One
+    And the node name should be equal to    B_1_anchor    Baseline One
     And the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
+
+Request root baseline node
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/children?pid=%23
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the element should contain items    ${resp.content}    B_1
+    And the element should contain items    ${resp.content}    Baseline One
+    [Teardown]    EnvPostrequisite
 
 Reload warning after timeout when click to display sub-categories
     [Tags]    timeout
     [Setup]    TestLifetimeSetup
     Given I am logging as    user    user    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    C_1_anchor    Baseline One
+    And the node name should be equal to    B_1_anchor    Baseline One
     And I am waiting for timeout
-    When Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
+    When Click Element    xpath=//li[@id='B_1']/i[@class='jstree-icon jstree-ocl']
+    And I am waiting for ajax request
     Then Page should contain    Authentication has expired
     [Teardown]    TestLifetimeTeardown
 
@@ -41,10 +51,10 @@ Re-authentication after reload warning
     [Setup]    TestLifetimeSetup
     Given I am logging as    user    user    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    C_1_anchor    Baseline One
+    And the node name should be equal to    B_1_anchor    Baseline One
     And I am waiting for timeout
-    And Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
+    And Click Element    xpath=//li[@id='B_1']/i[@class='jstree-icon jstree-ocl']
+    And I am waiting for ajax request
     And Page should contain    Authentication has expired
     When Click Link    id=reload
     And Location Should Be    ${URL_DEV}/login
@@ -56,22 +66,20 @@ Re-authentication after reload warning
 Cookie saves the tree state
     Given I am a user
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    C_1_anchor    Baseline One
-    And Click Element    xpath=//li[@id='C_1']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
+    And the node name should be equal to    B_1_anchor    Baseline One
+    And Click Element    xpath=//li[@id='B_1']/i[@class='jstree-icon jstree-ocl']
+    And I am waiting for ajax request
     And Click Element    xpath=//li[@id='C_9']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And Click Element    xpath=//li[@id='C_12']/i[@class='jstree-icon jstree-ocl']
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And Element Should Be Visible    C_19_anchor
     And Element Should Not Be Visible    C_15_anchor
     And Click element    link=Log out
     And Location Should Be    ${URL_DEV}/login
     And I am a user
     When Go To    ${URL_DEV}/bln-features/1
-    And Sleep    ${WAIT_AJAX}
-    And Sleep    ${WAIT_AJAX}
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request    3
     Then Element Should Be Visible    C_19_anchor
     And Element Should Not Be Visible    C_15_anchor
 
@@ -85,7 +93,7 @@ Check context for features tree with clean context
     When Go To    ${URL_DEV}/bln-features/1
     Then the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
     And Page should contain    Useruser (User)
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
@@ -97,7 +105,7 @@ Check context for features tree without context
     When Go To    ${URL_DEV}/bln-features/1
     Then the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
     And Page should contain    Useruser (User)
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And the context log file should contain x lines    11
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
 
@@ -110,7 +118,7 @@ Check context for features tree with previous context
     And I reset the context log file
     When Go To    ${URL_DEV}/bln-features/1
     Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
 
@@ -123,7 +131,7 @@ Check context for features tree with same previous product
     When Go To    ${URL_DEV}/bln-features/1
     Then the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
     And Page should contain    Useruser (User)
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And the context log file should contain x lines    10
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
 
@@ -137,7 +145,7 @@ Check context for features tree with same previous release
     When Go To    ${URL_DEV}/bln-features/1
     Then the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
     And Page should contain    Useruser (User)
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And the context log file should contain x lines    9
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
 
@@ -149,7 +157,7 @@ Check context for features tree with same previous context
     When Go To    ${URL_DEV}/bln-features/1
     Then the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
     And Page should contain    Useruser (User)
-    And Sleep    ${WAIT_AJAX}
+    And I am waiting for ajax request
     And the context log file should contain x lines    10
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
@@ -161,38 +169,68 @@ Breadcrumb
 
 Breadcrumb product link
     Given I am a user
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go to features tree    View product #1    View release #1    View baseline #1
     When Click Link    id=br_lvl1
     Then Location Should Be    ${URL}/product/1
 
 Breadcrumb release link
     Given I am a user+
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go to features tree    View product #1    View release #1    View baseline #1
     When Click Link    id=br_lvl2
     Then Location Should Be    ${URL}/release/1
 
 Breadcrumb baseline link
     Given I am a user+
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go to features tree    View product #1    View release #1    View baseline #1
     When Click Link    id=br_lvl3
     Then Location Should Be    ${URL}/baseline/1
 
 Tab Main
     Given I am a user
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go to features tree    View product #1    View release #1    View baseline #1
     When Click Link    id=a_main
     Then Location Should Be    ${URL}/baseline/1
 
 Tab Features
     Given I am a user
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go to features tree    View product #1    View release #1    View baseline #1
     And Element Should Contain    id=badge_features    XX
     When Click element    id=a_features
     Then Location Should Be    ${URL}/bln-features/1
 
 Tab References
     Given I am a user
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go to features tree    View product #1    View release #1    View baseline #1
     And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
     Then Location Should Be    ${URL}/bln-refs/1
+
+Refresh button
+    Given I am a user
+    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I am waiting for ajax request
+    And Click element    xpath=//button[@title='Expand all']
+    And I am waiting for ajax request    3
+    When Click element    xpath=//button[@title='Refresh']
+    And Page should not contain    Category 111
+    And I am waiting for ajax request    3
+    Then Page should contain    Category 111
+
+Expand all button
+    Given I am a user
+    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I am waiting for ajax request
+    And Page should not contain    Category 111
+    When Click element    xpath=//button[@title='Expand all']
+    And I am waiting for ajax request    3
+    Then Page should contain    Category 111
+
+Collapse all button
+    Given I am a user
+    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I am waiting for ajax request
+    And Click element    xpath=//button[@title='Expand all']
+    And I am waiting for ajax request    3
+    And Page should contain    Category 111
+    When Click element    xpath=//button[@title='Collapse all']
+    Then Page should not contain    Category 111

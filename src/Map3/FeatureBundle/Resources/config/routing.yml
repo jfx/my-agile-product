@@ -1,3 +1,11 @@
 map3_bln-ftree:
     resource: "@Map3FeatureBundle/Resources/config/routing/ftree.yml"
-    prefix:   /bln-ftree
+    prefix:   /bln-ftree/{bid}
+    requirements:
+        bid:  \d+
+    
+map3_bln-cat:
+    resource: "@Map3FeatureBundle/Resources/config/routing/category.yml"
+    prefix:   /bln-cat
+    requirements:
+        id:  \d+

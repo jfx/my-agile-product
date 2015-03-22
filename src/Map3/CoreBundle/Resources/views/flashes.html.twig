@@ -1,0 +1,5 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+{% if app.session.flashbag.peekAll|length > 0 %}
+    {{ session_flash(true) }}
+{% endif %}

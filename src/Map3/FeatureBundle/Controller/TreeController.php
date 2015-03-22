@@ -42,12 +42,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TreeController extends AbstractCoreController
 {
+    const BASELINE = 'BAS';
     const CATEGORY = 'CAT';
 
     /**
      * Get children for a parent
      *
-     * @param Baseline $baseline The baseline to view
+     * @param Baseline $baseline The baseline
      * @param Request  $request  The request
      *
      * @return Response A Response instance
@@ -99,6 +100,45 @@ class TreeController extends AbstractCoreController
     }
 
     /**
+     * Display node details on right panel
+     *
+     * @param int $bid The baseline id
+     * @param Request  $request  The request
+     *
+     * @return Response A Response instance
+     * 
+     * @Secure(roles="ROLE_USER")
+     */
+    public function nodeAction($bid, Request $request)
+    {
+        $treeId = $request->query->get('id');
+
+        try {
+            $idType = $this->getIdFromTreeId($treeId);
+        } catch (Exception $e) {
+            return new JsonResponse(
+                array('message' => $e->getMessage()),
+                404
+            );
+        }
+        switch ($idType['type']) {
+            case self::BASELINE:
+                $response = $this->forward(
+                    "Map3BaselineBundle:Baseline:node",
+                    array('id' => $bid)
+                );
+                break;
+            case self::CATEGORY:
+                $response = $this->forward(
+                    "Map3FeatureBundle:Category:view",
+                    array('id' => $idType['id'])
+                );
+                break;
+        }
+        return $response;
+    }
+    
+    /**
      * Get node Id and type from jstree id
      *
      * @param string $typeNodeId Id from jstree
@@ -110,6 +150,9 @@ class TreeController extends AbstractCoreController
         $typeNodeIdExplode = explode('_', urldecode($typeNodeId));
 
         switch ($typeNodeIdExplode[0]) {
+            case 'B':
+                $array['type'] = self::BASELINE;
+                break;
             case 'C':
                 $array['type'] = self::CATEGORY;
                 break;

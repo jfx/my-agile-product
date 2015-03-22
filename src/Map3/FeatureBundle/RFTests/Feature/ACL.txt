@@ -11,11 +11,38 @@ Feature Tree
     Then I check the following ACL    /bln-features/1    True    True    True    True    True
     ...    False    True
 
-Children category Request
+Baseline children Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/children?pid=%23    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Baseline view Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/node?id=B_1    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Category children Request
     [Tags]    request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL by request    /bln-ftree/1/children?pid=C_9    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Category view Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/node?id=C_9    True    True    True    True    True
     ...    False    True
     [Teardown]    EnvPostrequisite

@@ -231,7 +231,33 @@ class BaselineController extends AbstractCoreController
             )
         );
     }
+    
+    /**
+     * View a baseline in right panel of tree
+     *
+     * @param Baseline $baseline The baseline to view.
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function nodeAction(Baseline $baseline)
+    {
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
+        $baselineType = new BaselineType($this->container);
+        $baselineType->setDisabled();
+        $form = $this->createForm($baselineType, $baseline);
+
+        return $this->render(
+            'Map3BaselineBundle:Baseline:node.html.twig',
+            array(
+                'form' => $form->createView(),
+                'baseline'  => $baseline,
+            )
+        );
+    }
+    
     /**
      * Tab for baseline
      *
