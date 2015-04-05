@@ -80,9 +80,9 @@ $(function () {
         .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
                 $.get('{{ path('bln-ftree_node', {'bid' : baseline.id}) }}' + '?id=' + data.selected, function (resp) {
-                    
+
                     $("div.node-panel").hide();
-                    $("div.node-panel").html(resp).show();
+                    $("div.node-panel").html(resp.content).show();
                 }).fail(function(jqXHR, textStatus, errorThrown) {
 
                     displayError(jqXHR.responseJSON.message, jqXHR.status);

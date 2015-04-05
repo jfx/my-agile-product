@@ -21,10 +21,9 @@ namespace Map3\FeatureBundle\Controller;
 use \Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
-use Map3\CoreBundle\Controller\AbstractCoreController;
+use Map3\CoreBundle\Controller\AbstractJsonCoreController;
 use Map3\UserBundle\Entity\Role;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -40,7 +39,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @since     3
  *
  */
-class TreeController extends AbstractCoreController
+class TreeController extends AbstractJsonCoreController
 {
     const BASELINE = 'BAS';
     const CATEGORY = 'CAT';
@@ -80,10 +79,7 @@ class TreeController extends AbstractCoreController
             try {
                 $nodeId = $this->getIdFromTreeId($treeId)['id'];
             } catch (Exception $e) {
-                return new JsonResponse(
-                    array('message' => $e->getMessage()),
-                    404
-                );
+                return $this->jsonResponseFactory(404, $e->getMessage());
             }
             $children = $repository->findChildrenByBaselineParentId(
                 $baseline,
@@ -102,24 +98,22 @@ class TreeController extends AbstractCoreController
     /**
      * Display node details on right panel
      *
-     * @param int $bid The baseline id
-     * @param Request  $request  The request
+     * @param int     $bid     The baseline id
+     * @param Request $request The request
      *
      * @return Response A Response instance
-     * 
+     *
      * @Secure(roles="ROLE_USER")
      */
     public function nodeAction($bid, Request $request)
     {
+        // Security delagated to forward request
         $treeId = $request->query->get('id');
 
         try {
             $idType = $this->getIdFromTreeId($treeId);
         } catch (Exception $e) {
-            return new JsonResponse(
-                array('message' => $e->getMessage()),
-                404
-            );
+            return $this->jsonResponseFactory(404, $e->getMessage());
         }
         switch ($idType['type']) {
             case self::BASELINE:
@@ -135,9 +129,10 @@ class TreeController extends AbstractCoreController
                 );
                 break;
         }
-        return $response;
+
+        return $this->html2jsonResponse($response);
     }
-    
+
     /**
      * Get node Id and type from jstree id
      *

@@ -32,7 +32,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Core controller class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ * @package   Core
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3

@@ -28,7 +28,6 @@ Request view baseline
     Given I am logging as by request    user
     ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
-    And the element should contain items    ${resp.content}    <form class="form-horizontal well">
     And the element should contain items    ${resp.content}    Baseline One    Details 4 baseline 1
     [Teardown]    EnvPostrequisite
 
@@ -65,7 +64,7 @@ Request view baseline with wrong baseline Id
     Given I am logging as by request    user
     ${resp}=    When Ajax Get Request    /bln-ftree/999/node?id=B_1
     Then Should Be Equal As Strings    ${resp.status_code}    404
-    And Should Contain    ${resp.content}    Baseline object not found
+    And Should Contain    ${resp.content}    Not Found
     [Teardown]    EnvPostrequisite
 
 Request view baseline timeout
@@ -175,7 +174,7 @@ Edit button not displayed for closed release
     When I am waiting for ajax request
     Then I should not see action button(s)    Edit
 
-Edit button not displayed for non manager profile
+Edit button not displayed for non user+ profile
     Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
     And the node name should be equal to    B_1_anchor    Baseline One

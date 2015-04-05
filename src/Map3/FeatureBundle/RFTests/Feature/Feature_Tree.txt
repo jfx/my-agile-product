@@ -41,7 +41,7 @@ Reload warning after timeout when click to display sub-categories
     And Go To    ${URL_DEV}/bln-features/1
     And the node name should be equal to    B_1_anchor    Baseline One
     And I am waiting for timeout
-    When Click Element    xpath=//li[@id='B_1']/i[@class='jstree-icon jstree-ocl']
+    When I click node to display sub-node    B_1
     And I am waiting for ajax request
     Then Page should contain    Authentication has expired
     [Teardown]    TestLifetimeTeardown
@@ -53,7 +53,7 @@ Re-authentication after reload warning
     And Go To    ${URL_DEV}/bln-features/1
     And the node name should be equal to    B_1_anchor    Baseline One
     And I am waiting for timeout
-    And Click Element    xpath=//li[@id='B_1']/i[@class='jstree-icon jstree-ocl']
+    And I click node to display sub-node    B_1
     And I am waiting for ajax request
     And Page should contain    Authentication has expired
     When Click Link    id=reload
@@ -67,11 +67,11 @@ Cookie saves the tree state
     Given I am a user
     And Go To    ${URL_DEV}/bln-features/1
     And the node name should be equal to    B_1_anchor    Baseline One
-    And Click Element    xpath=//li[@id='B_1']/i[@class='jstree-icon jstree-ocl']
+    And I click node to display sub-node    B_1
     And I am waiting for ajax request
-    And Click Element    xpath=//li[@id='C_9']/i[@class='jstree-icon jstree-ocl']
+    And I click node to display sub-node    C_9
     And I am waiting for ajax request
-    And Click Element    xpath=//li[@id='C_12']/i[@class='jstree-icon jstree-ocl']
+    And I click node to display sub-node    C_12
     And I am waiting for ajax request
     And Element Should Be Visible    C_19_anchor
     And Element Should Not Be Visible    C_15_anchor

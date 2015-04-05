@@ -231,7 +231,7 @@ class BaselineController extends AbstractCoreController
             )
         );
     }
-    
+
     /**
      * View a baseline in right panel of tree
      *
@@ -257,7 +257,7 @@ class BaselineController extends AbstractCoreController
             )
         );
     }
-    
+
     /**
      * Tab for baseline
      *

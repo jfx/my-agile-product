@@ -38,3 +38,7 @@ I fill in login form
     [Arguments]    ${user}    ${pass}
     Input Text    username    ${user}
     Input Text    password    ${pass}
+
+I click node to display sub-node
+    [Arguments]    ${id}
+    Click Element    xpath=//li[@id='${id}']/i[@class='jstree-icon jstree-ocl']

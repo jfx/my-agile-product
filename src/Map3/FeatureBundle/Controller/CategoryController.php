@@ -49,8 +49,8 @@ class CategoryController extends AbstractCoreController
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function viewAction(Category $category) {
-        
+    public function viewAction(Category $category)
+    {
         $baseline = $category->getBaseline();
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
@@ -66,7 +66,7 @@ class CategoryController extends AbstractCoreController
             )
         );
     }
-    
+
     /**
      * Edit a category node on right panel
      *
@@ -77,10 +77,10 @@ class CategoryController extends AbstractCoreController
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Category $category, Request $request) {
-        
+    public function editAction(Category $category, Request $request)
+    {
         $baseline = $category->getBaseline();
-        
+
         $this->setCurrentBaseline(
             $baseline,
             array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
@@ -89,7 +89,7 @@ class CategoryController extends AbstractCoreController
         $form = $this->createForm(new CategoryType(), $category);
 
         $handler = $this->getFormHandler($form, $request);
-        
+
         if ($handler->process()) {
             $id = $category->getId();
 
@@ -100,6 +100,7 @@ class CategoryController extends AbstractCoreController
                 $this->generateUrl('bln-cat_view', array('id' => $id))
             );
         }
+
         return $this->render(
             'Map3FeatureBundle:Category:edit.html.twig',
             array(
