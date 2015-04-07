@@ -21,7 +21,7 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
-### 0.5.0 ()
+### 0.5.0 (07 April 2015)
 Features:
 
   - My Agile Product web site,
