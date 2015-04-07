@@ -103,7 +103,7 @@ class Category
     private $root;
 
     /**
-     * @var integer Id parent node
+     * @var Category Parent node
      *
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
@@ -204,7 +204,7 @@ class Category
     /**
      * Set parent
      *
-     * @param string $parent Parent node
+     * @param Category $parent Parent node
      *
      * @return Category
      */

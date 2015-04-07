@@ -143,6 +143,7 @@ class TreeController extends AbstractJsonCoreController
     protected function getIdFromTreeId($typeNodeId)
     {
         $typeNodeIdExplode = explode('_', urldecode($typeNodeId));
+        $array = array();
 
         switch ($typeNodeIdExplode[0]) {
             case 'B':
