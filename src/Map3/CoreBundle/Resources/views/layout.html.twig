@@ -10,6 +10,7 @@
     <meta charset="utf-8" />
     {% block head_externalstyle %}
     {% stylesheets filter='lessphp,cssembed'
+        '@Map3CoreBundle/Resources/public/css/style.min.css'
         '@Map3CoreBundle/Resources/public/less/map.less'
         '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/build/build_standalone.less'
        output='css/all.css'
@@ -98,8 +99,9 @@
     </div> <!-- /container -->
     {% endblock container %}
     {% block foot_script %}
-    {% javascripts
+        {% javascripts
         '@Map3CoreBundle/Resources/public/js/jquery.min.js'
+        '@Map3CoreBundle/Resources/public/js/jstree.min.js'
         '@MopaBootstrapBundle/Resources/public/bootstrap/js/affix.js'
         '@MopaBootstrapBundle/Resources/public/bootstrap/js/alert.js'
         '@MopaBootstrapBundle/Resources/public/bootstrap/js/button.js'
@@ -116,10 +118,10 @@
         '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
         '@MopaBootstrapBundle/Resources/public/components/smalot-bootstrap-datetimepicker/js/bootstrap-datetimepicker.js'
         output='js/compiled/main.js'
-     %}
-<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
-{% endblock foot_script %}
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock foot_script %}
 {% endblock body %}
 </body>
 </html>

@@ -1,0 +1,96 @@
+{% extends 'Map3CoreBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - Features tree{% endblock title %}
+
+{% block headline %}{{ baseline_breadcrumb('Features tree') }}{% endblock headline %}
+
+{% block content %}
+<div class="row-fluid">
+    {{ render(controller("Map3BaselineBundle:Baseline:tabs", {'activeTab' : 'features'})) }}
+</div>
+<br />
+<div class="row">
+    <div class="col-md-5">
+        <button onclick="$('#jstree1').jstree(true).refresh();"
+            class="btn btn-default btn-xs" title="Refresh">
+            {{ icon('refresh') }}
+        </button>
+         <button onclick="$('#jstree1').jstree(true).open_all();"
+           class="btn btn-default btn-xs"
+           title="Expand all">
+            {{ icon('download') }}
+        </button>
+        <button onclick="$('#jstree1').jstree(true).close_all();"
+           class="btn btn-default btn-xs"
+           title="Collapse all">
+            {{ icon('upload') }}
+        </button>
+    </div>
+</div>
+<br />
+<div class="row">
+<div class="col-md-5">
+    <div id="jstree1" class="jstree-panel"></div>
+    <br />
+        <a href="#"
+           class="btn btn-default btn-xs"
+           title="Help">
+            {{ icon('question-sign') }}
+        </a>
+</div>
+<div class="col-md-7">
+    <div class="msg-error"></div>
+    <div class="node-panel"></div>
+</div>
+</div>
+{% endblock content %}
+
+{% block foot_script %}
+    {{ parent() }}
+
+<script>
+$(function () {
+    $('#jstree1')
+        .jstree({
+            "core" : {
+                "data" : {
+                    "type" :     "GET",
+                    "url" :      "{{ path('bln-ftree_children', {'bid' : baseline.id}) }}",
+                    "dataType" : "json",
+                    "data"     : function (node) {
+                        return { "pid" : node.id };
+                    }
+                },
+                "error" : function(error) {
+                    var dataJson = $.parseJSON(error.data);
+                    displayError(dataJson.xhr.responseJSON.message, dataJson.xhr.status);
+                }
+            },
+            "types" : {
+                "baseline" : {
+                    "icon" : "glyphicon glyphicon-flag"
+                },
+                "category" : {
+                    "icon" : "glyphicon glyphicon-folder-close"
+                }
+            },
+            "state" : { "key" : "{{ host }}_{{ baseline.id }}_ftree" },
+            "plugins" : [ "types", "state" ]
+        })
+        .on('changed.jstree', function (e, data) {
+            if(data && data.selected && data.selected.length) {
+                $.get('{{ path('bln-ftree_node', {'bid' : baseline.id}) }}' + '?id=' + data.selected, function (resp) {
+
+                    $("div.node-panel").hide();
+                    $("div.node-panel").html(resp.content).show();
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+
+                    displayError(jqXHR.responseJSON.message, jqXHR.status);
+                    $("div.node-panel").hide();
+                });
+            }
+        });
+});
+</script>
+{% include 'Map3CoreBundle::displayErrorjs.html.twig' %}
+{% endblock foot_script %}

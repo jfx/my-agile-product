@@ -29,9 +29,11 @@ class AppKernel extends Kernel
             new Map3\ProductBundle\Map3ProductBundle(),
             new Map3\ReleaseBundle\Map3ReleaseBundle(),
             new Map3\BaselineBundle\Map3BaselineBundle(),
+            new Map3\FeatureBundle\Map3FeatureBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();

@@ -1,0 +1,20 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<form class="form-horizontal well">
+    {{ form_widget(form) }}
+</form>
+
+{% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
+<a class="btn btn-sm btn-cust" onclick="buttonClick();" title="Edit">
+    {{ icon('edit',true) }} Edit
+</a>
+
+<script>
+function buttonClick() {
+    $.get('{{ path('bln-cat_edit', {'id': category.id}) }}', function (resp) {
+        $("div.node-panel").hide();
+        $("div.node-panel").html(resp).show();
+    });
+}
+</script>
+{% endif %}

@@ -142,6 +142,14 @@ Tab Main
     When Click Link    id=a_main
     And Location Should Be    ${URL}/baseline/1
 
+Tab Features
+    [Tags]    failedTest
+    Given I am a user
+    And I go to view baseline page    1
+    And Element Should Contain    id=badge_features    XX
+    When Click element    id=a_features
+    And Location Should Be    ${URL}/bln-features/1
+
 Tab References
     [Tags]    failedTest
     Given I am a user
@@ -149,14 +157,6 @@ Tab References
     And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
     And Location Should Be    ${URL}/bln-refs/1
-
-Tab Features
-    [Tags]    failedTest
-    Given I am a user
-    And I go to view baseline page    1
-    And Element Should Contain    id=badge_features    XX
-    When Click element    id=a_features
-    And Location Should Be    ${URL}/baseline/1#
 
 Return to release button
     Given I am a user
@@ -175,7 +175,7 @@ Edit button not displayed for closed release
     When I go to view baseline page    3
     Then I should not see action button(s)    Edit
 
-Edit button not displayed for non manager profile
+Edit button not displayed for non user+ profile
     Given I am a user
     When I go to view baseline page    1
     Then I should not see action button(s)    Edit

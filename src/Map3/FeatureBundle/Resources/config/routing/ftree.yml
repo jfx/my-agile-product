@@ -1,0 +1,7 @@
+bln-ftree_children:
+    pattern:  /children
+    defaults: { _controller: "Map3FeatureBundle:Tree:children", _format: json }
+
+bln-ftree_node:
+    pattern:  /node
+    defaults: { _controller: "Map3FeatureBundle:Tree:node" }

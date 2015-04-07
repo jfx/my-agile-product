@@ -135,19 +135,19 @@ Tab Main
     When Click Link    id=a_main
     Then Location Should Be    ${URL}/baseline/1
 
+Tab Features
+    Given I am a user+
+    And I go to delete reference page    1
+    And Element Should Contain    id=badge_features    XX
+    When Click element    id=a_features
+    Then Location Should Be    ${URL}/bln-features/1
+
 Tab References
     Given I am a user+
     And I go to delete reference page    1
     And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
     Then Location Should Be    ${URL}/bln-refs/1
-
-Tab Features
-    Given I am a user+
-    And I go to delete reference page    1
-    And Element Should Contain    id=badge_features    XX
-    When Click element    id=a_features
-    Then Location Should Be    ${URL}/bln-ref/del/1#
 
 Return to list button
     Given I am a user+

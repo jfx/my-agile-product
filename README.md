@@ -1,5 +1,6 @@
 My Agile Product
 ================
+[![Software License](https://img.shields.io/badge/license-GPL v3-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/jfx/my-agile-product.svg?branch=develop)](https://travis-ci.org/jfx/my-agile-product)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jfx/my-agile-product/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/jfx/my-agile-product/?branch=develop)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/641d53ac-f255-49a3-97cc-17c13409f7fc/mini.png)](https://insight.sensiolabs.com/projects/641d53ac-f255-49a3-97cc-17c13409f7fc)
@@ -20,6 +21,19 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.5.0 (07 April 2015)
+Features:
+
+  - My Agile Product web site,
+  - Migration to symfony 2.6,
+  - Update jquery version,
+  - Tree view for feature category.
+
+Bugfixes:
+
+  - Clear cache on teardown for timeout tests.
+
+
 ### 0.4.0 (16 December 2014)
 Features:
 

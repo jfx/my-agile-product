@@ -95,7 +95,7 @@ class MenuSelectType extends AbstractDefaultType
                     array(
                         'label' => false,
                         'choices' => $availableBaselines,
-                        'empty_value' => '',
+                        'placeholder' => '',
                         'horizontal_input_wrapper_class' => 'col-lg-12',
                         'attr' => array(
                             'onChange' => "this.form.submit()",

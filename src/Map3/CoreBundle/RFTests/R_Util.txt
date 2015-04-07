@@ -45,3 +45,43 @@ I get link from last email
 
 I reset the context log file
     Remove File    ${LOG_PATH}/uctx_dev.log
+
+Ajax Get Request
+    [Arguments]    ${uri}
+    ${headers}=    Create Dictionary    X-Requested-With    XMLHttpRequest
+    ${resp}=    Get request    ${SESSION}    ${uri}    headers=${headers}
+    [Return]    ${resp}
+
+EnvPrerequisite
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:database:drop --force
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:database:create
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:schema:update --force
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:fixtures:load --no-interaction
+    Should Be Equal As Integers    ${rc}    0
+    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
+    Run Keyword If    '${ENV}' == 'dev'    Append To File    ${LOG_PATH}/testName.txt    ${SUITE NAME} / ${TEST NAME}
+
+EnvPostrequisite
+    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
+
+SetLifetime
+    Move File    ${CONFIG_PATH}/config.yml    ${CONFIG_PATH}/config_bck.yml
+    ${config_file} =    Get File    ${CONFIG_PATH}/config_bck.yml
+    ${config_file} =    Replace String Using Regexp    ${config_file}    cookie_lifetime:\.+    cookie_lifetime: ${COOKIE_LIFETIME}
+    Create File    ${CONFIG_PATH}/config.yml    ${config_file}
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} cache:clear
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} cache:warmup
+    Should Be Equal As Integers    ${rc}    0
+
+UnsetLifetime
+    ${status}    ${value} =    Run Keyword And Ignore Error    File Should Exist    ${CONFIG_PATH}/config_bck.yml
+    Run Keyword If    '${status}' == 'PASS'    Remove File    ${CONFIG_PATH}/config.yml
+    Run Keyword If    '${status}' == 'PASS'    Move File    ${CONFIG_PATH}/config_bck.yml    ${CONFIG_PATH}/config.yml
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} cache:clear
+    Should Be Equal As Integers    ${rc}    0
+    ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} cache:warmup
+    Should Be Equal As Integers    ${rc}    0

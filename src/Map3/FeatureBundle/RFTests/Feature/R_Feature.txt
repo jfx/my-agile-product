@@ -1,0 +1,14 @@
+*** Keywords ***
+I go to features tree
+    [Arguments]    ${product}    ${release}    ${baseline}
+    I go to baselines list    ${product}    ${release}
+    I click action button    ${baseline}
+    Click link    id=a_features
+
+RequestLifetimeSetup
+    SetLifetime
+    EnvPrerequisite
+
+RequestLifetimeTeardown
+    UnsetLifetime
+    EnvPostrequisite

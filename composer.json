@@ -8,14 +8,14 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.5.*",
+        "symfony/symfony": "2.6.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
         "symfony/assetic-bundle": "~2.3",
         "symfony/swiftmailer-bundle": "~2.3",
         "symfony/monolog-bundle": "~2.4",
-        "sensio/distribution-bundle": "~3.0",
+        "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
         "jms/security-extra-bundle": "1.5.*",
@@ -32,8 +32,8 @@
         "sensio/generator-bundle": "~2.3",
         "squizlabs/php_codesniffer": "1.4.*",
         "phploc/phploc": "*",
-        "phpunit/phpunit": "4.0.*",
-        "phpunit/php-code-coverage": "*",
+        "phpunit/phpunit": "4.4.*",
+        "phpunit/php-code-coverage": "~2.0",
         "phpunit/phpcov": "*",
         "sebastian/phpcpd": "*",
         "pdepend/pdepend" : "*",
@@ -86,11 +86,12 @@
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web",
+        "symfony-assets-install": "relative",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         },
         "branch-alias": {
-            "dev-master": "2.5-dev"
+            "dev-master": "2.6-dev"
         }
     }
 }

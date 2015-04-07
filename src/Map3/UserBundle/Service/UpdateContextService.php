@@ -23,7 +23,7 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Update context service class.
@@ -39,10 +39,9 @@ use Symfony\Component\Security\Core\SecurityContextInterface;
 class UpdateContextService extends AbstractSetRoleService
 {
     /**
-     * @var SecurityContextInterface S. Context
-     *
+     * @var TokenStorageInterface Token storage interface
      */
-    protected $securityContext;
+    protected $tokenStorage;
 
     /**
      * @var boolean userHasChanged Has User changed ?
@@ -52,23 +51,23 @@ class UpdateContextService extends AbstractSetRoleService
     /**
      * Constructor
      *
-     * @param SecurityContextInterface $securityContext The security context
-     * @param EntityManager            $entityManager   The entity manager
-     * @param UserManagerInterface     $userManager     The user manager
-     * @param LoggerInterface          $logger          The logger
+     * @param TokenStorageInterface $tokenStorage  The token storage
+     * @param EntityManager         $entityManager The entity manager
+     * @param UserManagerInterface  $userManager   The user manager
+     * @param LoggerInterface       $logger        The logger
      */
     public function __construct(
-        SecurityContextInterface $securityContext,
+        TokenStorageInterface $tokenStorage,
         EntityManager $entityManager,
         UserManagerInterface $userManager,
         LoggerInterface $logger
     ) {
-        $this->securityContext = $securityContext;
-        $this->entityManager   = $entityManager;
-        $this->userManager     = $userManager;
-        $this->logger          = $logger;
+        $this->tokenStorage  = $tokenStorage;
+        $this->entityManager = $entityManager;
+        $this->userManager   = $userManager;
+        $this->logger        = $logger;
 
-        $this->user = $this->securityContext->getToken()->getUser();
+        $this->user = $this->tokenStorage->getToken()->getUser();
     }
 
     /**
@@ -118,7 +117,6 @@ class UpdateContextService extends AbstractSetRoleService
                 $this->user->setCurrentProduct($product);
 
                 $this->setUserRole4Product($product);
-                //$this->securityContext->getToken()->setAuthenticated(false);
             } else {
                 $this->logger->debug('Same product. No change');
             }
@@ -235,7 +233,7 @@ class UpdateContextService extends AbstractSetRoleService
     {
         if ($this->userHasChanged) {
             $this->logger->debug('Update user');
-            $this->securityContext->getToken()->setAuthenticated(false);
+            $this->tokenStorage->getToken()->setAuthenticated(false);
             $this->userManager->updateUser($this->user);
         }
     }

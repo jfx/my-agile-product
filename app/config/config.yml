@@ -56,17 +56,24 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        driver:         "%database_driver%"
+        host:           "%database_host%"
+        port:           "%database_port%"
+        server_version: "%database_version%"
+        dbname:         "%database_name%"
+        user:           "%database_user%"
+        password:       "%database_password%"
+        charset:        UTF8
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
+        mappings:
+            tree:
+                type: annotation
+                alias: Gedmo
+                prefix: Gedmo\Tree\Entity
+                dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -98,7 +105,7 @@ fos_user:
             template: Map3UserBundle:User:resetting.email.html.twig
 
 parameters:
-    app.version:               0.4.0
+    app.version:               0.5.0
     app.build:                 BBB
     app.formatDate:            dd/mm/yyyy
     app.codeCoverage: false
