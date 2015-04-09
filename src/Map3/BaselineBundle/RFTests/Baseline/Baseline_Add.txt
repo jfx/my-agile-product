@@ -13,6 +13,10 @@ A user+ adds a baseline
     And I save
     Then Page Should Contain    Baseline added successfully
     And I check baseline view form    B1x
+    And Click link    a_features
+    And I am waiting for ajax request
+    And Xpath Should Match X Times    //a[text()='B1x']    2
+    And Click link    a_main
     And I click button    Return to release
     And the table should contain x rows    4
     And the table should contain    B1x    Details 4 B1x

@@ -23,6 +23,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Form\BaselineType;
 use Map3\CoreBundle\Controller\AbstractCoreController;
+use Map3\FeatureBundle\Entity\Category;
 use Map3\ReleaseBundle\Entity\Release;
 use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,6 +69,13 @@ class BaselineController extends AbstractCoreController
 
         if ($handler->process()) {
             $id = $baseline->getId();
+
+            $entityManager = $this->container->get('doctrine')->getManager();
+            $category = new Category();
+            $category->setName($baseline->getName());
+            $category->setBaseline($baseline);
+            $entityManager->persist($category);
+            $entityManager->flush();
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'Baseline added successfully !');

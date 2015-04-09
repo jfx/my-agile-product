@@ -21,6 +21,17 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.6.0 ()
+Features:
+
+  - 
+
+Bugfixes:
+
+  - Remove container in constructor parameter of baseline and release type #48,
+  - Add a default category when adding a baseline #46
+
+
 ### 0.5.0 (07 April 2015)
 Features:
 
