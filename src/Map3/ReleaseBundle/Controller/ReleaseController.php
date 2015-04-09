@@ -59,7 +59,7 @@ class ReleaseController extends AbstractCoreController
         $release = new Release();
         $release->setProduct($product);
 
-        $form = $this->createForm(new ReleaseType($this->container), $release);
+        $form = $this->createForm(new ReleaseType(), $release);
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
@@ -95,7 +95,7 @@ class ReleaseController extends AbstractCoreController
     {
         $this->setCurrentRelease($release, array(Role::GUEST_ROLE));
 
-        $releaseType = new ReleaseType($this->container);
+        $releaseType = new ReleaseType();
         $releaseType->setDisabled();
         $form = $this->createForm($releaseType, $release);
 
@@ -123,7 +123,7 @@ class ReleaseController extends AbstractCoreController
     {
         $this->setCurrentRelease($release, array(Role::MANAGER_ROLE));
 
-        $form = $this->createForm(new ReleaseType($this->container), $release);
+        $form = $this->createForm(new ReleaseType(), $release);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -210,7 +210,7 @@ class ReleaseController extends AbstractCoreController
             }
         }
 
-        $releaseType = new ReleaseType($this->container);
+        $releaseType = new ReleaseType();
         $releaseType->setDisabled();
         $form = $this->createForm($releaseType, $release);
 

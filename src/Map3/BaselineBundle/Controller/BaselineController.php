@@ -62,10 +62,7 @@ class BaselineController extends AbstractCoreController
         $baseline = new Baseline();
         $baseline->setRelease($release);
 
-        $form   = $this->createForm(
-            new BaselineType($this->container),
-            $baseline
-        );
+        $form   = $this->createForm(new BaselineType(), $baseline);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -102,7 +99,7 @@ class BaselineController extends AbstractCoreController
     {
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
-        $baselineType = new BaselineType($this->container);
+        $baselineType = new BaselineType();
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
@@ -133,10 +130,7 @@ class BaselineController extends AbstractCoreController
             array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
         );
 
-        $form = $this->createForm(
-            new BaselineType($this->container),
-            $baseline
-        );
+        $form = $this->createForm(new BaselineType(), $baseline);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -218,7 +212,7 @@ class BaselineController extends AbstractCoreController
             }
         }
 
-        $baselineType = new BaselineType($this->container);
+        $baselineType = new BaselineType();
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
@@ -245,7 +239,7 @@ class BaselineController extends AbstractCoreController
     {
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
-        $baselineType = new BaselineType($this->container);
+        $baselineType = new BaselineType();
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
