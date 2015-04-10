@@ -65,7 +65,7 @@ class Reference
      * @var Baseline Baseline
      *
      * @ORM\ManyToOne(targetEntity="Map3\BaselineBundle\Entity\Baseline")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $baseline;
 
