@@ -68,7 +68,7 @@ I should see 404 error page
 Disabled text element should contain
     [Arguments]    ${id}    ${expected}
     Element Should Be Disabled    ${id}
-    ${value} =    Get Element Attribute    ${id}@value
+    ${value} =    Selenium2Library.Get Element Attribute    ${id}@value
     Should Be Equal    ${expected}    ${value}
 
 the breadcrumb should contain

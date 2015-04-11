@@ -24,12 +24,13 @@ My Agile Product features :
 ### 0.6.0 ()
 Features:
 
-  - Remove all children (Reference and category) when removing a baseline - #Num: #47,
+  - Remove all children (Reference and category) when removing a baseline - #47,
 
 Bugfixes:
 
-  - Remove container in constructor parameter of baseline and release type - #Num: #48,
-  - Add a default category when adding a baseline - #Num: #46
+  - Remove container in constructor parameter of baseline and release type - #48,
+  - Add a default category when adding a baseline - #46,
+  - Remove warning in Robot Framework log - #50, 
 
 
 ### 0.5.0 (07 April 2015)
