@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -33,17 +34,18 @@ use Symfony\Component\HttpFoundation\Response;
  * User controller class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class UserController extends AbstractCoreController
 {
     /**
-     * List of users for a product
+     * List of users for a product.
      *
      * @return Response A Response instance
      *
@@ -69,7 +71,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Add a user
+     * Add a user.
      *
      * @param Request $request The request
      *
@@ -139,7 +141,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Edit a user
+     * Edit a user.
      *
      * @param int     $id      The user id
      * @param Request $request The request
@@ -204,7 +206,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Delete a user
+     * Delete a user.
      *
      * @param int $id The userid.
      *

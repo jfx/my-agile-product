@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -22,20 +23,21 @@ use Doctrine\ORM\EntityRepository;
 use Map3\ProductBundle\Entity\Product;
 
 /**
- * User Product Role entity repository class
+ * User Product Role entity repository class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class UserPdtRoleRepository extends EntityRepository
 {
     /**
-     * Get all resources with role for a product
+     * Get all resources with role for a product.
      *
      * @param Product $product The product
      *
@@ -60,7 +62,7 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Count all resources with role for a product
+     * Count all resources with role for a product.
      *
      * @param Product $product The product
      *
@@ -81,7 +83,7 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Get all products for a user as a resource
+     * Get all products for a user as a resource.
      *
      * @param User $user The user
      *
@@ -106,7 +108,7 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Get a role for a user and product
+     * Get a role for a user and product.
      *
      * @param int $userId    The user id
      * @param int $productId The product id
@@ -129,7 +131,7 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Get the query builder of all user if for a product id
+     * Get the query builder of all user if for a product id.
      *
      * @param int $param The product id
      *

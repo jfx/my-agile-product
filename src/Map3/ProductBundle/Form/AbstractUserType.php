@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,15 +27,15 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * User form class for add action.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
-abstract class UserType extends AbstractDefaultType
+abstract class AbstractUserType extends AbstractDefaultType
 {
     /**
      * @var Product Product
@@ -55,8 +56,6 @@ abstract class UserType extends AbstractDefaultType
      * Sets the default options for this type.
      *
      * @param OptionsResolverInterface $resolver The resolver for the options.
-     *
-     * @return void
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -74,6 +73,6 @@ abstract class UserType extends AbstractDefaultType
      */
     public function getName()
     {
-        return "map3_user";
+        return 'map3_user';
     }
 }

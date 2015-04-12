@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,10 +26,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Reference entity class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
@@ -38,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Reference
 {
     /**
-     * @var integer Id
+     * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -70,9 +72,9 @@ class Reference
     protected $baseline;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -80,7 +82,7 @@ class Reference
     }
 
     /**
-     * Set label
+     * Set label.
      *
      * @param string $label Label of reference.
      *
@@ -94,7 +96,7 @@ class Reference
     }
 
     /**
-     * Get label
+     * Get label.
      *
      * @return string
      */
@@ -104,7 +106,7 @@ class Reference
     }
 
     /**
-     * Set Value
+     * Set Value.
      *
      * @param string $value Value of reference
      *
@@ -118,7 +120,7 @@ class Reference
     }
 
     /**
-     * Get Value
+     * Get Value.
      *
      * @return string
      */
@@ -128,7 +130,7 @@ class Reference
     }
 
     /**
-     * Set baseline
+     * Set baseline.
      *
      * @param Baseline $bln The baseline
      *
@@ -142,7 +144,7 @@ class Reference
     }
 
     /**
-     * Get Baseline
+     * Get Baseline.
      *
      * @return Baseline
      */

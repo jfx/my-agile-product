@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,18 +26,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Json Core controller class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 abstract class AbstractJsonCoreController extends AbstractCoreController
 {
     /**
-     * Convert a html response to Json
+     * Convert a html response to Json.
      *
      * @param Response $response The html response
      *
@@ -63,7 +64,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
     }
 
     /**
-     * Create a Json response
+     * Create a Json response.
      *
      * @param int    $code    The status code
      * @param string $message The status text or message for the status code

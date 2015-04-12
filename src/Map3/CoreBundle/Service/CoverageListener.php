@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -30,10 +31,11 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  * Code coverage listener class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -45,12 +47,12 @@ class CoverageListener
     protected $coverage;
 
     /**
-     * @var boolean is code coverage enabled
+     * @var bool is code coverage enabled
      */
     protected $isEnabled = false;
 
     /**
-     * @var boolean is code coverage started
+     * @var bool is code coverage started
      */
     protected $isStarted = false;
 
@@ -75,10 +77,10 @@ class CoverageListener
     protected static $testNameFile = 'testName.txt';
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param AppKernel $kernel            The Kernel is the heart of Symfony.
-     * @param boolean   $isCoverageEnabled Code coverage enabled in conf file.
+     * @param bool      $isCoverageEnabled Code coverage enabled in conf file.
      *
      * @codeCoverageIgnore
      */
@@ -111,7 +113,6 @@ class CoverageListener
      *
      * @param GetResponseEvent $event The event object.
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -129,7 +130,6 @@ class CoverageListener
      *
      * @param FilterResponseEvent $event The event object.
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,13 +27,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * Product form class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class ProductType extends AbstractDefaultType
 {
@@ -44,8 +45,6 @@ class ProductType extends AbstractDefaultType
      *
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -71,8 +70,6 @@ class ProductType extends AbstractDefaultType
      * Sets the default options for this type.
      *
      * @param OptionsResolverInterface $resolver The resolver for the options.
-     *
-     * @return void
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -90,6 +87,6 @@ class ProductType extends AbstractDefaultType
      */
     public function getName()
     {
-        return "map3_product";
+        return 'map3_product';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -33,13 +34,13 @@ use Symfony\Component\HttpFoundation\Response;
  * Baseline controller class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class BaselineController extends AbstractCoreController
 {
@@ -122,7 +123,7 @@ class BaselineController extends AbstractCoreController
     }
 
     /**
-     * Edit a baseline
+     * Edit a baseline.
      *
      * @param Baseline $baseline The baseline to edit
      * @param Request  $request  The request
@@ -167,7 +168,7 @@ class BaselineController extends AbstractCoreController
     }
 
     /**
-     * Delete a baseline
+     * Delete a baseline.
      *
      * @param Baseline $baseline The baseline to delete.
      *
@@ -235,7 +236,7 @@ class BaselineController extends AbstractCoreController
     }
 
     /**
-     * View a baseline in right panel of tree
+     * View a baseline in right panel of tree.
      *
      * @param Baseline $baseline The baseline to view.
      *
@@ -261,7 +262,7 @@ class BaselineController extends AbstractCoreController
     }
 
     /**
-     * Tab for baseline
+     * Tab for baseline.
      *
      * @param string $activeTab The active tab
      *

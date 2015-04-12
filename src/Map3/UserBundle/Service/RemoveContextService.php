@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -29,10 +30,11 @@ use Psr\Log\LoggerInterface;
  * Remove context service class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -54,7 +56,7 @@ class RemoveContextService
     protected $logger;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EntityManager        $entityManager The entity manager
      * @param UserManagerInterface $userManager   The user manager
@@ -74,8 +76,6 @@ class RemoveContextService
      * Remove a product from context of all users.
      *
      * @param Product $product The product to remove
-     *
-     * @return void
      */
     public function removeProduct(Product $product)
     {
@@ -97,8 +97,6 @@ class RemoveContextService
      * Remove a release from context of all users.
      *
      * @param Release $release The release to remove
-     *
-     * @return void
      */
     public function removeRelease(Release $release)
     {
@@ -120,8 +118,6 @@ class RemoveContextService
      * Remove a baseline from context of all users.
      *
      * @param Baseline $baseline The baseline to remove
-     *
-     * @return void
      */
     public function removeBaseline(Baseline $baseline)
     {

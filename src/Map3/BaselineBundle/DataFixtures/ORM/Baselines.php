@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -28,36 +29,36 @@ use Map3\BaselineBundle\Entity\Baseline;
  * Load baseline data class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class Baselines extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager The entity manager
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */
     public function load(ObjectManager $manager)
     {
         $dateB1 = new DateTime();
-        $dateB1->setDate(date("Y"), date("m")+1, 10)->setTime(12, 0, 0);
+        $dateB1->setDate(date('Y'), date('m')+1, 10)->setTime(12, 0, 0);
         $dateB2 = new DateTime();
-        $dateB2->setDate(date("Y"), date("m")+1, 15)->setTime(12, 0, 0);
+        $dateB2->setDate(date('Y'), date('m')+1, 15)->setTime(12, 0, 0);
         $dateB3 = new DateTime();
-        $dateB3->setDate(date("Y"), date("m")+1, 15)->setTime(12, 0, 0);
+        $dateB3->setDate(date('Y'), date('m')+1, 15)->setTime(12, 0, 0);
         $dateB4 = new DateTime();
-        $dateB4->setDate(date("Y"), date("m")+2, 15)->setTime(12, 0, 0);
+        $dateB4->setDate(date('Y'), date('m')+2, 15)->setTime(12, 0, 0);
         $dateB5 = new DateTime();
-        $dateB5->setDate(date("Y"), date("m")+1, 15)->setTime(12, 0, 0);
+        $dateB5->setDate(date('Y'), date('m')+1, 15)->setTime(12, 0, 0);
 
         $dataArray = array(
             array(
@@ -77,7 +78,7 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
             array(
                 'name'         => 'Baseline Closed',
                 'details'      => 'Details 4 baseline closed',
-                'baselineDate' => new DateTime("2014-08-02 12:00:00"),
+                'baselineDate' => new DateTime('2014-08-02 12:00:00'),
                 'closed'       => true,
                 'release'      => 'releaseone-release',
             ),
@@ -112,10 +113,11 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
             array(
                 'name'         => 'Baseline Closed 4 release closed',
                 'details'      => 'Details 4 baseline closed',
-                'baselineDate' => new DateTime("2014-08-15 12:00:00"),
+                'baselineDate' => new DateTime('2014-08-15 12:00:00'),
                 'closed'       => true,
                 'release'      => 'releaseclosed-release',
-            ),        );
+            ),
+        );
         $objectList = array();
 
         foreach ($dataArray as $i => $data) {
@@ -136,9 +138,9 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * Get the order of this fixture
+     * Get the order of this fixture.
      *
-     * @return integer
+     * @return int
      *
      * @codeCoverageIgnore
      */

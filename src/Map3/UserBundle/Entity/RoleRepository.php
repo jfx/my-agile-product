@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -24,17 +25,18 @@ use Gedmo\Sortable\Entity\Repository\SortableRepository;
  * Role entity repository class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class RoleRepository extends SortableRepository
 {
     /**
-     * Get the default role (user)
+     * Get the default role (user).
      *
      * @return Role
      */
@@ -44,7 +46,7 @@ class RoleRepository extends SortableRepository
     }
 
     /**
-     * Get the query builder of all roles ordered
+     * Get the query builder of all roles ordered.
      *
      * @return QueryBuilder
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -24,20 +25,18 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * Test controller class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class CoreControllerTest extends WebTestCase
 {
     /**
-     * Test method
-     *
-     * @return void
+     * Test method.
      */
     public function testIndex()
     {

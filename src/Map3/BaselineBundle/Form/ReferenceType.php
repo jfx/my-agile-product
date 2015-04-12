@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,13 +27,13 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * Reference form class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class ReferenceType extends AbstractDefaultType
 {
@@ -44,8 +45,6 @@ class ReferenceType extends AbstractDefaultType
      *
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -71,8 +70,6 @@ class ReferenceType extends AbstractDefaultType
      * Sets the default options for this type.
      *
      * @param OptionsResolverInterface $resolver The resolver for the options.
-     *
-     * @return void
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -90,6 +87,6 @@ class ReferenceType extends AbstractDefaultType
      */
     public function getName()
     {
-        return "map3_reference";
+        return 'map3_reference';
     }
 }

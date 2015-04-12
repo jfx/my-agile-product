@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -28,34 +29,34 @@ use Map3\ReleaseBundle\Entity\Release;
  * Load release data class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class Releases extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager The entity manager
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */
     public function load(ObjectManager $manager)
     {
         $dateR1 = new DateTime();
-        $dateR1->setDate(date("Y"), date("m")+1, 20)->setTime(12, 0, 0);
+        $dateR1->setDate(date('Y'), date('m')+1, 20)->setTime(12, 0, 0);
         $dateR2 = new DateTime();
-        $dateR2->setDate(date("Y"), date("m")+2, 20)->setTime(12, 0, 0);
+        $dateR2->setDate(date('Y'), date('m')+2, 20)->setTime(12, 0, 0);
         $dateR3 = new DateTime();
-        $dateR3->setDate(date("Y"), date("m")+3, 20)->setTime(12, 0, 0);
+        $dateR3->setDate(date('Y'), date('m')+3, 20)->setTime(12, 0, 0);
         $dateR4 = new DateTime();
-        $dateR4->setDate(date("Y"), date("m")+2, 20)->setTime(12, 0, 0);
+        $dateR4->setDate(date('Y'), date('m')+2, 20)->setTime(12, 0, 0);
 
         $dataArray = array(
             array(
@@ -75,7 +76,7 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
             array(
                 'name'        => 'Release Closed',
                 'details'     => 'Details 4 release closed',
-                'releaseDate' => new DateTime("2014-08-20 12:00:00"),
+                'releaseDate' => new DateTime('2014-08-20 12:00:00'),
                 'closed'      => true,
                 'product'     => 'productone-product',
             ),
@@ -120,9 +121,9 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * Get the order of this fixture
+     * Get the order of this fixture.
      *
-     * @return integer
+     * @return int
      *
      * @codeCoverageIgnore
      */

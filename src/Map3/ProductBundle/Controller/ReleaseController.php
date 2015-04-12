@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -28,17 +29,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Product controller class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class ReleaseController extends AbstractCoreController
 {
     /**
-     * List of releases
+     * List of releases.
      *
      * @param Product $product The product
      *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -32,13 +33,13 @@ use Symfony\Component\HttpFoundation\Response;
  * Release controller class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class ReleaseController extends AbstractCoreController
 {
@@ -110,7 +111,7 @@ class ReleaseController extends AbstractCoreController
     }
 
     /**
-     * Edit a release
+     * Edit a release.
      *
      * @param Release $release The release to edit
      * @param Request $request The request
@@ -160,7 +161,7 @@ class ReleaseController extends AbstractCoreController
     }
 
     /**
-     * Delete a release
+     * Delete a release.
      *
      * @param Release $release The release to delete.
      *
@@ -225,7 +226,7 @@ class ReleaseController extends AbstractCoreController
     }
 
     /**
-     * Tab for release
+     * Tab for release.
      *
      * @param string $activeTab The active tab
      *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,10 +28,11 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
  * Ajax authentication listener class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -40,8 +42,6 @@ class AjaxAuthenticationListener
      * Handles security related exceptions.
      *
      * @param GetResponseForExceptionEvent $event ExceptionEvent instance
-     *
-     * @return void
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {

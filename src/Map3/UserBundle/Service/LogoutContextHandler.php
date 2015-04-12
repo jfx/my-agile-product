@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -29,10 +30,11 @@ use Psr\Log\LoggerInterface;
  * Logout handler class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -49,7 +51,7 @@ class LogoutContextHandler implements LogoutHandlerInterface
     protected $logger;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param UserManagerInterface $userManager The user manager
      * @param LoggerInterface      $logger      The logger
@@ -70,8 +72,6 @@ class LogoutContextHandler implements LogoutHandlerInterface
      * @param Request        $request  Request
      * @param Response       $response Response
      * @param TokenInterface $token    The token
-     *
-     * @return void
      */
     public function logout(
         Request $request,

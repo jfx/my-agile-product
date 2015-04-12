@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -29,10 +30,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  * Update context service class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -44,12 +46,12 @@ class UpdateContextService extends AbstractSetRoleService
     protected $tokenStorage;
 
     /**
-     * @var boolean userHasChanged Has User changed ?
+     * @var bool userHasChanged Has User changed ?
      */
     protected $userHasChanged = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TokenStorageInterface $tokenStorage  The token storage
      * @param EntityManager         $entityManager The entity manager
@@ -74,8 +76,6 @@ class UpdateContextService extends AbstractSetRoleService
      * Set the current product for a user and set role.
      *
      * @param Product|null $product The product, if null unset product.
-     *
-     * @return void
      */
     public function setCurrentProduct($product)
     {
@@ -87,12 +87,51 @@ class UpdateContextService extends AbstractSetRoleService
     }
 
     /**
+     * Set the current release and set product and role.
+     *
+     * @param Release|null $release The release, if null unset current release
+     */
+    public function setCurrentRelease($release)
+    {
+        $this->logger->debug('Init Ctx4U->setCurrentRelease');
+
+        $this->setCurrentReleaseChilds($release, true);
+
+        $this->updateUserIfChanged();
+    }
+
+    /**
+     * Set the current baseline and set release/product and role.
+     *
+     * @param Baseline|null $baseline The baseline, if null unset current
+     *                                baseline.
+     */
+    public function setCurrentBaseline($baseline)
+    {
+        $this->logger->debug('Init Ctx4U->setCurrentBaseline');
+
+        $this->setCurrentBaselineChilds($baseline);
+
+        $this->updateUserIfChanged();
+    }
+
+    /**
+     * Update user if context of user has changed.
+     */
+    public function updateUserIfChanged()
+    {
+        if ($this->userHasChanged) {
+            $this->logger->debug('Update user');
+            $this->tokenStorage->getToken()->setAuthenticated(false);
+            $this->userManager->updateUser($this->user);
+        }
+    }
+
+    /**
      * Set the current product for a user and set role.
      *
      * @param Product|null $product     The product, if null unset product.
-     * @param boolean      $resetChilds Current childs must be resetted.
-     *
-     * @return void
+     * @param bool         $resetChilds Current childs must be resetted.
      */
     private function setCurrentProductChilds($product, $resetChilds = true)
     {
@@ -126,26 +165,8 @@ class UpdateContextService extends AbstractSetRoleService
     /**
      * Set the current release and set product and role.
      *
-     * @param Release|null $release The release, if null unset current release
-     *
-     * @return void
-     */
-    public function setCurrentRelease($release)
-    {
-        $this->logger->debug('Init Ctx4U->setCurrentRelease');
-
-        $this->setCurrentReleaseChilds($release, true);
-
-        $this->updateUserIfChanged();
-    }
-
-    /**
-     * Set the current release and set product and role.
-     *
      * @param Release|null $release     The release, if null unset release
-     * @param boolean      $resetChilds Current childs must be resetted
-     *
-     * @return void
+     * @param bool         $resetChilds Current childs must be resetted
      */
     private function setCurrentReleaseChilds($release, $resetChilds = true)
     {
@@ -177,29 +198,10 @@ class UpdateContextService extends AbstractSetRoleService
     }
 
     /**
-     * Set the current baseline and set release/product and role.
-     *
-     * @param Baseline|null $baseline The baseline, if null unset current
-     *                                baseline.
-     *
-     * @return void
-     */
-    public function setCurrentBaseline($baseline)
-    {
-        $this->logger->debug('Init Ctx4U->setCurrentBaseline');
-
-        $this->setCurrentBaselineChilds($baseline);
-
-        $this->updateUserIfChanged();
-    }
-
-    /**
      * Set the current release and set product and role.
      *
      * @param Baseline|null $baseline The baseline, if null unset current
      *                                baseline.
-     *
-     * @return void
      */
     private function setCurrentBaselineChilds($baseline)
     {
@@ -221,20 +223,6 @@ class UpdateContextService extends AbstractSetRoleService
             } else {
                 $this->logger->debug('Same baseline. No change');
             }
-        }
-    }
-
-    /**
-     * Update user if context of user has changed.
-     *
-     * @return void
-     */
-    public function updateUserIfChanged()
-    {
-        if ($this->userHasChanged) {
-            $this->logger->debug('Update user');
-            $this->tokenStorage->getToken()->setAuthenticated(false);
-            $this->userManager->updateUser($this->user);
         }
     }
 }

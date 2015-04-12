@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -30,10 +31,11 @@ use Psr\Log\LoggerInterface;
  * Set role for a user and a product.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -63,8 +65,6 @@ class AbstractSetRoleService
      * Set the role for the product.
      *
      * @param Product $product The product
-     *
-     * @return void
      */
     public function setUserRole4Product(Product $product)
     {

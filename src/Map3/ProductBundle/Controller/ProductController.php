@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -31,18 +32,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Product controller class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class ProductController extends AbstractCoreController
 {
     /**
-     * List of products
+     * List of products.
      *
      * @return Response A Response instance
      *
@@ -65,7 +66,7 @@ class ProductController extends AbstractCoreController
     }
 
     /**
-     * Add a product
+     * Add a product.
      *
      * @param Request $request The request
      *
@@ -100,7 +101,7 @@ class ProductController extends AbstractCoreController
     }
 
     /**
-     * View a product
+     * View a product.
      *
      * @param Product $product The product to view.
      *
@@ -126,7 +127,7 @@ class ProductController extends AbstractCoreController
     }
 
     /**
-     * Edit a product
+     * Edit a product.
      *
      * @param Product $product The product to edit
      * @param Request $request The request
@@ -166,7 +167,7 @@ class ProductController extends AbstractCoreController
     }
 
     /**
-     * Delete a product
+     * Delete a product.
      *
      * @param Product $product The product to delete.
      *
@@ -224,7 +225,7 @@ class ProductController extends AbstractCoreController
     }
 
     /**
-     * Tab for product
+     * Tab for product.
      *
      * @param string $activeTab The active tab
      *

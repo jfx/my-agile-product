@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,10 +26,11 @@ use Map3\UserBundle\Entity\User;
  * Baseline entity repository class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -108,11 +110,9 @@ class BaselineRepository extends EntityRepository
     }
 
     /**
-     * Close all opened baselines for a release
+     * Close all opened baselines for a release.
      *
      * @param Release $rls The release
-     *
-     * @return void
      */
     public function closeBaselinesByRelease($rls)
     {

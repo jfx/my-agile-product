@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -30,10 +31,11 @@ use Symfony\Component\Validator\Validator\LegacyValidator;
  * User form handler class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -45,7 +47,7 @@ class UserFormHandler extends FormHandler
     protected $product;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Form            $form      Form
      * @param Request         $request   Http request
@@ -75,7 +77,7 @@ class UserFormHandler extends FormHandler
     /**
      * For a submited form, valid it and update database.
      *
-     * @return boolean
+     * @return bool
      */
     public function process()
     {

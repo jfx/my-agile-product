@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,20 +26,21 @@ use Map3\ProductBundle\Entity\Product;
 use Map3\ReleaseBundle\Entity\Release;
 
 /**
- * User entity repository class
+ * User entity repository class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class UserRepository extends EntityRepository
 {
     /**
-     * Get all users ordered by name, firstname
+     * Get all users ordered by name, firstname.
      *
      * @return array List of users
      */
@@ -53,7 +55,7 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get all users with a product in their context
+     * Get all users with a product in their context.
      *
      * @param Product $product The product
      *
@@ -72,7 +74,7 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get all users with a release in their context
+     * Get all users with a release in their context.
      *
      * @param Release $release The release
      *
@@ -91,7 +93,7 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get all users with a baseline in their context
+     * Get all users with a baseline in their context.
      *
      * @param Baseline $baseline The baseline
      *
@@ -110,7 +112,7 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get count of all available user for a product
+     * Get count of all available user for a product.
      *
      * @param Product $product The product
      *
@@ -132,7 +134,7 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get the query builder of all available user for a product
+     * Get the query builder of all available user for a product.
      *
      * @param Product $product The product
      *
@@ -152,7 +154,7 @@ class UserRepository extends EntityRepository
     }
 
     /**
-     * Get the DQL query of all added user for a product
+     * Get the DQL query of all added user for a product.
      *
      * @return DQL query
      */

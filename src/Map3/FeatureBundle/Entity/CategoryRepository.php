@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,17 +26,18 @@ use Map3\BaselineBundle\Entity\Baseline;
  * Category entity repository class.
  *
  * @category  MyAgileProduct
- * @package   Feature
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class CategoryRepository extends EntityRepository
 {
     /**
-     * Get root category by baseline
+     * Get root category by baseline.
      *
      * @param Baseline $baseline The baseline
      *
@@ -55,7 +57,7 @@ class CategoryRepository extends EntityRepository
     }
 
     /**
-     * Get children categories by baseline and parent id
+     * Get children categories by baseline and parent id.
      *
      * @param Baseline $baseline The baseline
      * @param int      $pid      Parent id.

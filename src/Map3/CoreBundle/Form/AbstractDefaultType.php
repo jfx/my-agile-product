@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,22 +27,23 @@ use Symfony\Component\Form\FormView;
  * Default form class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 abstract class AbstractDefaultType extends AbstractType
 {
     /**
-     * @var boolean $isDisabled Disabled status
+     * @var bool Disabled status
      */
     protected $isDisabled = false;
 
     /**
-     * Set disabled status
+     * Set disabled status.
      *
      * @return AbstractDefaultType
      */
@@ -50,22 +52,6 @@ abstract class AbstractDefaultType extends AbstractType
         $this->isDisabled = true;
 
         return $this;
-    }
-
-    /**
-     * Set disabled status in options array
-     *
-     * @param array $array Array of options.
-     *
-     * @return array
-     */
-    protected function setDisabledAttr(array $array)
-    {
-        if ($this->isDisabled) {
-            $array['disabled'] = true;
-        }
-
-        return $array;
     }
 
     /**
@@ -81,8 +67,6 @@ abstract class AbstractDefaultType extends AbstractType
      * @param FormView      $view    The view
      * @param FormInterface $form    The form
      * @param array         $options The options
-     *
-     * @return void
      */
     public function buildView(
         FormView $view,
@@ -96,5 +80,21 @@ abstract class AbstractDefaultType extends AbstractType
                 'show_legend'     => false,
             )
         );
+    }
+
+    /**
+     * Set disabled status in options array.
+     *
+     * @param array $array Array of options.
+     *
+     * @return array
+     */
+    protected function setDisabledAttr(array $array)
+    {
+        if ($this->isDisabled) {
+            $array['disabled'] = true;
+        }
+
+        return $array;
     }
 }
