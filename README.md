@@ -25,12 +25,14 @@ My Agile Product features :
 Features:
 
   - Remove all children (Reference and category) when removing a baseline - #47,
+  - Unit tests for PasswordFactoryService - #36,
 
 Bugfixes:
 
   - Remove container in constructor parameter of baseline and release type - #48,
   - Add a default category when adding a baseline - #46,
-  - Remove warning in Robot Framework log - #50, 
+  - Remove warning in Robot Framework log - #50,
+  - Improvement of check jenkins job. Fix PHP_CodeSniffer issues - #53,
 
 
 ### 0.5.0 (07 April 2015)

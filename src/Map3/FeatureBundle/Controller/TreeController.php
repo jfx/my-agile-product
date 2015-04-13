@@ -129,6 +129,8 @@ class TreeController extends AbstractJsonCoreController
                     array('id' => $idType['id'])
                 );
                 break;
+            default:
+                return $this->jsonResponseFactory(404, 'Wrong type of node');
         }
 
         return $this->html2jsonResponse($response);

@@ -42,7 +42,7 @@ class RoleRepository extends SortableRepository
      */
     public function findDefaultRole()
     {
-        return $this->find(ROLE::DEFAULT_ROLE);
+        return $this->find(Role::DEFAULT_ROLE);
     }
 
     /**

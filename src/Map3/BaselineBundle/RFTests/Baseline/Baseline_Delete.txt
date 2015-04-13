@@ -31,6 +31,15 @@ Delete a baseline saved in user context
     And Page Should Contain    Baseline removed successfully
     And the context log file should contain    RemoveContextService->removeBaseline    $user->unsetCurrentBaseline
 
+Delete a baseline with references and features
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/baselines/1
+    And Page Should Contain    Baseline removed successfully
+    And Page Should not Contain    Details 4 baseline 1
+
 Cancel to delete a baseline
     Given I am a user+
     And I go to delete baseline page    1    2
@@ -109,14 +118,6 @@ Check context for baseline delete with same previous context
     And the context log file should contain x lines    4
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
-
-Impossible to delete a baseline
-    Given I am a user+
-    And I go to delete baseline page    1    1
-    When I click button    Remove
-    And I confirm
-    Then Location Should Be    ${URL}/baseline/del/1
-    And Page Should Contain    Impossible to remove this item - Integrity constraint violation !
 
 Wrong baseline Id for a release but same product
     Given I am a user+
