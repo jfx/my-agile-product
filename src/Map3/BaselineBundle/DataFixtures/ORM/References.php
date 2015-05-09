@@ -50,33 +50,33 @@ class References extends AbstractFixture implements OrderedFixtureInterface
     {
         $dataArray = array(
             array(
-                'label'    => 'Reference One',
-                'value'    => 'Value 4 reference one',
+                'label' => 'Reference One',
+                'value' => 'Value 4 reference one',
                 'baseline' => 'baselineone-baseline',
             ),
             array(
-                'label'    => 'Reference Two',
-                'value'    => 'Value 4 reference two',
+                'label' => 'Reference Two',
+                'value' => 'Value 4 reference two',
                 'baseline' => 'baselineone-baseline',
             ),
             array(
-                'label'    => 'Reference Three',
-                'value'    => 'Value 4 reference three',
+                'label' => 'Reference Three',
+                'value' => 'Value 4 reference three',
                 'baseline' => 'baselineone-baseline',
             ),
             array(
-                'label'    => 'Reference Four',
-                'value'    => 'Value 4 reference four',
+                'label' => 'Reference Four',
+                'value' => 'Value 4 reference four',
                 'baseline' => 'baselinethree-baseline',
             ),
             array(
-                'label'    => 'Reference Five',
-                'value'    => 'Value 4 reference five',
+                'label' => 'Reference Five',
+                'value' => 'Value 4 reference five',
                 'baseline' => 'baselinetwo-baseline',
             ),
             array(
-                'label'    => 'Reference 4 baseline closed',
-                'value'    => 'Value 4 reference 4 baseline closed',
+                'label' => 'Reference 4 baseline closed',
+                'value' => 'Value 4 reference 4 baseline closed',
                 'baseline' => 'baselineclosed-baseline',
             ),
         );

@@ -88,8 +88,8 @@ class UserController extends AbstractCoreController
         $this->unsetCurrentProduct();
 
         $userManager = $this->get('fos_user.user_manager');
-        $user        = $userManager->createUser();
-        $form        = $this->createForm(new UserType(), $user);
+        $user = $userManager->createUser();
+        $form = $this->createForm(new UserType(), $user);
 
         $user->setEnabled(true);
 
@@ -135,7 +135,7 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
 
@@ -164,7 +164,7 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
 
@@ -195,10 +195,10 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
-        $form    = $this->createForm(new UserType(), $user);
+        $form = $this->createForm(new UserType(), $user);
 
         $handler = new UserFormHandler(
             $form,
@@ -240,7 +240,7 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
 
@@ -310,7 +310,7 @@ class UserController extends AbstractCoreController
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        $form  = $this->createForm(new UserPasswordType(), $user);
+        $form = $this->createForm(new UserPasswordType(), $user);
 
         $handler = new UserFormHandler(
             $form,

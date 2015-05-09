@@ -67,9 +67,9 @@ class RemoveContextService
         UserManagerInterface $userManager,
         LoggerInterface $logger
     ) {
-        $this->entityManager   = $entityManager;
-        $this->userManager     = $userManager;
-        $this->logger          = $logger;
+        $this->entityManager = $entityManager;
+        $this->userManager = $userManager;
+        $this->logger = $logger;
     }
 
     /**

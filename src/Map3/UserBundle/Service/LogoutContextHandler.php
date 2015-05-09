@@ -61,7 +61,7 @@ class LogoutContextHandler implements LogoutHandlerInterface
         LoggerInterface $logger
     ) {
         $this->userManager = $userManager;
-        $this->logger      = $logger;
+        $this->logger = $logger;
     }
 
     /**

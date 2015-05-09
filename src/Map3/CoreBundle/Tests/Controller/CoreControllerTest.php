@@ -43,7 +43,7 @@ class CoreControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
 
-        $statusCode  = $client->getResponse()->getStatusCode();
+        $statusCode = $client->getResponse()->getStatusCode();
         $this->assertTrue(200 === $statusCode);
 
         $elt = $crawler->filter('html:contains("my agile product")');

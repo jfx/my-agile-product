@@ -93,7 +93,7 @@ class CoverageListener
         }
         $this->isEnabled = true;
         $rootDir = $kernel->getRootDir();
-        $this->coverageDir  = $kernel->getLogDir().'/'.self::$coverageDirName;
+        $this->coverageDir = $kernel->getLogDir().'/'.self::$coverageDirName;
 
         $filter = new PHP_CodeCoverage_Filter();
         $filter->addDirectoryToWhitelist($rootDir.'/../src');

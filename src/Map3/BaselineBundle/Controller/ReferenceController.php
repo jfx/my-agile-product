@@ -64,7 +64,7 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:index.html.twig',
             array(
-                'refs'     => $refs,
+                'refs' => $refs,
                 'baseline' => $baseline,
             )
         );
@@ -108,7 +108,7 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:add.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'baseline' => $baseline,
             )
         );
@@ -150,7 +150,7 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:edit.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'baseline' => $baseline,
             )
         );
@@ -196,7 +196,7 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:del.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'baseline' => $baseline,
             )
         );

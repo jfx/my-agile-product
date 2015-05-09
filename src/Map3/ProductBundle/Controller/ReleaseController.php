@@ -62,7 +62,7 @@ class ReleaseController extends AbstractCoreController
             'Map3ProductBundle:Release:index.html.twig',
             array(
                 'releases' => $releases,
-                'product'  => $product,
+                'product' => $product,
             )
         );
     }

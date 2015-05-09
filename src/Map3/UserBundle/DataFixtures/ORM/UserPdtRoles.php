@@ -50,44 +50,44 @@ class UserPdtRoles extends AbstractFixture implements OrderedFixtureInterface
     {
         $dataArray = array(
             array(
-                'user'    => 'user-user',
+                'user' => 'user-user',
                 'product' => 'productone-product',
-                'role'    => 'user-role',
+                'role' => 'user-role',
             ),
             array(
-                'user'    => 'user-user',
+                'user' => 'user-user',
                 'product' => 'producttwo-product',
-                'role'    => 'user+-role',
+                'role' => 'user+-role',
             ),
             array(
-                'user'    => 'd1-none-user',
+                'user' => 'd1-none-user',
                 'product' => 'productone-product',
-                'role'    => 'none-role',
+                'role' => 'none-role',
             ),
             array(
-                'user'    => 'd1-guest-user',
+                'user' => 'd1-guest-user',
                 'product' => 'productone-product',
-                'role'    => 'guest-role',
+                'role' => 'guest-role',
             ),
             array(
-                'user'    => 'd1-user+-user',
+                'user' => 'd1-user+-user',
                 'product' => 'productone-product',
-                'role'    => 'user+-role',
+                'role' => 'user+-role',
             ),
             array(
-                'user'    => 'd1-manager-user',
+                'user' => 'd1-manager-user',
                 'product' => 'productone-product',
-                'role'    => 'manager-role',
+                'role' => 'manager-role',
             ),
             array(
-                'user'    => 'd1-manager-user',
+                'user' => 'd1-manager-user',
                 'product' => 'productfour-product',
-                'role'    => 'manager-role',
+                'role' => 'manager-role',
             ),
             array(
-                'user'    => 'd2-manager-user',
+                'user' => 'd2-manager-user',
                 'product' => 'producttwo-product',
-                'role'    => 'manager-role',
+                'role' => 'manager-role',
             ),
         );
         $objectList = array();

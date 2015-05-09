@@ -45,7 +45,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
      */
     protected function html2jsonResponse(Response $response)
     {
-        $statusCode  = $response->getStatusCode();
+        $statusCode = $response->getStatusCode();
         $statusTexts = Response::$statusTexts;
 
         if (array_key_exists($statusCode, $statusTexts)) {

@@ -64,7 +64,7 @@ class BaselineController extends AbstractCoreController
         $baseline = new Baseline();
         $baseline->setRelease($release);
 
-        $form   = $this->createForm(new BaselineType(), $baseline);
+        $form = $this->createForm(new BaselineType(), $baseline);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -89,7 +89,7 @@ class BaselineController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Baseline:add.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'release' => $release,
             )
         );
@@ -115,8 +115,8 @@ class BaselineController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Baseline:view.html.twig',
             array(
-                'form'     => $form->createView(),
-                'release'  => $baseline->getRelease(),
+                'form' => $form->createView(),
+                'release' => $baseline->getRelease(),
                 'baseline' => $baseline,
             )
         );
@@ -160,8 +160,8 @@ class BaselineController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Baseline:edit.html.twig',
             array(
-                'form'     => $form->createView(),
-                'release'  => $baseline->getRelease(),
+                'form' => $form->createView(),
+                'release' => $baseline->getRelease(),
                 'baseline' => $baseline,
             )
         );
@@ -228,8 +228,8 @@ class BaselineController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Baseline:del.html.twig',
             array(
-                'form'     => $form->createView(),
-                'release'  => $release,
+                'form' => $form->createView(),
+                'release' => $release,
                 'baseline' => $baseline,
             )
         );
@@ -256,7 +256,7 @@ class BaselineController extends AbstractCoreController
             'Map3BaselineBundle:Baseline:node.html.twig',
             array(
                 'form' => $form->createView(),
-                'baseline'  => $baseline,
+                'baseline' => $baseline,
             )
         );
     }
@@ -280,15 +280,15 @@ class BaselineController extends AbstractCoreController
             'Map3BaselineBundle:Reference'
         );
 
-        $child['references']  = $repositoryRef->countReferencesByBaseline(
+        $child['references'] = $repositoryRef->countReferencesByBaseline(
             $baseline
         );
 
         return $this->render(
             'Map3BaselineBundle:Baseline:tabs.html.twig',
             array(
-                'baseline'  => $baseline,
-                'child'     => $child,
+                'baseline' => $baseline,
+                'child' => $child,
                 'activeTab' => $activeTab,
             )
         );

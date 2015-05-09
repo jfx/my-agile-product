@@ -64,10 +64,10 @@ class UpdateContextService extends AbstractSetRoleService
         UserManagerInterface $userManager,
         LoggerInterface $logger
     ) {
-        $this->tokenStorage  = $tokenStorage;
+        $this->tokenStorage = $tokenStorage;
         $this->entityManager = $entityManager;
-        $this->userManager   = $userManager;
-        $this->logger        = $logger;
+        $this->userManager = $userManager;
+        $this->logger = $logger;
 
         $this->user = $this->tokenStorage->getToken()->getUser();
     }

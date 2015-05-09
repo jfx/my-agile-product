@@ -55,7 +55,7 @@ class DefaultControllerTest extends WebTestCase
 
         $client->submit($form);
 
-        $statusCode  = $client->getResponse()->getStatusCode();
+        $statusCode = $client->getResponse()->getStatusCode();
         $this->assertTrue(200 === $statusCode);
 
         $content = $client->getResponse()->getContent();

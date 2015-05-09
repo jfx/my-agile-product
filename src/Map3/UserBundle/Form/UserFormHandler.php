@@ -80,7 +80,7 @@ class UserFormHandler extends FormHandler
             $session
         );
         $this->passwordFactory = $passFactory;
-        $this->userManager     = $um;
+        $this->userManager = $um;
     }
 
     /**

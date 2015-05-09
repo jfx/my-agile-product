@@ -73,8 +73,8 @@ class ReleaseType extends AbstractDefaultType
                 'textarea',
                 array(
                     'required' => false,
-                    'attr'  => array(
-                        'rows'  => 4,
+                    'attr' => array(
+                        'rows' => 4,
                     ),
                 )
             );

@@ -103,7 +103,7 @@ class ReleaseController extends AbstractCoreController
         return $this->render(
             'Map3ReleaseBundle:Release:view.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $release->getProduct(),
                 'release' => $release,
             )
@@ -153,7 +153,7 @@ class ReleaseController extends AbstractCoreController
         return $this->render(
             'Map3ReleaseBundle:Release:edit.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $release->getProduct(),
                 'release' => $release,
             )
@@ -218,7 +218,7 @@ class ReleaseController extends AbstractCoreController
         return $this->render(
             'Map3ReleaseBundle:Release:del.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $product,
                 'release' => $release,
             )
@@ -244,15 +244,15 @@ class ReleaseController extends AbstractCoreController
             'Map3BaselineBundle:Baseline'
         );
 
-        $child['baselines']  = $repositoryBln->countBaselinesByRelease(
+        $child['baselines'] = $repositoryBln->countBaselinesByRelease(
             $release
         );
 
         return $this->render(
             'Map3ReleaseBundle:Release:tabs.html.twig',
             array(
-                'release'   => $release,
-                'child'     => $child,
+                'release' => $release,
+                'child' => $child,
                 'activeTab' => $activeTab,
             )
         );

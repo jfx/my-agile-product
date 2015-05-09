@@ -70,14 +70,14 @@ class PasswordFactoryServiceTest extends WebTestCase
         $pass0 = $this->pfs->generatePassword();
         $this->assertEquals($this->defaultLength, strlen($pass0));
         $this->assertGreaterThan(
-            $this->defaultLength/2,
+            $this->defaultLength / 2,
             count(array_filter(count_chars($pass0)))
         );
 
         $pass1 = $this->pfs->generatePassword();
         $this->assertEquals($this->defaultLength, strlen($pass1));
         $this->assertGreaterThan(
-            $this->defaultLength/2,
+            $this->defaultLength / 2,
             count(array_filter(count_chars($pass1)))
         );
         $this->assertNotEquals($pass1, $pass0);

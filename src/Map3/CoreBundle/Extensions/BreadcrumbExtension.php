@@ -59,7 +59,7 @@ class BreadcrumbExtension extends Twig_Extension
         Router $router
     ) {
         $this->tokenStorage = $tokenStorage;
-        $this->router       = $router;
+        $this->router = $router;
     }
 
     /**
@@ -71,7 +71,7 @@ class BreadcrumbExtension extends Twig_Extension
      */
     public function breadcrumb(array $levels)
     {
-        $breadcrumb  = '<ol class="breadcrumb">';
+        $breadcrumb = '<ol class="breadcrumb">';
 
         $lvlCount = 0;
 

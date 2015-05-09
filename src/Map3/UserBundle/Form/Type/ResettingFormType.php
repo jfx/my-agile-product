@@ -60,7 +60,7 @@ class ResettingFormType extends FOS_ResettingFormType
             $view->vars,
             array(
                 'render_fieldset' => false,
-                'show_legend'     => false,
+                'show_legend' => false,
             )
         );
     }

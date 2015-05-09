@@ -60,7 +60,7 @@ class FeatureController extends AbstractCoreController
             'Map3BaselineBundle:Feature:index.html.twig',
             array(
                 'baseline' => $baseline,
-                'host'     => $host,
+                'host' => $host,
             )
         );
     }

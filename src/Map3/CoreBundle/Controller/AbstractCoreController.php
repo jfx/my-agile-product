@@ -164,7 +164,7 @@ abstract class AbstractCoreController extends Controller
     protected function getCurrentProductFromUserWithReset($reset = true)
     {
         $logger = $this->get('monolog.logger.uctx');
-        $msg  = 'CoreController->getCurrentProductFromUserWithReset(';
+        $msg = 'CoreController->getCurrentProductFromUserWithReset(';
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
@@ -222,7 +222,7 @@ abstract class AbstractCoreController extends Controller
     protected function getCurrentReleaseFromUserWithReset($reset = true)
     {
         $logger = $this->get('monolog.logger.uctx');
-        $msg  = 'CoreController->getCurrentReleaseFromUserWithReset(';
+        $msg = 'CoreController->getCurrentReleaseFromUserWithReset(';
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
@@ -280,7 +280,7 @@ abstract class AbstractCoreController extends Controller
     protected function getCurrentBaselineFromUserWithReset($reset = true)
     {
         $logger = $this->get('monolog.logger.uctx');
-        $msg  = 'CoreController->getCurrentBaselineFromUserWithReset(';
+        $msg = 'CoreController->getCurrentBaselineFromUserWithReset(';
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 

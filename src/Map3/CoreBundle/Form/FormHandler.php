@@ -80,11 +80,11 @@ class FormHandler
         LegacyValidator $validator,
         Session $session
     ) {
-        $this->form      = $form;
-        $this->request   = $request;
-        $this->em        = $em;
+        $this->form = $form;
+        $this->request = $request;
+        $this->em = $em;
         $this->validator = $validator;
-        $this->session   = $session;
+        $this->session = $session;
     }
 
     /**

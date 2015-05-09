@@ -79,7 +79,7 @@ class ProductController extends AbstractCoreController
         $this->unsetCurrentProduct();
 
         $product = new Product();
-        $form   = $this->createForm(new ProductType(), $product);
+        $form = $this->createForm(new ProductType(), $product);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -120,8 +120,8 @@ class ProductController extends AbstractCoreController
         return $this->render(
             'Map3ProductBundle:Product:view.html.twig',
             array(
-                'form'      => $form->createView(),
-                'product'   => $product,
+                'form' => $form->createView(),
+                'product' => $product,
             )
         );
     }
@@ -143,7 +143,7 @@ class ProductController extends AbstractCoreController
             array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE)
         );
 
-        $form    = $this->createForm(new ProductType(), $product);
+        $form = $this->createForm(new ProductType(), $product);
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
@@ -160,7 +160,7 @@ class ProductController extends AbstractCoreController
         return $this->render(
             'Map3ProductBundle:Product:edit.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $product,
             )
         );
@@ -218,7 +218,7 @@ class ProductController extends AbstractCoreController
         return $this->render(
             'Map3ProductBundle:Product:del.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $product,
             )
         );
@@ -247,14 +247,14 @@ class ProductController extends AbstractCoreController
             'Map3UserBundle:UserPdtRole'
         );
 
-        $child['releases']  = $repositoryRl->countReleasesByProduct($product);
+        $child['releases'] = $repositoryRl->countReleasesByProduct($product);
         $child['users'] = $repositoryUPR->countUsersByProduct($product);
 
         return $this->render(
             'Map3ProductBundle:Product:tabs.html.twig',
             array(
-                'product'   => $product,
-                'child'     => $child,
+                'product' => $product,
+                'child' => $child,
                 'activeTab' => $activeTab,
             )
         );

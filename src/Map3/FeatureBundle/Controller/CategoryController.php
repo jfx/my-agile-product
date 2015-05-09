@@ -62,7 +62,7 @@ class CategoryController extends AbstractCoreController
         return $this->render(
             'Map3FeatureBundle:Category:view.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'category' => $category,
             )
         );
@@ -105,7 +105,7 @@ class CategoryController extends AbstractCoreController
         return $this->render(
             'Map3FeatureBundle:Category:edit.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'category' => $category,
             )
         );

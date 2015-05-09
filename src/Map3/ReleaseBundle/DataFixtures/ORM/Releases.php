@@ -50,55 +50,55 @@ class Releases extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $dateR1 = new DateTime();
-        $dateR1->setDate(date('Y'), date('m')+1, 20)->setTime(12, 0, 0);
+        $dateR1->setDate(date('Y'), date('m') + 1, 20)->setTime(12, 0, 0);
         $dateR2 = new DateTime();
-        $dateR2->setDate(date('Y'), date('m')+2, 20)->setTime(12, 0, 0);
+        $dateR2->setDate(date('Y'), date('m') + 2, 20)->setTime(12, 0, 0);
         $dateR3 = new DateTime();
-        $dateR3->setDate(date('Y'), date('m')+3, 20)->setTime(12, 0, 0);
+        $dateR3->setDate(date('Y'), date('m') + 3, 20)->setTime(12, 0, 0);
         $dateR4 = new DateTime();
-        $dateR4->setDate(date('Y'), date('m')+2, 20)->setTime(12, 0, 0);
+        $dateR4->setDate(date('Y'), date('m') + 2, 20)->setTime(12, 0, 0);
 
         $dataArray = array(
             array(
-                'name'        => 'Release One',
-                'details'     => 'Details 4 release 1',
+                'name' => 'Release One',
+                'details' => 'Details 4 release 1',
                 'releaseDate' => $dateR1,
-                'closed'      => false,
-                'product'     => 'productone-product',
+                'closed' => false,
+                'product' => 'productone-product',
             ),
             array(
-                'name'        => 'Release Two',
-                'details'     => 'Details 4 release 2',
+                'name' => 'Release Two',
+                'details' => 'Details 4 release 2',
                 'releaseDate' => $dateR2,
-                'closed'      => false,
-                'product'     => 'productone-product',
+                'closed' => false,
+                'product' => 'productone-product',
             ),
             array(
-                'name'        => 'Release Closed',
-                'details'     => 'Details 4 release closed',
+                'name' => 'Release Closed',
+                'details' => 'Details 4 release closed',
                 'releaseDate' => new DateTime('2014-08-20 12:00:00'),
-                'closed'      => true,
-                'product'     => 'productone-product',
+                'closed' => true,
+                'product' => 'productone-product',
             ),
             array(
-                'name'        => 'Release Three',
-                'details'     => 'Details 4 release 3',
+                'name' => 'Release Three',
+                'details' => 'Details 4 release 3',
                 'releaseDate' => $dateR3,
-                'closed'      => false,
-                'product'     => 'producttwo-product',
+                'closed' => false,
+                'product' => 'producttwo-product',
             ),
             array(
-                'name'        => 'Release Four',
-                'details'     => 'Details 4 release 4',
+                'name' => 'Release Four',
+                'details' => 'Details 4 release 4',
                 'releaseDate' => $dateR4,
-                'closed'      => false,
-                'product'     => 'productthree-product',
+                'closed' => false,
+                'product' => 'productthree-product',
             ),            array(
-                'name'        => 'Release Five',
-                'details'     => 'Details 4 release 5',
+                'name' => 'Release Five',
+                'details' => 'Details 4 release 5',
                 'releaseDate' => $dateR4,
-                'closed'      => false,
-                'product'     => 'productfour-product',
+                'closed' => false,
+                'product' => 'productfour-product',
             ),
         );
         $objectList = array();

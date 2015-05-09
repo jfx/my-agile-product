@@ -85,7 +85,7 @@ class BaselineRepository extends EntityRepository
      */
     public function findAvailableBaselinesByUser(User $user)
     {
-        $sql  = ' select b.id as b_id, b.name as b_name,';
+        $sql = ' select b.id as b_id, b.name as b_name,';
         $sql .= ' b.baselinedatetime as b_date,';
         $sql .= ' r.id as r_id, r.name as r_name, r.releasedate as r_date,';
         $sql .= ' p.name as p_name';

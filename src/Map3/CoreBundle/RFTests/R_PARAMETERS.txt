@@ -18,6 +18,6 @@ ${LOG_PATH}       /opt/Dropbox/Nprojects/Map3/app/logs
 ${CONFIG_PATH}    /opt/Dropbox/Nprojects/Map3/app/config
 ${FORBIDDEN_ACCESS_TEXT}    403 Forbidden
 ${IMAP_SERVER}    imap.gmail.com
-${COOKIE_LIFETIME}    10
-${WAIT_TIMEOUT}    10
+${COOKIE_LIFETIME}    20
+${WAIT_TIMEOUT}    25
 ${WAIT_AJAX}      5

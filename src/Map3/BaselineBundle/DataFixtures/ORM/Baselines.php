@@ -50,72 +50,72 @@ class Baselines extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $dateB1 = new DateTime();
-        $dateB1->setDate(date('Y'), date('m')+1, 10)->setTime(12, 0, 0);
+        $dateB1->setDate(date('Y'), date('m') + 1, 10)->setTime(12, 0, 0);
         $dateB2 = new DateTime();
-        $dateB2->setDate(date('Y'), date('m')+1, 15)->setTime(12, 0, 0);
+        $dateB2->setDate(date('Y'), date('m') + 1, 15)->setTime(12, 0, 0);
         $dateB3 = new DateTime();
-        $dateB3->setDate(date('Y'), date('m')+1, 15)->setTime(12, 0, 0);
+        $dateB3->setDate(date('Y'), date('m') + 1, 15)->setTime(12, 0, 0);
         $dateB4 = new DateTime();
-        $dateB4->setDate(date('Y'), date('m')+2, 15)->setTime(12, 0, 0);
+        $dateB4->setDate(date('Y'), date('m') + 2, 15)->setTime(12, 0, 0);
         $dateB5 = new DateTime();
-        $dateB5->setDate(date('Y'), date('m')+1, 15)->setTime(12, 0, 0);
+        $dateB5->setDate(date('Y'), date('m') + 1, 15)->setTime(12, 0, 0);
 
         $dataArray = array(
             array(
-                'name'         => 'Baseline One',
-                'details'      => 'Details 4 baseline 1',
+                'name' => 'Baseline One',
+                'details' => 'Details 4 baseline 1',
                 'baselineDate' => $dateB1,
-                'closed'       => false,
-                'release'      => 'releaseone-release',
+                'closed' => false,
+                'release' => 'releaseone-release',
             ),
             array(
-                'name'         => 'Baseline Two',
-                'details'      => 'Details 4 baseline 2',
+                'name' => 'Baseline Two',
+                'details' => 'Details 4 baseline 2',
                 'baselineDate' => $dateB2,
-                'closed'       => false,
-                'release'      => 'releaseone-release',
+                'closed' => false,
+                'release' => 'releaseone-release',
             ),
             array(
-                'name'         => 'Baseline Closed',
-                'details'      => 'Details 4 baseline closed',
+                'name' => 'Baseline Closed',
+                'details' => 'Details 4 baseline closed',
                 'baselineDate' => new DateTime('2014-08-02 12:00:00'),
-                'closed'       => true,
-                'release'      => 'releaseone-release',
+                'closed' => true,
+                'release' => 'releaseone-release',
             ),
             array(
-                'name'         => 'Baseline Three',
-                'details'      => 'Details 4 baseline 3',
+                'name' => 'Baseline Three',
+                'details' => 'Details 4 baseline 3',
                 'baselineDate' => $dateB3,
-                'closed'       => false,
-                'release'      => 'releasetwo-release',
+                'closed' => false,
+                'release' => 'releasetwo-release',
             ),
             array(
-                'name'         => 'Baseline Six',
-                'details'      => 'Details 4 baseline 6',
+                'name' => 'Baseline Six',
+                'details' => 'Details 4 baseline 6',
                 'baselineDate' => $dateB4,
-                'closed'       => false,
-                'release'      => 'releasetwo-release',
+                'closed' => false,
+                'release' => 'releasetwo-release',
             ),
             array(
-                'name'         => 'Baseline Four',
-                'details'      => 'Details 4 baseline 4',
+                'name' => 'Baseline Four',
+                'details' => 'Details 4 baseline 4',
                 'baselineDate' => $dateB4,
-                'closed'       => false,
-                'release'      => 'releasethree-release',
+                'closed' => false,
+                'release' => 'releasethree-release',
             ),
             array(
-                'name'         => 'Baseline Five',
-                'details'      => 'Details 4 baseline 5',
+                'name' => 'Baseline Five',
+                'details' => 'Details 4 baseline 5',
                 'baselineDate' => $dateB5,
-                'closed'       => false,
-                'release'      => 'releasefour-release',
+                'closed' => false,
+                'release' => 'releasefour-release',
             ),
             array(
-                'name'         => 'Baseline Closed 4 release closed',
-                'details'      => 'Details 4 baseline closed',
+                'name' => 'Baseline Closed 4 release closed',
+                'details' => 'Details 4 baseline closed',
                 'baselineDate' => new DateTime('2014-08-15 12:00:00'),
-                'closed'       => true,
-                'release'      => 'releaseclosed-release',
+                'closed' => true,
+                'release' => 'releaseclosed-release',
             ),
         );
         $objectList = array();

@@ -59,7 +59,7 @@ class ProductType extends AbstractDefaultType
                 'textarea',
                 array(
                     'required' => false,
-                    'attr'  => array(
+                    'attr' => array(
                         'rows' => 4,
                     ),
                 )

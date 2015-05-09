@@ -5,6 +5,16 @@ I go to features tree
     I click action button    ${baseline}
     Click link    id=a_features
 
+I fill in category form
+    [Arguments]    ${category}
+    Input text    map3_category_name    ${category}
+    Input text    map3_category_details    Details 4 ${category}
+
+I check category view form
+    [Arguments]    ${category}
+    Disabled text element should contain    map3_category_name    ${category}
+    Selenium2Library.Element Text Should Be    map3_category_details    Details 4 ${category}
+
 RequestLifetimeSetup
     SetLifetime
     EnvPrerequisite

@@ -60,8 +60,8 @@ class LoginListener extends AbstractSetRoleService
         LocaleDateExtension $dateExtension
     ) {
         $this->entityManager = $entityManager;
-        $this->userManager   = $userManager;
-        $this->logger        = $logger;
+        $this->userManager = $userManager;
+        $this->logger = $logger;
         $this->dateExtension = $dateExtension;
     }
 
@@ -105,7 +105,7 @@ class LoginListener extends AbstractSetRoleService
             $formatedReleaseDate = $this->dateExtension->localeDateFilter(
                 $releaseDate
             );
-            $releaseLabel  = $row['p_name'].' / '.$row['r_name'].' : ';
+            $releaseLabel = $row['p_name'].' / '.$row['r_name'].' : ';
             $releaseLabel .= $formatedReleaseDate;
 
             if (!array_key_exists($releaseLabel, $baselines)) {
