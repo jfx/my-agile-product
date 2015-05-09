@@ -21,7 +21,7 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
-### 0.6.0 ()
+### 0.6.0 (09 may 2015)
 Features:
 
   - Remove all children (Reference and category) when removing a baseline - #47,

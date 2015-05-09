@@ -105,7 +105,7 @@ fos_user:
             template: Map3UserBundle:User:resetting.email.html.twig
 
 parameters:
-    app.version:               0.5.0
+    app.version:               0.6.0
     app.build:                 BBB
     app.formatDate:            dd/mm/yyyy
     app.codeCoverage: false
