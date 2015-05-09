@@ -26,6 +26,7 @@ Features:
 
   - Remove all children (Reference and category) when removing a baseline - #47,
   - Unit tests for PasswordFactoryService - #36,
+  - Edit a category - #42.
 
 Bugfixes:
 

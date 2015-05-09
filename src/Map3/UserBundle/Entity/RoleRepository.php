@@ -19,6 +19,7 @@
 
 namespace Map3\UserBundle\Entity;
 
+use Doctrine\ORM\QueryBuilder;
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
 
 /**
@@ -38,7 +39,7 @@ class RoleRepository extends SortableRepository
     /**
      * Get the default role (user).
      *
-     * @return Role
+     * @return object Role object
      */
     public function findDefaultRole()
     {
