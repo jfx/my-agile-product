@@ -83,7 +83,7 @@ class Category
     private $lft;
 
     /**
-     * @var int Right value
+     * @var int Level
      *
      * @Gedmo\TreeLevel
      * @ORM\Column(name="lvl", type="integer")
@@ -91,6 +91,8 @@ class Category
     private $lvl;
 
     /**
+     * @var int Right value
+     *
      * @Gedmo\TreeRight
      * @ORM\Column(name="rgt", type="integer")
      */

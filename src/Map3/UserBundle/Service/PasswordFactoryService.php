@@ -34,12 +34,12 @@ namespace Map3\UserBundle\Service;
 class PasswordFactoryService
 {
     /**
-     * @var int Default length of generated password.
+     * @var int Default length of generated password
      */
     protected $defaultLength;
 
     /**
-     * @var string Available characters for password.
+     * @var string Available characters for password
      */
     protected static $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?';
 

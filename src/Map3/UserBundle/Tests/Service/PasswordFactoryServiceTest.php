@@ -37,12 +37,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class PasswordFactoryServiceTest extends WebTestCase
 {
     /**
-     * @var PasswordFactoryService
+     * @var PasswordFactoryService Password factory service
      */
     private $pfs;
 
     /**
-     * @var int
+     * @var int Default length
      */
     private $defaultLength;
 

@@ -62,7 +62,7 @@ class CoverageListener
     protected $coverageDir;
 
     /**
-     * @static string Directory name of code coverage files
+     * @var string Directory name of code coverage files
      */
     protected static $coverageDirName = 'coverage';
 
@@ -72,7 +72,7 @@ class CoverageListener
     protected $testName = 'Coverage tests';
 
     /**
-     * @static string Name of file that contains test name
+     * @var string Name of file that contains test name
      */
     protected static $testNameFile = 'testName.txt';
 
