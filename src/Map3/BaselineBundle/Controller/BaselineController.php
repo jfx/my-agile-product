@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -23,6 +24,7 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\BaselineBundle\Form\BaselineType;
 use Map3\CoreBundle\Controller\AbstractCoreController;
+use Map3\FeatureBundle\Entity\Category;
 use Map3\ReleaseBundle\Entity\Release;
 use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,13 +34,13 @@ use Symfony\Component\HttpFoundation\Response;
  * Baseline controller class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class BaselineController extends AbstractCoreController
 {
@@ -62,15 +64,19 @@ class BaselineController extends AbstractCoreController
         $baseline = new Baseline();
         $baseline->setRelease($release);
 
-        $form   = $this->createForm(
-            new BaselineType($this->container),
-            $baseline
-        );
+        $form = $this->createForm(new BaselineType(), $baseline);
 
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
             $id = $baseline->getId();
+
+            $entityManager = $this->container->get('doctrine')->getManager();
+            $category = new Category();
+            $category->setName($baseline->getName());
+            $category->setBaseline($baseline);
+            $entityManager->persist($category);
+            $entityManager->flush();
 
             $this->get('session')->getFlashBag()
                 ->add('success', 'Baseline added successfully !');
@@ -83,7 +89,7 @@ class BaselineController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Baseline:add.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'release' => $release,
             )
         );
@@ -102,22 +108,22 @@ class BaselineController extends AbstractCoreController
     {
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
-        $baselineType = new BaselineType($this->container);
+        $baselineType = new BaselineType();
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
         return $this->render(
             'Map3BaselineBundle:Baseline:view.html.twig',
             array(
-                'form'     => $form->createView(),
-                'release'  => $baseline->getRelease(),
+                'form' => $form->createView(),
+                'release' => $baseline->getRelease(),
                 'baseline' => $baseline,
             )
         );
     }
 
     /**
-     * Edit a baseline
+     * Edit a baseline.
      *
      * @param Baseline $baseline The baseline to edit
      * @param Request  $request  The request
@@ -133,10 +139,7 @@ class BaselineController extends AbstractCoreController
             array(Role::USERPLUS_ROLE, Role::RLS_OPEN_ROLE)
         );
 
-        $form = $this->createForm(
-            new BaselineType($this->container),
-            $baseline
-        );
+        $form = $this->createForm(new BaselineType(), $baseline);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -157,15 +160,15 @@ class BaselineController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Baseline:edit.html.twig',
             array(
-                'form'     => $form->createView(),
-                'release'  => $baseline->getRelease(),
+                'form' => $form->createView(),
+                'release' => $baseline->getRelease(),
                 'baseline' => $baseline,
             )
         );
     }
 
     /**
-     * Delete a baseline
+     * Delete a baseline.
      *
      * @param Baseline $baseline The baseline to delete.
      *
@@ -218,22 +221,22 @@ class BaselineController extends AbstractCoreController
             }
         }
 
-        $baselineType = new BaselineType($this->container);
+        $baselineType = new BaselineType();
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
         return $this->render(
             'Map3BaselineBundle:Baseline:del.html.twig',
             array(
-                'form'     => $form->createView(),
-                'release'  => $release,
+                'form' => $form->createView(),
+                'release' => $release,
                 'baseline' => $baseline,
             )
         );
     }
 
     /**
-     * View a baseline in right panel of tree
+     * View a baseline in right panel of tree.
      *
      * @param Baseline $baseline The baseline to view.
      *
@@ -245,7 +248,7 @@ class BaselineController extends AbstractCoreController
     {
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
-        $baselineType = new BaselineType($this->container);
+        $baselineType = new BaselineType();
         $baselineType->setDisabled();
         $form = $this->createForm($baselineType, $baseline);
 
@@ -253,13 +256,13 @@ class BaselineController extends AbstractCoreController
             'Map3BaselineBundle:Baseline:node.html.twig',
             array(
                 'form' => $form->createView(),
-                'baseline'  => $baseline,
+                'baseline' => $baseline,
             )
         );
     }
 
     /**
-     * Tab for baseline
+     * Tab for baseline.
      *
      * @param string $activeTab The active tab
      *
@@ -277,15 +280,15 @@ class BaselineController extends AbstractCoreController
             'Map3BaselineBundle:Reference'
         );
 
-        $child['references']  = $repositoryRef->countReferencesByBaseline(
+        $child['references'] = $repositoryRef->countReferencesByBaseline(
             $baseline
         );
 
         return $this->render(
             'Map3BaselineBundle:Baseline:tabs.html.twig',
             array(
-                'baseline'  => $baseline,
-                'child'     => $child,
+                'baseline' => $baseline,
+                'child' => $child,
                 'activeTab' => $activeTab,
             )
         );

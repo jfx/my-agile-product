@@ -46,3 +46,12 @@ Category view Request
     Then I check the following ACL by request    /bln-ftree/1/node?id=C_9    True    True    True    True    True
     ...    False    True
     [Teardown]    EnvPostrequisite
+
+Category edit Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-cat/edit/9    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite

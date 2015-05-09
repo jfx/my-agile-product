@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,10 +26,11 @@ use Map3\ProductBundle\Entity\Product;
  * UserPdtRole entity class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
@@ -62,7 +64,7 @@ class UserPdtRole
     protected $role;
 
     /**
-     * Set User
+     * Set User.
      *
      * @param User $user The user
      *
@@ -76,7 +78,7 @@ class UserPdtRole
     }
 
     /**
-     * Get User
+     * Get User.
      *
      * @return User
      */
@@ -86,7 +88,7 @@ class UserPdtRole
     }
 
     /**
-     * Set Product
+     * Set Product.
      *
      * @param Product $pdt The product
      *
@@ -100,7 +102,7 @@ class UserPdtRole
     }
 
     /**
-     * Get Product
+     * Get Product.
      *
      * @return Product
      */
@@ -110,7 +112,7 @@ class UserPdtRole
     }
 
     /**
-     * Set role
+     * Set role.
      *
      * @param Role $role The role
      *
@@ -124,7 +126,7 @@ class UserPdtRole
     }
 
     /**
-     * Get role
+     * Get role.
      *
      * @return Role
      */
@@ -134,7 +136,7 @@ class UserPdtRole
     }
 
     /**
-     * Get name and firstname of user
+     * Get name and firstname of user.
      *
      * @return string
      */

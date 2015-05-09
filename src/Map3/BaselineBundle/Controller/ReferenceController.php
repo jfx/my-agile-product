@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -31,18 +32,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Reference controller class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class ReferenceController extends AbstractCoreController
 {
     /**
-     * List of references
+     * List of references.
      *
      * @param Baseline $baseline The baseline
      *
@@ -63,7 +64,7 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:index.html.twig',
             array(
-                'refs'     => $refs,
+                'refs' => $refs,
                 'baseline' => $baseline,
             )
         );
@@ -107,14 +108,14 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:add.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'baseline' => $baseline,
             )
         );
     }
 
     /**
-     * Edit a reference
+     * Edit a reference.
      *
      * @param Reference $reference The reference to edit
      * @param Request   $request   The request
@@ -149,14 +150,14 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:edit.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'baseline' => $baseline,
             )
         );
     }
 
     /**
-     * Delete a reference
+     * Delete a reference.
      *
      * @param Reference $reference The reference to edit
      *
@@ -195,7 +196,7 @@ class ReferenceController extends AbstractCoreController
         return $this->render(
             'Map3BaselineBundle:Reference:del.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'baseline' => $baseline,
             )
         );

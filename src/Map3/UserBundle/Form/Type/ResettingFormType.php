@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,10 +27,11 @@ use Symfony\Component\Form\FormView;
  * Resetting password form class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -48,8 +50,6 @@ class ResettingFormType extends FOS_ResettingFormType
      * @param FormView      $view    The view
      * @param FormInterface $form    The form
      * @param array         $options The options
-     *
-     * @return void
      */
     public function buildView(
         FormView $view,
@@ -60,7 +60,7 @@ class ResettingFormType extends FOS_ResettingFormType
             $view->vars,
             array(
                 'render_fieldset' => false,
-                'show_legend'     => false,
+                'show_legend' => false,
             )
         );
     }
@@ -72,6 +72,6 @@ class ResettingFormType extends FOS_ResettingFormType
      */
     public function getName()
     {
-        return "map3_resettingformtype";
+        return 'map3_resettingformtype';
     }
 }

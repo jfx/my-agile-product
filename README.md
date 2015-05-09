@@ -21,6 +21,21 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.6.0 (09 may 2015)
+Features:
+
+  - Remove all children (Reference and category) when removing a baseline - #47,
+  - Unit tests for PasswordFactoryService - #36,
+  - Edit a category - #42.
+
+Bugfixes:
+
+  - Remove container in constructor parameter of baseline and release type - #48,
+  - Add a default category when adding a baseline - #46,
+  - Remove warning in Robot Framework log - #50,
+  - Improvement of check jenkins job. Fix PHP_CodeSniffer issues - #53,
+
+
 ### 0.5.0 (07 April 2015)
 Features:
 

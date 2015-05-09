@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,10 +26,11 @@ use Map3\ProductBundle\Entity\Product;
  * Release entity repository class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */

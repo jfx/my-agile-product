@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -18,7 +19,7 @@
 
 namespace Map3\FeatureBundle\Controller;
 
-use \Exception;
+use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
@@ -31,13 +32,13 @@ use Symfony\Component\HttpFoundation\Response;
  * Feature controller class.
  *
  * @category  MyAgileProduct
- * @package   Feature
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class TreeController extends AbstractJsonCoreController
 {
@@ -45,7 +46,7 @@ class TreeController extends AbstractJsonCoreController
     const CATEGORY = 'CAT';
 
     /**
-     * Get children for a parent
+     * Get children for a parent.
      *
      * @param Baseline $baseline The baseline
      * @param Request  $request  The request
@@ -96,7 +97,7 @@ class TreeController extends AbstractJsonCoreController
     }
 
     /**
-     * Display node details on right panel
+     * Display node details on right panel.
      *
      * @param int     $bid     The baseline id
      * @param Request $request The request
@@ -118,23 +119,25 @@ class TreeController extends AbstractJsonCoreController
         switch ($idType['type']) {
             case self::BASELINE:
                 $response = $this->forward(
-                    "Map3BaselineBundle:Baseline:node",
+                    'Map3BaselineBundle:Baseline:node',
                     array('id' => $bid)
                 );
                 break;
             case self::CATEGORY:
                 $response = $this->forward(
-                    "Map3FeatureBundle:Category:view",
+                    'Map3FeatureBundle:Category:view',
                     array('id' => $idType['id'])
                 );
                 break;
+            default:
+                return $this->jsonResponseFactory(404, 'Wrong type of node');
         }
 
         return $this->html2jsonResponse($response);
     }
 
     /**
-     * Get node Id and type from jstree id
+     * Get node Id and type from jstree id.
      *
      * @param string $typeNodeId Id from jstree
      *

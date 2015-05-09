@@ -14,6 +14,10 @@ function buttonClick() {
     $.get('{{ path('bln-cat_edit', {'id': category.id}) }}', function (resp) {
         $("div.node-panel").hide();
         $("div.node-panel").html(resp).show();
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+        displayError(jqXHR.responseJSON.message, jqXHR.status);
+        $("div.node-panel").hide();
     });
 }
 </script>

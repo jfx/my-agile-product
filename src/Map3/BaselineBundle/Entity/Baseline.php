@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,10 +28,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Baseline entity class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
@@ -40,7 +42,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Baseline
 {
     /**
-     * @var integer Id
+     * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -71,7 +73,7 @@ class Baseline
     protected $baselineDatetime;
 
     /**
-     * @var boolean Release closed or not.
+     * @var bool Release closed or not.
      *
      * @ORM\Column(name="closed", type="boolean")
      */
@@ -86,9 +88,9 @@ class Baseline
     protected $release;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -96,7 +98,7 @@ class Baseline
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name Name of release.
      *
@@ -110,7 +112,7 @@ class Baseline
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -120,7 +122,7 @@ class Baseline
     }
 
     /**
-     * Set details
+     * Set details.
      *
      * @param string $details Details
      *
@@ -134,7 +136,7 @@ class Baseline
     }
 
     /**
-     * Get details
+     * Get details.
      *
      * @return string
      */
@@ -170,7 +172,7 @@ class Baseline
     /**
      * Is release closed or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function isClosed()
     {
@@ -178,9 +180,9 @@ class Baseline
     }
 
     /**
-     * Set closed status
+     * Set closed status.
      *
-     * @param boolean $closed Closed status.
+     * @param bool $closed Closed status.
      *
      * @return Baseline
      */
@@ -192,7 +194,7 @@ class Baseline
     }
 
     /**
-     * Set release
+     * Set release.
      *
      * @param Release $rls The release
      *
@@ -206,7 +208,7 @@ class Baseline
     }
 
     /**
-     * Get Release
+     * Get Release.
      *
      * @return Release
      */

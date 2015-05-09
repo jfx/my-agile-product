@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,10 +28,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Feature category entity class.
  *
  * @category  MyAgileProduct
- * @package   Feature
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
@@ -41,7 +43,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Category
 {
     /**
-     * @var integer Id
+     * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -68,12 +70,12 @@ class Category
      * @var Baseline Baseline
      *
      * @ORM\ManyToOne(targetEntity="Map3\BaselineBundle\Entity\Baseline")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $baseline;
 
     /**
-     * @var integer Left value
+     * @var int Left value
      *
      * @Gedmo\TreeLeft
      * @ORM\Column(name="lft", type="integer")
@@ -81,7 +83,7 @@ class Category
     private $lft;
 
     /**
-     * @var integer Right value
+     * @var int Level
      *
      * @Gedmo\TreeLevel
      * @ORM\Column(name="lvl", type="integer")
@@ -89,13 +91,15 @@ class Category
     private $lvl;
 
     /**
+     * @var int Right value
+     *
      * @Gedmo\TreeRight
      * @ORM\Column(name="rgt", type="integer")
      */
     private $rgt;
 
     /**
-     * @var integer Id of root node
+     * @var int Id of root node
      *
      * @Gedmo\TreeRoot
      * @ORM\Column(name="root", type="integer", nullable=true)
@@ -120,9 +124,9 @@ class Category
     private $children;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -130,7 +134,7 @@ class Category
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name Name of release.
      *
@@ -144,7 +148,7 @@ class Category
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -154,7 +158,7 @@ class Category
     }
 
     /**
-     * Set details
+     * Set details.
      *
      * @param string $details Details
      *
@@ -168,7 +172,7 @@ class Category
     }
 
     /**
-     * Get details
+     * Get details.
      *
      * @return string
      */
@@ -178,7 +182,7 @@ class Category
     }
 
     /**
-     * Set baseline
+     * Set baseline.
      *
      * @param Baseline $bln The baseline
      *
@@ -192,7 +196,7 @@ class Category
     }
 
     /**
-     * Get Baseline
+     * Get Baseline.
      *
      * @return Baseline
      */
@@ -202,7 +206,7 @@ class Category
     }
 
     /**
-     * Set parent
+     * Set parent.
      *
      * @param Category $parent Parent node
      *
@@ -216,7 +220,7 @@ class Category
     }
 
     /**
-     * Get parent node
+     * Get parent node.
      *
      * @return Category
      */

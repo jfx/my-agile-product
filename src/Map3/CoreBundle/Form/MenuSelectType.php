@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,10 +26,11 @@ use Symfony\Component\Form\FormBuilderInterface;
  * Menu select form class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -40,7 +42,7 @@ class MenuSelectType extends AbstractDefaultType
     protected $user;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param User $user The user.
      */
@@ -54,8 +56,6 @@ class MenuSelectType extends AbstractDefaultType
      *
      * @param FormBuilderInterface $builder Form builder.
      * @param array                $options Array of options.
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -84,7 +84,7 @@ class MenuSelectType extends AbstractDefaultType
                         'data' => $currentBaselineId,
                         'horizontal_input_wrapper_class' => 'col-lg-12',
                         'attr' => array(
-                            'onChange' => "this.form.submit()",
+                            'onChange' => 'this.form.submit()',
                         ),
                     )
                 );
@@ -98,7 +98,7 @@ class MenuSelectType extends AbstractDefaultType
                         'placeholder' => '',
                         'horizontal_input_wrapper_class' => 'col-lg-12',
                         'attr' => array(
-                            'onChange' => "this.form.submit()",
+                            'onChange' => 'this.form.submit()',
                         ),
                     )
                 );
@@ -123,6 +123,6 @@ class MenuSelectType extends AbstractDefaultType
      */
     public function getRoute()
     {
-        return "map3_core_select";
+        return 'map3_core_select';
     }
 }

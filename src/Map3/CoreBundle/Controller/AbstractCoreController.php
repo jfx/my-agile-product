@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -32,18 +33,18 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Core controller class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 abstract class AbstractCoreController extends Controller
 {
     /**
-     * Get the form handler
+     * Get the form handler.
      *
      * @param Form    $form    The form to display.
      * @param Request $request The request.
@@ -64,11 +65,9 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Check if user is granted for all given roles
+     * Check if user is granted for all given roles.
      *
      * @param string[] $roles The list of roles
-     *
-     * @return void
      *
      * @throws AccessDeniedException
      */
@@ -94,11 +93,9 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Check if user is granted for one given role
+     * Check if user is granted for one given role.
      *
      * @param string[] $roles The list of roles
-     *
-     * @return void
      *
      * @throws AccessDeniedException
      */
@@ -120,12 +117,10 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Set product in context
+     * Set product in context.
      *
      * @param Product  $product The product.
      * @param string[] $roles   Roles to check.
-     *
-     * @return void
      */
     protected function setCurrentProduct(Product $product, array $roles)
     {
@@ -140,13 +135,11 @@ abstract class AbstractCoreController extends Controller
         $this->userIsGranted($roles);
     }
 
-        /**
-     * Set product in context
+    /**
+     * Set product in context.
      *
      * @param Product  $product The product.
      * @param string[] $roles   Roles to check.
-     *
-     * @return void
      */
     protected function setCurrentProductAnyRole(Product $product, array $roles)
     {
@@ -164,14 +157,14 @@ abstract class AbstractCoreController extends Controller
     /**
      * Return the current product from user context.
      *
-     * @param boolean $reset Reset release and above
+     * @param bool $reset Reset release and above
      *
      * @return Product
      */
     protected function getCurrentProductFromUserWithReset($reset = true)
     {
         $logger = $this->get('monolog.logger.uctx');
-        $msg  = 'CoreController->getCurrentProductFromUserWithReset(';
+        $msg = 'CoreController->getCurrentProductFromUserWithReset(';
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
@@ -187,9 +180,7 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Unset product in context
-     *
-     * @return void
+     * Unset product in context.
      */
     protected function unsetCurrentProduct()
     {
@@ -203,12 +194,10 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Set release in context
+     * Set release in context.
      *
      * @param Release  $release The release.
      * @param string[] $roles   Roles to check.
-     *
-     * @return void
      */
     protected function setCurrentRelease(Release $release, array $roles)
     {
@@ -226,14 +215,14 @@ abstract class AbstractCoreController extends Controller
     /**
      * Return the current release from user context.
      *
-     * @param boolean $reset Reset baseline and above
+     * @param bool $reset Reset baseline and above
      *
      * @return Release
      */
     protected function getCurrentReleaseFromUserWithReset($reset = true)
     {
         $logger = $this->get('monolog.logger.uctx');
-        $msg  = 'CoreController->getCurrentReleaseFromUserWithReset(';
+        $msg = 'CoreController->getCurrentReleaseFromUserWithReset(';
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
@@ -249,9 +238,7 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Unset release in context
-     *
-     * @return void
+     * Unset release in context.
      */
     protected function unsetCurrentRelease()
     {
@@ -265,12 +252,10 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Set baseline in context
+     * Set baseline in context.
      *
      * @param Baseline $baseline The baseline
      * @param string[] $roles    Roles to check
-     *
-     * @return void
      */
     protected function setCurrentBaseline(Baseline $baseline, array $roles)
     {
@@ -288,14 +273,14 @@ abstract class AbstractCoreController extends Controller
     /**
      * Return the current baseline from user context.
      *
-     * @param boolean $reset Reset baseline and above
+     * @param bool $reset Reset baseline and above
      *
      * @return Release
      */
     protected function getCurrentBaselineFromUserWithReset($reset = true)
     {
         $logger = $this->get('monolog.logger.uctx');
-        $msg  = 'CoreController->getCurrentBaselineFromUserWithReset(';
+        $msg = 'CoreController->getCurrentBaselineFromUserWithReset(';
         $msg .= var_export($reset, true).')';
         $logger->debug($msg);
 
@@ -307,9 +292,7 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * Unset baseline in context
-     *
-     * @return void
+     * Unset baseline in context.
      */
     protected function unsetCurrentBaseline()
     {
@@ -323,11 +306,9 @@ abstract class AbstractCoreController extends Controller
     }
 
     /**
-     * catch Integrity constraint violation
+     * catch Integrity constraint violation.
      *
      * @param DBALException $e Exception
-     *
-     * @return void
      *
      * @throws DBALException
      */

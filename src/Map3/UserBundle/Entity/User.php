@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -30,10 +31,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * User entity class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
@@ -47,7 +49,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User extends BaseUser
 {
     /**
-     * @var integer Id
+     * @var int Id
      *
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -122,7 +124,7 @@ class User extends BaseUser
     private $availableBaselines;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -131,7 +133,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name The name
      *
@@ -145,7 +147,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -155,7 +157,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set firstname
+     * Set firstname.
      *
      * @param string $firstname The firstname
      *
@@ -169,7 +171,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get firstname
+     * Get firstname.
      *
      * @return string
      */
@@ -179,7 +181,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set displayname
+     * Set displayname.
      *
      * @param string $displayname The displayname
      *
@@ -193,7 +195,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get displayname
+     * Get displayname.
      *
      * @return string
      */
@@ -203,7 +205,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set details
+     * Set details.
      *
      * @param string $details The details
      *
@@ -217,7 +219,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get details
+     * Get details.
      *
      * @return string
      */
@@ -227,7 +229,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set current product
+     * Set current product.
      *
      * @param Product $pdt The current product
      *
@@ -241,7 +243,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get current product
+     * Get current product.
      *
      * @return Product
      */
@@ -251,7 +253,7 @@ class User extends BaseUser
     }
 
     /**
-     * unset current product
+     * unset current product.
      *
      * @return User
      */
@@ -265,7 +267,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set current release
+     * Set current release.
      *
      * @param Release $rl The current release
      *
@@ -283,7 +285,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get current release
+     * Get current release.
      *
      * @return Release
      */
@@ -293,7 +295,7 @@ class User extends BaseUser
     }
 
     /**
-     * unset current release
+     * unset current release.
      *
      * @return User
      */
@@ -307,7 +309,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set current baseline
+     * Set current baseline.
      *
      * @param Baseline $bln The current baseline
      *
@@ -325,7 +327,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get current baseline
+     * Get current baseline.
      *
      * @return Baseline
      */
@@ -335,7 +337,7 @@ class User extends BaseUser
     }
 
     /**
-     * unset current baseline
+     * unset current baseline.
      *
      * @return User
      */
@@ -348,7 +350,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set current role label
+     * Set current role label.
      *
      * @param string $crl Label of the role.
      *
@@ -362,7 +364,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get current role label
+     * Get current role label.
      *
      * @return string
      */
@@ -372,7 +374,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set available baselines
+     * Set available baselines.
      *
      * @param array $baselines List of baselines
      *
@@ -386,7 +388,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get available baselines
+     * Get available baselines.
      *
      * @return array
      */
@@ -396,7 +398,7 @@ class User extends BaseUser
     }
 
     /**
-     * unset product role
+     * unset product role.
      *
      * @return User
      */
@@ -414,7 +416,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set password
+     * Set password.
      *
      * @param string $password The new password
      *
@@ -430,7 +432,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get an empty password
+     * Get an empty password.
      *
      * @return string
      */
@@ -440,7 +442,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get Name and firstname
+     * Get Name and firstname.
      *
      * @return string
      */

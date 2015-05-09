@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -24,13 +25,13 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  * Product bundle class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class Map3ProductBundle extends Bundle
 {

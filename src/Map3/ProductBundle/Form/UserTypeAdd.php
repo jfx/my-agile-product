@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,15 +27,15 @@ use Symfony\Component\Form\FormBuilderInterface;
  * User form class for add action.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
-class UserTypeAdd extends UserType
+class UserTypeAdd extends AbstractUserType
 {
     /**
      * Builds the form.
@@ -44,8 +45,6 @@ class UserTypeAdd extends UserType
      *
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -59,10 +58,9 @@ class UserTypeAdd extends UserType
                     'label' => 'User',
                     'class' => 'Map3\UserBundle\Entity\User',
                     'property' => 'nameFirstname',
-                    'query_builder' =>
-                        function (UserRepository $er) use ($product) {
+                    'query_builder' => function (UserRepository $er) use ($product) {
                             return $er->getQBAvailableUserByProduct($product);
-                        },
+                    },
                 )
             )
             ->add(

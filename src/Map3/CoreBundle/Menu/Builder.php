@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,17 +28,18 @@ use Symfony\Component\DependencyInjection\ContainerAware;
  * Menu builder class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class Builder extends ContainerAware
 {
     /**
-     * Create main menu
+     * Create main menu.
      *
      * @param FactoryInterface $factory Factory interface.
      * @param array            $options Options.
@@ -94,7 +96,7 @@ class Builder extends ContainerAware
     }
 
     /**
-     * Create right menu
+     * Create right menu.
      *
      * @param FactoryInterface $factory Factory interface.
      * @param array            $options Options.

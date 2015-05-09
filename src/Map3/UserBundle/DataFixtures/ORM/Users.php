@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -28,10 +29,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Load user data class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -49,7 +51,6 @@ class Users extends AbstractFixture implements
      *
      * @param ContainerInterface|null $container A ContainerInterface
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -59,11 +60,10 @@ class Users extends AbstractFixture implements
     }
 
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager The entity manager
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -71,58 +71,58 @@ class Users extends AbstractFixture implements
     {
         $dataArray = array(
             array(
-                'name'       => 'admin',
-                'details'    => 'Admin user',
+                'name' => 'admin',
+                'details' => 'Admin user',
                 'superadmin' => true,
-                'locked'     => false,
+                'locked' => false,
             ),
             array(
-                'name'       => 'user',
-                'details'    => 'user role on product 1 + user+ on product 2',
+                'name' => 'user',
+                'details' => 'user role on product 1 + user+ on product 2',
                 'superadmin' => false,
-                'locked'     => false,
+                'locked' => false,
             ),
             array(
-                'name'       => 'lock',
-                'details'    => 'Locked user',
+                'name' => 'lock',
+                'details' => 'Locked user',
                 'superadmin' => false,
-                'locked'     => true,
+                'locked' => true,
             ),
             array(
-                'name'       => 'd1-none',
-                'details'    => 'none role on product 1',
+                'name' => 'd1-none',
+                'details' => 'none role on product 1',
                 'superadmin' => false,
-                'locked'     => false,
+                'locked' => false,
             ),
             array(
-                'name'       => 'd1-guest',
-                'details'    => 'guest role on product 1',
+                'name' => 'd1-guest',
+                'details' => 'guest role on product 1',
                 'superadmin' => false,
-                'locked'     => false,
+                'locked' => false,
             ),
             array(
-                'name'       => 'd1-user+',
-                'details'    => 'user+ role on product 1',
+                'name' => 'd1-user+',
+                'details' => 'user+ role on product 1',
                 'superadmin' => false,
-                'locked'     => false,
+                'locked' => false,
             ),
             array(
-                'name'       => 'd1-manager',
-                'details'    => 'manager role on product 1',
+                'name' => 'd1-manager',
+                'details' => 'manager role on product 1',
                 'superadmin' => false,
-                'locked'     => false,
+                'locked' => false,
             ),
             array(
-                'name'       => 'd2-manager',
-                'details'    => 'manager role on product 2',
+                'name' => 'd2-manager',
+                'details' => 'manager role on product 2',
                 'superadmin' => false,
-                'locked'     => false,
+                'locked' => false,
             ),
             array(
-                'name'       => 'no-product',
-                'details'    => 'user with no role on product',
+                'name' => 'no-product',
+                'details' => 'user with no role on product',
                 'superadmin' => false,
-                'locked'     => false,
+                'locked' => false,
             ),
         );
 
@@ -154,9 +154,9 @@ class Users extends AbstractFixture implements
     }
 
     /**
-     * Get the order of this fixture
+     * Get the order of this fixture.
      *
-     * @return integer
+     * @return int
      *
      * @codeCoverageIgnore
      */

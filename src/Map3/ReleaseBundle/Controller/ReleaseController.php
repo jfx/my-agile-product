@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -32,13 +33,13 @@ use Symfony\Component\HttpFoundation\Response;
  * Release controller class.
  *
  * @category  MyAgileProduct
- * @package   Release
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class ReleaseController extends AbstractCoreController
 {
@@ -59,7 +60,7 @@ class ReleaseController extends AbstractCoreController
         $release = new Release();
         $release->setProduct($product);
 
-        $form = $this->createForm(new ReleaseType($this->container), $release);
+        $form = $this->createForm(new ReleaseType(), $release);
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
@@ -95,14 +96,14 @@ class ReleaseController extends AbstractCoreController
     {
         $this->setCurrentRelease($release, array(Role::GUEST_ROLE));
 
-        $releaseType = new ReleaseType($this->container);
+        $releaseType = new ReleaseType();
         $releaseType->setDisabled();
         $form = $this->createForm($releaseType, $release);
 
         return $this->render(
             'Map3ReleaseBundle:Release:view.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $release->getProduct(),
                 'release' => $release,
             )
@@ -110,7 +111,7 @@ class ReleaseController extends AbstractCoreController
     }
 
     /**
-     * Edit a release
+     * Edit a release.
      *
      * @param Release $release The release to edit
      * @param Request $request The request
@@ -123,7 +124,7 @@ class ReleaseController extends AbstractCoreController
     {
         $this->setCurrentRelease($release, array(Role::MANAGER_ROLE));
 
-        $form = $this->createForm(new ReleaseType($this->container), $release);
+        $form = $this->createForm(new ReleaseType(), $release);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -152,7 +153,7 @@ class ReleaseController extends AbstractCoreController
         return $this->render(
             'Map3ReleaseBundle:Release:edit.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $release->getProduct(),
                 'release' => $release,
             )
@@ -160,7 +161,7 @@ class ReleaseController extends AbstractCoreController
     }
 
     /**
-     * Delete a release
+     * Delete a release.
      *
      * @param Release $release The release to delete.
      *
@@ -210,14 +211,14 @@ class ReleaseController extends AbstractCoreController
             }
         }
 
-        $releaseType = new ReleaseType($this->container);
+        $releaseType = new ReleaseType();
         $releaseType->setDisabled();
         $form = $this->createForm($releaseType, $release);
 
         return $this->render(
             'Map3ReleaseBundle:Release:del.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $product,
                 'release' => $release,
             )
@@ -225,7 +226,7 @@ class ReleaseController extends AbstractCoreController
     }
 
     /**
-     * Tab for release
+     * Tab for release.
      *
      * @param string $activeTab The active tab
      *
@@ -243,15 +244,15 @@ class ReleaseController extends AbstractCoreController
             'Map3BaselineBundle:Baseline'
         );
 
-        $child['baselines']  = $repositoryBln->countBaselinesByRelease(
+        $child['baselines'] = $repositoryBln->countBaselinesByRelease(
             $release
         );
 
         return $this->render(
             'Map3ReleaseBundle:Release:tabs.html.twig',
             array(
-                'release'   => $release,
-                'child'     => $child,
+                'release' => $release,
+                'child' => $child,
                 'activeTab' => $activeTab,
             )
         );

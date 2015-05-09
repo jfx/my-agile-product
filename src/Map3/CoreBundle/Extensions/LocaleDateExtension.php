@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,10 +28,11 @@ use Twig_SimpleFilter;
  * Twig extension class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -42,7 +44,7 @@ class LocaleDateExtension extends Twig_Extension
     protected $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $containerInterface The container.
      */
@@ -99,6 +101,16 @@ class LocaleDateExtension extends Twig_Extension
     }
 
     /**
+     * Returns the name of the extension.
+     *
+     * @return string The extension name
+     */
+    public function getName()
+    {
+        return 'map_corebundle_localedate';
+    }
+
+    /**
      * Get a the format of a locale date.
      *
      * @return string
@@ -114,15 +126,5 @@ class LocaleDateExtension extends Twig_Extension
         );
 
         return $formatLocale;
-    }
-
-    /**
-     * Returns the name of the extension.
-     *
-     * @return string The extension name
-     */
-    public function getName()
-    {
-        return 'map_corebundle_localedate';
     }
 }

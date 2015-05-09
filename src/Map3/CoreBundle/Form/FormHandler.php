@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -28,10 +29,11 @@ use Symfony\Component\Validator\Validator\LegacyValidator;
  * Form handler class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -54,18 +56,16 @@ class FormHandler
 
     /**
      * @var LegacyValidator Validator
-     *
      */
     protected $validator;
 
     /**
      * @var Session Session
-     *
      */
     protected $session;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param Form            $form      Form
      * @param Request         $request   Http request
@@ -80,17 +80,17 @@ class FormHandler
         LegacyValidator $validator,
         Session $session
     ) {
-        $this->form      = $form;
-        $this->request   = $request;
-        $this->em        = $em;
+        $this->form = $form;
+        $this->request = $request;
+        $this->em = $em;
         $this->validator = $validator;
-        $this->session   = $session;
+        $this->session = $session;
     }
 
     /**
      * For a submited form, valid it and update database.
      *
-     * @return boolean
+     * @return bool
      */
     public function process()
     {
@@ -121,8 +121,6 @@ class FormHandler
      * Save entity in database.
      *
      * @param mixed $entity Object entity.
-     *
-     * @return void
      */
     public function onSuccess($entity)
     {

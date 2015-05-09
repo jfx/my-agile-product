@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,10 +28,11 @@ use Twig_SimpleFunction;
  * Display breadcrumb for a product or release.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -47,7 +49,7 @@ class BreadcrumbExtension extends Twig_Extension
     protected $router;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param TokenStorageInterface $tokenStorage The token storage
      * @param Router                $router       The router service
@@ -57,11 +59,11 @@ class BreadcrumbExtension extends Twig_Extension
         Router $router
     ) {
         $this->tokenStorage = $tokenStorage;
-        $this->router       = $router;
+        $this->router = $router;
     }
 
     /**
-     * Display general breadcrumb
+     * Display general breadcrumb.
      *
      * @param array $levels Label of levels
      *
@@ -69,12 +71,12 @@ class BreadcrumbExtension extends Twig_Extension
      */
     public function breadcrumb(array $levels)
     {
-        $breadcrumb  = '<ol class="breadcrumb">';
+        $breadcrumb = '<ol class="breadcrumb">';
 
-        $lvl_count = 0;
+        $lvlCount = 0;
 
         foreach ($levels as $level) {
-            $id = 'br_lvl'.++$lvl_count;
+            $id = 'br_lvl'.++$lvlCount;
 
             if (is_array($level)) {
                 $breadcrumb .= '  <li><a id="'.$id.'" href="';
@@ -90,7 +92,7 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Display product breadcrumb
+     * Display product breadcrumb.
      *
      * @param string $action Label of action displayed
      *
@@ -109,7 +111,7 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Display release breadcrumb
+     * Display release breadcrumb.
      *
      * @param string $action Label of action displayed
      *
@@ -129,7 +131,7 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Display baseline breadcrumb
+     * Display baseline breadcrumb.
      *
      * @param string $action Label of action displayed
      *
@@ -150,64 +152,7 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Get name and Url to view action for current product
-     *
-     * @return string[]
-     */
-    private function getProductNameUrl()
-    {
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        $product = $user->getCurrentProduct();
-        $productUrl = $this->router->generate(
-            'product_view',
-            array('id' => $product->getId())
-        );
-        $productName = htmlspecialchars($product->getName());
-
-        return array($productName, $productUrl);
-    }
-
-    /**
-     * Get name and Url to view action for current release
-     *
-     * @return string[]
-     */
-    private function getReleaseNameUrl()
-    {
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        $release = $user->getCurrentRelease();
-        $releaseUrl = $this->router->generate(
-            'release_view',
-            array('id' => $release->getId())
-        );
-        $releaseName = htmlspecialchars($release->getName());
-
-        return array($releaseName, $releaseUrl);
-    }
-
-    /**
-     * Get name and Url to view action for current product
-     *
-     * @return string[]
-     */
-    private function getBaselineNameUrl()
-    {
-        $user = $this->tokenStorage->getToken()->getUser();
-
-        $baseline = $user->getCurrentBaseline();
-        $baselineUrl = $this->router->generate(
-            'baseline_view',
-            array('id' => $baseline->getId())
-        );
-        $baselineName = htmlspecialchars($baseline->getName());
-
-        return array($baselineName, $baselineUrl);
-    }
-
-    /**
-     * Returns a list of functions to add to the existing list
+     * Returns a list of functions to add to the existing list.
      *
      * @return Twig_SimpleFunction[] An array of functions
      */
@@ -250,12 +195,69 @@ class BreadcrumbExtension extends Twig_Extension
     }
 
     /**
-     * Returns the name of this extension
+     * Returns the name of this extension.
      *
      * @return string
      */
     public function getName()
     {
-        return "map3_corebundle_breadcrumb";
+        return 'map3_corebundle_breadcrumb';
+    }
+
+    /**
+     * Get name and Url to view action for current product.
+     *
+     * @return string[]
+     */
+    private function getProductNameUrl()
+    {
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        $product = $user->getCurrentProduct();
+        $productUrl = $this->router->generate(
+            'product_view',
+            array('id' => $product->getId())
+        );
+        $productName = htmlspecialchars($product->getName());
+
+        return array($productName, $productUrl);
+    }
+
+    /**
+     * Get name and Url to view action for current release.
+     *
+     * @return string[]
+     */
+    private function getReleaseNameUrl()
+    {
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        $release = $user->getCurrentRelease();
+        $releaseUrl = $this->router->generate(
+            'release_view',
+            array('id' => $release->getId())
+        );
+        $releaseName = htmlspecialchars($release->getName());
+
+        return array($releaseName, $releaseUrl);
+    }
+
+    /**
+     * Get name and Url to view action for current product.
+     *
+     * @return string[]
+     */
+    private function getBaselineNameUrl()
+    {
+        $user = $this->tokenStorage->getToken()->getUser();
+
+        $baseline = $user->getCurrentBaseline();
+        $baselineUrl = $this->router->generate(
+            'baseline_view',
+            array('id' => $baseline->getId())
+        );
+        $baselineName = htmlspecialchars($baseline->getName());
+
+        return array($baselineName, $baselineUrl);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,21 +28,21 @@ use Map3\UserBundle\Entity\UserPdtRole;
  * Load user product role data class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class UserPdtRoles extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager The entity manager
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -49,44 +50,44 @@ class UserPdtRoles extends AbstractFixture implements OrderedFixtureInterface
     {
         $dataArray = array(
             array(
-                'user'    => 'user-user',
+                'user' => 'user-user',
                 'product' => 'productone-product',
-                'role'    => 'user-role',
+                'role' => 'user-role',
             ),
             array(
-                'user'    => 'user-user',
+                'user' => 'user-user',
                 'product' => 'producttwo-product',
-                'role'    => 'user+-role',
+                'role' => 'user+-role',
             ),
             array(
-                'user'    => 'd1-none-user',
+                'user' => 'd1-none-user',
                 'product' => 'productone-product',
-                'role'    => 'none-role',
+                'role' => 'none-role',
             ),
             array(
-                'user'    => 'd1-guest-user',
+                'user' => 'd1-guest-user',
                 'product' => 'productone-product',
-                'role'    => 'guest-role',
-            ),
-             array(
-                'user'    => 'd1-user+-user',
-                'product' => 'productone-product',
-                'role'    => 'user+-role',
+                'role' => 'guest-role',
             ),
             array(
-                'user'    => 'd1-manager-user',
+                'user' => 'd1-user+-user',
                 'product' => 'productone-product',
-                'role'    => 'manager-role',
+                'role' => 'user+-role',
             ),
             array(
-                'user'    => 'd1-manager-user',
+                'user' => 'd1-manager-user',
+                'product' => 'productone-product',
+                'role' => 'manager-role',
+            ),
+            array(
+                'user' => 'd1-manager-user',
                 'product' => 'productfour-product',
-                'role'    => 'manager-role',
+                'role' => 'manager-role',
             ),
             array(
-                'user'    => 'd2-manager-user',
+                'user' => 'd2-manager-user',
                 'product' => 'producttwo-product',
-                'role'    => 'manager-role',
+                'role' => 'manager-role',
             ),
         );
         $objectList = array();
@@ -103,9 +104,9 @@ class UserPdtRoles extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * Get the order of this fixture
+     * Get the order of this fixture.
      *
-     * @return integer
+     * @return int
      *
      * @codeCoverageIgnore
      */

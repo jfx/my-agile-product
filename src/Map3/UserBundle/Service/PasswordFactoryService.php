@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -22,29 +23,28 @@ namespace Map3\UserBundle\Service;
  * Generate random password.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class PasswordFactoryService
 {
     /**
-     * @var int Default length of generated password.
-     *
+     * @var int Default length of generated password
      */
     protected $defaultLength;
 
     /**
-     * @var string Available characters for password.
-     *
+     * @var string Available characters for password
      */
-    protected static $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+    protected static $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?';
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $defaultLength Default length
      */

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -30,18 +31,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Category controller class.
  *
  * @category  MyAgileProduct
- * @package   Feature
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class CategoryController extends AbstractCoreController
 {
     /**
-     * Display node details on right panel
+     * Display node details on right panel.
      *
      * @param Category $category The category to display
      *
@@ -61,14 +62,14 @@ class CategoryController extends AbstractCoreController
         return $this->render(
             'Map3FeatureBundle:Category:view.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'category' => $category,
             )
         );
     }
 
     /**
-     * Edit a category node on right panel
+     * Edit a category node on right panel.
      *
      * @param Category $category The category to display
      * @param Request  $request  The request
@@ -104,7 +105,7 @@ class CategoryController extends AbstractCoreController
         return $this->render(
             'Map3FeatureBundle:Category:edit.html.twig',
             array(
-                'form'     => $form->createView(),
+                'form' => $form->createView(),
                 'category' => $category,
             )
         );

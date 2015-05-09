@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -28,13 +29,13 @@ use Symfony\Component\HttpFoundation\Response;
  * Core controller class.
  *
  * @category  MyAgileProduct
- * @package   Core
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class SelectController extends Controller
 {
@@ -58,7 +59,7 @@ class SelectController extends Controller
     }
 
     /**
-     * Select a release in combobox
+     * Select a release in combobox.
      *
      * @param Request $request The request
      *

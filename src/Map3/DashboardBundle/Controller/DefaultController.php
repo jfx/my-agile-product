@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,17 +27,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Dashboard controller class.
  *
  * @category  MyAgileProduct
- * @package   Home
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class DefaultController extends AbstractCoreController
 {
     /**
-     * Dashboard
+     * Dashboard.
      *
      * @return Response A Response instance
      *

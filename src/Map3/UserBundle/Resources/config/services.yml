@@ -36,7 +36,6 @@ services:
     map3_user.passwordFactoryService:
         class: Map3\UserBundle\Service\PasswordFactoryService
         arguments: [ '%app.defaultPasswordLength%' ]
-        scope: request
 
     map3_user.resetting.form.type:
         class: Map3\UserBundle\Form\Type\ResettingFormType

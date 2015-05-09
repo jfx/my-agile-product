@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,16 +27,16 @@ use Symfony\Component\DependencyInjection\Loader;
 /**
  * This is the class that loads and manages your bundle configuration.
  * To learn more see :
- * {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ * {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}.
  *
  * @category  MyAgileProduct
- * @package   Feature
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class Map3FeatureExtension extends Extension
 {
@@ -44,8 +45,6 @@ class Map3FeatureExtension extends Extension
      *
      * @param array            $configs   An array of configuration values
      * @param ContainerBuilder $container A ContainerBuilder instance
-     *
-     * @return void
      *
      * @throws InvalidArgumentException When provided tag is not defined in
      *                                  this extension

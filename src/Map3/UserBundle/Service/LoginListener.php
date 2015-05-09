@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -29,23 +30,23 @@ use Psr\Log\LoggerInterface;
  * Login listener class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class LoginListener extends AbstractSetRoleService
 {
     /**
-     *
      * @var LocaleDateExtension Date extension
      */
     protected $dateExtension;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param EntityManager        $entityManager The doctrine entity manager
      * @param UserManagerInterface $userManager   The user manager
@@ -59,8 +60,8 @@ class LoginListener extends AbstractSetRoleService
         LocaleDateExtension $dateExtension
     ) {
         $this->entityManager = $entityManager;
-        $this->userManager   = $userManager;
-        $this->logger        = $logger;
+        $this->userManager = $userManager;
+        $this->logger = $logger;
         $this->dateExtension = $dateExtension;
     }
 
@@ -69,8 +70,6 @@ class LoginListener extends AbstractSetRoleService
      * of user and refresh list of available products (select box).
      *
      * @param InteractiveLoginEvent $event The event object.
-     *
-     * @return void
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
@@ -106,7 +105,7 @@ class LoginListener extends AbstractSetRoleService
             $formatedReleaseDate = $this->dateExtension->localeDateFilter(
                 $releaseDate
             );
-            $releaseLabel  = $row['p_name'].' / '.$row['r_name'].' : ';
+            $releaseLabel = $row['p_name'].' / '.$row['r_name'].' : ';
             $releaseLabel .= $formatedReleaseDate;
 
             if (!array_key_exists($releaseLabel, $baselines)) {

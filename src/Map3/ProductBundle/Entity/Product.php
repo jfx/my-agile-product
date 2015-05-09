@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -26,10 +27,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Product entity class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
@@ -40,7 +42,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Product
 {
     /**
-     * @var integer Id
+     * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -64,9 +66,9 @@ class Product
     private $details;
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -74,7 +76,7 @@ class Product
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name Name of product.
      *
@@ -88,7 +90,7 @@ class Product
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -98,7 +100,7 @@ class Product
     }
 
     /**
-     * Set details
+     * Set details.
      *
      * @param string $details Details of product.
      *
@@ -112,7 +114,7 @@ class Product
     }
 
     /**
-     * Get details
+     * Get details.
      *
      * @return string
      */

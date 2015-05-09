@@ -54,7 +54,7 @@ I log out
     Go to    ${URL}/logout
 
 I am waiting for timeout
-    sleep    15
+    sleep    ${WAIT_TIMEOUT}
 
 I am waiting for ajax request
     [Arguments]    ${x}=1

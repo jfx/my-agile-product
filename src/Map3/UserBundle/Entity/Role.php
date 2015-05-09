@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,10 +26,11 @@ use Doctrine\ORM\Mapping as ORM;
  * Role entity class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
@@ -37,13 +39,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Role
 {
-    const GUEST_ROLE     = 'ROLE_DM_GUEST';
-    const DEFAULT_ROLE   = 'ROLE_DM_USER';
-    const USERPLUS_ROLE  = 'ROLE_DM_USERPLUS';
-    const MANAGER_ROLE   = 'ROLE_DM_MANAGER';
-    const RLS_OPEN_ROLE  = 'ROLE_OPEN_RLS';
-    const BLN_OPEN_ROLE  = 'ROLE_OPEN_BLN';
-    const LABEL_NONE     = 'None';
+    const GUEST_ROLE = 'ROLE_DM_GUEST';
+    const DEFAULT_ROLE = 'ROLE_DM_USER';
+    const USERPLUS_ROLE = 'ROLE_DM_USERPLUS';
+    const MANAGER_ROLE = 'ROLE_DM_MANAGER';
+    const RLS_OPEN_ROLE = 'ROLE_OPEN_RLS';
+    const BLN_OPEN_ROLE = 'ROLE_OPEN_BLN';
+    const LABEL_NONE = 'None';
 
     /**
      * @var string Id
@@ -61,7 +63,7 @@ class Role
     private $label;
 
     /**
-     * @var integer Position
+     * @var int Position
      *
      * @Gedmo\SortablePosition
      * @ORM\Column(name="position", type="integer")
@@ -83,7 +85,7 @@ class Role
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return string
      */
@@ -93,7 +95,7 @@ class Role
     }
 
     /**
-     * Set label
+     * Set label.
      *
      * @param string $label The label.
      *
@@ -107,7 +109,7 @@ class Role
     }
 
     /**
-     * Get label
+     * Get label.
      *
      * @return string
      */
@@ -117,9 +119,9 @@ class Role
     }
 
     /**
-     * Set order
+     * Set order.
      *
-     * @param integer $position The order.
+     * @param int $position The order.
      *
      * @return Role
      */
@@ -131,9 +133,9 @@ class Role
     }
 
     /**
-     * Get position
+     * Get position.
      *
-     * @return integer
+     * @return int
      */
     public function getPosition()
     {

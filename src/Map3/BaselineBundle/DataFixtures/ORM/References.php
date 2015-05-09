@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -27,21 +28,21 @@ use Map3\BaselineBundle\Entity\Reference;
  * Load reference data class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
 class References extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * Load data fixtures with the passed EntityManager
+     * Load data fixtures with the passed EntityManager.
      *
      * @param ObjectManager $manager The entity manager
      *
-     * @return void
      *
      * @codeCoverageIgnore
      */
@@ -49,33 +50,33 @@ class References extends AbstractFixture implements OrderedFixtureInterface
     {
         $dataArray = array(
             array(
-                'label'    => 'Reference One',
-                'value'    => 'Value 4 reference one',
+                'label' => 'Reference One',
+                'value' => 'Value 4 reference one',
                 'baseline' => 'baselineone-baseline',
             ),
             array(
-                'label'    => 'Reference Two',
-                'value'    => 'Value 4 reference two',
+                'label' => 'Reference Two',
+                'value' => 'Value 4 reference two',
                 'baseline' => 'baselineone-baseline',
             ),
             array(
-                'label'    => 'Reference Three',
-                'value'    => 'Value 4 reference three',
+                'label' => 'Reference Three',
+                'value' => 'Value 4 reference three',
                 'baseline' => 'baselineone-baseline',
             ),
             array(
-                'label'    => 'Reference Four',
-                'value'    => 'Value 4 reference four',
+                'label' => 'Reference Four',
+                'value' => 'Value 4 reference four',
                 'baseline' => 'baselinethree-baseline',
             ),
             array(
-                'label'    => 'Reference Five',
-                'value'    => 'Value 4 reference five',
+                'label' => 'Reference Five',
+                'value' => 'Value 4 reference five',
                 'baseline' => 'baselinetwo-baseline',
             ),
             array(
-                'label'    => 'Reference 4 baseline closed',
-                'value'    => 'Value 4 reference 4 baseline closed',
+                'label' => 'Reference 4 baseline closed',
+                'value' => 'Value 4 reference 4 baseline closed',
                 'baseline' => 'baselineclosed-baseline',
             ),
         );
@@ -95,9 +96,9 @@ class References extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * Get the order of this fixture
+     * Get the order of this fixture.
      *
-     * @return integer
+     * @return int
      *
      * @codeCoverageIgnore
      */

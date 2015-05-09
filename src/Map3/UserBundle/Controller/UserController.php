@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -31,18 +32,18 @@ use Symfony\Component\HttpFoundation\Response;
  * User controller class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class UserController extends AbstractCoreController
 {
     /**
-     * List of users
+     * List of users.
      *
      * @return Response A Response instance
      *
@@ -74,7 +75,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Add a user
+     * Add a user.
      *
      * @param Request $request The request
      *
@@ -87,8 +88,8 @@ class UserController extends AbstractCoreController
         $this->unsetCurrentProduct();
 
         $userManager = $this->get('fos_user.user_manager');
-        $user        = $userManager->createUser();
-        $form        = $this->createForm(new UserType(), $user);
+        $user = $userManager->createUser();
+        $form = $this->createForm(new UserType(), $user);
 
         $user->setEnabled(true);
 
@@ -134,7 +135,7 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
 
@@ -163,7 +164,7 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
 
@@ -179,7 +180,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Edit a user
+     * Edit a user.
      *
      * @param int     $id      The user id
      * @param Request $request The request
@@ -194,10 +195,10 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
-        $form    = $this->createForm(new UserType(), $user);
+        $form = $this->createForm(new UserType(), $user);
 
         $handler = new UserFormHandler(
             $form,
@@ -225,7 +226,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Delete a user
+     * Delete a user.
      *
      * @param int $id The user id.
      *
@@ -239,7 +240,7 @@ class UserController extends AbstractCoreController
 
         $userManager = $this->get('fos_user.user_manager');
 
-        if (! $user = $userManager->findUserBy(array('id' => $id))) {
+        if (!$user = $userManager->findUserBy(array('id' => $id))) {
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
 
@@ -272,7 +273,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Display own profile
+     * Display own profile.
      *
      * @return Response A Response instance
      *
@@ -295,7 +296,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Change own password
+     * Change own password.
      *
      * @param Request $request The request
      *
@@ -309,7 +310,7 @@ class UserController extends AbstractCoreController
 
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        $form  = $this->createForm(new UserPasswordType(), $user);
+        $form = $this->createForm(new UserPasswordType(), $user);
 
         $handler = new UserFormHandler(
             $form,
@@ -333,7 +334,7 @@ class UserController extends AbstractCoreController
     }
 
     /**
-     * Display own role
+     * Display own role.
      *
      * @return Response A Response instance
      *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -25,15 +26,15 @@ use Symfony\Component\Form\FormBuilderInterface;
  * User form class for edit and delete actions.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
-class UserTypeEditDel extends UserType
+class UserTypeEditDel extends AbstractUserType
 {
     /**
      * Builds the form.
@@ -43,8 +44,6 @@ class UserTypeEditDel extends UserType
      *
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

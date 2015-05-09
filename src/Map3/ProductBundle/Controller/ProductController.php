@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -31,18 +32,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Product controller class.
  *
  * @category  MyAgileProduct
- * @package   Product
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class ProductController extends AbstractCoreController
 {
     /**
-     * List of products
+     * List of products.
      *
      * @return Response A Response instance
      *
@@ -65,7 +66,7 @@ class ProductController extends AbstractCoreController
     }
 
     /**
-     * Add a product
+     * Add a product.
      *
      * @param Request $request The request
      *
@@ -78,7 +79,7 @@ class ProductController extends AbstractCoreController
         $this->unsetCurrentProduct();
 
         $product = new Product();
-        $form   = $this->createForm(new ProductType(), $product);
+        $form = $this->createForm(new ProductType(), $product);
 
         $handler = $this->getFormHandler($form, $request);
 
@@ -100,7 +101,7 @@ class ProductController extends AbstractCoreController
     }
 
     /**
-     * View a product
+     * View a product.
      *
      * @param Product $product The product to view.
      *
@@ -119,14 +120,14 @@ class ProductController extends AbstractCoreController
         return $this->render(
             'Map3ProductBundle:Product:view.html.twig',
             array(
-                'form'      => $form->createView(),
-                'product'   => $product,
+                'form' => $form->createView(),
+                'product' => $product,
             )
         );
     }
 
     /**
-     * Edit a product
+     * Edit a product.
      *
      * @param Product $product The product to edit
      * @param Request $request The request
@@ -142,7 +143,7 @@ class ProductController extends AbstractCoreController
             array('ROLE_SUPER_ADMIN', Role::MANAGER_ROLE)
         );
 
-        $form    = $this->createForm(new ProductType(), $product);
+        $form = $this->createForm(new ProductType(), $product);
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
@@ -159,14 +160,14 @@ class ProductController extends AbstractCoreController
         return $this->render(
             'Map3ProductBundle:Product:edit.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $product,
             )
         );
     }
 
     /**
-     * Delete a product
+     * Delete a product.
      *
      * @param Product $product The product to delete.
      *
@@ -217,14 +218,14 @@ class ProductController extends AbstractCoreController
         return $this->render(
             'Map3ProductBundle:Product:del.html.twig',
             array(
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'product' => $product,
             )
         );
     }
 
     /**
-     * Tab for product
+     * Tab for product.
      *
      * @param string $activeTab The active tab
      *
@@ -246,14 +247,14 @@ class ProductController extends AbstractCoreController
             'Map3UserBundle:UserPdtRole'
         );
 
-        $child['releases']  = $repositoryRl->countReleasesByProduct($product);
+        $child['releases'] = $repositoryRl->countReleasesByProduct($product);
         $child['users'] = $repositoryUPR->countUsersByProduct($product);
 
         return $this->render(
             'Map3ProductBundle:Product:tabs.html.twig',
             array(
-                'product'   => $product,
-                'child'     => $child,
+                'product' => $product,
+                'child' => $child,
                 'activeTab' => $activeTab,
             )
         );

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -29,18 +30,18 @@ use Symfony\Component\HttpFoundation\Response;
  * Feature controller class.
  *
  * @category  MyAgileProduct
- * @package   Baseline
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
- *
  */
 class FeatureController extends AbstractCoreController
 {
     /**
-     * Features tree
+     * Features tree.
      *
      * @param Baseline $baseline The baseline
      * @param Request  $request  The request
@@ -59,7 +60,7 @@ class FeatureController extends AbstractCoreController
             'Map3BaselineBundle:Feature:index.html.twig',
             array(
                 'baseline' => $baseline,
-                'host'     => $host,
+                'host' => $host,
             )
         );
     }

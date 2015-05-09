@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LICENSE : This file is part of My Agile Product.
  *
@@ -28,10 +29,11 @@ use Symfony\Component\Validator\Constraints\Length;
  * User edit form class.
  *
  * @category  MyAgileProduct
- * @package   User
+ *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
  * @copyright 2014 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
+ *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
@@ -45,8 +47,6 @@ class UserType extends AbstractDefaultType
      *
      * @param FormBuilderInterface $builder The form builder
      * @param array                $options The options
-     *
-     * @return void
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -105,8 +105,8 @@ class UserType extends AbstractDefaultType
                 'textarea',
                 array(
                     'required' => false,
-                    'attr'  => array(
-                        'rows'  => 4,
+                    'attr' => array(
+                        'rows' => 4,
                     ),
                 )
             )
@@ -123,8 +123,6 @@ class UserType extends AbstractDefaultType
      * Sets the default options for this type.
      *
      * @param OptionsResolverInterface $resolver The resolver for the options.
-     *
-     * @return void
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -142,6 +140,6 @@ class UserType extends AbstractDefaultType
      */
     public function getName()
     {
-        return "map3_user";
+        return 'map3_user';
     }
 }
