@@ -17,6 +17,7 @@ A user+ edits a category
     And I am waiting for ajax request
     Then Page Should Contain    Category edited successfully
     And I check category view form    Ctg 1 Mod
+    And the node name should be equal to    C_9_anchor    Ctg 1 Mod
 
 Reload warning after timeout when click to edit category
     [Tags]    timeout

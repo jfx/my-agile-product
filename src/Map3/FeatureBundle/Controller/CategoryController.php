@@ -44,13 +44,14 @@ class CategoryController extends AbstractCoreController
     /**
      * Display node details on right panel.
      *
-     * @param Category $category The category to display
+     * @param Category $category      The category to display
+     * @param boolean  $refreshBranch Need to refresh the branch of jsTree
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function viewAction(Category $category)
+    public function viewAction(Category $category, $refreshBranch = false)
     {
         $baseline = $category->getBaseline();
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
@@ -64,6 +65,7 @@ class CategoryController extends AbstractCoreController
             array(
                 'form' => $form->createView(),
                 'category' => $category,
+                'refresh' => $refreshBranch,
             )
         );
     }
@@ -97,8 +99,9 @@ class CategoryController extends AbstractCoreController
             $this->get('session')->getFlashBag()
                 ->add('success', 'Category edited successfully !');
 
-            return $this->redirect(
-                $this->generateUrl('bln-cat_view', array('id' => $id))
+            return $this->forward(
+                'Map3FeatureBundle:Category:view',
+                array('category' => $category, 'refreshBranch' => true)
             );
         }
 
