@@ -25,7 +25,22 @@
            title="Collapse all">
             {{ icon('upload') }}
         </button>
-    </div>
+        <button class="btn btn-xs btn-cust dropdown-toggle" type="button"
+            id="addMenu" data-toggle="dropdown" aria-expanded="true">
+            {{ icon('plus') }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="addMenu">
+            <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{{ icon('picture') }} Feature</a></li>
+            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">{{ icon('film') }} Scenario</a></li>
+        </ul>
+        <a href="#"
+           class="btn btn-xs btn-cust"
+           title="Delete node">
+            {{ icon('trash') }}
+        </a>
+     </div>
 </div>
 <br />
 <div class="row">
@@ -49,6 +64,20 @@
     {{ parent() }}
 
 <script>
+function addCategory() {
+    var node = $('#jstree1').jstree(true).get_selected();
+    if(node && node.length) {
+        node = node[0];
+        $.get(Routing.generate('bln-cat_add', { nid: node }), function (resp) {
+            $("div.node-panel").hide();
+            $("div.node-panel").html(resp.content).show();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+        });
+    }
+}
+
 $(function () {
     $('#jstree1')
         .jstree({
@@ -63,7 +92,7 @@ $(function () {
                 },
                 "error" : function(error) {
                     var dataJson = $.parseJSON(error.data);
-                    displayError(dataJson.xhr.responseJSON.message, dataJson.xhr.status);
+                    displayError(dataJson.xhr.responseJSON, dataJson.xhr.status);
                 }
             },
             "types" : {
@@ -84,8 +113,7 @@ $(function () {
                     $("div.node-panel").hide();
                     $("div.node-panel").html(resp.content).show();
                 }).fail(function(jqXHR, textStatus, errorThrown) {
-
-                    displayError(jqXHR.responseJSON.message, jqXHR.status);
+                    displayError(jqXHR.responseJSON, jqXHR.status);
                     $("div.node-panel").hide();
                 });
             }

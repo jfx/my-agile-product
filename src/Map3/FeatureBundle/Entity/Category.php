@@ -132,6 +132,15 @@ class Category
     {
         return $this->id;
     }
+    /**
+     * Get tree node id.
+     *
+     * @return string
+     */
+    public function getNodeId()
+    {
+        return 'C_'.$this->id;
+    }
 
     /**
      * Set name.

@@ -19,7 +19,7 @@
 
 namespace Map3\FeatureBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 use Map3\BaselineBundle\Entity\Baseline;
 
 /**
@@ -34,7 +34,7 @@ use Map3\BaselineBundle\Entity\Baseline;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class CategoryRepository extends EntityRepository
+class CategoryRepository extends NestedTreeRepository
 {
     /**
      * Get root category by baseline.

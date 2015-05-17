@@ -42,9 +42,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TreeController extends AbstractJsonCoreController
 {
-    const BASELINE = 'BAS';
-    const CATEGORY = 'CAT';
-
     /**
      * Get children for a parent.
      *
@@ -78,7 +75,7 @@ class TreeController extends AbstractJsonCoreController
             );
         } else {
             try {
-                $nodeId = $this->getIdFromTreeId($treeId)['id'];
+                $nodeId = $this->getIdFromNodeId($treeId)['id'];
             } catch (Exception $e) {
                 return $this->jsonResponseFactory(404, $e->getMessage());
             }
@@ -109,10 +106,10 @@ class TreeController extends AbstractJsonCoreController
     public function nodeAction($bid, Request $request)
     {
         // Security delagated to forward request
-        $treeId = $request->query->get('id');
+        $treeNodeId = $request->query->get('id');
 
         try {
-            $idType = $this->getIdFromTreeId($treeId);
+            $idType = $this->getIdFromNodeId($treeNodeId);
         } catch (Exception $e) {
             return $this->jsonResponseFactory(404, $e->getMessage());
         }
@@ -134,36 +131,5 @@ class TreeController extends AbstractJsonCoreController
         }
 
         return $this->html2jsonResponse($response);
-    }
-
-    /**
-     * Get node Id and type from jstree id.
-     *
-     * @param string $typeNodeId Id from jstree
-     *
-     * @return array
-     */
-    protected function getIdFromTreeId($typeNodeId)
-    {
-        $typeNodeIdExplode = explode('_', urldecode($typeNodeId));
-        $array = array();
-
-        switch ($typeNodeIdExplode[0]) {
-            case 'B':
-                $array['type'] = self::BASELINE;
-                break;
-            case 'C':
-                $array['type'] = self::CATEGORY;
-                break;
-            default:
-                throw new Exception('Wrong type of node');
-        }
-        if (isset($typeNodeIdExplode[1]) && is_numeric($typeNodeIdExplode[1])) {
-            $array['id'] = $typeNodeIdExplode[1];
-        } else {
-            throw new Exception('Wrong node Id');
-        }
-
-        return $array;
     }
 }

@@ -19,8 +19,10 @@
 
 namespace Map3\FeatureBundle\Controller;
 
+use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\CoreBundle\Controller\AbstractCoreController;
+use Map3\BaselineBundle\Entity\Baseline;
+use Map3\CoreBundle\Controller\AbstractJsonCoreController;
 use Map3\FeatureBundle\Entity\Category;
 use Map3\FeatureBundle\Form\CategoryType;
 use Map3\UserBundle\Entity\Role;
@@ -39,19 +41,89 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class CategoryController extends AbstractCoreController
+class CategoryController extends AbstractJsonCoreController
 {
     /**
-     * Display node details on right panel.
+     * Add a category.
      *
-     * @param Category $category      The category to display
-     * @param boolean  $refreshBranch Need to refresh the branch of jsTree
+     * @param string  $nid     The parent id (baseline or category)
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function viewAction(Category $category, $refreshBranch = false)
+    public function addAction($nid, Request $request)
+    {
+        try {
+            $node = $this->getObjectFromNodeId($nid);
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(404, $e->getMessage());
+        }
+        $manager = $this->getDoctrine()->getManager();
+        $catRepository = $manager->getRepository('Map3FeatureBundle:Category');
+
+        if ($node instanceof Baseline) {
+            $baseline = $node;
+            $parent = $catRepository->findRootByBaseline($baseline);
+        } elseif ($node instanceof Category) {
+            $parent = $node;
+            $baseline = $parent->getBaseline();
+        } else {
+            return $this->jsonResponseFactory(405, 'Operation not allowed');
+        }
+        try {
+            $this->setCurrentBaseline(
+                $baseline,
+                array(Role::USERPLUS_ROLE)
+            );
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(403, $e->getMessage());
+        }
+        $category = new Category();
+        $category->setBaseline($baseline);
+        $category->setParent($parent);
+
+        $categoryType = new CategoryType();
+        $form = $this->createForm($categoryType, $category);
+        $handler = $this->getFormHandler($form, $request);
+
+        if ($handler->process()) {
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Category added successfully !');
+
+            return $this->render(
+                'Map3FeatureBundle:Category:refresh.html.twig',
+                array(
+                    'category' => $category,
+                    'parentNodeId' => $nid,
+                )
+            );
+        }
+        $response = $this->render(
+            'Map3FeatureBundle:Category:add.html.twig',
+            array(
+                'form' => $form->createView(),
+                'nodeId' => $nid,
+            )
+        );
+        if ($request->isMethod('POST')) {
+            return $response;
+        } else {
+            return $this->html2jsonResponse($response);
+        }
+    }
+
+    /**
+     * Display node details on right panel.
+     *
+     * @param Category $category The category to display
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function viewAction(Category $category)
     {
         $baseline = $category->getBaseline();
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
@@ -65,7 +137,6 @@ class CategoryController extends AbstractCoreController
             array(
                 'form' => $form->createView(),
                 'category' => $category,
-                'refresh' => $refreshBranch,
             )
         );
     }
@@ -94,14 +165,15 @@ class CategoryController extends AbstractCoreController
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
-            $id = $category->getId();
-
             $this->get('session')->getFlashBag()
                 ->add('success', 'Category edited successfully !');
 
-            return $this->forward(
-                'Map3FeatureBundle:Category:view',
-                array('category' => $category, 'refreshBranch' => true)
+            return $this->render(
+                'Map3FeatureBundle:Category:refresh.html.twig',
+                array(
+                    'category' => $category,
+                    'parentNodeId' => null,
+                )
             );
         }
 

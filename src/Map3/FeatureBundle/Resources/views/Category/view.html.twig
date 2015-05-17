@@ -9,23 +9,14 @@
     {{ icon('edit',true) }} Edit
 </a>
 
-{% if (refresh) %}
-<script>
-$(function () {
-    $('#jstree1').jstree(true).refresh_node($('#jstree1').jstree(true).get_node('C_{{ category.id }}').parent);
-});
-</script>
-{% endif %}
-
 <script>
 function buttonClick() {
     $.get('{{ path('bln-cat_edit', {'id': category.id}) }}', function (resp) {
         $("div.node-panel").hide();
         $("div.node-panel").html(resp).show();
     }).fail(function(jqXHR, textStatus, errorThrown) {
-
-        displayError(jqXHR.responseJSON.message, jqXHR.status);
-        $("div.node-panel").hide();
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
     });
 }
 </script>

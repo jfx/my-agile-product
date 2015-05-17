@@ -55,3 +55,21 @@ Category edit Request
     Then I check the following ACL by request    /bln-cat/edit/9    False    True    True    False    False
     ...    False    False
     [Teardown]    EnvPostrequisite
+
+Category add Request from baseline
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-cat/add/B_1    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Category add Request from category
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-cat/add/C_9    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite

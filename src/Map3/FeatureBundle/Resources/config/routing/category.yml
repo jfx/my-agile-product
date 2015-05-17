@@ -2,6 +2,12 @@ bln-cat_view:
     pattern:  /{id}
     defaults: { _controller: "Map3FeatureBundle:Category:view" }
 
+bln-cat_add:
+    pattern:  /add/{nid}
+    defaults: { _controller: "Map3FeatureBundle:Category:add" }
+    options:
+        expose: true
+
 bln-cat_edit:
     pattern:  /edit/{id}
     defaults: { _controller: "Map3FeatureBundle:Category:edit" }

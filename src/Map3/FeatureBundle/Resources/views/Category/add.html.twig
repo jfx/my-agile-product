@@ -1,5 +1,9 @@
 {% include 'Map3CoreBundle::flashes.html.twig' %}
 
+<ol class="breadcrumb">
+    <li class="active">Add category</li>
+</ol>
+
 <form id="formPanel" novalidate="novalidate" class="form-horizontal well" method="post">
 
     {{ form_widget(form) }}
@@ -13,7 +17,7 @@
 
 <script>
 function formSubmit() {
-    $.post('{{ path('bln-cat_edit', {'id': category.id}) }}', $("#formPanel").serialize(), function (resp) {
+    $.post('{{ path('bln-cat_add', {'nid': nodeId}) }}', $("#formPanel").serialize(), function (resp) {
         $("div.node-panel").hide();
         $("div.node-panel").html(resp).show();
     }).fail(function(jqXHR, textStatus, errorThrown) {
