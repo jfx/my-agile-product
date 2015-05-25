@@ -5,3 +5,9 @@ bln-ftree_children:
 bln-ftree_node:
     pattern:  /node
     defaults: { _controller: "Map3FeatureBundle:Tree:node" }
+
+bln-ftree_del:
+    pattern:  /del/{nid}
+    defaults: { _controller: "Map3FeatureBundle:Tree:del", _format: json }
+    options:
+        expose: true

@@ -35,7 +35,7 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{{ icon('picture') }} Feature</a></li>
             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">{{ icon('film') }} Scenario</a></li>
         </ul>
-        <a href="#"
+        <a onclick="removeNode();"
            class="btn btn-xs btn-cust"
            title="Delete node">
             {{ icon('trash') }}
@@ -69,6 +69,20 @@ function addCategory() {
     if(node && node.length) {
         node = node[0];
         $.get(Routing.generate('bln-cat_add', { nid: node }), function (resp) {
+            $("div.node-panel").hide();
+            $("div.node-panel").html(resp.content).show();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+        });
+    }
+}
+
+function removeNode() {
+    var node = $('#jstree1').jstree(true).get_selected();
+    if(node && node.length) {
+        node = node[0];
+        $.get(Routing.generate('bln-ftree_del', { bid: {{ baseline.id }}, nid: node }), function (resp) {
             $("div.node-panel").hide();
             $("div.node-panel").html(resp.content).show();
         }).fail(function(jqXHR, textStatus, errorThrown) {

@@ -75,7 +75,7 @@ class CategoryController extends AbstractJsonCoreController
         try {
             $this->setCurrentBaseline(
                 $baseline,
-                array(Role::USERPLUS_ROLE)
+                array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
             );
         } catch (Exception $e) {
             return $this->jsonResponseFactory(403, $e->getMessage());
@@ -155,11 +155,14 @@ class CategoryController extends AbstractJsonCoreController
     {
         $baseline = $category->getBaseline();
 
-        $this->setCurrentBaseline(
-            $baseline,
-            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
-        );
-
+        try {
+            $this->setCurrentBaseline(
+                $baseline,
+                array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+            );
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(403, $e->getMessage());
+        }
         $form = $this->createForm(new CategoryType(), $category);
 
         $handler = $this->getFormHandler($form, $request);
@@ -179,6 +182,52 @@ class CategoryController extends AbstractJsonCoreController
 
         return $this->render(
             'Map3FeatureBundle:Category:edit.html.twig',
+            array(
+                'form' => $form->createView(),
+                'category' => $category,
+            )
+        );
+    }
+
+    /**
+     * Delete a category node on right panel.
+     *
+     * @param Category $category The category to display
+     * @param Request  $request  The request
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function delAction(Category $category, Request $request)
+    {
+        $baseline = $category->getBaseline();
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
+
+        if ($this->get('request')->getMethod() == 'POST') {
+            $nodeId = $category->getNodeId();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($category);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Category removed successfully !');
+
+            return $this->render(
+                'Map3FeatureBundle:Category:refreshDel.html.twig',
+                array('nodeId' => $nodeId)
+            );
+        }
+        $categoryType = new CategoryType();
+        $categoryType->setDisabled();
+        $form = $this->createForm($categoryType, $category);
+
+        return $this->render(
+            'Map3FeatureBundle:Category:del.html.twig',
             array(
                 'form' => $form->createView(),
                 'category' => $category,

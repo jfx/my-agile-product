@@ -11,3 +11,7 @@ bln-cat_add:
 bln-cat_edit:
     pattern:  /edit/{id}
     defaults: { _controller: "Map3FeatureBundle:Category:edit" }
+
+bln-cat_del:
+    pattern:  /del/{id}
+    defaults: { _controller: "Map3FeatureBundle:Category:del" }

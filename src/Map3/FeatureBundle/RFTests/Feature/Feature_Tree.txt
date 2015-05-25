@@ -24,6 +24,15 @@ View features tree without selecting a baseline before
     And the node name should be equal to    B_1_anchor    Baseline One
     And the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
 
+Impossible to delete a baseline
+    Given I am a user+
+    And I go to features tree    View product #1    View release #1    View baseline #1
+    And the node name should be equal to    B_1_anchor    Baseline One
+    And Click Element    B_1_anchor
+    And I Click button    Delete node
+    And I am waiting for ajax request
+    Then Page Should Contain    Operation not allowed
+
 Request root baseline node
     [Tags]    request
     [Setup]    EnvPrerequisite

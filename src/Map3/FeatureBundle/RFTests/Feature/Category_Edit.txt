@@ -44,6 +44,15 @@ Request edit category
     And the element should contain items    ${resp.content}    Category 1    Details 4 Category 1
     [Teardown]    EnvPostrequisite
 
+Impossible to edit a category for a closed baseline
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/edit/25
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And Should Contain    ${resp.content}    You are not allowed to access this resource
+    [Teardown]    EnvPostrequisite
+
 Request edit category with wrong node Id
     [Tags]    request
     [Setup]    EnvPrerequisite

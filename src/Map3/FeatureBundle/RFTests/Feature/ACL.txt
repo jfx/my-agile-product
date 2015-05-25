@@ -73,3 +73,12 @@ Category add Request from category
     Then I check the following ACL by request    /bln-cat/add/C_9    False    True    True    False    False
     ...    False    False
     [Teardown]    EnvPostrequisite
+
+Category delete Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/del/C_11    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite

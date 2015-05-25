@@ -132,4 +132,40 @@ class TreeController extends AbstractJsonCoreController
 
         return $this->html2jsonResponse($response);
     }
+
+    /**
+     * Remove a node.
+     *
+     * @param int     $bid     The baseline id
+     * @param int     $nid     The node id
+     * @param Request $request The request
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function delAction($bid, $nid, Request $request)
+    {
+        // Security delagated to forward request
+        try {
+            $idType = $this->getIdFromNodeId($nid);
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(404, $e->getMessage());
+        }
+        switch ($idType['type']) {
+            case self::BASELINE:
+                return $this->jsonResponseFactory(405, 'Operation not allowed');
+                break;
+            case self::CATEGORY:
+                $response = $this->forward(
+                    'Map3FeatureBundle:Category:del',
+                    array('id' => $idType['id'])
+                );
+                break;
+            default:
+                return $this->jsonResponseFactory(404, 'Wrong type of node');
+        }
+
+        return $this->html2jsonResponse($response);
+    }
 }

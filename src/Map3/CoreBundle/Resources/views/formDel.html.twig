@@ -1,3 +1,7 @@
+{% if not onclickAction is defined %}
+    {% set onclickAction = 'formDel.submit()' %}
+{% endif %}
+
 <form novalidate="novalidate" id="formDel" class="form-horizontal well"
      method="post">
 
@@ -27,7 +31,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-cust" id="button_ok"
-                onclick="formDel.submit()">
+                onclick="{{ onclickAction }}">
             &nbsp;&nbsp;&nbsp;&nbsp;Ok&nbsp;&nbsp;&nbsp;&nbsp;
         </button>
         <button type="button" class="btn btn-default btn-sm"  id="button_cancel"
