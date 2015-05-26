@@ -228,3 +228,8 @@ Impossible to edit a category with a name too short
     And I click button    Save
     And I am waiting for ajax request
     Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+No Add category menu for a user
+    Given I am a user
+    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I should not see action button(s)    Add category

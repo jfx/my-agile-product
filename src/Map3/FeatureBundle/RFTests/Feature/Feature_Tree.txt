@@ -243,3 +243,23 @@ Collapse all button
     And Page should contain    Category 111
     When Click element    xpath=//button[@title='Collapse all']
     Then Page should not contain    Category 111
+
+No Add button for a closed baseline
+    Given I am a user+
+    When I go to features tree    View product #1    View release #1    View baseline #3
+    Then Page Should Not Contain Element    addMenu
+
+No Add button for a guest user
+    Given I am a guest
+    When I go to features tree    View product #1    View release #1    View baseline #1
+    Then Page Should Not Contain Element    addMenu
+
+No Delete button for a closed baseline
+    Given I am a user+
+    When I go to features tree    View product #1    View release #1    View baseline #3
+    Then I should not see action button(s)    Delete node
+
+No Delete button for a guest user
+    Given I am a guest
+    When I go to features tree    View product #1    View release #1    View baseline #1
+    Then I should not see action button(s)    Delete node

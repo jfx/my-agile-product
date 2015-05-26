@@ -144,7 +144,7 @@ class TreeController extends AbstractJsonCoreController
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function delAction($bid, $nid, Request $request)
+    public function delAction($bid, $nid)
     {
         // Security delagated to forward request
         try {
@@ -155,7 +155,6 @@ class TreeController extends AbstractJsonCoreController
         switch ($idType['type']) {
             case self::BASELINE:
                 return $this->jsonResponseFactory(405, 'Operation not allowed');
-                break;
             case self::CATEGORY:
                 $response = $this->forward(
                     'Map3FeatureBundle:Category:del',

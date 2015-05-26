@@ -25,14 +25,17 @@
            title="Collapse all">
             {{ icon('upload') }}
         </button>
+        {% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
         <button class="btn btn-xs btn-cust dropdown-toggle" type="button"
             id="addMenu" data-toggle="dropdown" aria-expanded="true">
             {{ icon('plus') }}
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="addMenu">
+            {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
             <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{{ icon('picture') }} Feature</a></li>
+            {% endif %}
             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">{{ icon('film') }} Scenario</a></li>
         </ul>
         <a onclick="removeNode();"
@@ -40,6 +43,7 @@
            title="Delete node">
             {{ icon('trash') }}
         </a>
+        {% endif %}
      </div>
 </div>
 <br />
