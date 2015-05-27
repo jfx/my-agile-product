@@ -160,12 +160,13 @@ class ReferenceController extends AbstractCoreController
      * Delete a reference.
      *
      * @param Reference $reference The reference to edit
+     * @param Request   $request   The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function delAction(Reference $reference)
+    public function delAction(Reference $reference, Request $request)
     {
         $baseline = $reference->getBaseline();
         $this->setCurrentBaseline(
@@ -173,7 +174,7 @@ class ReferenceController extends AbstractCoreController
             array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
         );
 
-        if ($this->get('request')->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($reference);
             $em->flush();

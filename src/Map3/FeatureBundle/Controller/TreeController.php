@@ -138,7 +138,6 @@ class TreeController extends AbstractJsonCoreController
      *
      * @param int     $bid     The baseline id
      * @param int     $nid     The node id
-     * @param Request $request The request
      *
      * @return Response A Response instance
      *

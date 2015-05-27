@@ -228,13 +228,14 @@ class UserController extends AbstractCoreController
     /**
      * Delete a user.
      *
-     * @param int $id The user id.
+     * @param int     $id      The user id
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
-    public function delAction($id)
+    public function delAction($id, Request $request)
     {
         $this->unsetCurrentProduct();
 
@@ -244,7 +245,7 @@ class UserController extends AbstractCoreController
             throw $this->createNotFoundException('User[id='.$id.'] not found');
         }
 
-        if ($this->get('request')->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             try {
                 $userManager->deleteUser($user);
 

@@ -170,13 +170,14 @@ class BaselineController extends AbstractCoreController
     /**
      * Delete a baseline.
      *
-     * @param Baseline $baseline The baseline to delete.
+     * @param Baseline $baseline The baseline to delete
+     * @param Request  $request  The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function delAction(Baseline $baseline)
+    public function delAction(Baseline $baseline, Request $request)
     {
         $this->setCurrentBaseline(
             $baseline,
@@ -185,7 +186,7 @@ class BaselineController extends AbstractCoreController
 
         $release = $baseline->getRelease();
 
-        if ($this->get('request')->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $this->unsetCurrentBaseline();
 
             $serviceRemove = $this->container->get(
