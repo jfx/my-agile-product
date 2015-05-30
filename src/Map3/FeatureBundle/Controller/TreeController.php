@@ -53,7 +53,7 @@ class TreeController extends AbstractJsonCoreController
      * @ParamConverter("baseline", options={"mapping": {"bid": "id"}})
      * @Secure(roles="ROLE_USER")
      */
-    public function childrenAction(Baseline $baseline, Request $request)
+    public function childAction(Baseline $baseline, Request $request)
     {
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
@@ -96,20 +96,18 @@ class TreeController extends AbstractJsonCoreController
     /**
      * Display node details on right panel.
      *
-     * @param int     $bid     The baseline id
-     * @param Request $request The request
+     * @param int $bid The baseline id
+     * @param int $nid The node id
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function nodeAction($bid, Request $request)
+    public function nodeAction($bid, $nid)
     {
         // Security delagated to forward request
-        $treeNodeId = $request->query->get('id');
-
         try {
-            $idType = $this->getIdFromNodeId($treeNodeId);
+            $idType = $this->getIdFromNodeId($nid);
         } catch (Exception $e) {
             return $this->jsonResponseFactory(404, $e->getMessage());
         }
@@ -136,8 +134,8 @@ class TreeController extends AbstractJsonCoreController
     /**
      * Remove a node.
      *
-     * @param int     $bid     The baseline id
-     * @param int     $nid     The node id
+     * @param int $bid The baseline id
+     * @param int $nid The node id
      *
      * @return Response A Response instance
      *

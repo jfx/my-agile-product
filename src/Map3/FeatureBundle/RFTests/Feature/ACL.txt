@@ -16,7 +16,7 @@ Baseline children Request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL by request    /bln-ftree/1/children?pid=%23    True    True    True    True    True
+    Then I check the following ACL by request    /bln-ftree/1/child?pid=%23    True    True    True    True    True
     ...    False    True
     [Teardown]    EnvPostrequisite
 
@@ -25,7 +25,7 @@ Baseline view Request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL by request    /bln-ftree/1/node?id=B_1    True    True    True    True    True
+    Then I check the following ACL by request    /bln-ftree/1/node/B_1    True    True    True    True    True
     ...    False    True
     [Teardown]    EnvPostrequisite
 
@@ -34,7 +34,7 @@ Category children Request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL by request    /bln-ftree/1/children?pid=C_9    True    True    True    True    True
+    Then I check the following ACL by request    /bln-ftree/1/child?pid=C_9    True    True    True    True    True
     ...    False    True
     [Teardown]    EnvPostrequisite
 
@@ -43,7 +43,7 @@ Category view Request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL by request    /bln-ftree/1/node?id=C_9    True    True    True    True    True
+    Then I check the following ACL by request    /bln-ftree/1/node/C_9    True    True    True    True    True
     ...    False    True
     [Teardown]    EnvPostrequisite
 

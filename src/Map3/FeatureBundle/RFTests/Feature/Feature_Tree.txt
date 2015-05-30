@@ -37,7 +37,7 @@ Request root baseline node
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/children?pid=%23
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=%23
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the element should contain items    ${resp.content}    B_1
     And the element should contain items    ${resp.content}    Baseline One

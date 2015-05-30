@@ -44,7 +44,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CategoryController extends AbstractJsonCoreController
 {
     /**
-     * Add a category
+     * Add a category.
      *
      * @param string  $nid     The parent id (baseline or category)
      * @param Request $request The request
@@ -115,7 +115,7 @@ class CategoryController extends AbstractJsonCoreController
     }
 
     /**
-     * Display node details on right panel
+     * Display node details on right panel.
      *
      * @param Category $category The category to display
      *
@@ -142,7 +142,7 @@ class CategoryController extends AbstractJsonCoreController
     }
 
     /**
-     * Edit a category node on right panel
+     * Edit a category node on right panel.
      *
      * @param Category $category The category to display
      * @param Request  $request  The request
@@ -190,7 +190,7 @@ class CategoryController extends AbstractJsonCoreController
     }
 
     /**
-     * Delete a category node on right panel
+     * Delete a category node on right panel.
      *
      * @param Category $category The category to display
      * @param Request  $request  The request
