@@ -26,7 +26,7 @@ Request view baseline
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the element should contain items    ${resp.content}    Baseline One    Details 4 baseline 1
     [Teardown]    EnvPostrequisite
@@ -35,7 +35,7 @@ Request view baseline with wrong type
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=X_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/X_1
     Then Should Be Equal As Strings    ${resp.status_code}    404
     And Should Contain    ${resp.content}    Wrong type of node
     [Teardown]    EnvPostrequisite
@@ -44,7 +44,7 @@ Request view baseline with non numeric Id
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_XXX
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_XXX
     Then Should Be Equal As Strings    ${resp.status_code}    404
     And Should Contain    ${resp.content}    Wrong node Id
     [Teardown]    EnvPostrequisite
@@ -53,7 +53,7 @@ Request view baseline with wrong node Id
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_999
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_999
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And Should Contain    ${resp.content}    Baseline One
     [Teardown]    EnvPostrequisite
@@ -62,7 +62,7 @@ Request view baseline with wrong baseline Id
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-ftree/999/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/999/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    404
     And Should Contain    ${resp.content}    Not Found
     [Teardown]    EnvPostrequisite
@@ -72,7 +72,7 @@ Request view baseline timeout
     [Setup]    RequestLifetimeSetup
     Given I am logging as by request    user    user    Hello    True
     And I am waiting for timeout
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And Should Contain    ${resp.content}    A Token was not found in the SecurityContext
     [Teardown]    RequestLifetimeTeardown
@@ -85,7 +85,7 @@ Check context for category ajax request with clean context
     And Get request    ${SESSION}    /release/1
     And Get request    ${SESSION}    /baseline/1
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    3
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
@@ -97,7 +97,7 @@ Check context for category ajax request without context
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user    user    Hello    True
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
@@ -111,7 +111,7 @@ Check context for category ajax request with previous context
     And Get request    ${SESSION}    /release/4
     And Get request    ${SESSION}    /baseline/6
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
@@ -124,7 +124,7 @@ Check context for category ajax request with same previous product
     And Get request    ${SESSION}    /product/1
     And Get request    ${SESSION}    /release/2
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    6
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
@@ -138,7 +138,7 @@ Check context for category ajax request with same previous release
     And Get request    ${SESSION}    /release/1
     And Get request    ${SESSION}    /baseline/2
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    5
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
@@ -150,7 +150,7 @@ Check context for category ajax request with same previous context
     Given I am logging as by request    user    user    Hello    True
     And Get request    ${SESSION}    /bln-features/1
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-ftree/1/node?id=B_1
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/B_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    3
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change

@@ -1,10 +1,12 @@
-bln-ftree_children:
-    pattern:  /children
-    defaults: { _controller: "Map3FeatureBundle:Tree:children", _format: json }
+bln-ftree_child:
+    pattern:  /child
+    defaults: { _controller: "Map3FeatureBundle:Tree:child", _format: json }
 
 bln-ftree_node:
-    pattern:  /node
+    pattern:  /node/{nid}
     defaults: { _controller: "Map3FeatureBundle:Tree:node" }
+    options:
+        expose: true
 
 bln-ftree_del:
     pattern:  /del/{nid}

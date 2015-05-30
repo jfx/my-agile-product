@@ -102,7 +102,7 @@ $(function () {
             "core" : {
                 "data" : {
                     "type" :     "GET",
-                    "url" :      "{{ path('bln-ftree_children', {'bid' : baseline.id}) }}",
+                    "url" :      "{{ path('bln-ftree_child', {'bid' : baseline.id}) }}",
                     "dataType" : "json",
                     "data"     : function (node) {
                         return { "pid" : node.id };
@@ -126,8 +126,7 @@ $(function () {
         })
         .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
-                $.get('{{ path('bln-ftree_node', {'bid' : baseline.id}) }}' + '?id=' + data.selected, function (resp) {
-
+                $.get(Routing.generate('bln-ftree_node', { bid: {{ baseline.id }}, nid: data.selected }), function (resp) {
                     $("div.node-panel").hide();
                     $("div.node-panel").html(resp.content).show();
                 }).fail(function(jqXHR, textStatus, errorThrown) {
