@@ -208,13 +208,14 @@ class UserController extends AbstractCoreController
     /**
      * Delete a user.
      *
-     * @param int $id The userid.
+     * @param int     $id      The userid
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN, ROLE_DM_MANAGER")
      */
-    public function delAction($id)
+    public function delAction($id, Request $request)
     {
         $product = $this->getCurrentProductFromUserWithReset();
 
@@ -237,7 +238,7 @@ class UserController extends AbstractCoreController
             );
         }
 
-        if ($this->get('request')->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $em->remove($userPdtRole);
 
             try {

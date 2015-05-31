@@ -1,7 +1,7 @@
 [
 {% for node in children %}
 {
-"id"       : "C_{{ node.id }}",
+"id"       : "{{ node.nodeId }}",
 "text"     : "{{ node.name }}",
 "type"     : "category",
 "children" : true

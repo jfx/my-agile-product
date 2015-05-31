@@ -1,0 +1,9 @@
+<script>
+$(function () {
+    var tree = $('#jstree1').jstree(true);
+    var parentNode = tree.get_node('{{ nodeId }}').parent;
+    tree.deselect_node('{{ nodeId }}');
+    tree.refresh_node(parentNode);
+    tree.select_node(parentNode);
+});
+</script>

@@ -19,6 +19,7 @@
 
 namespace Map3\CoreBundle\Controller;
 
+use DomainException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -36,6 +37,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class AbstractJsonCoreController extends AbstractCoreController
 {
+    const BASELINE = 'BAS';
+    const CATEGORY = 'CAT';
+
     /**
      * Convert a html response to Json.
      *
@@ -81,5 +85,71 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
             ),
             $code
         );
+    }
+
+    /**
+     * Get object from jstree id.
+     *
+     * @param string $nodeId Id from jstree
+     *
+     * @return mixed
+     */
+    protected function getObjectFromNodeId($nodeId)
+    {
+        $node = $this->getIdFromNodeId($nodeId);
+        $manager = $this->getDoctrine()->getManager();
+
+        switch ($node['type']) {
+            case self::BASELINE:
+                $blnR = $manager->getRepository('Map3BaselineBundle:Baseline');
+                $object = $blnR->find($node['id']);
+                break;
+
+            case self::CATEGORY:
+                $catR = $manager->getRepository('Map3FeatureBundle:Category');
+                $object = $catR->find($node['id']);
+                break;
+
+            default:
+                throw new DomainException('Wrong type of node');
+        }
+        if (is_null($object)) {
+            throw new DomainException('Not Found');
+        }
+
+        return $object;
+    }
+    /**
+     * Get node Id and type from jstree id.
+     *
+     * @param string $nodeId Id from jstree
+     *
+     * @return array
+     */
+    protected function getIdFromNodeId($nodeId)
+    {
+        if (strpos($nodeId, ',') !== false) {
+            throw new DomainException('Please, select only one node !');
+        }
+        $typeNodeIdExplode = explode('_', urldecode($nodeId));
+        $array = array();
+
+        switch ($typeNodeIdExplode[0]) {
+            case 'B':
+                $array['type'] = self::BASELINE;
+                break;
+            case 'C':
+                $array['type'] = self::CATEGORY;
+                break;
+            default:
+                throw new DomainException('Wrong type of node');
+        }
+        if (isset($typeNodeIdExplode[1]) && is_numeric($typeNodeIdExplode[1])) {
+            $array['id'] = $typeNodeIdExplode[1];
+        } else {
+            throw new DomainException('Wrong node Id');
+        }
+
+        return $array;
     }
 }

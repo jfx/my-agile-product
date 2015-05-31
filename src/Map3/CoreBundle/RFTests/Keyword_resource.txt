@@ -5,6 +5,7 @@ Library           OperatingSystem
 Library           XML
 Library           Selenium2Library
 Library           RequestsLibrary
+Library           DatabaseLibrary
 Library           ImapLibrary
 Resource          R_PARAMETERS.txt
 Resource          R_Util.txt

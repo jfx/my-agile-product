@@ -1,17 +1,6 @@
-map3_feature:
-    resource: "@Map3FeatureBundle/Resources/config/routing.yml"
-    prefix:   /
-
 map3_baseline:
     resource: "@Map3BaselineBundle/Resources/config/routing.yml"
     prefix:   /
-
-fos_user_security:
-    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
-
-fos_user_resetting:
-    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
-    prefix: /resetting
 
 map3_core:
     resource: "@Map3CoreBundle/Resources/config/routing.yml"
@@ -19,6 +8,10 @@ map3_core:
 
 map3_dashboard:
     resource: "@Map3DashboardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+map3_feature:
+    resource: "@Map3FeatureBundle/Resources/config/routing.yml"
     prefix:   /
 
 map3_product:
@@ -32,3 +25,13 @@ map3_release:
 map3_user:
     resource: "@Map3UserBundle/Resources/config/routing.yml"
     prefix:   /
+    
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /resetting
+    
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

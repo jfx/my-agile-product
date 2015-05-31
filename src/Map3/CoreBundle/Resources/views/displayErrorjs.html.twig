@@ -1,14 +1,17 @@
 <script type="text/javascript">
-function displayError(message, code) {
+function displayError(responseJSON, code) {
 
-    if ((typeof message === "undefined") || (message.length === 0))
+    if ((typeof responseJSON === "undefined")
+         || (typeof responseJSON.message === "undefined")
+         || (responseJSON.message.length === 0)
+        )
         var msg = 'Internal error';
     else if (code === 403)
         var msg = 'Authentication has expired';
     else if (code === 404)
         var msg = 'Node not found';
     else
-        var msg = message;
+        var msg = responseJSON.message;
 
     $("div.msg-error").html(
         '<div class="alert alert-danger alert-dismissible" role="alert">'

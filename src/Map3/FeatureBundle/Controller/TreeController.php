@@ -42,9 +42,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TreeController extends AbstractJsonCoreController
 {
-    const BASELINE = 'BAS';
-    const CATEGORY = 'CAT';
-
     /**
      * Get children for a parent.
      *
@@ -56,7 +53,7 @@ class TreeController extends AbstractJsonCoreController
      * @ParamConverter("baseline", options={"mapping": {"bid": "id"}})
      * @Secure(roles="ROLE_USER")
      */
-    public function childrenAction(Baseline $baseline, Request $request)
+    public function childAction(Baseline $baseline, Request $request)
     {
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
@@ -78,7 +75,7 @@ class TreeController extends AbstractJsonCoreController
             );
         } else {
             try {
-                $nodeId = $this->getIdFromTreeId($treeId)['id'];
+                $nodeId = $this->getIdFromNodeId($treeId)['id'];
             } catch (Exception $e) {
                 return $this->jsonResponseFactory(404, $e->getMessage());
             }
@@ -99,20 +96,18 @@ class TreeController extends AbstractJsonCoreController
     /**
      * Display node details on right panel.
      *
-     * @param int     $bid     The baseline id
-     * @param Request $request The request
+     * @param int $bid The baseline id
+     * @param int $nid The node id
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function nodeAction($bid, Request $request)
+    public function nodeAction($bid, $nid)
     {
         // Security delagated to forward request
-        $treeId = $request->query->get('id');
-
         try {
-            $idType = $this->getIdFromTreeId($treeId);
+            $idType = $this->getIdFromNodeId($nid);
         } catch (Exception $e) {
             return $this->jsonResponseFactory(404, $e->getMessage());
         }
@@ -137,33 +132,36 @@ class TreeController extends AbstractJsonCoreController
     }
 
     /**
-     * Get node Id and type from jstree id.
+     * Remove a node.
      *
-     * @param string $typeNodeId Id from jstree
+     * @param int $bid The baseline id
+     * @param int $nid The node id
      *
-     * @return array
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
      */
-    protected function getIdFromTreeId($typeNodeId)
+    public function delAction($bid, $nid)
     {
-        $typeNodeIdExplode = explode('_', urldecode($typeNodeId));
-        $array = array();
-
-        switch ($typeNodeIdExplode[0]) {
-            case 'B':
-                $array['type'] = self::BASELINE;
-                break;
-            case 'C':
-                $array['type'] = self::CATEGORY;
+        // Security delagated to forward request
+        try {
+            $idType = $this->getIdFromNodeId($nid);
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(404, $e->getMessage());
+        }
+        switch ($idType['type']) {
+            case self::BASELINE:
+                return $this->jsonResponseFactory(405, 'Operation not allowed');
+            case self::CATEGORY:
+                $response = $this->forward(
+                    'Map3FeatureBundle:Category:del',
+                    array('id' => $idType['id'])
+                );
                 break;
             default:
-                throw new Exception('Wrong type of node');
-        }
-        if (isset($typeNodeIdExplode[1]) && is_numeric($typeNodeIdExplode[1])) {
-            $array['id'] = $typeNodeIdExplode[1];
-        } else {
-            throw new Exception('Wrong node Id');
+                return $this->jsonResponseFactory(404, 'Wrong type of node');
         }
 
-        return $array;
+        return $this->html2jsonResponse($response);
     }
 }

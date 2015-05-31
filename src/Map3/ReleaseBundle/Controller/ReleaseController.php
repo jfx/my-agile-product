@@ -163,19 +163,20 @@ class ReleaseController extends AbstractCoreController
     /**
      * Delete a release.
      *
-     * @param Release $release The release to delete.
+     * @param Release $release The release to delete
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function delAction(Release $release)
+    public function delAction(Release $release, Request $request)
     {
         $this->setCurrentRelease($release, array(Role::MANAGER_ROLE));
 
         $product = $release->getProduct();
 
-        if ($this->get('request')->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $this->unsetCurrentRelease();
 
             $serviceRemove = $this->container->get(

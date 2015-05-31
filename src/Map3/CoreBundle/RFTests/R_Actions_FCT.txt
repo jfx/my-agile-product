@@ -68,6 +68,14 @@ TestTeardown
     EnvPostrequisite
     Close All Browsers
 
+TestSetupDb
+    Connect To Database    MySQLdb    map3dev    map3dev    map3dev    127.0.0.1    3306
+    TestSetup
+
+TestTeardownDb
+    Disconnect from Database
+    TestTeardown
+
 TestLifetimeSetup
     SetLifetime
     TestSetup

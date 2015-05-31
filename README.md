@@ -21,6 +21,21 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
+### 0.7.0 (31 may 2015)
+Features:
+
+  - Refresh tree branch when node is updated - #56,
+  - Add a category - #45,
+  - Delete a category - #40,
+  - Conditional display of tree add and remove buttons - #58,
+  - Change URL format of node view and children list - #60.
+
+Bugfixes:
+
+  - Improve exception catched for Ajax response - #57,
+  - Migration of $request object usage - #59.
+
+
 ### 0.6.0 (09 may 2015)
 Features:
 

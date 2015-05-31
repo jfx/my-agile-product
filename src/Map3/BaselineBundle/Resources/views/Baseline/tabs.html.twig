@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs" role="tablist">
     <li {% if activeTab == 'main' %}class="active"{% endif %}><a id="a_main" href="{{ path('baseline_view', {'id' : baseline.id}) }}">{{ icon('flag') }}&nbsp;&nbsp;Main</a></li>
-    <li {% if activeTab == 'features' %}class="active"{% endif %}><a id="a_features" href="{{ path('bln-features_index', {'id' : baseline.id}) }}">{{ icon('flash') }}&nbsp;&nbsp;Features&nbsp;&nbsp;<span id="badge_features" class="badge badge-info">XX</span></a></li>
+    <li {% if activeTab == 'features' %}class="active"{% endif %}><a id="a_features" href="{{ path('bln-features_index', {'id' : baseline.id}) }}">{{ icon('picture') }}&nbsp;&nbsp;Features&nbsp;&nbsp;<span id="badge_features" class="badge badge-info">XX</span></a></li>
     <li {% if activeTab == 'references' %}class="active"{% endif %}><a id="a_references" href="{{ path('bln-refs_index', {'id' : baseline.id}) }}">{{ icon('barcode') }}&nbsp;&nbsp;References&nbsp;&nbsp;<span id="badge_references" class="badge badge-info">{{ child.references }}</span></a></li>
 </ul>

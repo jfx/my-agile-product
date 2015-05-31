@@ -25,7 +25,26 @@
            title="Collapse all">
             {{ icon('upload') }}
         </button>
-    </div>
+        {% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
+        <button class="btn btn-xs btn-cust dropdown-toggle" type="button"
+            id="addMenu" data-toggle="dropdown" aria-expanded="true">
+            {{ icon('plus') }}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="addMenu">
+            {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
+            <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{{ icon('picture') }} Feature</a></li>
+            {% endif %}
+            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">{{ icon('film') }} Scenario</a></li>
+        </ul>
+        <a onclick="removeNode();"
+           class="btn btn-xs btn-cust"
+           title="Delete node">
+            {{ icon('trash') }}
+        </a>
+        {% endif %}
+     </div>
 </div>
 <br />
 <div class="row">
@@ -49,13 +68,41 @@
     {{ parent() }}
 
 <script>
+function addCategory() {
+    var node = $('#jstree1').jstree(true).get_selected();
+    if(node && node.length) {
+        node = node[0];
+        $.get(Routing.generate('bln-cat_add', { nid: node }), function (resp) {
+            $("div.node-panel").hide();
+            $("div.node-panel").html(resp.content).show();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+        });
+    }
+}
+
+function removeNode() {
+    var node = $('#jstree1').jstree(true).get_selected();
+    if(node && node.length) {
+        node = node[0];
+        $.get(Routing.generate('bln-ftree_del', { bid: {{ baseline.id }}, nid: node }), function (resp) {
+            $("div.node-panel").hide();
+            $("div.node-panel").html(resp.content).show();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+        });
+    }
+}
+
 $(function () {
     $('#jstree1')
         .jstree({
             "core" : {
                 "data" : {
                     "type" :     "GET",
-                    "url" :      "{{ path('bln-ftree_children', {'bid' : baseline.id}) }}",
+                    "url" :      "{{ path('bln-ftree_child', {'bid' : baseline.id}) }}",
                     "dataType" : "json",
                     "data"     : function (node) {
                         return { "pid" : node.id };
@@ -63,7 +110,7 @@ $(function () {
                 },
                 "error" : function(error) {
                     var dataJson = $.parseJSON(error.data);
-                    displayError(dataJson.xhr.responseJSON.message, dataJson.xhr.status);
+                    displayError(dataJson.xhr.responseJSON, dataJson.xhr.status);
                 }
             },
             "types" : {
@@ -79,13 +126,11 @@ $(function () {
         })
         .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
-                $.get('{{ path('bln-ftree_node', {'bid' : baseline.id}) }}' + '?id=' + data.selected, function (resp) {
-
+                $.get(Routing.generate('bln-ftree_node', { bid: {{ baseline.id }}, nid: data.selected }), function (resp) {
                     $("div.node-panel").hide();
                     $("div.node-panel").html(resp.content).show();
                 }).fail(function(jqXHR, textStatus, errorThrown) {
-
-                    displayError(jqXHR.responseJSON.message, jqXHR.status);
+                    displayError(jqXHR.responseJSON, jqXHR.status);
                     $("div.node-panel").hide();
                 });
             }

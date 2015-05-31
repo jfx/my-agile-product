@@ -169,15 +169,16 @@ class ProductController extends AbstractCoreController
     /**
      * Delete a product.
      *
-     * @param Product $product The product to delete.
+     * @param Product $product The product to delete
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_SUPER_ADMIN")
      */
-    public function delAction(Product $product)
+    public function delAction(Product $product, Request $request)
     {
-        if ($this->get('request')->getMethod() == 'POST') {
+        if ($request->isMethod('POST')) {
             $em = $this->getDoctrine()->getManager();
 
             $this->unsetCurrentProduct();
