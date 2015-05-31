@@ -21,7 +21,7 @@ My Agile Product features :
 * Tests management (planned).
 
 - - -
-### 0.7.0 ()
+### 0.7.0 (31 may 2015)
 Features:
 
   - Refresh tree branch when node is updated - #56,
