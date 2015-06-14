@@ -15,6 +15,18 @@ I check category view form
     Disabled text element should contain    map3_category_name    ${category}
     Selenium2Library.Element Text Should Be    map3_category_details    Details 4 ${category}
 
+I fill in feature form
+    [Arguments]    ${category}
+    Input text    map3_feature_title    ${category}
+    Input text    map3_feature_narrative    Details 4 ${category}
+
+I check feature view form
+    [Arguments]    ${title}    ${extid}    ${priority}    ${narrative}
+    Disabled text element should contain    map3_feature_title    ${title}
+    Disabled text element should contain    map3_feature_extId    ${extid}
+    List Selection Should Be    map3_feature_priority    ${priority}
+    Selenium2Library.Element Text Should Be    map3_feature_narrative    ${narrative}
+
 RequestLifetimeSetup
     SetLifetime
     EnvPrerequisite

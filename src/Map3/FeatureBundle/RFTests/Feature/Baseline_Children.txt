@@ -13,6 +13,7 @@ Click to display sub-categories of a baseline
     And the node name should be equal to    C_9_anchor    Category 1
     And the node name should be equal to    C_10_anchor    Category 2
     And the node name should be equal to    C_11_anchor    Category 3
+    And the node name should be equal to    F_5_anchor    Feature C0
 
 Click to hide sub-categories for a baseline
     Given I am a user

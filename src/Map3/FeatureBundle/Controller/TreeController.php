@@ -55,15 +55,14 @@ class TreeController extends AbstractJsonCoreController
      */
     public function childAction(Baseline $baseline, Request $request)
     {
-        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
-
         $treeId = $request->query->get('pid');
 
-        $repository = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('Map3FeatureBundle:Category');
-
         if ($treeId == '#') {
+            $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
+
+            $repository = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('Map3FeatureBundle:Category');
             $root = $repository->findRootByBaseline($baseline);
 
             return $this->render(
@@ -74,22 +73,27 @@ class TreeController extends AbstractJsonCoreController
                 )
             );
         } else {
+            // Security delagated to forward request
             try {
-                $nodeId = $this->getIdFromNodeId($treeId)['id'];
+                $idType = $this->getIdFromNodeId($treeId);
             } catch (Exception $e) {
                 return $this->jsonResponseFactory(404, $e->getMessage());
             }
-            $children = $repository->findChildrenByBaselineParentId(
-                $baseline,
-                $nodeId
-            );
+            switch ($idType['type']) {
+                case self::BASELINE:
+                case self::CATEGORY:
+                    $response = $this->forward(
+                        'Map3FeatureBundle:Category:child',
+                        array('id' => $idType['id'])
+                    );
 
-            return $this->render(
-                'Map3FeatureBundle:Tree:children.json.twig',
-                array(
-                    'children' => $children,
-                )
-            );
+                    return $response;
+                default:
+                    return $this->jsonResponseFactory(
+                        404,
+                        'Wrong type of node'
+                    );
+            }
         }
     }
 
@@ -121,6 +125,12 @@ class TreeController extends AbstractJsonCoreController
             case self::CATEGORY:
                 $response = $this->forward(
                     'Map3FeatureBundle:Category:view',
+                    array('id' => $idType['id'])
+                );
+                break;
+            case self::FEATURE:
+                $response = $this->forward(
+                    'Map3FeatureBundle:Feature:view',
                     array('id' => $idType['id'])
                 );
                 break;

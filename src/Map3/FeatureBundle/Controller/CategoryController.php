@@ -115,6 +115,47 @@ class CategoryController extends AbstractJsonCoreController
     }
 
     /**
+     * Get children of a category node.
+     *
+     * @param Category $category The category to display
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function childAction(Category $category)
+    {
+        $baseline = $category->getBaseline();
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
+
+        $categoryRepo = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3FeatureBundle:Category');
+        $featureRepo = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3FeatureBundle:Feature');
+
+        $categories = $categoryRepo->findChildrenByBaselineParentId(
+            $baseline,
+            $category->getId()
+        );
+        $features = $featureRepo->findFeatureByBaselineCategoryId(
+            $baseline,
+            $category->getId()
+        );
+        $children = array();
+        $children['categories'] = $categories;
+        $children['features'] = $features;
+
+        return $this->render(
+            'Map3FeatureBundle:Tree:children.json.twig',
+            array(
+                'children' => $children,
+            )
+        );
+    }
+
+    /**
      * Display node details on right panel.
      *
      * @param Category $category The category to display

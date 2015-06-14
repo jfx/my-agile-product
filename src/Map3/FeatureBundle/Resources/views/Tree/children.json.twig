@@ -1,10 +1,19 @@
 [
-{% for node in children %}
+{% for node in children['categories'] %}
 {
 "id"       : "{{ node.nodeId }}",
 "text"     : "{{ node.name }}",
 "type"     : "category",
 "children" : true
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+{% if (children['categories']|length > 0) and (children['features']|length > 0) %},{% endif %}
+{% for node in children['features'] %}
+{
+"id"       : "{{ node.nodeId }}",
+"text"     : "{{ node.extIdTitle }}",
+"type"     : "feature",
+"children" : false
 }{% if not loop.last %},{% endif %}
 {% endfor %}
 ]

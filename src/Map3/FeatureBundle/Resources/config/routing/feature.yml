@@ -1,0 +1,17 @@
+bln-feat_view:
+    pattern:  /{id}
+    defaults: { _controller: "Map3FeatureBundle:Feature:view" }
+
+bln-feat_add:
+    pattern:  /add/{nid}
+    defaults: { _controller: "Map3FeatureBundle:Feature:add" }
+    options:
+        expose: true
+
+bln-feat_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: "Map3FeatureBundle:Feature:edit" }
+
+bln-feat_del:
+    pattern:  /del/{id}
+    defaults: { _controller: "Map3FeatureBundle:Feature:del" }

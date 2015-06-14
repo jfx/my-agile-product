@@ -16,6 +16,10 @@ Click to display children of a category node
     And the node name should be equal to    C_12_anchor    Category 11
     And the node name should be equal to    C_13_anchor    Category 12
     And the node name should be equal to    C_14_anchor    Category 13
+    And the node name should be equal to    F_1_anchor    ID-001 - Feature C1
+    And the node name should be equal to    F_2_anchor    ID-002 - Feature C2
+    And the node name should be equal to    F_3_anchor    Feature C3
+    And the node name should be equal to    F_4_anchor    Feature C4 P3
 
 Click to hide children of a category node
     Given I am a user
