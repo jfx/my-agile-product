@@ -50,6 +50,10 @@ I am a user with no role
 I am a user with no role on any product
     Run Keyword    I am logging as    ${USER_NOPRODUCT}
 
+I go directly to features tree
+    [Arguments]    ${baselineId}
+    Go to    ${URL}/bln-features/${baselineId}
+
 I log out
     Go to    ${URL}/logout
 

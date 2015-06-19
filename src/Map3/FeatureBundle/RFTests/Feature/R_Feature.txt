@@ -16,12 +16,16 @@ I check category view form
     Selenium2Library.Element Text Should Be    map3_category_details    Details 4 ${category}
 
 I fill in feature form
-    [Arguments]    ${category}
-    Input text    map3_feature_title    ${category}
-    Input text    map3_feature_narrative    Details 4 ${category}
+    [Arguments]    ${title}    ${extid}    ${priority}    ${narrative}
+    Wait Until Element Is Visible    map3_feature_title    ${WAIT_AJAX}
+    Input text    map3_feature_title    ${title}
+    Input text    map3_feature_extId    ${extid}
+    Select From List By Label    map3_feature_priority    ${priority}
+    Input text    map3_feature_narrative    ${narrative}
 
 I check feature view form
     [Arguments]    ${title}    ${extid}    ${priority}    ${narrative}
+    Wait Until Element Is Visible    map3_feature_title    ${WAIT_AJAX}
     Disabled text element should contain    map3_feature_title    ${title}
     Disabled text element should contain    map3_feature_extId    ${extid}
     List Selection Should Be    map3_feature_priority    ${priority}

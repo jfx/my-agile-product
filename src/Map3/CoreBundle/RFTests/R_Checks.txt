@@ -108,3 +108,8 @@ the node name should be equal to
     Wait Until Page Contains Element    id=${id}    ${WAIT_TIMEOUT}
     ${node_name} =    Get Text    id=${id}
     Should Be Equal As Strings    ${node_name}    ${name}
+
+I wait until message is visible
+    [Arguments]    ${message}
+    Wait Until Page Contains    ${message}    ${WAIT_AJAX}
+    Page Should Contain    ${message}

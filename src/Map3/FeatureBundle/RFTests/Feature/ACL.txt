@@ -91,3 +91,12 @@ Feature view Request
     Then I check the following ACL by request    /bln-ftree/1/node/F_1    True    True    True    True    True
     ...    False    True
     [Teardown]    EnvPostrequisite
+
+Feature edit Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-feat/edit/1    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite

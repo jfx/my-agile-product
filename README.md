@@ -16,11 +16,23 @@ My Agile Product features :
 * Multi products,
 * Multi users with role,
 * Releases and baselines management,
-* Features management with editable tree and table view (planned),
+* Features management with editable tree,
 * Scenarios and steps management with editable tree and table view (planned),
 * Tests management (planned).
 
 - - -
+### 0.8.0 ()
+Features:
+
+  - View a feature - #39,
+  - Edit a feature - #2,
+
+
+Bugfixes:
+
+  - 
+
+
 ### 0.7.0 (31 may 2015)
 Features:
 

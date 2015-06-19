@@ -80,5 +80,39 @@ class FeatureController extends AbstractJsonCoreController
      */
     public function editAction(Feature $feature, Request $request)
     {
+        $baseline = $feature->getBaseline();
+
+        try {
+            $this->setCurrentBaseline(
+                $baseline,
+                array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+            );
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(403, $e->getMessage());
+        }
+        $form = $this->createForm(new FeatureType(), $feature);
+
+        $handler = $this->getFormHandler($form, $request);
+
+        if ($handler->process()) {
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Feature edited successfully !');
+
+            return $this->render(
+                'Map3FeatureBundle:Feature:refresh.html.twig',
+                array(
+                    'feature' => $feature,
+                    'parentNodeId' => null,
+                )
+            );
+        }
+
+        return $this->render(
+            'Map3FeatureBundle:Feature:edit.html.twig',
+            array(
+                'form' => $form->createView(),
+                'feature' => $feature,
+            )
+        );
     }
 }
