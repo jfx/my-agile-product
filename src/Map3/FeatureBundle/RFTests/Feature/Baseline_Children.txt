@@ -8,8 +8,7 @@ Click to display sub-categories of a baseline
     And the node name should be equal to    B_1_anchor    Baseline One
     And Page should not contain    Category 1
     When I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    Then Page should contain    Category 1
+    Then I wait until text is visible    Category 1
     And the node name should be equal to    C_9_anchor    Category 1
     And the node name should be equal to    C_10_anchor    Category 2
     And the node name should be equal to    C_11_anchor    Category 3
@@ -17,11 +16,10 @@ Click to display sub-categories of a baseline
 
 Click to hide sub-categories for a baseline
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And the node name should be equal to    B_1_anchor    Baseline One
     And I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    And Element Should Be Visible    C_9_anchor
+    And Wait Until Element Is Visible    C_9_anchor    ${WAIT_TIMEOUT}
     When I click node to display sub-node    B_1
     And I am waiting for ajax request
     Then Element Should Not Be Visible    C_9_anchor

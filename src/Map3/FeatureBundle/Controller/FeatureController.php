@@ -19,6 +19,7 @@
 
 namespace Map3\FeatureBundle\Controller;
 
+use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
 use Map3\FeatureBundle\Entity\Feature;

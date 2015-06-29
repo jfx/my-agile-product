@@ -5,10 +5,8 @@ Resource          ../Keyword_resource.txt
 Click to view a baseline node
     Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    When Click Element    B_1_anchor
-    And I am waiting for ajax request
-    Then Page should contain    Details 4 baseline 1
+    When I click node    B_1_anchor
+    Then I wait until text is visible    Details 4 baseline 1
 
 Reload warning after timeout when click to view baseline
     [Tags]    timeout
@@ -159,25 +157,21 @@ Check context for category ajax request with same previous context
 
 Edit button displayed for user+ profile
     Given I am a user+
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    And Click Element    B_1_anchor
-    And I am waiting for ajax request
-    When I click button    Edit
+    And I go directly to features tree    1
+    And I click node    B_1_anchor
+    When I click button when visible    Edit
     Then Location Should Be    ${URL}/baseline/edit/1
 
 Edit button not displayed for closed release
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #3
-    And the node name should be equal to    B_7_anchor    Baseline Closed
-    And Click Element    B_7_anchor
-    When I am waiting for ajax request
+    And I go directly to features tree    3
+    And I click node    B_7_anchor
+    When I wait until text is visible    Details 4 baseline closed
     Then I should not see action button(s)    Edit
 
 Edit button not displayed for non user+ profile
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    And Click Element    B_1_anchor
-    And I am waiting for ajax request
+    And I go directly to features tree    1
+    And I click node    B_1_anchor
+    When I wait until text is visible    Details 4 baseline 1
     Then I should not see action button(s)    Edit

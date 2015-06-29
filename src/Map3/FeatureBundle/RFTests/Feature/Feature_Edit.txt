@@ -12,7 +12,7 @@ A user+ edits a feature
     And I wait until button is visible    Save
     When I fill in feature form    Feature Mod    ID-001-Mod    P1 - Should have    Narrative Mod
     And I click button    Save
-    Then I wait until message is visible    Feature edited successfully
+    Then I wait until text is visible    Feature edited successfully
     And I check feature view form    Feature Mod    ID-001-Mod    P1 - Should have    Narrative Mod
     And the node name should be equal to    F_1_anchor    ID-001-Mod - Feature Mod
 
@@ -157,4 +157,4 @@ Impossible to edit a feature with a name too short
     And I wait until button is visible    Save
     When I fill in feature form    X    ID-001-Mod    P1 - Should have    Narrative Mod
     And I click button    Save
-    Then I wait until message is visible    This value is too short. It should have 2 characters or more.
+    Then I wait until text is visible    This value is too short. It should have 2 characters or more.

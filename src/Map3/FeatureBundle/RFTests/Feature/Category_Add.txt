@@ -5,31 +5,24 @@ Resource          ../Keyword_resource.txt
 A user+ adds a category from baseline
     Given I am a user+
     And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    And Click Element    B_1_anchor
+    And I click node    B_1_anchor
     When Click Element    addMenu
     And I Click button    Add category
-    And I am waiting for ajax request
     And I fill in category form    Category added
     And I click button    Save
-    And I am waiting for ajax request
-    Then Page Should Contain    Category added successfully
+    Then I wait until text is visible    Category added successfully
     And I check category view form    Category added
 
 A user+ adds a category from category
     Given I am a user+
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
+    And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    When Click Element    C_9_anchor
+    When I click node    C_9_anchor
     And Click Element    addMenu
     And I Click button    Add category
-    And I am waiting for ajax request
     And I fill in category form    Category added
     And I click button    Save
-    And I am waiting for ajax request
-    Then Page Should Contain    Category added successfully
+    Then I wait until text is visible    Category added successfully
     And I check category view form    Category added
 
 Reload warning after timeout when click Add category
@@ -37,8 +30,7 @@ Reload warning after timeout when click Add category
     [Setup]    TestLifetimeSetup
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    And Click Element    B_1_anchor
+    And I click node    B_1_anchor
     When Click Element    addMenu
     And I am waiting for timeout
     And I Click button    Add category
@@ -50,12 +42,10 @@ Reload warning after timeout when click Save
     [Setup]    TestLifetimeSetup
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    And Click Element    B_1_anchor
+    And I click node    B_1_anchor
     And Click Element    addMenu
     And I Click button    Add category
-    And I am waiting for ajax request
-    When I fill in category form    Category added
+    And I fill in category form    Category added
     And I am waiting for timeout
     And I click button    Save
     Then Page should contain    Authentication has expired
@@ -214,22 +204,18 @@ Check context for category ajax request with same previous context
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
-Impossible to edit a category with a name too short
+Impossible to add a category with a name too short
     Given I am a user+
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    And I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    And Click Element    C_9_anchor
+    And I go directly to features tree    1
+    And I click node    B_1_anchor
     And Click Element    addMenu
     And I Click button    Add category
-    And I am waiting for ajax request
+    And I fill in category form    Category added
     When Input text    map3_category_name    X
     And I click button    Save
-    And I am waiting for ajax request
-    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+    Then I wait until text is visible    This value is too short. It should have 2 characters or more.
 
 No Add category menu for a user
     Given I am a user
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And I should not see action button(s)    Add category

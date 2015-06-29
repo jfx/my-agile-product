@@ -109,7 +109,7 @@ the node name should be equal to
     ${node_name} =    Get Text    id=${id}
     Should Be Equal As Strings    ${node_name}    ${name}
 
-I wait until message is visible
+I wait until text is visible
     [Arguments]    ${message}
-    Wait Until Page Contains    ${message}    ${WAIT_AJAX}
+    Wait Until Page Contains    ${message}    ${WAIT_TIMEOUT}
     Page Should Contain    ${message}
