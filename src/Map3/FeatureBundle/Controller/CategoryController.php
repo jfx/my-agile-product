@@ -233,7 +233,7 @@ class CategoryController extends AbstractJsonCoreController
     /**
      * Delete a category node on right panel.
      *
-     * @param Category $category The category to display
+     * @param Category $category The category to delete
      * @param Request  $request  The request
      *
      * @return Response A Response instance
@@ -259,7 +259,7 @@ class CategoryController extends AbstractJsonCoreController
                 ->add('success', 'Category removed successfully !');
 
             return $this->render(
-                'Map3FeatureBundle:Category:refreshDel.html.twig',
+                'Map3CoreBundle::refreshTreeOnDel.html.twig',
                 array('nodeId' => $nodeId)
             );
         }

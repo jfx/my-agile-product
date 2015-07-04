@@ -80,6 +80,13 @@ class Features extends AbstractFixture implements OrderedFixtureInterface
                 'category' => 'category1-category',
             ),
             array(
+                'title' => 'Feature C21',
+                'priority' => 'p3-priority',
+                'narrative' => 'Narrative F4+',
+                'baseline' => 'baselineone-baseline',
+                'category' => 'category21-category',
+            ),
+            array(
                 'title' => 'Feature C0',
                 'priority' => 'p0-priority',
                 'narrative' => 'Narrative F5',

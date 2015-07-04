@@ -116,4 +116,50 @@ class FeatureController extends AbstractJsonCoreController
             )
         );
     }
+
+    /**
+     * Delete a feature node on right panel.
+     *
+     * @param Feature $feature The feature to delete
+     * @param Request $request The request
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function delAction(Feature $feature, Request $request)
+    {
+        $baseline = $feature->getBaseline();
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+        );
+
+        if ($request->isMethod('POST')) {
+            $nodeId = $feature->getNodeId();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($feature);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Feature removed successfully !');
+
+            return $this->render(
+                'Map3CoreBundle::refreshTreeOnDel.html.twig',
+                array('nodeId' => $nodeId)
+            );
+        }
+        $featureType = new FeatureType();
+        $featureType->setDisabled();
+        $form = $this->createForm($featureType, $feature);
+
+        return $this->render(
+            'Map3FeatureBundle:Feature:del.html.twig',
+            array(
+                'form' => $form->createView(),
+                'feature' => $feature,
+            )
+        );
+    }
 }

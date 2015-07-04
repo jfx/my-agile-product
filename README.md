@@ -26,7 +26,7 @@ Features:
 
   - View a feature - #39,
   - Edit a feature - #2,
-
+  - Robot Framework tests improvements - #41,
 
 Bugfixes:
 

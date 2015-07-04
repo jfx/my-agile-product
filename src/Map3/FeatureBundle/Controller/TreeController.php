@@ -168,6 +168,12 @@ class TreeController extends AbstractJsonCoreController
                     array('id' => $idType['id'])
                 );
                 break;
+            case self::FEATURE:
+                $response = $this->forward(
+                    'Map3FeatureBundle:Feature:del',
+                    array('id' => $idType['id'])
+                );
+                break;
             default:
                 return $this->jsonResponseFactory(404, 'Wrong type of node');
         }

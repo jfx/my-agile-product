@@ -100,3 +100,12 @@ Feature edit Request
     Then I check the following ACL by request    /bln-feat/edit/1    False    True    True    False    False
     ...    False    False
     [Teardown]    EnvPostrequisite
+
+Feature delete Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/del/F_1    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
