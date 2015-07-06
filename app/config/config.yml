@@ -110,3 +110,4 @@ parameters:
     app.formatDate:            dd/mm/yyyy
     app.codeCoverage: false
     app.defaultPasswordLength: 12
+    app.defaultNarrative: "In order to [benefit]&#13;&#10;As a [Role]&#13;&#10;I want [feature]"

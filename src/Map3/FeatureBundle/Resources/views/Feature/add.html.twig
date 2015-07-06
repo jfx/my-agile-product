@@ -1,0 +1,29 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<ol class="breadcrumb">
+    <li class="active">Add feature</li>
+</ol>
+
+<form id="formPanel" novalidate="novalidate" class="form-horizontal well" method="post">
+
+    {{ form_widget(form) }}
+
+    <div class="center">
+        <a class="btn btn-sm btn-cust" onclick="formSubmit();" title="Save">
+            {{ icon('ok', true) }}&nbsp;&nbsp;Save&nbsp;&nbsp;
+        </a>
+    </div>
+</form>
+
+<script>
+function formSubmit() {
+    $.post('{{ path('bln-feat_add', {'nid': nodeId}) }}', $("#formPanel").serialize(), function (resp) {
+        $("div.node-panel").hide();
+        $("div.node-panel").html(resp).show();
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+        displayError(jqXHR.responseJSON, jqXHR.status);
+        $("div.node-panel").hide();
+    });
+}
+</script>

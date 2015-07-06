@@ -105,16 +105,16 @@ Request add category with multiple selected nodes
     And Should Contain    ${resp.content}    Please, select only one node !
     [Teardown]    EnvPostrequisite
 
-Request add category with not allowed parent node
+Request add category with not allowed parent node - feature
     [Tags]    request    failedTest
     [Setup]    EnvPrerequisite
     Given I am logging as by request    d1-user+
     ${resp}=    When Ajax Get Request    /bln-cat/add/F_1
-    Run Keyword And Expect Error    *    Then Should Be Equal As Strings    ${resp.status_code}    405
-    Run Keyword And Expect Error    *    And Should Contain    ${resp.content}    Operation not allowed
+    Then Should Be Equal As Strings    ${resp.status_code}    405
+    And Should Contain    ${resp.content}    Operation not allowed
     [Teardown]    EnvPostrequisite
 
-Request edit category timeout
+Request add category timeout
     [Tags]    request    timeout
     [Setup]    RequestLifetimeSetup
     Given I am logging as by request    d1-user+    d1-user+    Hello    True

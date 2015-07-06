@@ -54,6 +54,7 @@ class Feature
      * @var string Title
      *
      * @ORM\Column(name="title", type="string", length=100)
+     * @Assert\NotBlank()
      * @Assert\Length(min=2, max=100)
      */
     protected $title;

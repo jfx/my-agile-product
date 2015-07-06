@@ -34,7 +34,7 @@
         <ul class="dropdown-menu" role="menu" aria-labelledby="addMenu">
             {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
             <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">{{ icon('picture') }} Feature</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addFeature();" title="Add feature">{{ icon('picture') }} Feature</a></li>
             {% endif %}
             <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">{{ icon('film') }} Scenario</a></li>
         </ul>
@@ -73,6 +73,20 @@ function addCategory() {
     if(node && node.length) {
         node = node[0];
         $.get(Routing.generate('bln-cat_add', { nid: node }), function (resp) {
+            $("div.node-panel").hide();
+            $("div.node-panel").html(resp.content).show();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+        });
+    }
+}
+
+function addFeature() {
+    var node = $('#jstree1').jstree(true).get_selected();
+    if(node && node.length) {
+        node = node[0];
+        $.get(Routing.generate('bln-feat_add', { nid: node }), function (resp) {
             $("div.node-panel").hide();
             $("div.node-panel").html(resp.content).show();
         }).fail(function(jqXHR, textStatus, errorThrown) {

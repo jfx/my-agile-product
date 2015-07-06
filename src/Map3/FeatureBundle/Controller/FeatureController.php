@@ -21,7 +21,9 @@ namespace Map3\FeatureBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
+use Map3\BaselineBundle\Entity\Baseline;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
+use Map3\FeatureBundle\Entity\Category;
 use Map3\FeatureBundle\Entity\Feature;
 use Map3\FeatureBundle\Form\FeatureType;
 use Map3\UserBundle\Entity\Role;
@@ -42,6 +44,86 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FeatureController extends AbstractJsonCoreController
 {
+    /**
+     * Add a feature.
+     *
+     * @param string  $nid     The parent id (baseline or category)
+     * @param Request $request The request
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function addAction($nid, Request $request)
+    {
+        try {
+            $node = $this->getObjectFromNodeId($nid);
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(404, $e->getMessage());
+        }
+        $manager = $this->getDoctrine()->getManager();
+        $catRepository = $manager->getRepository('Map3FeatureBundle:Category');
+
+        if ($node instanceof Baseline) {
+            $baseline = $node;
+            $category = $catRepository->findRootByBaseline($baseline);
+        } elseif ($node instanceof Category) {
+            $category = $node;
+            $baseline = $category->getBaseline();
+        } else {
+            return $this->jsonResponseFactory(405, 'Operation not allowed');
+        }
+        try {
+            $this->setCurrentBaseline(
+                $baseline,
+                array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
+            );
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(403, $e->getMessage());
+        }
+        $feature = new Feature();
+        $feature->setBaseline($baseline);
+        $feature->setCategory($category);
+
+        $repositoryPriority = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3FeatureBundle:Priority');
+        $defaultPriority = $repositoryPriority->findDefaultPriority();
+        $feature->setPriority($defaultPriority);
+        
+        $narrative = $this->container->getParameter('app.defaultNarrative');
+        $feature->setNarrative(html_entity_decode($narrative));
+
+        $featureType = new FeatureType();
+        $form = $this->createForm($featureType, $feature);
+        $handler = $this->getFormHandler($form, $request);
+
+        if ($handler->process()) {
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Feature added successfully !');
+
+            return $this->render(
+                'Map3FeatureBundle:Feature:refresh.html.twig',
+                array(
+                    'feature' => $feature,
+                    'parentNodeId' => $nid,
+                )
+            );
+        }
+        $response = $this->render(
+            'Map3FeatureBundle:Feature:add.html.twig',
+            array(
+                'form' => $form->createView(),
+                'nodeId' => $nid,
+            )
+        );
+        if ($request->isMethod('POST')) {
+            return $response;
+        } else {
+            return $this->html2jsonResponse($response);
+        }
+    }
+    
     /**
      * Display node details on right panel.
      *

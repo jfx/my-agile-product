@@ -37,6 +37,16 @@ use Doctrine\ORM\QueryBuilder;
 class PriorityRepository extends EntityRepository
 {
     /**
+     * Get the default priority.
+     *
+     * @return Priority Priority object
+     */
+    public function findDefaultPriority()
+    {
+        return $this->find(Priority::DEFAULT_PRIORITY);
+    }
+    
+    /**
      * Get the query builder of all priorities ordered.
      *
      * @return QueryBuilder
