@@ -61,6 +61,18 @@ Check context for user add with clean context
     And the context log file should contain x lines    5
     And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
 
+Impossible to add a user with empty firstname
+    Impossible to add a user with wrong data    map3_user_firstname    ${EMPTY}    This value should not be blank.
+
+Impossible to add a user with empty name
+    Impossible to add a user with wrong data    map3_user_name    ${EMPTY}    This value should not be blank.
+
+Impossible to add a user with empty displayname
+    Impossible to add a user with wrong data    map3_user_displayname    ${EMPTY}    This value should not be blank.
+
+Impossible to add a user with empty username
+    Impossible to add a user with wrong data    map3_user_username    ${EMPTY}    This value should not be blank.
+
 Impossible to add a user with firstname too short
     Impossible to add a user with wrong data    map3_user_firstname    X    This value is too short. It should have 2 characters or more.
 

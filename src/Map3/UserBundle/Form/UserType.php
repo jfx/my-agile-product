@@ -24,6 +24,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * User edit form class.
@@ -72,6 +73,7 @@ class UserType extends AbstractDefaultType
                 array(
                     'constraints' => array(
                         new Length(array('min' => 2, 'max' => 50)),
+                        new NotBlank(),
                     ),
                 )
             )

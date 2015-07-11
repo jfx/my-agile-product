@@ -144,6 +144,17 @@ Check context for category ajax request with same previous context
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
+Impossible to edit a category with an empty name
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node    C_9_anchor
+    And I click button when visible    Edit
+    And I fill in category form    Category edited
+    When Input text    map3_category_name    ${EMPTY}
+    And I click button    Save
+    Then I wait until text is visible    This value should not be blank.
+
 Impossible to edit a category with a name too short
     Given I am a user+
     And I go directly to features tree    1

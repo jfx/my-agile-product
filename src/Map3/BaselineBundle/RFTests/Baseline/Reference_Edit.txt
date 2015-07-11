@@ -88,6 +88,14 @@ Check context for reference edit with same previous context
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
 
+Impossible to edit a reference with an empty name
+    Given I am a user+
+    And I go to edit reference page    1
+    When I fill in reference form    ${EMPTY}
+    When I save
+    Then Location Should Be    ${URL}/bln-ref/edit/1
+    And Page Should Contain    This value should not be blank.
+
 Impossible to edit a reference with a name too short
     Given I am a user+
     And I go to edit reference page    1

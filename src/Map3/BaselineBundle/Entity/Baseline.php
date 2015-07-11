@@ -54,6 +54,7 @@ class Baseline
      * @var string Name
      *
      * @ORM\Column(name="name", type="string", length=50)
+     * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
      */
     protected $name;

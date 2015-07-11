@@ -39,7 +39,7 @@ class PriorityRepository extends EntityRepository
     /**
      * Get the default priority.
      *
-     * @return Priority Priority object
+     * @return object|null Priority object
      */
     public function findDefaultPriority()
     {

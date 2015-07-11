@@ -88,6 +88,14 @@ Check context for reference add with same previous context
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
 
+Impossible to add a reference with an empty name
+    Given I am a user+
+    When I go to references list    View product #1    View release #1    View baseline #1
+    And I click action button    Add
+    When I fill in reference form    ${EMPTY}
+    And I save
+    Then Page Should Contain    This value should not be blank.
+
 Impossible to add a reference with a name too short
     Given I am a user+
     When I go to references list    View product #1    View release #1    View baseline #1
