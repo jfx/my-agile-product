@@ -39,8 +39,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Priority
 {
     const DEFAULT_PRIORITY = 2;
-        
-    /**
+
+/**
      * @var int Id
      *
      * @ORM\Column(name="id", type="integer")

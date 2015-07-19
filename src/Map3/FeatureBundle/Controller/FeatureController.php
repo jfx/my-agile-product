@@ -90,7 +90,7 @@ class FeatureController extends AbstractJsonCoreController
             ->getRepository('Map3FeatureBundle:Priority');
         $defaultPriority = $repositoryPriority->findDefaultPriority();
         $feature->setPriority($defaultPriority);
-        
+
         $narrative = $this->container->getParameter('app.defaultNarrative');
         $feature->setNarrative(html_entity_decode($narrative));
 
@@ -123,8 +123,8 @@ class FeatureController extends AbstractJsonCoreController
             return $this->html2jsonResponse($response);
         }
     }
-    
-    /**
+
+/**
      * Display node details on right panel.
      *
      * @param Feature $feature The feature to display

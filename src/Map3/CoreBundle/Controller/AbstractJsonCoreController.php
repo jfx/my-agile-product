@@ -115,7 +115,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
                 $featR = $manager->getRepository('Map3FeatureBundle:Feature');
                 $object = $featR->find($node['id']);
                 break;
-            
+
             default:
                 throw new DomainException('Wrong type of node');
         }

@@ -43,7 +43,7 @@ Impossible to edit a feature for a closed baseline
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    d1-user+
-    ${resp}=    When Ajax Get Request    /bln-feat/edit/6
+    ${resp}=    When Ajax Get Request    /bln-feat/edit/7
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And Should Contain    ${resp.content}    You are not allowed to access this resource
     [Teardown]    EnvPostrequisite

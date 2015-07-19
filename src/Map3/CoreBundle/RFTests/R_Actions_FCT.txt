@@ -7,7 +7,11 @@ I open browser
 
 I am logging as
     [Arguments]    ${user}    ${password}=DEFAULT    ${check}=Hello    ${force_dev}=False
+    ${close_toolbar} =     Convert to Boolean    'False'
     Run Keyword If    ${force_dev}    Go to    ${URL_DEV}/login
+    ${close_toolbar} =     Set Variable if    '${ENV}' != 'dev'    ${force_dev}
+    Run Keyword If    ${close_toolbar}    Wait Until Page Contains Element    xpath=//a[@title='Close Toolbar']
+    Run Keyword If    ${close_toolbar}    Click element    xpath=//a[@title='Close Toolbar']
     Run Keyword Unless    ${force_dev}    Go to    ${LOGIN_URL}
     ${password}    Set Variable If    '${password}' == 'DEFAULT'    ${user}    ${password}
     Input text    username    user${user}

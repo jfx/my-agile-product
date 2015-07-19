@@ -45,8 +45,8 @@ class PriorityRepository extends EntityRepository
     {
         return $this->find(Priority::DEFAULT_PRIORITY);
     }
-    
-    /**
+
+/**
      * Get the query builder of all priorities ordered.
      *
      * @return QueryBuilder
