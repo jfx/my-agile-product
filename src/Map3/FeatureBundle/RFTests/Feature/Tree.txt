@@ -13,7 +13,7 @@ Display the features tree for a baseline for a user
 
 Tree with no feature for a baseline
     Given I am a user
-    When I go to features tree    View product #1    View release #3    View baseline #8
+    And I go directly to features tree    8
     Then the node name should be equal to    B_8_anchor    Baseline Closed 4 release closed
     And Element Should Contain    id=badge_features    XX
 
@@ -26,7 +26,7 @@ View features tree without selecting a baseline before
 
 Impossible to delete a baseline
     Given I am a user+
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And the node name should be equal to    B_1_anchor    Baseline One
     And Click Element    B_1_anchor
     And I Click button    Delete node
@@ -173,50 +173,50 @@ Check context for features tree with same previous context
 
 Breadcrumb
     Given I am a user
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     Then the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
 
 Breadcrumb product link
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     When Click Link    id=br_lvl1
     Then Location Should Be    ${URL}/product/1
 
 Breadcrumb release link
     Given I am a user+
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     When Click Link    id=br_lvl2
     Then Location Should Be    ${URL}/release/1
 
 Breadcrumb baseline link
     Given I am a user+
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     When Click Link    id=br_lvl3
     Then Location Should Be    ${URL}/baseline/1
 
 Tab Main
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     When Click Link    id=a_main
     Then Location Should Be    ${URL}/baseline/1
 
 Tab Features
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And Element Should Contain    id=badge_features    XX
     When Click element    id=a_features
     Then Location Should Be    ${URL}/bln-features/1
 
 Tab References
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And Element Should Contain    id=badge_references    3
     When Click element    id=a_references
     Then Location Should Be    ${URL}/bln-refs/1
 
 Refresh button
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And I am waiting for ajax request
     And Click element    xpath=//button[@title='Expand all']
     And I am waiting for ajax request    3
@@ -227,7 +227,7 @@ Refresh button
 
 Expand all button
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And I am waiting for ajax request
     And Page should not contain    Category 111
     When Click element    xpath=//button[@title='Expand all']
@@ -236,7 +236,7 @@ Expand all button
 
 Collapse all button
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I go directly to features tree    1
     And I am waiting for ajax request
     And Click element    xpath=//button[@title='Expand all']
     And I am waiting for ajax request    3
@@ -246,20 +246,20 @@ Collapse all button
 
 No Add button for a closed baseline
     Given I am a user+
-    When I go to features tree    View product #1    View release #1    View baseline #3
+    When I go directly to features tree    3
     Then Page Should Not Contain Element    addMenu
 
 No Add button for a guest user
     Given I am a guest
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    When I go directly to features tree    1
     Then Page Should Not Contain Element    addMenu
 
 No Delete button for a closed baseline
     Given I am a user+
-    When I go to features tree    View product #1    View release #1    View baseline #3
+    When I go directly to features tree    3
     Then I should not see action button(s)    Delete node
 
 No Delete button for a guest user
     Given I am a guest
-    When I go to features tree    View product #1    View release #1    View baseline #1
+    When I go directly to features tree    1
     Then I should not see action button(s)    Delete node

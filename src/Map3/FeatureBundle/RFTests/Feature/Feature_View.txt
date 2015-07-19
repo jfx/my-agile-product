@@ -2,95 +2,98 @@
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
-A user+ edits a category
-    Given I am a user+
+Click to view a feature node
+    Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
     And I click node to display sub-node    B_1
-    When I click node    C_9_anchor
-    And I click button when visible    Edit
-    When I fill in category form    Ctg 1 Mod
-    And I click button    Save
-    Then I wait until text is visible    Category edited successfully
-    And I check category view form    Ctg 1 Mod
-    And the node name should be equal to    C_9_anchor    Ctg 1 Mod
+    When I click node to display sub-node    C_9
+    When I click node    F_1_anchor
+    Then I check feature view form    Feature C1    ID-001    1    Narrative F1
 
-Reload warning after timeout when click to edit category
+Reload warning after timeout when click to view feature
     [Tags]    timeout
     [Setup]    TestLifetimeSetup
-    Given I am logging as    d1-user+    d1-user+    Hello    True
+    Given I am logging as    user    user    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
     And I click node to display sub-node    B_1
-    And I click node    C_9_anchor
-    And I click button when visible    Edit
     When I am waiting for timeout
-    And I click button    Save
-    Then Page should contain    Authentication has expired
+    And I click node    F_6_anchor
+    Then I wait until text is visible    Authentication has expired
     [Teardown]    TestLifetimeTeardown
 
-Request edit category
+Request view feature
     [Tags]    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
-    And the element should contain items    ${resp.content}    Category 1    Details 4 Category 1
+    And the element should contain items    ${resp.content}    Feature C1    Narrative F1
     [Teardown]    EnvPostrequisite
 
-Impossible to edit a category for a closed baseline
+Request view feature with non numeric Id
     [Tags]    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/25
-    Then Should Be Equal As Strings    ${resp.status_code}    403
-    And Should Contain    ${resp.content}    You are not allowed to access this resource
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_XXX
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Wrong node Id
     [Teardown]    EnvPostrequisite
 
-Request edit category with wrong node Id
+Request view feature with wrong node Id
     [Tags]    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/999
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_999
     Then Should Be Equal As Strings    ${resp.status_code}    404
     And Should Contain    ${resp.content}    Not Found
     [Teardown]    EnvPostrequisite
 
-Request edit category timeout
+Request view feature with wrong baseline Id
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/999/node/F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the element should contain items    ${resp.content}    Feature C1
+    [Teardown]    EnvPostrequisite
+
+Request view feature timeout
     [Tags]    request    timeout
     [Setup]    RequestLifetimeSetup
-    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    Given I am logging as by request    user    user    Hello    True
     And I am waiting for timeout
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And Should Contain    ${resp.content}    A Token was not found in the SecurityContext
     [Teardown]    RequestLifetimeTeardown
 
-Check context for category ajax request with clean context
+Check context for feature ajax request with clean context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    Given I am logging as by request    user    user    Hello    True
     And Get request    ${SESSION}    /product/1
     And Get request    ${SESSION}    /release/1
     And Get request    ${SESSION}    /baseline/1
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    3
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for category ajax request without context
+Check context for feature ajax request without context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    Given I am logging as by request    user    user    Hello    True
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for category ajax request with previous context
+Check context for feature ajax request with previous context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    d1-none    d1-none    Hello    True
@@ -98,70 +101,90 @@ Check context for category ajax request with previous context
     And Get request    ${SESSION}    /release/4
     And Get request    ${SESSION}    /baseline/6
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for category ajax request with same previous product
+Check context for feature ajax request with same previous product
     [Tags]    context    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    Given I am logging as by request    user    user    Hello    True
     And Get request    ${SESSION}    /product/1
     And Get request    ${SESSION}    /release/2
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    6
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for category ajax request with same previous release
+Check context for feature ajax request with same previous release
     [Tags]    context    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    Given I am logging as by request    user    user    Hello    True
     And Get request    ${SESSION}    /product/1
     And Get request    ${SESSION}    /release/1
     And Get request    ${SESSION}    /baseline/2
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    5
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for category ajax request with same previous context
+Check context for feature ajax request with same previous context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
-    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    Given I am logging as by request    user    user    Hello    True
     And Get request    ${SESSION}    /bln-features/1
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-cat/edit/9
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/F_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    3
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
-Impossible to edit a category with an empty name
+Edit button displayed for user+ profile
     Given I am a user+
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    And I click node    C_9_anchor
-    And I click button when visible    Edit
-    And I fill in category form    Category edited
-    When Input text    map3_category_name    ${EMPTY}
-    And I click button    Save
-    Then I wait until text is visible    This value should not be blank.
+    And I click node to display sub-node    C_9
+    And I click node    F_1_anchor
+    When I click button when visible    Edit
+    And I am waiting for ajax request
+    Then Location Should Be    ${URL}/bln-features/1
+    And I should see action button(s)    Save
 
-Impossible to edit a category with a name too short
+Reload warning after timeout when click edit button
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/bln-features/1
+    And I click node to display sub-node    B_1
+    When I click node to display sub-node    C_9
+    And I click node    F_1_anchor
+    And I am waiting for timeout
+    When I click button    Edit
+    Then I wait until text is visible    Authentication has expired
+    [Teardown]    TestLifetimeTeardown
+
+Edit button not displayed for closed baseline
     Given I am a user+
+    And I go directly to features tree    3
+    And the node name should be equal to    B_7_anchor    Baseline Closed
+    And I click node to display sub-node    B_7
+    When I click node    F_7_anchor
+    Then I check feature view form    Feature 1 - baseline closed    ID-001    1    Narrative F1 - baseline closed
+    And I should not see action button(s)    Edit
+
+Edit button not displayed for non user+ profile
+    Given I am a user
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    And I click node    C_9_anchor
-    And I click button when visible    Edit
-    And I fill in category form    Category edited
-    When Input text    map3_category_name    X
-    And I click button    Save
-    Then I wait until text is visible    This value is too short. It should have 2 characters or more.
+    When I click node to display sub-node    C_9
+    When I click node    F_1_anchor
+    Then I check feature view form    Feature C1    ID-001    1    Narrative F1
+    And I should not see action button(s)    Edit

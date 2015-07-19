@@ -9,3 +9,9 @@ map3_bln-cat:
     prefix:   /bln-cat
     requirements:
         id:  \d+
+
+map3_bln-feat:
+    resource: "@Map3FeatureBundle/Resources/config/routing/feature.yml"
+    prefix:   /bln-feat
+    requirements:
+        id:  \d+

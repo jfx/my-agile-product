@@ -105,8 +105,9 @@ fos_user:
             template: Map3UserBundle:User:resetting.email.html.twig
 
 parameters:
-    app.version:               0.7.0
+    app.version:               0.8.0
     app.build:                 BBB
     app.formatDate:            dd/mm/yyyy
     app.codeCoverage: false
     app.defaultPasswordLength: 12
+    app.defaultNarrative: "In order to [benefit]&#13;&#10;As a [Role]&#13;&#10;I want [feature]"

@@ -115,6 +115,13 @@ Check context for release edit with same previous context
     And the context log file should contain x lines    6
     And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
 
+Impossible to edit a release with an empty name
+    Given I am a manager
+    And I go to edit release #1 page
+    When Input Text    map3_release_name    ${EMPTY}
+    And I save
+    Then Page Should Contain    This value should not be blank.
+
 Impossible to edit a release with a name too short
     Given I am a manager
     And I go to edit release #1 page

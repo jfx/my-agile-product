@@ -24,13 +24,14 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
 use Map3\FeatureBundle\Entity\Category;
-use Map3\FeatureBundle\Form\CategoryType;
+use Map3\FeatureBundle\Entity\Feature;
+use Map3\FeatureBundle\Form\FeatureType;
 use Map3\UserBundle\Entity\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Category controller class.
+ * Feature controller class.
  *
  * @category  MyAgileProduct
  *
@@ -41,10 +42,10 @@ use Symfony\Component\HttpFoundation\Response;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class CategoryController extends AbstractJsonCoreController
+class FeatureController extends AbstractJsonCoreController
 {
     /**
-     * Add a category.
+     * Add a feature.
      *
      * @param string  $nid     The parent id (baseline or category)
      * @param Request $request The request
@@ -65,10 +66,10 @@ class CategoryController extends AbstractJsonCoreController
 
         if ($node instanceof Baseline) {
             $baseline = $node;
-            $parent = $catRepository->findRootByBaseline($baseline);
+            $category = $catRepository->findRootByBaseline($baseline);
         } elseif ($node instanceof Category) {
-            $parent = $node;
-            $baseline = $parent->getBaseline();
+            $category = $node;
+            $baseline = $category->getBaseline();
         } else {
             return $this->jsonResponseFactory(405, 'Operation not allowed');
         }
@@ -80,28 +81,37 @@ class CategoryController extends AbstractJsonCoreController
         } catch (Exception $e) {
             return $this->jsonResponseFactory(403, $e->getMessage());
         }
-        $category = new Category();
-        $category->setBaseline($baseline);
-        $category->setParent($parent);
+        $feature = new Feature();
+        $feature->setBaseline($baseline);
+        $feature->setCategory($category);
 
-        $categoryType = new CategoryType();
-        $form = $this->createForm($categoryType, $category);
+        $repositoryPriority = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3FeatureBundle:Priority');
+        $defaultPriority = $repositoryPriority->findDefaultPriority();
+        $feature->setPriority($defaultPriority);
+
+        $narrative = $this->container->getParameter('app.defaultNarrative');
+        $feature->setNarrative(html_entity_decode($narrative));
+
+        $featureType = new FeatureType();
+        $form = $this->createForm($featureType, $feature);
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
             $this->get('session')->getFlashBag()
-                ->add('success', 'Category added successfully !');
+                ->add('success', 'Feature added successfully !');
 
             return $this->render(
-                'Map3FeatureBundle:Category:refresh.html.twig',
+                'Map3FeatureBundle:Feature:refresh.html.twig',
                 array(
-                    'category' => $category,
+                    'feature' => $feature,
                     'parentNodeId' => $nid,
                 )
             );
         }
         $response = $this->render(
-            'Map3FeatureBundle:Category:add.html.twig',
+            'Map3FeatureBundle:Feature:add.html.twig',
             array(
                 'form' => $form->createView(),
                 'nodeId' => $nid,
@@ -114,87 +124,46 @@ class CategoryController extends AbstractJsonCoreController
         }
     }
 
-    /**
-     * Get children of a category node.
-     *
-     * @param Category $category The category to display
-     *
-     * @return Response A Response instance
-     *
-     * @Secure(roles="ROLE_USER")
-     */
-    public function childAction(Category $category)
-    {
-        $baseline = $category->getBaseline();
-        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
-
-        $categoryRepo = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('Map3FeatureBundle:Category');
-        $featureRepo = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('Map3FeatureBundle:Feature');
-
-        $categories = $categoryRepo->findChildrenByBaselineParentId(
-            $baseline,
-            $category->getId()
-        );
-        $features = $featureRepo->findFeatureByBaselineCategoryId(
-            $baseline,
-            $category->getId()
-        );
-        $children = array();
-        $children['categories'] = $categories;
-        $children['features'] = $features;
-
-        return $this->render(
-            'Map3FeatureBundle:Tree:children.json.twig',
-            array(
-                'children' => $children,
-            )
-        );
-    }
-
-    /**
+/**
      * Display node details on right panel.
      *
-     * @param Category $category The category to display
+     * @param Feature $feature The feature to display
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function viewAction(Category $category)
+    public function viewAction(Feature $feature)
     {
-        $baseline = $category->getBaseline();
+        $baseline = $feature->getBaseline();
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
 
-        $categoryType = new CategoryType();
-        $categoryType->setDisabled();
-        $form = $this->createForm($categoryType, $category);
+        $featureType = new FeatureType();
+        $featureType->setDisabled();
+        $form = $this->createForm($featureType, $feature);
 
         return $this->render(
-            'Map3FeatureBundle:Category:view.html.twig',
+            'Map3FeatureBundle:Feature:view.html.twig',
             array(
                 'form' => $form->createView(),
-                'category' => $category,
+                'feature' => $feature,
             )
         );
     }
 
     /**
-     * Edit a category node on right panel.
+     * Edit a feature node on right panel.
      *
-     * @param Category $category The category to display
-     * @param Request  $request  The request
+     * @param Feature $feature The feature to display
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function editAction(Category $category, Request $request)
+    public function editAction(Feature $feature, Request $request)
     {
-        $baseline = $category->getBaseline();
+        $baseline = $feature->getBaseline();
 
         try {
             $this->setCurrentBaseline(
@@ -204,74 +173,74 @@ class CategoryController extends AbstractJsonCoreController
         } catch (Exception $e) {
             return $this->jsonResponseFactory(403, $e->getMessage());
         }
-        $form = $this->createForm(new CategoryType(), $category);
+        $form = $this->createForm(new FeatureType(), $feature);
 
         $handler = $this->getFormHandler($form, $request);
 
         if ($handler->process()) {
             $this->get('session')->getFlashBag()
-                ->add('success', 'Category edited successfully !');
+                ->add('success', 'Feature edited successfully !');
 
             return $this->render(
-                'Map3FeatureBundle:Category:refresh.html.twig',
+                'Map3FeatureBundle:Feature:refresh.html.twig',
                 array(
-                    'category' => $category,
+                    'feature' => $feature,
                     'parentNodeId' => null,
                 )
             );
         }
 
         return $this->render(
-            'Map3FeatureBundle:Category:edit.html.twig',
+            'Map3FeatureBundle:Feature:edit.html.twig',
             array(
                 'form' => $form->createView(),
-                'category' => $category,
+                'feature' => $feature,
             )
         );
     }
 
     /**
-     * Delete a category node on right panel.
+     * Delete a feature node on right panel.
      *
-     * @param Category $category The category to delete
-     * @param Request  $request  The request
+     * @param Feature $feature The feature to delete
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-    public function delAction(Category $category, Request $request)
+    public function delAction(Feature $feature, Request $request)
     {
-        $baseline = $category->getBaseline();
+        $baseline = $feature->getBaseline();
         $this->setCurrentBaseline(
             $baseline,
             array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
         );
 
         if ($request->isMethod('POST')) {
-            $nodeId = $category->getNodeId();
+            $nodeId = $feature->getNodeId();
 
             $em = $this->getDoctrine()->getManager();
-            $em->remove($category);
+            $em->remove($feature);
             $em->flush();
 
             $this->get('session')->getFlashBag()
-                ->add('success', 'Category removed successfully !');
+                ->add('success', 'Feature removed successfully !');
 
             return $this->render(
                 'Map3CoreBundle::refreshTreeOnDel.html.twig',
                 array('nodeId' => $nodeId)
             );
         }
-        $categoryType = new CategoryType();
-        $categoryType->setDisabled();
-        $form = $this->createForm($categoryType, $category);
+        $featureType = new FeatureType();
+        $featureType->setDisabled();
+        $form = $this->createForm($featureType, $feature);
 
         return $this->render(
-            'Map3FeatureBundle:Category:del.html.twig',
+            'Map3FeatureBundle:Feature:del.html.twig',
             array(
                 'form' => $form->createView(),
-                'category' => $category,
+                'feature' => $feature,
             )
         );
     }

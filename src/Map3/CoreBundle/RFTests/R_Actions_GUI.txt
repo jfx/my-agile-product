@@ -10,6 +10,15 @@ I click button
     [Arguments]    ${label}
     Click element    xpath=//a[@title='${label}']
 
+I click button when visible
+    [Arguments]    ${label}
+    Wait Until Element Is Visible    xpath=//a[@title='${label}']    ${WAIT_AJAX}
+    Click element    xpath=//a[@title='${label}']
+
+I wait until button is visible
+    [Arguments]    ${label}
+    Wait Until Element Is Visible    xpath=//a[@title='${label}']    ${WAIT_AJAX}
+
 I confirm
     Sleep    1s
     Click element    button_ok
@@ -41,4 +50,10 @@ I fill in login form
 
 I click node to display sub-node
     [Arguments]    ${id}
+    Wait Until Element Is Visible    xpath=//li[@id='${id}']/i[@class='jstree-icon jstree-ocl']    ${WAIT_TIMEOUT}
     Click Element    xpath=//li[@id='${id}']/i[@class='jstree-icon jstree-ocl']
+
+I click node
+    [Arguments]    ${id}
+    Wait Until Element Is Visible    ${id}    ${WAIT_TIMEOUT}
+    Click Element    ${id}

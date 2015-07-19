@@ -17,31 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\ProductBundle\Entity;
+namespace Map3\FeatureBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Product entity class.
+ * Priority entity class.
  *
  * @category  MyAgileProduct
  *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
- * @copyright 2014 Francois-Xavier Soubirou
+ * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  *
  * @link      http://www.myagileproduct.org
  * @since     3
  *
- * @ORM\Table(name="map3_product")
- * @ORM\Entity(repositoryClass="Map3\ProductBundle\Entity\ProductRepository")
- * @UniqueEntity(fields="name", message="A product with this name already exists.")
+ * @ORM\Table(name="map3_priority")
+ * @ORM\Entity(repositoryClass="Map3\FeatureBundle\Entity\PriorityRepository")
  */
-class Product
+class Priority
 {
-    /**
+    const DEFAULT_PRIORITY = 2;
+
+/**
      * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
@@ -51,20 +50,25 @@ class Product
     private $id;
 
     /**
-     * @var string Name
+     * @var string Label
      *
-     * @ORM\Column(name="name", type="string", length=50, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=50)
+     * @ORM\Column(name="label", type="string", length=20)
      */
-    private $name;
+    private $label;
 
     /**
-     * @var string Details
+     * Set id.
      *
-     * @ORM\Column(name="details", type="text", nullable=true)
+     * @param int $id Id.
+     *
+     * @return Priority
      */
-    private $details;
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id.
@@ -77,50 +81,26 @@ class Product
     }
 
     /**
-     * Set name.
+     * Set label.
      *
-     * @param string $name Name of product.
+     * @param string $label The label.
      *
-     * @return Product
+     * @return Role
      */
-    public function setName($name)
+    public function setLabel($label)
     {
-        $this->name = $name;
+        $this->label = $label;
 
         return $this;
     }
 
     /**
-     * Get name.
+     * Get label.
      *
      * @return string
      */
-    public function getName()
+    public function getLabel()
     {
-        return $this->name;
-    }
-
-    /**
-     * Set details.
-     *
-     * @param string $details Details of product.
-     *
-     * @return Product
-     */
-    public function setDetails($details)
-    {
-        $this->details = $details;
-
-        return $this;
-    }
-
-    /**
-     * Get details.
-     *
-     * @return string
-     */
-    public function getDetails()
-    {
-        return $this->details;
+        return $this->label;
     }
 }

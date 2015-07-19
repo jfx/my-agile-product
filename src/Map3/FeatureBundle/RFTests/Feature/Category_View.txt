@@ -5,11 +5,8 @@ Resource          ../Keyword_resource.txt
 Click to view a category node
     Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
     And I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    When Click Element    C_9_anchor
-    And I am waiting for ajax request
+    When I click node    C_9_anchor
     Then I check category view form    Category 1
 
 Reload warning after timeout when click to view category
@@ -17,12 +14,10 @@ Reload warning after timeout when click to view category
     [Setup]    TestLifetimeSetup
     Given I am logging as    user    user    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    B_1_anchor    Baseline One
     And I click node to display sub-node    B_1
     And I am waiting for timeout
-    When Click Element    C_9_anchor
-    And I am waiting for ajax request
-    Then Page should contain    Authentication has expired
+    When I click node    C_9_anchor
+    Then I wait until text is visible    Authentication has expired
     [Teardown]    TestLifetimeTeardown
 
 Request view category
@@ -153,13 +148,10 @@ Check context for category ajax request with same previous context
 
 Edit button displayed for user+ profile
     Given I am a user+
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
+    And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    When Click Element    C_9_anchor
-    And I am waiting for ajax request
-    When I click button    Edit
+    When I click node    C_9_anchor
+    When I click button when visible    Edit
     And I am waiting for ajax request
     Then Location Should Be    ${URL}/bln-features/1
     And I should see action button(s)    Save
@@ -169,31 +161,26 @@ Reload warning after timeout when click edit button
     [Setup]    TestLifetimeSetup
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    B_1_anchor    Baseline One
     And I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    And Click Element    C_9_anchor
+    When I click node    C_9_anchor
     And I am waiting for timeout
     When I click button    Edit
     Then Page should contain    Authentication has expired
     [Teardown]    TestLifetimeTeardown
 
 Edit button not displayed for closed baseline
-    Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #3
+    Given I am a user+
+    And I go directly to features tree    3
     And the node name should be equal to    B_7_anchor    Baseline Closed
     And I click node to display sub-node    B_7
-    And I am waiting for ajax request
-    When Click Element    C_25_anchor
-    And I am waiting for ajax request
-    Then I should not see action button(s)    Edit
+    When I click node    C_25_anchor
+    Then I check category view form    Category 1 - baseline closed
+    And I should not see action button(s)    Edit
 
 Edit button not displayed for non user+ profile
     Given I am a user
-    And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
+    And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    And I am waiting for ajax request
-    When Click Element    C_9_anchor
-    And I am waiting for ajax request
+    When I click node    C_9_anchor
+    And I check category view form    Category 1
     Then I should not see action button(s)    Edit

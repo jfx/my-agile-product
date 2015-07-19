@@ -110,6 +110,14 @@ Add a baseline without selecting a product before
     And the breadcrumb should contain    Product One    Release One    Add baseline
     And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
 
+Impossible to add a baseline with an empty name
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    ${EMPTY}
+    And I save
+    Then Page Should Contain    This value should not be blank.
+
 Impossible to add a baseline with a name too short
     Given I am a user+
     And I go to baselines list    View product #1    View release #1

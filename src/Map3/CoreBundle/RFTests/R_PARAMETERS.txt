@@ -21,3 +21,4 @@ ${IMAP_SERVER}    imap.gmail.com
 ${COOKIE_LIFETIME}    20
 ${WAIT_TIMEOUT}    25
 ${WAIT_AJAX}      5
+${WAIT_ELEMENT_INTERACTABLE}    1

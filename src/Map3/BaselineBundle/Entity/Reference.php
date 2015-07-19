@@ -52,6 +52,7 @@ class Reference
      * @var string Label
      *
      * @ORM\Column(name="label", type="string", length=50)
+     * @Assert\NotBlank()
      * @Assert\Length(min=2, max=50)
      */
     protected $label;

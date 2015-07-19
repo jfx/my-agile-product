@@ -65,6 +65,14 @@ Check context for product edit with same previous context
     And the context log file should contain x lines    6
     And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    Same product. No change    Update user
 
+Impossible to edit a product with an empty name
+    Given I am a super-admin
+    And I go to products list
+    And I click action button    Edit product #1
+    When Input Text    map3_product_name    ${EMPTY}
+    And I save
+    Then Page Should Contain    This value should not be blank.
+
 Impossible to edit a product with a name too short
     Given I am a super-admin
     And I go to products list

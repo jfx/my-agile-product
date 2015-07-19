@@ -17,28 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\UserBundle\Form;
+namespace Map3\FeatureBundle\Form;
 
 use Map3\CoreBundle\Form\AbstractDefaultType;
+use Map3\FeatureBundle\Entity\PriorityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * User edit form class.
+ * Feature form class.
  *
  * @category  MyAgileProduct
  *
  * @author    Francois-Xavier Soubirou <soubirou@yahoo.fr>
- * @copyright 2014 Francois-Xavier Soubirou
+ * @copyright 2015 Francois-Xavier Soubirou
  * @license   http://www.gnu.org/licenses/   GPLv3
  *
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class UserType extends AbstractDefaultType
+class FeatureType extends AbstractDefaultType
 {
     /**
      * Builds the form.
@@ -53,70 +51,36 @@ class UserType extends AbstractDefaultType
     {
         $builder
             ->add(
-                'firstname',
+                'title',
                 'text',
                 array()
             )
             ->add(
-                'name',
+                'extId',
                 'text',
-                array()
+                array('horizontal_input_wrapper_class' => 'col-xs-4')
             )
             ->add(
-                'displayname',
-                'text',
-                array()
-            )
-            ->add(
-                'username',
-                'text',
+                'priority',
+                'entity',
                 array(
-                    'constraints' => array(
-                        new Length(array('min' => 2, 'max' => 50)),
-                        new NotBlank(),
-                    ),
+                    'label' => 'Priority',
+                    'horizontal_input_wrapper_class' => 'col-xs-4',
+                    'class' => 'Map3\FeatureBundle\Entity\Priority',
+                    'property' => 'label',
+                    'query_builder' => function (PriorityRepository $pr) {
+                        return $pr->getQBAllOrdered();
+                    },
                 )
             )
             ->add(
-                'updatedPassword',
-                'password',
-                array(
-                    'label' => 'Password',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'email',
-                'text',
-                array(
-                    'constraints' => array(
-                        new Email(array('message' => 'Invalid email address')),
-                    ),
-                )
-            )
-            ->add(
-                'superAdmin',
-                'checkbox',
-                array(
-                    'label' => 'Super-admin',
-                    'required' => false,
-                )
-            )
-            ->add(
-                'details',
+                'narrative',
                 'textarea',
                 array(
                     'required' => false,
                     'attr' => array(
-                        'rows' => 4,
+                        'rows' => 6,
                     ),
-                )
-            )
-            ->add(
-                'locked',
-                'checkbox',
-                array(
-                    'required' => false,
                 )
             );
     }
@@ -130,7 +94,7 @@ class UserType extends AbstractDefaultType
     {
         $resolver->setDefaults(
             $this->setDisabledAttr(
-                array('data_class' => 'Map3\UserBundle\Entity\User')
+                array('data_class' => 'Map3\FeatureBundle\Entity\Feature')
             )
         );
     }
@@ -142,6 +106,6 @@ class UserType extends AbstractDefaultType
      */
     public function getName()
     {
-        return 'map3_user';
+        return 'map3_feature';
     }
 }

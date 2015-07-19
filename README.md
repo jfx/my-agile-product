@@ -16,12 +16,27 @@ My Agile Product features :
 * Multi products,
 * Multi users with role,
 * Releases and baselines management,
-* Features management with editable tree and table view (planned),
+* Features management with editable tree,
 * Scenarios and steps management with editable tree and table view (planned),
 * Tests management (planned).
 
 - - -
-### 0.7.0 (31 may 2015)
+### 0.8.0 (19 July 2015)
+Features:
+
+  - View a feature - #39,
+  - Edit a feature - #2,
+  - Add a feature - #61,
+  - Delete a feature - #62,
+  - Robot Framework tests improvements - #41.
+
+Bugfixes:
+
+  - Add not blank check for mandatory fields - #65,
+  - Minor Robot Framework tests fixes.
+
+
+### 0.7.0 (31 May 2015)
 Features:
 
   - Refresh tree branch when node is updated - #56,
@@ -36,7 +51,7 @@ Bugfixes:
   - Migration of $request object usage - #59.
 
 
-### 0.6.0 (09 may 2015)
+### 0.6.0 (09 May 2015)
 Features:
 
   - Remove all children (Reference and category) when removing a baseline - #47,

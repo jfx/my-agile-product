@@ -112,6 +112,13 @@ Check context for baseline edit with same previous context
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
 
+Impossible to edit a baseline with an empty name
+    Given I am a manager
+    And I go to edit baseline page    1
+    When Input Text    map3_baseline_name    ${EMPTY}
+    And I save
+    Then Page Should Contain    This value should not be blank.
+
 Impossible to edit a baseline with a name too short
     Given I am a manager
     And I go to edit baseline page    1
