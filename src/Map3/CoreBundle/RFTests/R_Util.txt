@@ -85,3 +85,11 @@ UnsetLifetime
     Should Be Equal As Integers    ${rc}    0
     ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} cache:warmup
     Should Be Equal As Integers    ${rc}    0
+
+RequestLifetimeSetup
+    SetLifetime
+    EnvPrerequisite
+
+RequestLifetimeTeardown
+    UnsetLifetime
+    EnvPostrequisite

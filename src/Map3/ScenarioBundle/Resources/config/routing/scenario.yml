@@ -1,0 +1,17 @@
+bln-sce_view:
+    pattern:  /{id}
+    defaults: { _controller: "Map3ScenarioBundle:Scenario:view" }
+
+bln-sce_add:
+    pattern:  /add/{nid}
+    defaults: { _controller: "Map3ScenarioBundle:Scenario:add" }
+    options:
+        expose: true
+
+bln-sce_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: "Map3ScenarioBundle:Scenario:edit" }
+
+bln-sce_del:
+    pattern:  /del/{id}
+    defaults: { _controller: "Map3ScenarioBundle:Scenario:del" }

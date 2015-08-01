@@ -17,15 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\FeatureBundle\DataFixtures\ORM;
+namespace Map3\ScenarioBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Map3\FeatureBundle\Entity\Priority;
+use Map3\ScenarioBundle\Entity\Status;
 
 /**
- * Load role data class.
+ * Load status data class.
  *
  * @category  MyAgileProduct
  *
@@ -36,7 +36,7 @@ use Map3\FeatureBundle\Entity\Priority;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class Priorities extends AbstractFixture implements OrderedFixtureInterface
+class Statuses extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * Load data fixtures with the passed EntityManager.
@@ -49,21 +49,23 @@ class Priorities extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $dataArray = array(
-            array('label' => 'P0 - Must have'),
-            array('label' => 'P1 - Should have'),
-            array('label' => 'P2 - Could have'),
-            array('label' => 'P3 - Won\'t have'),
+            array('label' => 'Not implemented'),
+            array('label' => 'Unchecked'),
+            array('label' => 'Pending'),
+            array('label' => 'Passed'),
+            array('label' => 'Failed'),
+            array('label' => 'Undefined'),
         );
         $objectList = array();
 
         foreach ($dataArray as $i => $data) {
-            $objectList[$i] = new Priority();
+            $objectList[$i] = new Status();
             $objectList[$i]->setLabel($data['label']);
 
             $manager->persist($objectList[$i]);
 
             // In lowercase and no whitespace
-            $ref = strtolower(substr($data['label'], 0, 2)).'-priority';
+            $ref = strtolower(substr($data['label'], 0, 3)).'-status';
             $this->addReference($ref, $objectList[$i]);
         }
         $manager->flush();

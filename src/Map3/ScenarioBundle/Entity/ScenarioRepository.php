@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\FeatureBundle\Entity;
+namespace Map3\ScenarioBundle\Entity;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
+use Gedmo\Sortable\Entity\Repository\SortableRepository;
+use Map3\BaselineBundle\Entity\Baseline;
 
 /**
- * Priority entity repository class.
+ * Scenario entity repository class.
  *
  * @category  MyAgileProduct
  *
@@ -34,28 +34,29 @@ use Doctrine\ORM\QueryBuilder;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class PriorityRepository extends EntityRepository
+class ScenarioRepository extends SortableRepository
 {
     /**
-     * Get the default priority.
+     * Get children scenarios by baseline and feature id.
      *
-     * @return object|null Priority object
-     */
-    public function findDefaultPriority()
-    {
-        return $this->find(Priority::DEFAULT_PRIORITY);
-    }
-
-    /**
-     * Get the query builder of all priorities ordered.
+     * @param Baseline $baseline The baseline
+     * @param int      $fid      Feature id.
      *
-     * @return QueryBuilder
+     * @return Scenario[]
      */
-    public function getQBAllOrdered()
+    public function findAllByBaselineFeatureId(Baseline $baseline, $fid)
     {
-        $qb = $this->createQueryBuilder('p')
-            ->orderBy('p.label', 'ASC');
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.baseline', 'b')
+            ->innerJoin('s.feature', 'f')
+            ->where('b.id = :baselineId')
+            ->andWhere('f.id = :featureId')
+            ->setParameter('baselineId', $baseline->getId())
+            ->setParameter('featureId', $fid)
+            ->orderBy('s.position', 'ASC');
 
-        return $qb;
+        $results = $qb->getQuery()->getResult();
+
+        return $results;
     }
 }

@@ -17,12 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\FeatureBundle\Entity;
+namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Priority entity class.
+ * Status entity class.
  *
  * @category  MyAgileProduct
  *
@@ -33,12 +34,12 @@ use Doctrine\ORM\Mapping as ORM;
  * @link      http://www.myagileproduct.org
  * @since     3
  *
- * @ORM\Table(name="map3_priority")
- * @ORM\Entity(repositoryClass="Map3\FeatureBundle\Entity\PriorityRepository")
+ * @ORM\Table(name="map3_status")
+ * @ORM\Entity(repositoryClass="Map3\ScenarioBundle\Entity\StatusRepository")
  */
-class Priority
+class Status
 {
-    const DEFAULT_PRIORITY = 2;
+    const DEFAULT_STATUS = 2;
 
 /**
      * @var int Id
@@ -57,11 +58,19 @@ class Priority
     private $label;
 
     /**
+     * @var int Position
+     *
+     * @Gedmo\SortablePosition
+     * @ORM\Column(name="position", type="integer")
+     */
+    private $position;
+    
+    /**
      * Set id.
      *
      * @param int $id Id.
      *
-     * @return Priority
+     * @return Status
      */
     public function setId($id)
     {
@@ -85,7 +94,7 @@ class Priority
      *
      * @param string $label The label.
      *
-     * @return Priority
+     * @return Status
      */
     public function setLabel($label)
     {
@@ -102,5 +111,29 @@ class Priority
     public function getLabel()
     {
         return $this->label;
+    }
+    
+    /**
+     * Set order.
+     *
+     * @param int $position The order.
+     *
+     * @return Status
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * Get position.
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 }

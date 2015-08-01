@@ -83,6 +83,15 @@ Category delete Request
     ...    False    False
     [Teardown]    EnvPostrequisite
 
+Feature children Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/child?pid=F_1    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
 Feature view Request
     [Tags]    request
     [Setup]    EnvPrerequisite
@@ -98,6 +107,15 @@ Feature edit Request
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
     Then I check the following ACL by request    /bln-feat/edit/1    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Feature add Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-feat/add/C_9    False    True    True    False    False
     ...    False    False
     [Teardown]    EnvPostrequisite
 

@@ -124,7 +124,38 @@ class FeatureController extends AbstractJsonCoreController
         }
     }
 
-/**
+    /**
+     * Get children of a feature node.
+     *
+     * @param Feature $feature The feature
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function childAction(Feature $feature)
+    {
+        $baseline = $feature->getBaseline();
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
+
+        $repo = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3ScenarioBundle:Scenario');
+
+        $scenarios = $repo->findAllByBaselineFeatureId(
+            $baseline,
+            $feature->getId()
+        );
+
+        return $this->render(
+            'Map3FeatureBundle:Feature:children.json.twig',
+            array(
+                'scenarios' => $scenarios,
+            )
+        );
+    }
+    
+    /**
      * Display node details on right panel.
      *
      * @param Feature $feature The feature to display

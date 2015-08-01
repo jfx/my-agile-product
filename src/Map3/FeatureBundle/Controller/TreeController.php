@@ -88,6 +88,14 @@ class TreeController extends AbstractJsonCoreController
                     );
 
                     return $response;
+                    
+                case self::FEATURE:
+                    $response = $this->forward(
+                        'Map3FeatureBundle:Feature:child',
+                        array('id' => $idType['id'])
+                    );
+
+                    return $response;
                 default:
                     return $this->jsonResponseFactory(
                         404,
@@ -131,6 +139,12 @@ class TreeController extends AbstractJsonCoreController
             case self::FEATURE:
                 $response = $this->forward(
                     'Map3FeatureBundle:Feature:view',
+                    array('id' => $idType['id'])
+                );
+                break;
+            case self::SCENARIO:
+                $response = $this->forward(
+                    'Map3ScenarioBundle:Scenario:view',
                     array('id' => $idType['id'])
                 );
                 break;

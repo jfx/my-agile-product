@@ -1,0 +1,23 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<form class="form-horizontal well">
+    {{ form_widget(form) }}
+</form>
+
+{% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
+<a class="btn btn-sm btn-cust" onclick="buttonClick();" title="Edit">
+    {{ icon('edit',true) }} Edit
+</a>
+
+<script>
+function buttonClick() {
+    $.get('{{ path('bln-sce_edit', {'id': scenario.id}) }}', function (resp) {
+        $("div.node-panel").hide();
+        $("div.node-panel").html(resp).show();
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+    });
+}
+</script>
+{% endif %}

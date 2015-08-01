@@ -1,0 +1,10 @@
+[
+{% for node in scenarios %}
+{
+"id"       : "{{ node.nodeId }}",
+"text"     : "{{ node.extIdTitle }}",
+"type"     : "scenario",
+"children" : false
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+]

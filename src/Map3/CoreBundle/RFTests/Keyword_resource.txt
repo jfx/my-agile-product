@@ -18,5 +18,6 @@ Resource          Product/R_Product.txt
 Resource          Release/R_Release.txt
 Resource          Baseline/R_Baseline.txt
 Resource          Feature/R_Feature.txt
+Resource          Scenario/R_Scenario.txt
 
 *** Keywords ***

@@ -117,7 +117,7 @@ class CategoryController extends AbstractJsonCoreController
     /**
      * Get children of a category node.
      *
-     * @param Category $category The category to display
+     * @param Category $category The category
      *
      * @return Response A Response instance
      *

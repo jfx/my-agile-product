@@ -36,7 +36,9 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addFeature();" title="Add feature">{{ icon('picture') }} Feature</a></li>
             {% endif %}
-            <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">{{ icon('film') }} Scenario</a></li>
+            {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
+            <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addScenario();" title="Add scenario">{{ icon('film') }} Scenario</a></li>
+            {% endif %}
         </ul>
         <a onclick="removeNode();"
            class="btn btn-xs btn-cust"
@@ -136,7 +138,10 @@ $(function () {
                 },
                 "feature" : {
                     "icon" : "glyphicon glyphicon-picture"
-                }
+                },
+                "scenario" : {
+                    "icon" : "glyphicon glyphicon-film"
+                }                
             },
             "state" : { "key" : "{{ host }}_{{ baseline.id }}_ftree" },
             "plugins" : [ "types", "state" ]

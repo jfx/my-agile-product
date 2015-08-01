@@ -17,13 +17,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\FeatureBundle\Entity;
+namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Priority entity repository class.
+ * Status entity repository class.
  *
  * @category  MyAgileProduct
  *
@@ -34,27 +34,27 @@ use Doctrine\ORM\QueryBuilder;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class PriorityRepository extends EntityRepository
+class StatusRepository extends EntityRepository
 {
     /**
-     * Get the default priority.
+     * Get the default status.
      *
      * @return object|null Priority object
      */
-    public function findDefaultPriority()
+    public function findDefaultStatus()
     {
-        return $this->find(Priority::DEFAULT_PRIORITY);
+        return $this->find(Status::DEFAULT_STATUS);
     }
 
     /**
-     * Get the query builder of all priorities ordered.
+     * Get the query builder of all statuses ordered.
      *
      * @return QueryBuilder
      */
     public function getQBAllOrdered()
     {
-        $qb = $this->createQueryBuilder('p')
-            ->orderBy('p.label', 'ASC');
+        $qb = $this->createQueryBuilder('s')
+            ->orderBy('s.position', 'ASC');
 
         return $qb;
     }

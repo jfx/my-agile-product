@@ -1,0 +1,5 @@
+map3_bln-sce:
+    resource: "@Map3ScenarioBundle/Resources/config/routing/scenario.yml"
+    prefix:   /bln-sce
+    requirements:
+        id:  \d+

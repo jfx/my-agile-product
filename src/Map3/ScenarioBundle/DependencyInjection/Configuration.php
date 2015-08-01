@@ -17,13 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Map3\FeatureBundle\Entity;
+namespace Map3\ScenarioBundle\DependencyInjection;
 
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Priority entity repository class.
+ * This is the class that validates and merges configuration from your
+ * app/config files.
  *
  * @category  MyAgileProduct
  *
@@ -34,28 +35,18 @@ use Doctrine\ORM\QueryBuilder;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class PriorityRepository extends EntityRepository
+class Configuration implements ConfigurationInterface
 {
     /**
-     * Get the default priority.
+     * Generates the configuration tree builder.
      *
-     * @return object|null Priority object
+     * @return TreeBuilder The tree builder
      */
-    public function findDefaultPriority()
+    public function getConfigTreeBuilder()
     {
-        return $this->find(Priority::DEFAULT_PRIORITY);
-    }
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('map3_scenario');
 
-    /**
-     * Get the query builder of all priorities ordered.
-     *
-     * @return QueryBuilder
-     */
-    public function getQBAllOrdered()
-    {
-        $qb = $this->createQueryBuilder('p')
-            ->orderBy('p.label', 'ASC');
-
-        return $qb;
+        return $treeBuilder;
     }
 }
