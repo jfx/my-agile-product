@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -41,7 +40,7 @@ class Status
 {
     const DEFAULT_STATUS = 2;
 
-/**
+    /**
      * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
@@ -64,7 +63,7 @@ class Status
      * @ORM\Column(name="position", type="integer")
      */
     private $position;
-    
+
     /**
      * Set id.
      *
@@ -112,7 +111,7 @@ class Status
     {
         return $this->label;
     }
-    
+
     /**
      * Set order.
      *

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\ScenarioBundle\Controller;
 
 use Exception;
@@ -122,7 +121,7 @@ class ScenarioController extends AbstractJsonCoreController
 //            return $this->html2jsonResponse($response);
 //        }
 //    }
-    
+
     /**
      * Display node details on right panel.
      *
@@ -198,7 +197,7 @@ class ScenarioController extends AbstractJsonCoreController
 //        );
 //    }
 
-    /**
+    /*
      * Delete a feature node on right panel.
      *
      * @param Feature $feature The feature to delete

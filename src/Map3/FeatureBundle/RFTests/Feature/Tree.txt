@@ -66,7 +66,7 @@ Re-authentication after reload warning
     And I am waiting for ajax request
     And Page should contain    Authentication has expired
     When Click Link    id=reload
-    And Location Should Be    ${URL_DEV}/login
+    And Location Should Be    ${URL_DEV}/login#
     And I fill in login form    useruser    user
     And Click element    xpath=//button[@title='Login']
     Then Location Should Be    ${URL_DEV}/bln-features/1

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\CoreBundle\Form;
 
 use Map3\UserBundle\Entity\User;
@@ -52,7 +51,7 @@ class MenuSelectType extends AbstractDefaultType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param FormBuilderInterface $builder Form builder.
      * @param array                $options Array of options.
@@ -107,7 +106,7 @@ class MenuSelectType extends AbstractDefaultType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return string Name of form.
      */
@@ -117,7 +116,7 @@ class MenuSelectType extends AbstractDefaultType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return string route name.
      */

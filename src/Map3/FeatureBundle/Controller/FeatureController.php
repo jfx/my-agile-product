@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Controller;
 
 use Exception;
@@ -154,7 +153,7 @@ class FeatureController extends AbstractJsonCoreController
             )
         );
     }
-    
+
     /**
      * Display node details on right panel.
      *

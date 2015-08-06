@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\ScenarioBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -56,7 +55,7 @@ And step-when-and 4
 Then step-then 5
 And step-then-and 6
 EOT;
-        
+
         $dataArray = array(
             array(
                 'title' => 'Scenario 1 F1',

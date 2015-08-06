@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\CoreBundle\Controller;
 
 use DomainException;
@@ -39,7 +38,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
 {
     const BASELINE = 'BAS';
     const CATEGORY = 'CAT';
-    const FEATURE  = 'FEAT';
+    const FEATURE = 'FEAT';
     const SCENARIO = 'SCE';
 
     /**
@@ -121,7 +120,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
                 $sceR = $manager->getRepository('Map3ScenarioBundle:scenario');
                 $object = $sceR->find($node['id']);
                 break;
-            
+
             default:
                 throw new DomainException('Wrong type of node');
         }

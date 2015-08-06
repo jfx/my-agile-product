@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Controller;
 
 use Exception;
@@ -88,7 +87,7 @@ class TreeController extends AbstractJsonCoreController
                     );
 
                     return $response;
-                    
+
                 case self::FEATURE:
                     $response = $this->forward(
                         'Map3FeatureBundle:Feature:child',
