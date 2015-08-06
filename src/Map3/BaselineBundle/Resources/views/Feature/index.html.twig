@@ -36,7 +36,7 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addFeature();" title="Add feature">{{ icon('picture') }} Feature</a></li>
             {% endif %}
-            {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
+            {% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
             <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addScenario();" title="Add scenario">{{ icon('film') }} Scenario</a></li>
             {% endif %}
         </ul>

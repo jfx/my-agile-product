@@ -13,7 +13,7 @@
 
 <script>
 function formSubmit() {
-    $.post('{{ path('bln-feat_edit', {'id': feature.id}) }}', $("#formPanel").serialize(), function (resp) {
+    $.post('{{ path('bln-sce_edit', {'id': scenario.id}) }}', $("#formPanel").serialize(), function (resp) {
         $("div.node-panel").hide();
         $("div.node-panel").html(resp).show();
     }).fail(function(jqXHR, textStatus, errorThrown) {

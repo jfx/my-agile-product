@@ -149,53 +149,53 @@ class ScenarioController extends AbstractJsonCoreController
         );
     }
 
-//    /**
-//     * Edit a feature node on right panel.
-//     *
-//     * @param Feature $feature The feature to display
-//     * @param Request $request The request
-//     *
-//     * @return Response A Response instance
-//     *
-//     * @Secure(roles="ROLE_USER")
-//     */
-//    public function editAction(Feature $feature, Request $request)
-//    {
-//        $baseline = $feature->getBaseline();
-//
-//        try {
-//            $this->setCurrentBaseline(
-//                $baseline,
-//                array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
-//            );
-//        } catch (Exception $e) {
-//            return $this->jsonResponseFactory(403, $e->getMessage());
-//        }
-//        $form = $this->createForm(new FeatureType(), $feature);
-//
-//        $handler = $this->getFormHandler($form, $request);
-//
-//        if ($handler->process()) {
-//            $this->get('session')->getFlashBag()
-//                ->add('success', 'Feature edited successfully !');
-//
-//            return $this->render(
-//                'Map3FeatureBundle:Feature:refresh.html.twig',
-//                array(
-//                    'feature' => $feature,
-//                    'parentNodeId' => null,
-//                )
-//            );
-//        }
-//
-//        return $this->render(
-//            'Map3FeatureBundle:Feature:edit.html.twig',
-//            array(
-//                'form' => $form->createView(),
-//                'feature' => $feature,
-//            )
-//        );
-//    }
+    /**
+     * Edit a scenario node on right panel.
+     *
+     * @param Scenario $scenario The scenario to display
+     * @param Request  $request  The request
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function editAction(Scenario $scenario, Request $request)
+    {
+        $baseline = $scenario->getBaseline();
+
+        try {
+            $this->setCurrentBaseline(
+                $baseline,
+                array(Role::DEFAULT_ROLE, Role::BLN_OPEN_ROLE)
+            );
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(403, $e->getMessage());
+        }
+        $form = $this->createForm(new ScenarioType(), $scenario);
+
+        $handler = $this->getFormHandler($form, $request);
+
+        if ($handler->process()) {
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Scenario edited successfully !');
+
+            return $this->render(
+                'Map3ScenarioBundle:Scenario:refresh.html.twig',
+                array(
+                    'scenario' => $scenario,
+                    'parentNodeId' => null,
+                )
+            );
+        }
+
+        return $this->render(
+            'Map3ScenarioBundle:Scenario:edit.html.twig',
+            array(
+                'form' => $form->createView(),
+                'scenario' => $scenario,
+            )
+        );
+    }
 
     /*
      * Delete a feature node on right panel.

@@ -1,11 +1,11 @@
 *** Keywords ***
 I fill in scenario form
-    [Arguments]    ${title}    ${extid}    ${priority}    ${narrative}
-    Wait Until Element Is Visible    map3_feature_title    ${WAIT_TIMEOUT}
-    Input text    map3_feature_title    ${title}
-    Input text    map3_feature_extId    ${extid}
-    Select From List By Label    map3_feature_priority    ${priority}
-    Input text    map3_feature_narrative    ${narrative}
+    [Arguments]    ${title}    ${extid}    ${status}    ${steps}
+    Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Input text    map3_scenario_title    ${title}
+    Input text    map3_scenario_extId    ${extid}
+    Select From List By Label    map3_scenario_status    ${status}
+    Input text    map3_scenario_steps    ${steps}
 
 I check scenario view form
     [Arguments]    ${title}    ${extid}    ${status}    ${steps}
