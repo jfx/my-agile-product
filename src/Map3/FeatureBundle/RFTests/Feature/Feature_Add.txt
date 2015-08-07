@@ -24,7 +24,7 @@ A user+ adds a feature from category with default value
     And Input text    map3_feature_title    Feature added
     And I click button    Save
     Then I wait until text is visible    Feature added successfully
-    And I check feature view form    Feature added    ${EMPTY}    P1 - Should have    In order to [benefit]\nAs a [Role]\nI want [feature]
+    And I check feature view form    Feature added    ${EMPTY}    P1 - Should have    In order to [Benefit]\nAs a [Role]\nI want [Feature]
 
 Reload warning after timeout when click Add feature
     [Tags]    timeout
@@ -111,6 +111,15 @@ Request add feature with not allowed parent node - feature
     [Setup]    EnvPrerequisite
     Given I am logging as by request    d1-user+
     ${resp}=    When Ajax Get Request    /bln-feat/add/F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    405
+    And Should Contain    ${resp.content}    Operation not allowed
+    [Teardown]    EnvPostrequisite
+
+Request add feature with not allowed parent node - scenario
+    [Tags]    request    failedTest
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-feat/add/S_1
     Then Should Be Equal As Strings    ${resp.status_code}    405
     And Should Contain    ${resp.content}    Operation not allowed
     [Teardown]    EnvPostrequisite
@@ -215,7 +224,7 @@ Impossible to edit a feature with an empty title
     And I click button    Save
     Then I wait until text is visible    This value should not be blank.
 
-Impossible to add a feature with a name too short
+Impossible to add a feature with a title too short
     Given I am a user+
     And I go directly to features tree    1
     And I click node    B_1_anchor

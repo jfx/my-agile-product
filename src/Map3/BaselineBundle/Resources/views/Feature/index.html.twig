@@ -98,6 +98,20 @@ function addFeature() {
     }
 }
 
+function addScenario() {
+    var node = $('#jstree1').jstree(true).get_selected();
+    if(node && node.length) {
+        node = node[0];
+        $.get(Routing.generate('bln-sce_add', { nid: node }), function (resp) {
+            $("div.node-panel").hide();
+            $("div.node-panel").html(resp.content).show();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+        });
+    }
+}
+
 function removeNode() {
     var node = $('#jstree1').jstree(true).get_selected();
     if(node && node.length) {

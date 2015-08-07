@@ -84,9 +84,9 @@ class FeatureController extends AbstractJsonCoreController
         $feature->setBaseline($baseline);
         $feature->setCategory($category);
 
-        $repositoryPriority = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('Map3FeatureBundle:Priority');
+        $repositoryPriority = $manager->getRepository(
+            'Map3FeatureBundle:Priority'
+        );
         $defaultPriority = $repositoryPriority->findDefaultPriority();
         $feature->setPriority($defaultPriority);
 

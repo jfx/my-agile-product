@@ -38,7 +38,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Status
 {
-    const DEFAULT_STATUS = 2;
+    const DEFAULT_STATUS = 3;
 
     /**
      * @var int Id

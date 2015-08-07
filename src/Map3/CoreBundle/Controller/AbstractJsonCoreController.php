@@ -117,7 +117,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
                 break;
 
             case self::SCENARIO:
-                $sceR = $manager->getRepository('Map3ScenarioBundle:scenario');
+                $sceR = $manager->getRepository('Map3ScenarioBundle:Scenario');
                 $object = $sceR->find($node['id']);
                 break;
 

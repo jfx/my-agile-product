@@ -114,6 +114,15 @@ Request add category with not allowed parent node - feature
     And Should Contain    ${resp.content}    Operation not allowed
     [Teardown]    EnvPostrequisite
 
+Request add category with not allowed parent node - scenario
+    [Tags]    request    failedTest
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/S_1
+    Then Should Be Equal As Strings    ${resp.status_code}    405
+    And Should Contain    ${resp.content}    Operation not allowed
+    [Teardown]    EnvPostrequisite
+
 Request add category timeout
     [Tags]    request    timeout
     [Setup]    RequestLifetimeSetup

@@ -22,6 +22,7 @@ use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
+use Map3\FeatureBundle\Entity\Feature;
 use Map3\ScenarioBundle\Entity\Scenario;
 use Map3\ScenarioBundle\Form\ScenarioType;
 use Map3\UserBundle\Entity\Role;
@@ -43,84 +44,78 @@ use Symfony\Component\HttpFoundation\Response;
 class ScenarioController extends AbstractJsonCoreController
 {
     /**
-     * Add a feature.
+     * Add a scenario.
      *
-     * @param string  $nid     The parent id (baseline or category)
+     * @param string  $nid     The parent id (scenario)
      * @param Request $request The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-//    public function addAction($nid, Request $request)
-//    {
-//        try {
-//            $node = $this->getObjectFromNodeId($nid);
-//        } catch (Exception $e) {
-//            return $this->jsonResponseFactory(404, $e->getMessage());
-//        }
-//        $manager = $this->getDoctrine()->getManager();
-//        $catRepository = $manager->getRepository('Map3FeatureBundle:Category');
-//
-//        if ($node instanceof Baseline) {
-//            $baseline = $node;
-//            $category = $catRepository->findRootByBaseline($baseline);
-//        } elseif ($node instanceof Category) {
-//            $category = $node;
-//            $baseline = $category->getBaseline();
-//        } else {
-//            return $this->jsonResponseFactory(405, 'Operation not allowed');
-//        }
-//        try {
-//            $this->setCurrentBaseline(
-//                $baseline,
-//                array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
-//            );
-//        } catch (Exception $e) {
-//            return $this->jsonResponseFactory(403, $e->getMessage());
-//        }
-//        $feature = new Feature();
-//        $feature->setBaseline($baseline);
-//        $feature->setCategory($category);
-//
-//        $repositoryPriority = $this->getDoctrine()
-//            ->getManager()
-//            ->getRepository('Map3FeatureBundle:Priority');
-//        $defaultPriority = $repositoryPriority->findDefaultPriority();
-//        $feature->setPriority($defaultPriority);
-//
-//        $narrative = $this->container->getParameter('app.defaultNarrative');
-//        $feature->setNarrative(html_entity_decode($narrative));
-//
-//        $featureType = new FeatureType();
-//        $form = $this->createForm($featureType, $feature);
-//        $handler = $this->getFormHandler($form, $request);
-//
-//        if ($handler->process()) {
-//            $this->get('session')->getFlashBag()
-//                ->add('success', 'Feature added successfully !');
-//
-//            return $this->render(
-//                'Map3FeatureBundle:Feature:refresh.html.twig',
-//                array(
-//                    'feature' => $feature,
-//                    'parentNodeId' => $nid,
-//                )
-//            );
-//        }
-//        $response = $this->render(
-//            'Map3FeatureBundle:Feature:add.html.twig',
-//            array(
-//                'form' => $form->createView(),
-//                'nodeId' => $nid,
-//            )
-//        );
-//        if ($request->isMethod('POST')) {
-//            return $response;
-//        } else {
-//            return $this->html2jsonResponse($response);
-//        }
-//    }
+    public function addAction($nid, Request $request)
+    {
+                    
+        try {
+            $feature = $this->getObjectFromNodeId($nid);
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(404, $e->getMessage());
+        }
+
+        if (!($feature instanceof Feature)) {
+            return $this->jsonResponseFactory(405, 'Operation not allowed');
+        }
+        $baseline = $feature->getBaseline();
+        try {
+            $this->setCurrentBaseline(
+                $baseline,
+                array(Role::DEFAULT_ROLE, Role::BLN_OPEN_ROLE)
+            );
+        } catch (Exception $e) {
+            return $this->jsonResponseFactory(403, $e->getMessage());
+        }
+        $scenario = new Scenario();
+        $scenario->setBaseline($baseline);
+        $scenario->setFeature($feature);
+
+        $repositoryStatus = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3ScenarioBundle:Status');
+        $defaultStatus = $repositoryStatus->findDefaultStatus();
+        $scenario->setStatus($defaultStatus);
+
+        $steps = $this->container->getParameter('app.defaultSteps');
+        $scenario->setSteps(html_entity_decode($steps));
+
+        $scenarioType = new ScenarioType();
+        $form = $this->createForm($scenarioType, $scenario);
+        $handler = $this->getFormHandler($form, $request);
+
+        if ($handler->process()) {
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Scenario added successfully !');
+
+            return $this->render(
+                'Map3ScenarioBundle:Scenario:refresh.html.twig',
+                array(
+                    'scenario' => $scenario,
+                    'parentNodeId' => $nid,
+                )
+            );
+        }
+        $response = $this->render(
+            'Map3ScenarioBundle:Scenario:add.html.twig',
+            array(
+                'form' => $form->createView(),
+                'nodeId' => $nid,
+            )
+        );
+        if ($request->isMethod('POST')) {
+            return $response;
+        } else {
+            return $this->html2jsonResponse($response);
+        }
+    }
 
     /**
      * Display node details on right panel.
