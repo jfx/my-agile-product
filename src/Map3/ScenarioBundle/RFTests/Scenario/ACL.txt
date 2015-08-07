@@ -37,6 +37,6 @@ Scenario delete Request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL by request    /bln-sce/1/del/S_1    False    True    True    True    False
+    Then I check the following ACL by request    /bln-ftree/1/del/S_1    False    True    True    True    False
     ...    False    False
     [Teardown]    EnvPostrequisite

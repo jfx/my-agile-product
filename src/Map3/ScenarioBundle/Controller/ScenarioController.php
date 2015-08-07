@@ -20,7 +20,6 @@ namespace Map3\ScenarioBundle\Controller;
 
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
-use Map3\BaselineBundle\Entity\Baseline;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
 use Map3\FeatureBundle\Entity\Feature;
 use Map3\ScenarioBundle\Entity\Scenario;
@@ -55,7 +54,6 @@ class ScenarioController extends AbstractJsonCoreController
      */
     public function addAction($nid, Request $request)
     {
-                    
         try {
             $feature = $this->getObjectFromNodeId($nid);
         } catch (Exception $e) {
@@ -147,7 +145,7 @@ class ScenarioController extends AbstractJsonCoreController
     /**
      * Edit a scenario node on right panel.
      *
-     * @param Scenario $scenario The scenario to display
+     * @param Scenario $scenario The scenario to edit
      * @param Request  $request  The request
      *
      * @return Response A Response instance
@@ -192,49 +190,49 @@ class ScenarioController extends AbstractJsonCoreController
         );
     }
 
-    /*
-     * Delete a feature node on right panel.
+    /**
+     * Delete a scenario node on right panel.
      *
-     * @param Feature $feature The feature to delete
-     * @param Request $request The request
+     * @param Scenario $scenario The scenario to delete
+     * @param Request  $request  The request
      *
      * @return Response A Response instance
      *
      * @Secure(roles="ROLE_USER")
      */
-//    public function delAction(Feature $feature, Request $request)
-//    {
-//        $baseline = $feature->getBaseline();
-//        $this->setCurrentBaseline(
-//            $baseline,
-//            array(Role::USERPLUS_ROLE, Role::BLN_OPEN_ROLE)
-//        );
-//
-//        if ($request->isMethod('POST')) {
-//            $nodeId = $feature->getNodeId();
-//
-//            $em = $this->getDoctrine()->getManager();
-//            $em->remove($feature);
-//            $em->flush();
-//
-//            $this->get('session')->getFlashBag()
-//                ->add('success', 'Feature removed successfully !');
-//
-//            return $this->render(
-//                'Map3CoreBundle::refreshTreeOnDel.html.twig',
-//                array('nodeId' => $nodeId)
-//            );
-//        }
-//        $featureType = new FeatureType();
-//        $featureType->setDisabled();
-//        $form = $this->createForm($featureType, $feature);
-//
-//        return $this->render(
-//            'Map3FeatureBundle:Feature:del.html.twig',
-//            array(
-//                'form' => $form->createView(),
-//                'feature' => $feature,
-//            )
-//        );
-//    }
+    public function delAction(Scenario $scenario, Request $request)
+    {
+        $baseline = $scenario->getBaseline();
+        $this->setCurrentBaseline(
+            $baseline,
+            array(Role::DEFAULT_ROLE, Role::BLN_OPEN_ROLE)
+        );
+
+        if ($request->isMethod('POST')) {
+            $nodeId = $scenario->getNodeId();
+
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($scenario);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()
+                ->add('success', 'Scenario removed successfully !');
+
+            return $this->render(
+                'Map3CoreBundle::refreshTreeOnDel.html.twig',
+                array('nodeId' => $nodeId)
+            );
+        }
+        $scenarioType = new ScenarioType();
+        $scenarioType->setDisabled();
+        $form = $this->createForm($scenarioType, $scenario);
+
+        return $this->render(
+            'Map3ScenarioBundle:Scenario:del.html.twig',
+            array(
+                'form' => $form->createView(),
+                'scenario' => $scenario,
+            )
+        );
+    }
 }

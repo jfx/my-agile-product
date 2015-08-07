@@ -1,0 +1,21 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<ol class="breadcrumb">
+    <li class="active">Delete scenario</li>
+</ol>
+
+{% include "Map3CoreBundle::formDel.html.twig" with {'onclickAction': 'formSubmit()'} %}
+
+<script>
+function formSubmit() {
+    $("#modalDel").modal("hide");
+    $.post('{{ path('bln-sce_del', {'id': scenario.id}) }}', $("#formPanel").serialize(), function (resp) {
+        $("div.node-panel").hide();
+        $("div.node-panel").html(resp).show();
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+        displayError(jqXHR.responseJSON, jqXHR.status);
+        $("div.node-panel").hide();
+    });
+}
+</script>

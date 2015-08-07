@@ -187,6 +187,12 @@ class TreeController extends AbstractJsonCoreController
                     array('id' => $idType['id'])
                 );
                 break;
+            case self::SCENARIO:
+                $response = $this->forward(
+                    'Map3ScenarioBundle:Scenario:del',
+                    array('id' => $idType['id'])
+                );
+                break;
             default:
                 return $this->jsonResponseFactory(404, 'Wrong type of node');
         }
