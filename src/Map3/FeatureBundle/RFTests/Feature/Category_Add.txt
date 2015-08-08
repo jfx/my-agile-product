@@ -14,7 +14,9 @@ A user+ adds a category from baseline
     And I check category view form    Category added
 
 A user+ adds a category from category
+    [Setup]    TestSetupDb
     Given I am a user+
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 15
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     When I click node    C_9_anchor
@@ -24,6 +26,10 @@ A user+ adds a category from category
     And I click button    Save
     Then I wait until text is visible    Category added successfully
     And I check category view form    Category added
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 17
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 17
+    And Check If Exists In Database    select id from map3_category where lft = 15 and rgt = 16
+    [Teardown]    TestTeardownDb
 
 Reload warning after timeout when click Add category
     [Tags]    timeout

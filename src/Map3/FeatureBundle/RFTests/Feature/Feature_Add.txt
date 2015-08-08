@@ -3,7 +3,9 @@ Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
 A user+ adds a feature from baseline
+    [Setup]    TestSetupDb
     Given I am a user+
+    And Check If Not Exists In Database    select id from map3_feature where category_id = 1 and position = 1
     And I go to features tree    View product #1    View release #1    View baseline #1
     And I click node    B_1_anchor
     When Click Element    addMenu
@@ -12,6 +14,8 @@ A user+ adds a feature from baseline
     And I click button    Save
     Then I wait until text is visible    Feature added successfully
     And I check feature view form    Feature added    ID-001-Added    P0 - Must have    Narrative Added
+    And Check If Exists In Database    select id from map3_feature where category_id = 1 and position = 1
+    [Teardown]    TestTeardownDb
 
 A user+ adds a feature from category with default value
     Given I am a user+

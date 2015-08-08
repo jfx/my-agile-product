@@ -28,6 +28,7 @@ A user+ deletes a branch
     And Check If Exists In Database    select id from map3_category where id = 10
     And Check If Exists In Database    select id from map3_category where id = 1 and lft = 1 and rgt = 28
     And Check If Exists In Database    select id from map3_feature where id = 5
+    And Check If Exists In Database    select id from map3_scenario where feature_id = 5
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node    C_10_anchor
@@ -42,6 +43,7 @@ A user+ deletes a branch
     And Check If Not Exists In Database    select id from map3_category where id = 17
     And Check If Exists In Database    select id from map3_category where id = 1 and lft = 1 and rgt = 20
     And Check If Not Exists In Database    select id from map3_feature where id = 5
+    And Check If Not Exists In Database    select id from map3_scenario where feature_id = 5
     [Teardown]    TestTeardownDb
 
 Cancel to delete a category
