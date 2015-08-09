@@ -129,10 +129,19 @@ Impossible to edit a release with a name too short
     And I save
     Then Page Should Contain    This value is too short. It should have 2 characters or more.
 
-Impossible to modify a release with wrong date
+Impossible to modify a release with a wrong date
     Given I am a manager
     And I go to edit release #1 page
     When Input Text    //div[@data-link-field='map3_release_releaseDate']/input[@type='text']    xx/xx/xxxx
+    And Click Element    map3_release_name
+    And I save
+    ${sql_date} =    And I get sql formated date in X months    20    1
+    Then Disabled text element should contain    map3_release_releaseDate    ${sql_date}
+
+Impossible to modify a release with an empty date
+    Given I am a manager
+    And I go to edit release #1 page
+    When Input Text    //div[@data-link-field='map3_release_releaseDate']/input[@type='text']    ${EMPTY}
     And Click Element    map3_release_name
     And I save
     ${sql_date} =    And I get sql formated date in X months    20    1

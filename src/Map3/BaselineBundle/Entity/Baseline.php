@@ -69,6 +69,8 @@ class Baseline
      * @var DateTime Baseline date
      *
      * @ORM\Column(name="baselinedatetime", type="datetime")
+     * @Assert\NotBlank(message="This value is not a valid datetime")
+     * @Assert\Date()
      */
     protected $baselineDatetime;
 

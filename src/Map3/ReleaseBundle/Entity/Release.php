@@ -69,6 +69,8 @@ class Release
      * @var DateTime release date
      *
      * @ORM\Column(name="releasedate", type="date")
+     * @Assert\NotBlank(message="This value is not a valid date")
+     * @Assert\Date()
      */
     protected $releaseDate;
 
