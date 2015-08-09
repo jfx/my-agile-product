@@ -17,7 +17,7 @@ A user+ adds a feature from baseline
     And Check If Exists In Database    select id from map3_feature where category_id = 1 and position = 1
     [Teardown]    TestTeardownDb
 
-A user+ adds a feature from category with default value
+A user+ adds a feature from category with default values
     Given I am a user+
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
@@ -25,6 +25,8 @@ A user+ adds a feature from category with default value
     And Click Element    addMenu
     And I Click button    Add feature
     When Wait Until Element Is Visible    map3_feature_title    ${WAIT_TIMEOUT}
+    And List Selection Should Be    map3_feature_priority    P1 - Should have
+    And Selenium2Library.Element Text Should Be    map3_feature_narrative    In order to [Benefit]\nAs a [Role]\nI want [Feature]
     And Input text    map3_feature_title    Feature added
     And I click button    Save
     Then I wait until text is visible    Feature added successfully
