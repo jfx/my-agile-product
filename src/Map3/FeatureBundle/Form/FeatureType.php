@@ -73,7 +73,7 @@ class FeatureType extends AbstractDefaultType
                 )
             )
             ->add(
-                'narrative',
+                'description',
                 'textarea',
                 array(
                     'required' => false,

@@ -90,8 +90,8 @@ class FeatureController extends AbstractJsonCoreController
         $defaultPriority = $repositoryPriority->findDefaultPriority();
         $feature->setPriority($defaultPriority);
 
-        $narrative = $this->container->getParameter('app.defaultNarrative');
-        $feature->setNarrative(html_entity_decode($narrative));
+        $desc = $this->container->getParameter('app.defaultDescription');
+        $feature->setDescription(html_entity_decode($desc));
 
         $featureType = new FeatureType();
         $form = $this->createForm($featureType, $feature);

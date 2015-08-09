@@ -52,7 +52,7 @@ class Features extends AbstractFixture implements OrderedFixtureInterface
                 'title' => 'Feature C1',
                 'extid' => 'ID-001',
                 'priority' => 'p0-priority',
-                'narrative' => 'Narrative F1',
+                'description' => 'Narrative F1',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'category1-category',
             ),
@@ -60,35 +60,35 @@ class Features extends AbstractFixture implements OrderedFixtureInterface
                 'title' => 'Feature C2',
                 'extid' => 'ID-002',
                 'priority' => 'p0-priority',
-                'narrative' => 'Narrative F2',
+                'description' => 'Narrative F2',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'category1-category',
             ),
             array(
                 'title' => 'Feature C3',
                 'priority' => 'p1-priority',
-                'narrative' => 'Narrative F3',
+                'description' => 'Narrative F3',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'category1-category',
             ),
             array(
                 'title' => 'Feature C4 P3',
                 'priority' => 'p3-priority',
-                'narrative' => 'Narrative F4',
+                'description' => 'Narrative F4',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'category1-category',
             ),
             array(
                 'title' => 'Feature C21',
                 'priority' => 'p3-priority',
-                'narrative' => 'Narrative F4+',
+                'description' => 'Narrative F4+',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'category21-category',
             ),
             array(
                 'title' => 'Feature C0',
                 'priority' => 'p0-priority',
-                'narrative' => 'Narrative F5',
+                'description' => 'Narrative F5',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'root0-category',
             ),
@@ -96,7 +96,7 @@ class Features extends AbstractFixture implements OrderedFixtureInterface
                 'title' => 'Feature 1 - baseline closed',
                 'extid' => 'ID-001',
                 'priority' => 'p0-priority',
-                'narrative' => 'Narrative F1 - baseline closed',
+                'description' => 'Narrative F1 - baseline closed',
                 'baseline' => 'baselineclosed-baseline',
                 'category' => 'root6-category',
             ),
@@ -112,7 +112,7 @@ class Features extends AbstractFixture implements OrderedFixtureInterface
             $objectList[$i]->setPriority(
                 $this->getReference($data['priority'])
             );
-            $objectList[$i]->setNarrative($data['narrative']);
+            $objectList[$i]->setDescription($data['description']);
             $objectList[$i]->setBaseline(
                 $this->getReference($data['baseline'])
             );
