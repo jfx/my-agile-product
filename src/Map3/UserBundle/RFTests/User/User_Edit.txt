@@ -101,6 +101,19 @@ Check context for user edit with clean context
     And the context log file should contain x lines    5
     And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
 
+Required and optional form labels
+    Given I am a super-admin
+    And I go to users list
+    When I click action button    Edit user #2
+    Then the label of this field is displayed as required    Firstname
+    And the label of this field is displayed as required    Name
+    And the label of this field is displayed as required    Displayname
+    And the label of this field is displayed as required    Username
+    And the label of this field is displayed as required    Email
+    And the label of this field is displayed as optional    Super-admin
+    And the label of this field is displayed as optional    Details
+    And the label of this field is displayed as optional    Locked
+
 Impossible to edit a user with empty firstname
     Impossible to edit a user with wrong data    map3_user_firstname    ${EMPTY}    This value should not be blank.
 

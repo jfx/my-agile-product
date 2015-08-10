@@ -147,6 +147,19 @@ Check context for feature ajax request with same previous context
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
+Required and optional form labels
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node    F_1_anchor
+    When I click button when visible    Edit
+    And I wait until button is visible    Save
+    Then the label of this field is displayed as required    Title
+    And the label of this field is displayed as optional    Ext id
+    And the label of this field is displayed as required    Priority
+    And the label of this field is displayed as optional    Description
+
 Impossible to edit a feature with an empty title
     Given I am a user+
     And I go directly to features tree    1

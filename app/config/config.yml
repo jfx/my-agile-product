@@ -85,7 +85,9 @@ swiftmailer:
     
 # Bootstrap bundle
 mopa_bootstrap:
-    form: ~
+    form:
+        render_required_asterisk: true
+        render_optional_text: false
     menu: ~
     icons:
         icon_set: glyphicons

@@ -57,7 +57,10 @@ class FeatureType extends AbstractDefaultType
             ->add(
                 'extId',
                 'text',
-                array('horizontal_input_wrapper_class' => 'col-xs-4')
+                array(
+                    'horizontal_input_wrapper_class' => 'col-xs-4',
+                    'render_required_asterisk' => false,
+                )
             )
             ->add(
                 'priority',

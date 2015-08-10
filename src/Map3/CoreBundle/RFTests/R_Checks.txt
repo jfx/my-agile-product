@@ -13,8 +13,8 @@ I check the following ACL
     \    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
     \    Go to    ${URL}${acl_url}
     \    ${acl} =    Get From List    ${acls}    ${i}
-    \    Run Keyword If    ${acl}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain
-    \    ...    ${FORBIDDEN_ACCESS_TEXT}
+    \    Run Keyword If    ${acl}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+    \    ...    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
     \    I log out
     \    ${i} =    Evaluate    ${i} + 1
 
@@ -32,8 +32,8 @@ I check the following ACL by request
     \    Run Keyword If    ${isPrerequiste}    Ajax Get Request    ${acl_prerequisite}
     \    ${resp}=    Ajax Get Request    ${acl_url}
     \    ${acl} =    Get From List    ${acls}    ${i}
-    \    Run Keyword If    ${acl}    Then Should Be Equal As Strings    ${resp.status_code}    200    ELSE
-    \    ...    Then Should Be Equal As Strings    ${resp.status_code}    403
+    \    Run Keyword If    ${acl}    Then Should Be Equal As Strings    ${resp.status_code}    200
+    \    ...    ELSE    Then Should Be Equal As Strings    ${resp.status_code}    403
     \    ${i} =    Evaluate    ${i} + 1
 
 the table should contain x rows
@@ -113,3 +113,19 @@ I wait until text is visible
     [Arguments]    ${message}
     Wait Until Page Contains    ${message}    ${WAIT_TIMEOUT}
     Page Should Contain    ${message}
+
+the label of this field is displayed as required
+    [Arguments]    ${label}
+    ${html}=    Get Source
+    ${line}=    Get Lines Containing String    ${html}    ${label}
+    ${count}=    Get Line Count    ${line}
+    Run Keyword And Expect Error    *    Should Be Equal    ${count}    0
+    Should Contain    ${line}    <span class="asterisk">*</span>
+
+the label of this field is displayed as optional
+    [Arguments]    ${label}
+    ${html}=    Get Source
+    ${line}=    Get Lines Containing String    ${html}    ${label}
+    ${count}=    Get Line Count    ${line}
+    Run Keyword And Expect Error    *    Should Be Equal    ${count}    0
+    Should Not Contain    ${line}    <span class="asterisk">*</span>

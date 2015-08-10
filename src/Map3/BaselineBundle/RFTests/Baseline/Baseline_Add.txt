@@ -110,6 +110,15 @@ Add a baseline without selecting a product before
     And the breadcrumb should contain    Product One    Release One    Add baseline
     And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
 
+Required and optional form labels
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When I click action button    Add
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as required    Date
+    And the label of this field is displayed as optional    Closed
+    And the label of this field is displayed as optional    Details
+
 Impossible to add a baseline with an empty name
     Given I am a user+
     And I go to baselines list    View product #1    View release #1

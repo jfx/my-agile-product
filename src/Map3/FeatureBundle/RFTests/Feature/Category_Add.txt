@@ -219,6 +219,16 @@ Check context for category ajax request with same previous context
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
+Required and optional form labels
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1_anchor
+    And Click Element    addMenu
+    When I Click button    Add category
+    And I wait until button is visible    Save
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as optional    Details
+
 Impossible to add a category with an empty name
     Given I am a user+
     And I go directly to features tree    1

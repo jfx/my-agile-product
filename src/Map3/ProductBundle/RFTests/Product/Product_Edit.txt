@@ -65,6 +65,13 @@ Check context for product edit with same previous context
     And the context log file should contain x lines    6
     And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    Same product. No change    Update user
 
+Required and optional form labels
+    Given I am a super-admin
+    And I go to products list
+    When I click action button    Edit product #1
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as optional    Details
+
 Impossible to edit a product with an empty name
     Given I am a super-admin
     And I go to products list

@@ -88,6 +88,12 @@ Check context for reference edit with same previous context
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
 
+Required and optional form labels
+    Given I am a user+
+    When I go to edit reference page    1
+    Then the label of this field is displayed as required    Label
+    And the label of this field is displayed as optional    Value
+
 Impossible to edit a reference with an empty name
     Given I am a user+
     And I go to edit reference page    1
