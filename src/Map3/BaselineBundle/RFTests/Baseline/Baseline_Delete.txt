@@ -186,15 +186,13 @@ Tab Main
     And Location Should Be    ${URL}/baseline/1
 
 Tab Features
-    [Tags]    failedTest
     Given I am a user+
     And I go to delete baseline page    1    1
-    And Element Should Contain    id=badge_features    XX
+    And Element Should Contain    id=badge_features    6
     When Click element    id=a_features
     And Location Should Be    ${URL}/bln-features/1
 
 Tab References
-    [Tags]    failedTest
     Given I am a user+
     And I go to delete baseline page    1    1
     And Element Should Contain    id=badge_references    3

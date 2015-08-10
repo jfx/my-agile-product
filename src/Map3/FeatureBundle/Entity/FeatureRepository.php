@@ -58,4 +58,24 @@ class FeatureRepository extends SortableRepository
 
         return $results;
     }
+
+    /**
+     * Count all features for a baseline.
+     *
+     * @param Baseline $bln The baseline.
+     *
+     * @return int count of references.
+     */
+    public function countFeaturesByBaseline(Baseline $bln)
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->innerJoin('f.baseline', 'b')
+            ->select('count(f.id)')
+            ->where('b.id = :baselineId')
+            ->setParameter('baselineId', $bln->getId());
+
+        $count = $qb->getQuery()->getSingleScalarResult();
+
+        return $count;
+    }
 }

@@ -17,10 +17,29 @@ My Agile Product features :
 * Multi users with role,
 * Releases and baselines management,
 * Features management with editable tree,
-* Scenarios and steps management with editable tree and table view (planned),
+* Scenarios and steps management with editable tree,
 * Tests management (planned).
 
 - - -
+### 0.9.0 ()
+Features:
+
+  - View a scenario - #22,
+  - Edit a scenario - #66,
+  - Add a scenario - #67,
+  - Delete a scenario - #68,
+  - New build file for all Jenkins jobs - #69,
+  - Database checks in Robot Framework tests for add and delete actions - #71,
+  - Change label for form fields to required with asterisk display - fix #76,
+
+
+Bugfixes:
+
+  - Fix constraints for release date and baseline datetime - fix #70,
+  - Checks default values for add feature and scenario forms - fix #72,
+  - Rename narrative feature attribute to description - fix #75,
+
+
 ### 0.8.0 (19 July 2015)
 Features:
 
@@ -63,7 +82,7 @@ Bugfixes:
   - Remove container in constructor parameter of baseline and release type - #48,
   - Add a default category when adding a baseline - #46,
   - Remove warning in Robot Framework log - #50,
-  - Improvement of check jenkins job. Fix PHP_CodeSniffer issues - #53,
+  - Improvement of check jenkins job. Fix PHP_CodeSniffer issues - #53.
 
 
 ### 0.5.0 (07 April 2015)

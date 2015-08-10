@@ -41,7 +41,7 @@ class ReferenceRepository extends EntityRepository
      *
      * @return array List of references.
      */
-    public function findReferencesByBaseline($bln)
+    public function findReferencesByBaseline(Baseline $bln)
     {
         $qb = $this->createQueryBuilder('r')
             ->innerJoin('r.baseline', 'b')
@@ -61,7 +61,7 @@ class ReferenceRepository extends EntityRepository
      *
      * @return int count of references.
      */
-    public function countReferencesByBaseline($bln)
+    public function countReferencesByBaseline(Baseline $bln)
     {
         $qb = $this->createQueryBuilder('r')
             ->innerJoin('r.baseline', 'b')

@@ -279,8 +279,14 @@ class BaselineController extends AbstractCoreController
         $repositoryRef = $entityManager->getRepository(
             'Map3BaselineBundle:Reference'
         );
-
         $child['references'] = $repositoryRef->countReferencesByBaseline(
+            $baseline
+        );
+
+        $repositoryFeat = $entityManager->getRepository(
+            'Map3FeatureBundle:Feature'
+        );
+        $child['features'] = $repositoryFeat->countFeaturesByBaseline(
             $baseline
         );
 

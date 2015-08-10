@@ -154,7 +154,7 @@ Tab Main
 Tab Features
     Given I am a user+
     And I go to edit reference page    1
-    And Element Should Contain    id=badge_features    XX
+    And Element Should Contain    id=badge_features    6
     When Click element    id=a_features
     Then Location Should Be    ${URL}/bln-features/1
 
