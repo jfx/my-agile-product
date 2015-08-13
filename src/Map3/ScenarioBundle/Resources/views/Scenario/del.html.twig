@@ -4,7 +4,36 @@
     <li class="active">Delete scenario</li>
 </ol>
 
-{% include "Map3CoreBundle::formDel.html.twig" with {'onclickAction': 'formSubmit()'} %}
+<form class="form-horizontal well">
+    {{ form_widget(form) }}
+    
+    <div  class="form-group">
+        <label for="gherkin-editor" class="control-label col-sm-3 optional">
+            Steps
+        </label>
+        <div class="col-sm-9">
+        <div class="row-fluid gherkin-editor-panel" id="gherkin-editor">{{ form.vars.value.steps }}</div>
+        </div>
+    </div>
+
+    <div class="center">
+        <a class="btn btn-sm btn-cust" href="#modalDel"
+           title="Remove" data-toggle="modal">
+            {{ icon('remove', true) }}&nbsp;&nbsp;Remove&nbsp;&nbsp;
+        </a>
+    </div>
+</form>
+
+{% include "Map3CoreBundle::modalDelConfirm.html.twig" with {'onclickAction': 'formSubmit()'} %}
+
+<script>
+    var editor = ace.edit("gherkin-editor");
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/gherkin");
+    document.getElementById("gherkin-editor").style.fontSize='13px';
+    editor.setReadOnly(true);
+    editor.setHighlightActiveLine(false);
+</script>
 
 <script>
 function formSubmit() {

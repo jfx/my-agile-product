@@ -9,7 +9,17 @@ Click to view a scenario node
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
     When I click node    S_2_anchor
-    Then I check scenario view form    Scenario 2 F1    SC-002    Unchecked    Given step-given 1\nAnd step-given-and 2\nWhen step-when 3\nAnd step-when-and 4\nThen step-then 5\nAnd step-then-and 6
+    Then I check scenario view form    Scenario 2 F1    SC-002    Unchecked    Given some precondition\nAnd some other precondition\nWhen some action by the actor\nAnd some other action\nAnd yet another action\nThen some testable outcome is achieved\nAnd something else we can check happens too
+
+Scenario steps have syntax highlight
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    When I click node    S_2_anchor
+    And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Then I see steps displayed with syntax highlight
 
 Reload warning after timeout when click to view scenario
     [Tags]    timeout
@@ -29,7 +39,7 @@ Request view scenario
     Given I am logging as by request    user
     ${resp}=    When Ajax Get Request    /bln-ftree/1/node/S_1
     Then Should Be Equal As Strings    ${resp.status_code}    200
-    And the element should contain items    ${resp.content}    Scenario 1 F1    Given step-given 1
+    And the element should contain items    ${resp.content}    Scenario 1 F1    Given some precondition
     [Teardown]    EnvPostrequisite
 
 Request view scenario with non numeric Id
@@ -182,7 +192,7 @@ Edit button not displayed for closed baseline
     And I click node to display sub-node    B_7
     And I click node to display sub-node    F_7
     When I click node    S_10
-    Then I check scenario view form    Scenario 10 F0 - closed    SC-010    Passed    Given step-given 1\nAnd step-given-and 2\nWhen step-when 3\nAnd step-when-and 4\nThen step-then 5\nAnd step-then-and 6
+    Then I check scenario view form    Scenario 10 F0 - closed    SC-010    Passed    Given some precondition\nAnd some other precondition\nWhen some action by the actor\nAnd some other action\nAnd yet another action\nThen some testable outcome is achieved\nAnd something else we can check happens too
     And I should not see action button(s)    Edit
 
 Edit button not displayed for non user profile
@@ -192,5 +202,5 @@ Edit button not displayed for non user profile
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
     And I click node    S_1_anchor
-    Then I check scenario view form    Scenario 1 F1    ${EMPTY}    Not implemented    Given step-given 1\nAnd step-given-and 2\nWhen step-when 3\nAnd step-when-and 4\nThen step-then 5\nAnd step-then-and 6
+    Then I check scenario view form    Scenario 1 F1    ${EMPTY}    Not implemented    Given some precondition\nAnd some other precondition\nWhen some action by the actor\nAnd some other action\nAnd yet another action\nThen some testable outcome is achieved\nAnd something else we can check happens too
     And I should not see action button(s)    Edit

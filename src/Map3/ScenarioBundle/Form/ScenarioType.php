@@ -77,13 +77,8 @@ class ScenarioType extends AbstractDefaultType
             )
             ->add(
                 'steps',
-                'textarea',
-                array(
-                    'required' => false,
-                    'attr' => array(
-                        'rows' => 8,
-                    ),
-                )
+                'hidden',
+                array()
             );
     }
 

@@ -48,14 +48,38 @@ class Scenarios extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $steps = <<<EOT
-Given step-given 1
-And step-given-and 2
-When step-when 3
-And step-when-and 4
-Then step-then 5
-And step-then-and 6
+Given some precondition
+And some other precondition
+When some action by the actor
+And some other action
+And yet another action
+Then some testable outcome is achieved
+And something else we can check happens too
+EOT;
+        
+        $stepsOutline = <<<EOT
+Given there are <start> cucumbers
+When I eat <eat> cucumbers
+Then I should have <left> cucumbers
+
+Examples:
+  | start | eat | left |
+  |  12   |  5  |  7   |
+  |  20   |  5  |  15  |
 EOT;
 
+        $stepsDataTable = <<<EOT
+Given there are users:
+| username | password   | email             |
+| user1    | pass4user1 | user1@example.com |
+| user2    | pass4user2 | user2@example.com |
+And I am on login page
+When I fill in "username" with "user1"
+And I fill in "password" with "pass4user1"
+And I press "login"
+Then I should see "Hello User1 !"
+EOT;
+        
         $dataArray = array(
             array(
                 'title' => 'Scenario 1 F1',
@@ -73,18 +97,18 @@ EOT;
                 'feature' => 'featurec1-feature',
             ),
             array(
-                'title' => 'Scenario 3 F1',
+                'title' => 'Scenario 3 F1 - Outline',
                 'extid' => 'SC-003',
                 'status' => 'pen-status',
-                'steps' => $steps,
+                'steps' => $stepsOutline,
                 'baseline' => 'baselineone-baseline',
                 'feature' => 'featurec1-feature',
             ),
             array(
-                'title' => 'Scenario 4 F1',
+                'title' => 'Scenario 4 F1 - Data table',
                 'extid' => 'SC-004',
                 'status' => 'pas-status',
-                'steps' => $steps,
+                'steps' => $stepsDataTable,
                 'baseline' => 'baselineone-baseline',
                 'feature' => 'featurec1-feature',
             ),

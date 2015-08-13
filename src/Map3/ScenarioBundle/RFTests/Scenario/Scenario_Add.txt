@@ -29,11 +29,23 @@ A user adds a scenario with default values
     And I Click button    Add scenario
     When Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
     And List Selection Should Be    map3_scenario_status    Pending
-    And Selenium2Library.Element Text Should Be    map3_scenario_steps    Given [Pre-condition]\nWhen [Action]\nThen [Outcome]
+    ${value}=    Get Value    map3_scenario_steps
+    And Should Be Equal    ${value}    Given [Pre-condition]\nWhen [Action]\nThen [Outcome]
     And Input text    map3_scenario_title    Scenario added
     And I click button    Save
     Then I wait until text is visible    Scenario added successfully
     And I check scenario view form    Scenario added    ${EMPTY}    Pending    Given [Pre-condition]\nWhen [Action]\nThen [Outcome]
+
+Scenario steps have syntax highlight
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node    F_1_anchor
+    When Click Element    addMenu
+    And I Click button    Add scenario
+    When Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Then I see steps displayed with syntax highlight
 
 Reload warning after timeout when click Add scenario
     [Tags]    timeout

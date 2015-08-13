@@ -5,7 +5,7 @@ I fill in scenario form
     Input text    map3_scenario_title    ${title}
     Input text    map3_scenario_extId    ${extid}
     Select From List By Label    map3_scenario_status    ${status}
-    Input text    map3_scenario_steps    ${steps}
+    Input text    xpath=//textarea[@class='ace_text-input']    ${steps}
 
 I check scenario view form
     [Arguments]    ${title}    ${extid}    ${status}    ${steps}
@@ -13,4 +13,12 @@ I check scenario view form
     Disabled text element should contain    map3_scenario_title    ${title}
     Disabled text element should contain    map3_scenario_extId    ${extid}
     List Selection Should Be    map3_scenario_status    ${status}
-    Selenium2Library.Element Text Should Be    map3_scenario_steps    ${steps}
+    ${value}=    Get Value    map3_scenario_steps
+    Should Be Equal    ${value}    ${steps}
+
+I see steps displayed with syntax highlight
+    ${html}=    Get Source
+    ${line}=    Get Lines Containing String    ${html}    ace_keyword
+    ${count}=    Get Line Count    ${line}
+    Run Keyword And Expect Error    *    Should Be Equal    ${count}    0
+    Should Contain    ${line}    Given

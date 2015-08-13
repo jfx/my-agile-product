@@ -2,12 +2,30 @@
 
 <form class="form-horizontal well">
     {{ form_widget(form) }}
+    
+    <div  class="form-group">
+        <label for="gherkin-editor" class="control-label col-sm-3 optional">
+            Steps
+        </label>
+        <div class="col-sm-9">
+        <div class="row-fluid gherkin-editor-panel" id="gherkin-editor">{{ form.vars.value.steps }}</div>
+        </div>
+    </div>
 </form>
 
 {% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
 <a class="btn btn-sm btn-cust" onclick="buttonClick();" title="Edit">
     {{ icon('edit',true) }} Edit
 </a>
+
+<script>
+    var editor = ace.edit("gherkin-editor");
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/gherkin");
+    document.getElementById("gherkin-editor").style.fontSize='13px';
+    editor.setReadOnly(true);
+    editor.setHighlightActiveLine(false);
+</script>
 
 <script>
 function buttonClick() {
