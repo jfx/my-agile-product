@@ -3,6 +3,13 @@
 {
 "id"       : "{{ node.nodeId }}",
 "text"     : "{{ node.extIdTitle }}",
+{% if node.status.id == 1 or node.status.id == 2 %}
+"icon"     : "glyphicon glyphicon-film color-disabled",
+{% elseif node.status.id == 4 %}
+"icon"     : "glyphicon glyphicon-film text-success",
+{% elseif node.status.id == 5 %}
+"icon"     : "glyphicon glyphicon-film text-danger",
+{% endif %}
 "type"     : "scenario",
 "children" : false
 }{% if not loop.last %},{% endif %}

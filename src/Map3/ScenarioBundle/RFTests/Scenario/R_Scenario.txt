@@ -17,8 +17,8 @@ I check scenario view form
     Should Be Equal    ${value}    ${steps}
 
 I see steps displayed with syntax highlight
-    ${html}=    Get Source
-    ${line}=    Get Lines Containing String    ${html}    ace_keyword
-    ${count}=    Get Line Count    ${line}
+    ${html} =    Get Source
+    ${line} =    Get Lines Containing String    ${html}    ace_keyword
+    ${count} =    Get Line Count    ${line}
     Run Keyword And Expect Error    *    Should Be Equal    ${count}    0
     Should Contain    ${line}    Given

@@ -129,3 +129,15 @@ the label of this field is displayed as optional
     ${count}=    Get Line Count    ${line}
     Run Keyword And Expect Error    *    Should Be Equal    ${count}    0
     Should Not Contain    ${line}    <span class="asterisk">*</span>
+
+the color of the icon is
+    [Arguments]    ${id}    ${icon}    ${color}
+    Wait Until Element Is Visible    ${id}    ${WAIT_TIMEOUT}
+    ${count} =    Get Matching Xpath Count    //a[@id='${id}']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} ${color} jstree-themeicon-custom']
+    Should Be Equal    ${count}    1
+
+the color of the icon is black
+    [Arguments]    ${id}    ${icon}
+    Wait Until Element Is Visible    ${id}    ${WAIT_TIMEOUT}
+    ${count} =    Get Matching Xpath Count    //a[@id='${id}']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} jstree-themeicon-custom']
+    Should Be Equal    ${count}    1

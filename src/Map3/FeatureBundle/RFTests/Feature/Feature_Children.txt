@@ -11,8 +11,8 @@ Click to display children of a feature node
     When I click node to display sub-node    F_1
     Then the node name should be equal to    S_1_anchor    Scenario 1 F1
     And the node name should be equal to    S_2_anchor    SC-002 - Scenario 2 F1
-    And the node name should be equal to    S_3_anchor    SC-003 - Scenario 3 F1
-    And the node name should be equal to    S_4_anchor    SC-004 - Scenario 4 F1
+    And the node name should be equal to    S_3_anchor    SC-003 - Scenario 3 F1 - Outline
+    And the node name should be equal to    S_4_anchor    SC-004 - Scenario 4 F1 - Data table
     And the node name should be equal to    S_5_anchor    SC-005 - Scenario 5 F1
     And the node name should be equal to    S_6_anchor    SC-006 - Scenario 6 F1
 

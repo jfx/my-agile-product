@@ -59,14 +59,14 @@ class Features extends AbstractFixture implements OrderedFixtureInterface
             array(
                 'title' => 'Feature C2',
                 'extid' => 'ID-002',
-                'priority' => 'p0-priority',
+                'priority' => 'p1-priority',
                 'description' => 'Narrative F2',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'category1-category',
             ),
             array(
                 'title' => 'Feature C3',
-                'priority' => 'p1-priority',
+                'priority' => 'p2-priority',
                 'description' => 'Narrative F3',
                 'baseline' => 'baselineone-baseline',
                 'category' => 'category1-category',
