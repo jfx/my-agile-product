@@ -38,6 +38,8 @@
 <script>
 function formSubmit() {
     $("#modalDel").modal("hide");
+    $("body").removeClass("modal-open");
+    $(".modal-backdrop").remove();
     $.post('{{ path('bln-sce_del', {'id': scenario.id}) }}', $("#formPanel").serialize(), function (resp) {
         $("div.node-panel").hide();
         $("div.node-panel").html(resp).show();
