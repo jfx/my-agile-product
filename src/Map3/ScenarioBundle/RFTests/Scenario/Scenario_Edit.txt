@@ -8,14 +8,14 @@ A user+ edits a feature
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     And I click button when visible    Edit
     And I wait until button is visible    Save
     When I fill in scenario form    Scenario Mod    SC-001-Mod    Pending    Given Mod
     And I click button    Save
     Then I wait until text is visible    Scenario edited successfully
     And I check scenario view form    Scenario Mod    SC-001-Mod    Pending    Given Mod
-    And the node name should be equal to    S_2_anchor    SC-001-Mod - Scenario Mod
+    And the node name should be equal to    S_2     SC-001-Mod - Scenario Mod
 
 Scenario steps have syntax highlight
     Given I am a user
@@ -23,7 +23,7 @@ Scenario steps have syntax highlight
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     And I click button when visible    Edit
     And I wait until button is visible    Save
     Then I see steps displayed with syntax highlight
@@ -36,7 +36,7 @@ Reload warning after timeout when click to edit feature
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     And I click button when visible    Edit
     When I am waiting for timeout
     And I click button    Save
@@ -166,7 +166,7 @@ Required and optional form labels
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     And I click button when visible    Edit
     And I wait until button is visible    Save
     Then the label of this field is displayed as required    Title
@@ -180,7 +180,7 @@ Impossible to edit a feature with an empty title
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     And I click button when visible    Edit
     And I wait until button is visible    Save
     When I fill in scenario form    ${EMPTY}    SC-001-Mod    Pending    Given Mod
@@ -193,7 +193,7 @@ Impossible to edit a feature with a title too short
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     And I click button when visible    Edit
     And I wait until button is visible    Save
     When I fill in scenario form    X    SC-001-Mod    Pending    Given Mod

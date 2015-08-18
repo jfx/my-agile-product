@@ -9,12 +9,12 @@ Click to display children of a feature node
     And I click node to display sub-node    C_9
     And Page should not contain    Scenario 1 F1
     When I click node to display sub-node    F_1
-    Then the node name should be equal to    S_1_anchor    Scenario 1 F1
-    And the node name should be equal to    S_2_anchor    SC-002 - Scenario 2 F1
-    And the node name should be equal to    S_3_anchor    SC-003 - Scenario 3 F1 - Outline
-    And the node name should be equal to    S_4_anchor    SC-004 - Scenario 4 F1 - Data table
-    And the node name should be equal to    S_5_anchor    SC-005 - Scenario 5 F1
-    And the node name should be equal to    S_6_anchor    SC-006 - Scenario 6 F1
+    Then the node name should be equal to    S_1     Scenario 1 F1
+    And the node name should be equal to    S_2     SC-002 - Scenario 2 F1
+    And the node name should be equal to    S_3     SC-003 - Scenario 3 F1 - Outline
+    And the node name should be equal to    S_4     SC-004 - Scenario 4 F1 - Data table
+    And the node name should be equal to    S_5     SC-005 - Scenario 5 F1
+    And the node name should be equal to    S_6     SC-006 - Scenario 6 F1
 
 Click to hide children of a feature node
     Given I am a user
@@ -22,12 +22,12 @@ Click to hide children of a feature node
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    And the node name should be equal to    S_1_anchor    Scenario 1 F1
+    And the node name should be equal to    S_1     Scenario 1 F1
     When I click node to display sub-node    F_1
     And I am waiting for ajax request
-    Then Element Should Not Be Visible    S_1_anchor
-    And Element Should Not Be Visible    S_2_anchor
-    And Element Should Not Be Visible    S_3_anchor
+    Then Element Should Not Be Visible    S_1 
+    And Element Should Not Be Visible    S_2 
+    And Element Should Not Be Visible    S_3 
 
 Reload warning after timeout when click to display sub-categories of a feature
     [Tags]    timeout
@@ -36,7 +36,7 @@ Reload warning after timeout when click to display sub-categories of a feature
     And Go To    ${URL_DEV}/bln-features/1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
-    And the node name should be equal to    F_1_anchor    ID-001 - Feature C1
+    And the node name should be equal to    F_1     ID-001 - Feature C1
     When I click node to display sub-node    F_1
     And I am waiting for timeout
     Then Page should contain    Authentication has expired

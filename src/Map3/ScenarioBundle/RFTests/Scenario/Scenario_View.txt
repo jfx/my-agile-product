@@ -8,7 +8,7 @@ Click to view a scenario node
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     Then I check scenario view form    Scenario 2 F1    SC-002    Unchecked    Given some precondition\nAnd some other precondition\nWhen some action by the actor\nAnd some other action\nAnd yet another action\nThen some testable outcome is achieved\nAnd something else we can check happens too
 
 Scenario steps have syntax highlight
@@ -17,7 +17,7 @@ Scenario steps have syntax highlight
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2_anchor
+    When I click node    S_2 
     And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
     Then I see steps displayed with syntax highlight
 
@@ -29,7 +29,7 @@ Reload warning after timeout when click to view scenario
     And I click node to display sub-node    B_1
     And I click node to display sub-node    F_6
     When I am waiting for timeout
-    And I click node    S_9_anchor
+    And I click node    S_9 
     Then I wait until text is visible    Authentication has expired
     [Teardown]    TestLifetimeTeardown
 
@@ -165,7 +165,7 @@ Edit button displayed for user profile
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    And I click node    S_1_anchor
+    And I click node    S_1 
     When I click button when visible    Edit
     And I am waiting for ajax request
     Then Location Should Be    ${URL}/bln-features/1
@@ -179,7 +179,7 @@ Reload warning after timeout when click edit button
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    And I click node    S_1_anchor
+    And I click node    S_1 
     And I am waiting for timeout
     When I click button    Edit
     Then I wait until text is visible    Authentication has expired
@@ -188,7 +188,7 @@ Reload warning after timeout when click edit button
 Edit button not displayed for closed baseline
     Given I am a user
     And I go directly to features tree    3
-    And the node name should be equal to    B_7_anchor    Baseline Closed
+    And the node name should be equal to    B_7     Baseline Closed
     And I click node to display sub-node    B_7
     And I click node to display sub-node    F_7
     When I click node    S_10
@@ -201,7 +201,7 @@ Edit button not displayed for non user profile
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    And I click node    S_1_anchor
+    And I click node    S_1 
     Then I check scenario view form    Scenario 1 F1    ${EMPTY}    Not implemented    Given some precondition\nAnd some other precondition\nWhen some action by the actor\nAnd some other action\nAnd yet another action\nThen some testable outcome is achieved\nAnd something else we can check happens too
     And I should not see action button(s)    Edit
 
@@ -211,7 +211,7 @@ Icon of a scenario with "Not implemented" status should be grey lighter
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    Then the color of the icon is    S_1_anchor    film    color-disabled
+    Then the color of the icon is    S_1     film    color-disabled
 
 Icon of a scenario with "Unchecked" status should be grey lighter
     Given I am a guest
@@ -219,7 +219,7 @@ Icon of a scenario with "Unchecked" status should be grey lighter
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    Then the color of the icon is    S_2_anchor    film    color-disabled
+    Then the color of the icon is    S_2     film    color-disabled
 
 Icon of a scenario with "Pending" status should be black (default)
     Given I am a guest
@@ -227,7 +227,7 @@ Icon of a scenario with "Pending" status should be black (default)
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    Then the color of the icon is black    S_3_anchor    film
+    Then the color of the icon is black    S_3     film
 
 Icon of a scenario with "Passed" status should be green
     Given I am a guest
@@ -235,7 +235,7 @@ Icon of a scenario with "Passed" status should be green
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    Then the color of the icon is    S_4_anchor    film    text-success
+    Then the color of the icon is    S_4     film    text-success
 
 Icon of a scenario with "Failed" status should be red
     Given I am a guest
@@ -243,7 +243,7 @@ Icon of a scenario with "Failed" status should be red
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    Then the color of the icon is    S_5_anchor    film    text-danger
+    Then the color of the icon is    S_5     film    text-danger
 
 Icon of a scenario with "Undefined" status should be black (default)
     Given I am a guest
@@ -251,4 +251,4 @@ Icon of a scenario with "Undefined" status should be black (default)
     And I click node to display sub-node    B_1
     When I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    Then the color of the icon is black    S_6_anchor    film
+    Then the color of the icon is black    S_6     film

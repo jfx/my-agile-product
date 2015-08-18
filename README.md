@@ -37,12 +37,12 @@ Features:
   - Conditional display of add node menu item and remove node button - #74,
  
 
-
 Bugfixes:
 
   - Fix constraints for release date and baseline datetime - #70,
   - Checks default values for add feature and scenario forms - #72,
   - Rename narrative feature attribute to description - #75,
+  - RF tests : click tree node by id without suffix _anchor - fix #77,
 
 
 ### 0.8.0 (19 July 2015)

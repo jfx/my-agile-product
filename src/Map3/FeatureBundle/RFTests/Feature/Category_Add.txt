@@ -5,7 +5,7 @@ Resource          ../Keyword_resource.txt
 A user+ adds a category from baseline
     Given I am a user+
     And I go to features tree    View product #1    View release #1    View baseline #1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     When Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -19,7 +19,7 @@ A user+ adds a category from category
     And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 15
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    When I click node    C_9_anchor
+    When I click node    C_9 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -36,7 +36,7 @@ Reload warning after timeout when click Add category
     [Setup]    TestLifetimeSetup
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     When Click Element    addMenu
     And I am waiting for timeout
     And I Click button    Add category
@@ -48,7 +48,7 @@ Reload warning after timeout when click Save
     [Setup]    TestLifetimeSetup
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -222,7 +222,7 @@ Check context for category ajax request with same previous context
 Required and optional form labels
     Given I am a user+
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     And Click Element    addMenu
     When I Click button    Add category
     And I wait until button is visible    Save
@@ -232,7 +232,7 @@ Required and optional form labels
 Impossible to add a category with an empty name
     Given I am a user+
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -243,7 +243,7 @@ Impossible to add a category with an empty name
 Impossible to add a category with a name too short
     Given I am a user+
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -254,7 +254,7 @@ Impossible to add a category with a name too short
 Add category item menu displayed for a user+ when a baseline node is selected
     Given I am a user+
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     When Click Element    addMenu
     Then element should be visible    addCatBt
 
@@ -262,7 +262,7 @@ Add category item menu displayed for a user+ when a category node is selected
     Given I am a user+
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    And I click node    C_9_anchor
+    And I click node    C_9 
     When Click Element    addMenu
     Then element should be visible    addCatBt
 
@@ -271,7 +271,7 @@ No add category item menu for a user+ when a feature node is selected
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
-    And I click node    F_1_anchor
+    And I click node    F_1 
     When Click Element    addMenu
     Then element should not be visible    addCatBt
 
@@ -281,14 +281,14 @@ No add category item menu for a user+ when a scenario node is selected
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    And I click node    S_1_anchor
+    And I click node    S_1 
     When Click Element    addMenu
     Then element should not be visible    addCatBt
 
 No add category item menu displayed for a user when a baseline node is selected
     Given I am a user
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     When Click Element    addMenu
     Then element should not be visible    addCatBt
 
@@ -296,6 +296,6 @@ No add category item menu displayed for a user when a category node is selected
     Given I am a user
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    And I click node    C_9_anchor
+    And I click node    C_9 
     When Click Element    addMenu
     Then element should not be visible    addCatBt

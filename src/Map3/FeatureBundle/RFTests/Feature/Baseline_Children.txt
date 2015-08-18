@@ -5,33 +5,33 @@ Resource          ../Keyword_resource.txt
 Click to display sub-categories of a baseline
     Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
-    And the node name should be equal to    B_1_anchor    Baseline One
+    And the node name should be equal to    B_1     Baseline One
     And Page should not contain    Category 1
     When I click node to display sub-node    B_1
     Then I wait until text is visible    Category 1
-    And the node name should be equal to    C_9_anchor    Category 1
-    And the node name should be equal to    C_10_anchor    Category 2
-    And the node name should be equal to    C_11_anchor    Category 3
-    And the node name should be equal to    F_6_anchor    Feature C0
+    And the node name should be equal to    C_9    Category 1
+    And the node name should be equal to    C_10     Category 2
+    And the node name should be equal to    C_11     Category 3
+    And the node name should be equal to    F_6     Feature C0
 
 Click to hide sub-categories for a baseline
     Given I am a user
     And I go directly to features tree    1
-    And the node name should be equal to    B_1_anchor    Baseline One
+    And the node name should be equal to    B_1     Baseline One
     And I click node to display sub-node    B_1
-    And Wait Until Element Is Visible    C_9_anchor    ${WAIT_TIMEOUT}
+    And Wait Until Element Is Visible    C_9     ${WAIT_TIMEOUT}
     When I click node to display sub-node    B_1
     And I am waiting for ajax request
-    Then Element Should Not Be Visible    C_9_anchor
-    And Element Should Not Be Visible    C_10_anchor
-    And Element Should Not Be Visible    C_11_anchor
+    Then Element Should Not Be Visible    C_9 
+    And Element Should Not Be Visible    C_10 
+    And Element Should Not Be Visible    C_11 
 
 Reload warning after timeout when click to display sub-categories of a baseline
     [Tags]    timeout
     [Setup]    TestLifetimeSetup
     Given I am logging as    user    user    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    B_1_anchor    Baseline One
+    And the node name should be equal to    B_1    Baseline One
     And I am waiting for ajax request
     When I click node to display sub-node    B_1
     And I am waiting for timeout
