@@ -19,15 +19,6 @@
 </a>
 
 <script>
-    var editor = ace.edit("gherkin-editor");
-    editor.setTheme("ace/theme/chrome");
-    editor.getSession().setMode("ace/mode/gherkin");
-    document.getElementById("gherkin-editor").style.fontSize='13px';
-    editor.setReadOnly(true);
-    editor.setHighlightActiveLine(false);
-</script>
-
-<script>
 function buttonClick() {
     $.get('{{ path('bln-sce_edit', {'id': scenario.id}) }}', function (resp) {
         $("div.node-panel").hide();
@@ -39,3 +30,12 @@ function buttonClick() {
 }
 </script>
 {% endif %}
+
+<script>
+    var editor = ace.edit("gherkin-editor");
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/gherkin");
+    document.getElementById("gherkin-editor").style.fontSize='13px';
+    editor.setReadOnly(true);
+    editor.setHighlightActiveLine(false);
+</script>

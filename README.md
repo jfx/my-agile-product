@@ -30,14 +30,19 @@ Features:
   - Delete a scenario - #68,
   - New build file for all Jenkins jobs - #69,
   - Database checks in Robot Framework tests for add and delete actions - #71,
-  - Change label for form fields to required with asterisk display - fix #76,
+  - Change label for form fields to required with asterisk display - #76,
+  - Feature count in features tab - #73,
+  - Gherkin syntax highlight editor for scenario steps - #27,
+  - Color of feature and scenario icons depends on priority or status - #29,
+  - Conditional display of add node menu item and remove node button - #74,
+ 
 
 
 Bugfixes:
 
-  - Fix constraints for release date and baseline datetime - fix #70,
-  - Checks default values for add feature and scenario forms - fix #72,
-  - Rename narrative feature attribute to description - fix #75,
+  - Fix constraints for release date and baseline datetime - #70,
+  - Checks default values for add feature and scenario forms - #72,
+  - Rename narrative feature attribute to description - #75,
 
 
 ### 0.8.0 (19 July 2015)

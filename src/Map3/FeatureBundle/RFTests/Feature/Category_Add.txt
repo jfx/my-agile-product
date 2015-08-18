@@ -251,7 +251,51 @@ Impossible to add a category with a name too short
     And I click button    Save
     Then I wait until text is visible    This value is too short. It should have 2 characters or more.
 
-No Add category menu for a user
+Add category item menu displayed for a user+ when a baseline node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1_anchor
+    When Click Element    addMenu
+    Then element should be visible    addCatBt
+
+Add category item menu displayed for a user+ when a category node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node    C_9_anchor
+    When Click Element    addMenu
+    Then element should be visible    addCatBt
+
+No add category item menu for a user+ when a feature node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node    F_1_anchor
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu for a user+ when a scenario node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node    S_1_anchor
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu displayed for a user when a baseline node is selected
     Given I am a user
     And I go directly to features tree    1
-    And I should not see action button(s)    Add category
+    And I click node    B_1_anchor
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu displayed for a user when a category node is selected
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node    C_9_anchor
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt

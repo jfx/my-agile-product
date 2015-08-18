@@ -32,15 +32,11 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="addMenu">
-            {% if (is_granted('ROLE_DM_USERPLUS') and is_granted('ROLE_OPEN_BLN'))%}
-            <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addFeature();" title="Add feature">{{ icon('picture') }} Feature</a></li>
-            {% endif %}
-            {% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
-            <li role="presentation"><a role="menuitem" tabindex="-1" onclick="addScenario();" title="Add scenario">{{ icon('film') }} Scenario</a></li>
-            {% endif %}
+            <li id="addCatBt" role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
+            <li id="addFeatBt" role="presentation"><a role="menuitem" tabindex="-1" onclick="addFeature();" title="Add feature">{{ icon('picture') }} Feature</a></li>
+            <li id="addSceBt" role="presentation"><a role="menuitem" tabindex="-1" onclick="addScenario();" title="Add scenario">{{ icon('film') }} Scenario</a></li>
         </ul>
-        <a onclick="removeNode();"
+        <a id="removeBt" onclick="removeNode();"
            class="btn btn-xs btn-cust"
            title="Delete node">
             {{ icon('trash') }}
@@ -70,6 +66,7 @@
     {{ parent() }}
 
 <script>
+{% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
 function addCategory() {
     var node = $('#jstree1').jstree(true).get_selected();
     if(node && node.length) {
@@ -126,7 +123,43 @@ function removeNode() {
     }
 }
 
+function hideAddRemoveButtons() {
+    $('#addCatBt').hide();
+    $('#addFeatBt').hide();
+    $('#addSceBt').hide();
+    $('#removeBt').hide();
+}
+
+function showAddRemoveButtons(nodeType) {
+    switch (nodeType) {
+        {% if is_granted('ROLE_DM_USERPLUS') %}
+        case "baseline":
+            $('#addCatBt').show();
+            $('#addFeatBt').show();
+            break;
+        case "category":
+            $('#removeBt').show();
+            $('#addCatBt').show();
+            $('#addFeatBt').show();
+            break;
+        {% endif %}
+        case "feature":
+            {% if is_granted('ROLE_DM_USERPLUS') %}
+            $('#removeBt').show();
+            {% endif %}
+            $('#addSceBt').show();
+            break;
+        case "scenario":
+            $('#removeBt').show();
+            break;
+    }
+}
+{% endif %}
+
 $(function () {
+    {% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
+    hideAddRemoveButtons();
+    {% endif %}
     $('#jstree1')
         .jstree({
             "core" : {
@@ -162,6 +195,10 @@ $(function () {
         })
         .on('changed.jstree', function (e, data) {
             if(data && data.selected && data.selected.length) {
+                {% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
+                hideAddRemoveButtons();
+                showAddRemoveButtons(data.node.type);
+                {% endif %}
                 $.get(Routing.generate('bln-ftree_node', { bid: {{ baseline.id }}, nid: data.selected }), function (resp) {
                     $("div.node-panel").hide();
                     $("div.node-panel").html(resp.content).show();

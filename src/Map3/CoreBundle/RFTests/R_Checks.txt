@@ -54,12 +54,17 @@ the table header should contain
 I should see action button(s)
     [Arguments]    @{list}
     : FOR    ${item}    IN    @{list}
-    \    And Element Should Be Visible    xpath=//a[@title='${item}']
+    \    Element Should Be Visible    xpath=//a[@title='${item}']
 
 I should not see action button(s)
     [Arguments]    @{list}
     : FOR    ${item}    IN    @{list}
-    \    And Page Should Not Contain Element    xpath=//a[@title='${item}']
+    \    Page Should Not Contain Element    xpath=//a[@title='${item}']
+
+the action button should be hidden
+    [Arguments]    ${button}
+    Page Should Contain Element    xpath=//a[@title='${button}']
+    Element Should Not Be Visible    xpath=//a[@title='${button}']
 
 I should see 404 error page
     [Arguments]    ${msg}='404 Item not found'

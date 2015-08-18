@@ -25,13 +25,13 @@ View features tree without selecting a baseline before
     And the breadcrumb should contain    Product One    Release One    Baseline One    Features tree
 
 Impossible to delete a baseline
-    Given I am a user+
-    And I go directly to features tree    1
-    And the node name should be equal to    B_1_anchor    Baseline One
-    And Click Element    B_1_anchor
-    And I Click button    Delete node
-    And I am waiting for ajax request
-    Then Page Should Contain    Operation not allowed
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/del/B_1
+    Then Should Be Equal As Strings    ${resp.status_code}    405
+    And the element should contain items    ${resp.content}    Operation not allowed
+    [Teardown]    EnvPostrequisite
 
 Request root baseline node
     [Tags]    request
@@ -244,6 +244,26 @@ Collapse all button
     When Click element    xpath=//button[@title='Collapse all']
     Then Page should not contain    Category 111
 
+Add category and feature item menu displayed for a user+ when a baseline node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    When I click node    B_1_anchor
+    Then Page Should Contain Element    addCatBt
+    And Page Should Contain Element    addFeatBt
+
+No scenario item menu for a user+ when a baseline node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    When I click node    B_1_anchor
+    Then element should not be visible    addSceBt
+
+No category and feature items menu for a user when a baseline is node selected
+    Given I am a user
+    And I go directly to features tree    1
+    When I click node    B_1_anchor
+    Then element should not be visible    addCatBt
+    And element should not be visible    addFeatBt
+
 No Add button for a closed baseline
     Given I am a user+
     When I go directly to features tree    3
@@ -251,7 +271,8 @@ No Add button for a closed baseline
 
 No Add button for a guest user
     Given I am a guest
-    When I go directly to features tree    1
+    And I go directly to features tree    1
+    When I click node    B_1_anchor
     Then Page Should Not Contain Element    addMenu
 
 No Delete button for a closed baseline
@@ -259,7 +280,8 @@ No Delete button for a closed baseline
     When I go directly to features tree    3
     Then I should not see action button(s)    Delete node
 
-No Delete button for a guest user
-    Given I am a guest
-    When I go directly to features tree    1
-    Then I should not see action button(s)    Delete node
+No Delete button for a user when a baseline node is selected
+    Given I am a manager
+    And I go directly to features tree    1
+    When I click node    B_1_anchor
+    Then the action button should be hidden    Delete node
