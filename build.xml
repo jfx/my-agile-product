@@ -2,13 +2,17 @@
     
     <property environment="env"/>
     <property name="workspace" value="${env.WORKSPACE}"/>
+    <property name="build.number" value="${env.BUILD_NUMBER}"/>
 
     <property name="projectdir" value="."/>
     <property name="src" value="${projectdir}/src"/>
+    <property name="build.src" value="${workspace}/src/map3"/>
+    <property name="dist" value="${workspace}/dist"/>
     <property name="bin" value="${projectdir}/bin"/>
     <property name="testdir" value="${projectdir}/src/Map3/CoreBundle/RFTests"/>
     <property name="sf2logdir" value="${projectdir}/app/logs"/>
     <property name="apachedevlogdir" value="/opt/var/map3dev"/>
+    <property name="deploytestdir" value="/opt/web/map3test"/>
 
     <target name="clean" description="Cleanup build artifacts">
         <delete dir="${workspace}/build/logs"/>
@@ -202,4 +206,141 @@
         <copy file="${sf2logdir}/dev.log" tofile="${workspace}/build/log/dev.log"/>
         <copy file="${sf2logdir}/prod.log" tofile="${workspace}/build/log/prod.log"/>
     </target>
+    
+    <target name="package" depends="copy,prop,prepare-package,modfile,lint-package,zip,deploytest"/>
+    <target name="copy" description="Copy files">
+        <delete dir="${build.src}"/>
+        <mkdir dir="${build.src}"/>
+        <copy todir="${build.src}">
+            <fileset dir="${projectdir}"/>
+        </copy>
+   </target>
+    <target name="prop" description="Define properties">
+        <tstamp>
+            <format property="touch.time" pattern="yyyy-MM-dd HH:mm z" />
+        </tstamp>
+        <echo message="Time:${touch.time}"/>
+        <exec executable="git"  dir="${projectdir}" outputproperty="git.hash">
+            <arg value="log" />
+            <arg value="-n" />
+            <arg value="1" />
+            <arg value="--pretty=format:%h" />
+        </exec>
+        <echo message="Hash:${git.hash}"/>
+
+        <loadproperties srcFile="${build.src}/app/config/config.yml">
+            <filterchain>
+                <deletecharacters chars="&quot;"/>
+                <linecontains>
+                    <contains value="app.version"/>
+                </linecontains>
+            </filterchain>
+        </loadproperties>
+        <echo message="Version:${app.version}"/>
+    </target>
+    <target name="clean-package" description="Cleanup build artifacts">
+        <delete dir="${dist}/v${app.version}"/>
+    </target>
+    <target name="prepare-package" depends="clean-package" description="Prepare for build">
+        <mkdir dir="${dist}/v${app.version}"/>
+        <mkdir dir="${dist}/v${app.version}/doc-api"/>
+    </target>
+    <target name="modfile" description="Modify some files">
+        <replaceregexp file="${build.src}/app/config/config.yml"
+            match="(.*)app.build:(.*)" replace="    app.build:   ${build.number}" 
+            byline="true"/>
+    </target>
+    <target name="lint-package">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+            <fileset dir="${build.src}/src">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+    <target name="zip" depends="copy,prepare">
+        <delete dir="${build.src}/nbproject"/>
+        <delete dir="${build.src}/app/cache"/>
+        <delete dir="${build.src}/app/logs"/>
+        <delete dir="${build.src}/web/bundles"/>
+        <delete dir="${build.src}/web/css"/>
+        <delete dir="${build.src}/web/js"/>
+        <delete dir="${build.src}/web/fonts"/>
+        <mkdir dir="${build.src}/app/logs"/>
+        <mkdir dir="${build.src}/app/cache"/>
+        <mkdir dir="${build.src}/web/bundles"/>
+        <mkdir dir="${build.src}/web/css"/>
+        <mkdir dir="${build.src}/web/js"/>
+
+        <exec executable="php" failonerror="true" dir="${build.src}">
+            <arg value="app/console" />
+            <arg value="mopa:bootstrap:install:font" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${build.src}">
+            <arg value="app/console" />
+            <arg value="assetic:dump" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${build.src}">
+            <arg value="app/console" />
+            <arg value="assets:install" />
+            <arg value="web" />
+        </exec>
+
+        <chmod file="${build.src}/**" perm="755" parallel="false" type="dir"/>
+        <chmod file="${build.src}/**" perm="644" parallel="false" type="file"/>
+        <chmod file="${build.src}/bin/**" perm="755" parallel="false" type="file"/>
+
+        <delete file="${build.src}/app/config/parameters.yml"/>
+        <delete file="${build.src}/web/app_dev.php"/>
+        <delete file="${build.src}/web/apple-touch-icon.png"/>
+        <delete file="${build.src}/src/Map3/CoreBundle/RFTests/R_Google_Account.txt"/>
+
+        <zip destfile="${dist}/v${app.version}/myagileproduct-${app.version}.zip" basedir="${workspace}/src"/>
+    </target>
+    <target name="deploytest" depends="zip">
+        <unzip src="${dist}/v${app.version}/myagileproduct-${app.version}.zip" dest="${deploytestdir}"/>
+        <delete dir="${deploytestdir}/current"/>
+        <move todir="${deploytestdir}/current">
+            <fileset dir="${deploytestdir}/map3"/>
+        </move>
+
+        <copy file="${deploytestdir}/current/app/config/parameters.yml.dist"
+            tofile="${deploytestdir}/current/app/config/parameters.yml"/>
+
+        <replaceregexp file="${deploytestdir}/current/app/config/parameters.yml"
+            match="(.*)database_name:(.*)" replace="    database_name:     ${env.DB_TEST_NAME}" 
+            byline="true"/>
+        <replaceregexp file="${deploytestdir}/current/app/config/parameters.yml"
+            match="(.*)database_user:(.*)" replace="    database_user:     ${env.DB_TEST_USER}" 
+            byline="true"/>
+        <replaceregexp file="${deploytestdir}/current/app/config/parameters.yml"
+            match="(.*)database_password:(.*)" replace="    database_password: ${env.DB_TEST_PASS}" 
+            byline="true"/>
+
+        <chmod file="${deploytestdir}/current/bin/**" perm="755" parallel="false" type="file"/>
+        <exec executable="${deploytestdir}/current/bin/setfacl-cache-logs" failonerror="true" dir="${deploytestdir}/current/">
+        </exec>
+              
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:database:drop" />
+            <arg value="--force" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:database:create" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:schema:update" />
+            <arg value="--force" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:fixtures:load" />
+            <arg value="--no-interaction" />
+        </exec>
+    </target>
+    
 </project>

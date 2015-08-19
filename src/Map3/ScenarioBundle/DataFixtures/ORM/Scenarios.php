@@ -56,7 +56,7 @@ And yet another action
 Then some testable outcome is achieved
 And something else we can check happens too
 EOT;
-        
+
         $stepsOutline = <<<EOT
 Given there are <start> cucumbers
 When I eat <eat> cucumbers
@@ -79,7 +79,7 @@ And I fill in "password" with "pass4user1"
 And I press "login"
 Then I should see "Hello User1 !"
 EOT;
-        
+
         $dataArray = array(
             array(
                 'title' => 'Scenario 1 F1',

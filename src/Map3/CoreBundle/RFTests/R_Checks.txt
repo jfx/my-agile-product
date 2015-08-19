@@ -110,8 +110,8 @@ the element should contain items
 
 the node name should be equal to
     [Arguments]    ${id}    ${name}
-    Wait Until Page Contains Element    id=${id}    ${WAIT_TIMEOUT}
-    ${node_name} =    Get Text    id=${id}
+    Wait Until Page Contains Element    id=${id}_anchor    ${WAIT_TIMEOUT}
+    ${node_name} =    Get Text    id=${id}_anchor
     Should Be Equal As Strings    ${node_name}    ${name}
 
 I wait until text is visible
@@ -137,12 +137,12 @@ the label of this field is displayed as optional
 
 the color of the icon is
     [Arguments]    ${id}    ${icon}    ${color}
-    Wait Until Element Is Visible    ${id}    ${WAIT_TIMEOUT}
-    ${count} =    Get Matching Xpath Count    //a[@id='${id}']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} ${color} jstree-themeicon-custom']
+    Wait Until Element Is Visible    ${id}_anchor    ${WAIT_TIMEOUT}
+    ${count} =    Get Matching Xpath Count    //a[@id='${id}_anchor']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} ${color} jstree-themeicon-custom']
     Should Be Equal    ${count}    1
 
 the color of the icon is black
     [Arguments]    ${id}    ${icon}
-    Wait Until Element Is Visible    ${id}    ${WAIT_TIMEOUT}
-    ${count} =    Get Matching Xpath Count    //a[@id='${id}']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} jstree-themeicon-custom']
+    Wait Until Element Is Visible    ${id}_anchor    ${WAIT_TIMEOUT}
+    ${count} =    Get Matching Xpath Count    //a[@id='${id}_anchor']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} jstree-themeicon-custom']
     Should Be Equal    ${count}    1
