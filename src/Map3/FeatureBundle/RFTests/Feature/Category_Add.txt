@@ -5,7 +5,7 @@ Resource          ../Keyword_resource.txt
 A user+ adds a category from baseline
     Given I am a user+
     And I go to features tree    View product #1    View release #1    View baseline #1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     When Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -14,23 +14,29 @@ A user+ adds a category from baseline
     And I check category view form    Category added
 
 A user+ adds a category from category
+    [Setup]    TestSetupDb
     Given I am a user+
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 15
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
-    When I click node    C_9_anchor
+    When I click node    C_9 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
     And I click button    Save
     Then I wait until text is visible    Category added successfully
     And I check category view form    Category added
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 17
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 17
+    And Check If Exists In Database    select id from map3_category where lft = 15 and rgt = 16
+    [Teardown]    TestTeardownDb
 
 Reload warning after timeout when click Add category
     [Tags]    timeout
     [Setup]    TestLifetimeSetup
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     When Click Element    addMenu
     And I am waiting for timeout
     And I Click button    Add category
@@ -42,7 +48,7 @@ Reload warning after timeout when click Save
     [Setup]    TestLifetimeSetup
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -110,6 +116,15 @@ Request add category with not allowed parent node - feature
     [Setup]    EnvPrerequisite
     Given I am logging as by request    d1-user+
     ${resp}=    When Ajax Get Request    /bln-cat/add/F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    405
+    And Should Contain    ${resp.content}    Operation not allowed
+    [Teardown]    EnvPostrequisite
+
+Request add category with not allowed parent node - scenario
+    [Tags]    request    failedTest
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/S_1
     Then Should Be Equal As Strings    ${resp.status_code}    405
     And Should Contain    ${resp.content}    Operation not allowed
     [Teardown]    EnvPostrequisite
@@ -204,10 +219,20 @@ Check context for category ajax request with same previous context
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
+Required and optional form labels
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1 
+    And Click Element    addMenu
+    When I Click button    Add category
+    And I wait until button is visible    Save
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as optional    Details
+
 Impossible to add a category with an empty name
     Given I am a user+
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -218,7 +243,7 @@ Impossible to add a category with an empty name
 Impossible to add a category with a name too short
     Given I am a user+
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1 
     And Click Element    addMenu
     And I Click button    Add category
     And I fill in category form    Category added
@@ -226,7 +251,51 @@ Impossible to add a category with a name too short
     And I click button    Save
     Then I wait until text is visible    This value is too short. It should have 2 characters or more.
 
-No Add category menu for a user
+Add category item menu displayed for a user+ when a baseline node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1 
+    When Click Element    addMenu
+    Then element should be visible    addCatBt
+
+Add category item menu displayed for a user+ when a category node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node    C_9 
+    When Click Element    addMenu
+    Then element should be visible    addCatBt
+
+No add category item menu for a user+ when a feature node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node    F_1 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu for a user+ when a scenario node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node    S_1 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu displayed for a user when a baseline node is selected
     Given I am a user
     And I go directly to features tree    1
-    And I should not see action button(s)    Add category
+    And I click node    B_1 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu displayed for a user when a category node is selected
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node    C_9 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt

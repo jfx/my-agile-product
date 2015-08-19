@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\BaselineBundle\Entity;
 
 use DateTime;
@@ -70,6 +69,8 @@ class Baseline
      * @var DateTime Baseline date
      *
      * @ORM\Column(name="baselinedatetime", type="datetime")
+     * @Assert\NotBlank(message="This value is not a valid datetime")
+     * @Assert\Date()
      */
     protected $baselineDatetime;
 

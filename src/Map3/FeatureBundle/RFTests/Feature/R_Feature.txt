@@ -1,10 +1,4 @@
 *** Keywords ***
-I go to features tree
-    [Arguments]    ${product}    ${release}    ${baseline}
-    I go to baselines list    ${product}    ${release}
-    I click action button    ${baseline}
-    Click link    id=a_features
-
 I fill in category form
     [Arguments]    ${category}
     Wait Until Element Is Visible    map3_category_name    ${WAIT_TIMEOUT}
@@ -19,25 +13,17 @@ I check category view form
     Selenium2Library.Element Text Should Be    map3_category_details    Details 4 ${category}
 
 I fill in feature form
-    [Arguments]    ${title}    ${extid}    ${priority}    ${narrative}
+    [Arguments]    ${title}    ${extid}    ${priority}    ${description}
     Wait Until Element Is Visible    map3_feature_title    ${WAIT_TIMEOUT}
     Input text    map3_feature_title    ${title}
     Input text    map3_feature_extId    ${extid}
     Select From List By Label    map3_feature_priority    ${priority}
-    Input text    map3_feature_narrative    ${narrative}
+    Input text    map3_feature_description    ${description}
 
 I check feature view form
-    [Arguments]    ${title}    ${extid}    ${priority}    ${narrative}
+    [Arguments]    ${title}    ${extid}    ${priority}    ${description}
     Wait Until Element Is Visible    map3_feature_title    ${WAIT_TIMEOUT}
     Disabled text element should contain    map3_feature_title    ${title}
     Disabled text element should contain    map3_feature_extId    ${extid}
     List Selection Should Be    map3_feature_priority    ${priority}
-    Selenium2Library.Element Text Should Be    map3_feature_narrative    ${narrative}
-
-RequestLifetimeSetup
-    SetLifetime
-    EnvPrerequisite
-
-RequestLifetimeTeardown
-    UnsetLifetime
-    EnvPostrequisite
+    Selenium2Library.Element Text Should Be    map3_feature_description    ${description}

@@ -85,7 +85,9 @@ swiftmailer:
     
 # Bootstrap bundle
 mopa_bootstrap:
-    form: ~
+    form:
+        render_required_asterisk: true
+        render_optional_text: false
     menu: ~
     icons:
         icon_set: glyphicons
@@ -105,9 +107,10 @@ fos_user:
             template: Map3UserBundle:User:resetting.email.html.twig
 
 parameters:
-    app.version:               0.8.0
+    app.version:               0.9.0
     app.build:                 BBB
     app.formatDate:            dd/mm/yyyy
     app.codeCoverage: false
     app.defaultPasswordLength: 12
-    app.defaultNarrative: "In order to [benefit]&#13;&#10;As a [Role]&#13;&#10;I want [feature]"
+    app.defaultDescription: "In order to [Benefit]&#13;&#10;As a [Role]&#13;&#10;I want [Feature]"
+    app.defaultSteps: "Given [Pre-condition]&#13;&#10;When [Action]&#13;&#10;Then [Outcome]"

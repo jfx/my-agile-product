@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Controller;
 
 use Exception;
@@ -117,7 +116,7 @@ class CategoryController extends AbstractJsonCoreController
     /**
      * Get children of a category node.
      *
-     * @param Category $category The category to display
+     * @param Category $category The category
      *
      * @return Response A Response instance
      *

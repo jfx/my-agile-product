@@ -1,0 +1,346 @@
+<project name="map3" default="build">
+    
+    <property environment="env"/>
+    <property name="workspace" value="${env.WORKSPACE}"/>
+    <property name="build.number" value="${env.BUILD_NUMBER}"/>
+
+    <property name="projectdir" value="."/>
+    <property name="src" value="${projectdir}/src"/>
+    <property name="build.src" value="${workspace}/src/map3"/>
+    <property name="dist" value="${workspace}/dist"/>
+    <property name="bin" value="${projectdir}/bin"/>
+    <property name="testdir" value="${projectdir}/src/Map3/CoreBundle/RFTests"/>
+    <property name="sf2logdir" value="${projectdir}/app/logs"/>
+    <property name="apachedevlogdir" value="/opt/var/map3dev"/>
+    <property name="deploytestdir" value="/opt/web/map3test"/>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="${workspace}/build/logs"/>
+        <delete dir="${workspace}/build/doc-api"/>
+        <delete dir="${workspace}/build/pdepend"/>
+        <delete dir="${workspace}/build/robot"/>
+        <delete dir="${workspace}/build/log"/>
+    </target>
+    <target name="prepare" depends="clean" description="Prepare for build">
+        <mkdir dir="${workspace}/build/logs"/>
+        <mkdir dir="${workspace}/build/doc-api"/>
+        <mkdir dir="${workspace}/build/pdepend"/>
+        <mkdir dir="${workspace}/build/robot"/>
+        <mkdir dir="${workspace}/build/log"/>
+    </target>
+        
+    <target name="initDB" description="Reset Database">
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="doctrine:database:drop"/>
+            <arg value="--force"/>
+        </exec>
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="doctrine:database:create"/>
+        </exec>
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="doctrine:schema:update"/>
+            <arg value="--force"/>
+        </exec>
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="doctrine:fixtures:load"/>
+            <arg value="--no-interaction"/>
+        </exec>
+    </target>
+    
+    <target name="clearDeploy" depends="clearCache,clearWeb,clearLog,deployWeb"/>
+    <target name="clearCache" description="Clear cache">
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="cache:clear"/>
+        </exec>
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="cache:clear"/>
+            <arg value="--env=prod"/>
+        </exec>
+    </target>
+    
+    <target name="clearWeb" description="Clear web directory">
+        <!--
+        <delete dir="${projectdir}/web/css"/>
+        <delete dir="${projectdir}/web/js"/>
+        <delete dir="${projectdir}/web/bundles"/>
+        -->
+    </target>
+    <target name="clearLog" description="Clear symfony and apache logs">
+        <delete>
+            <fileset dir="${sf2logdir}" includes="*.log"/>
+        </delete>
+        <!--
+        Content of rm-apache-logs :
+        #!/bin/bash
+        sudo rm -f ${1}/*.log
+        sudo service apache2 restart
+        -->
+        <exec executable="${bin}/rm-apache-logs" failonerror="true" dir="${projectdir}">
+            <arg value="${apachedevlogdir}"/>
+        </exec>
+    </target>
+    <target name="deployWeb" description="dump and deploy assets">
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="assetic:dump"/>
+        </exec>
+        <exec executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="app/console"/>
+            <arg value="assets:install"/>
+            <arg value="--symlink"/>
+            <arg value="web"/>
+        </exec>
+    </target>
+    
+    <target name="check" depends="prepare,phpcsfixer,lint,phploc,phpcs,phpcpd,phpmd,pdepend,phpunit"/>
+    <target name="phpcsfixer">
+        <exec executable="${bin}/php-cs-fixer" dir="${projectdir}">
+            <arg value="fix"/>
+            <arg value="-v"/>
+            <arg value="--config=sf23"/>
+            <arg value="${projectdir}"/>
+        </exec>
+    </target>
+    <target name="lint">
+        <apply executable="php" failonerror="true" dir="${projectdir}">
+            <arg value="-l"/>
+            <fileset dir="${src}">
+                <include name="**/*.php"/>
+                <modified/>
+            </fileset>
+        </apply>
+    </target>
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="${bin}/phploc" dir="${projectdir}">
+            <arg value="--log-csv"/>
+            <arg value="${workspace}/build/logs/phploc.csv"/>
+            <arg path="${src}"/>
+        </exec>
+    </target>
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer">
+        <exec executable="${bin}/phpcs" dir="${projectdir}">
+            <arg value="-v"/>
+            <arg value="--report=checkstyle"/>
+            <arg value="--report-file=${workspace}/build/logs/checkstyle.xml"/>
+            <arg value="--standard=${projectdir}/Standards/ruleset-cs.xml"/>
+            <arg value="--extensions=php"/>
+            <arg path="${src}"/>
+        </exec>
+    </target>
+    <target name="phpcpd" description="Detect duplicated code">
+        <exec executable="${bin}/phpcpd" dir="${projectdir}">
+            <arg value="--log-pmd"/>
+            <arg value="${workspace}/build/logs/cpd.xml"/>
+            <arg path="${src}"/>
+        </exec>
+    </target>
+    <target name="phpmd" description="Generate PHP Mess Detector report">
+        <exec executable="${bin}/phpmd" dir="${projectdir}">
+            <arg value="${src}"/>
+            <arg value="xml"/>
+            <arg value="${projectdir}/Standards/ruleset-pmd.xml"/>
+            <arg value="--reportfile"/>
+            <arg value="${workspace}/build/logs/pmd.xml"/>
+            <arg value="--exclude"/>
+            <arg value="DependencyInjection"/>
+        </exec>
+    </target>
+    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="${bin}/pdepend" dir="${projectdir}">
+            <arg value="--jdepend-xml=${workspace}/build/logs/jdepend.xml"/>
+            <arg value="--jdepend-chart=${workspace}/build/pdepend/dependencies.svg"/>
+            <arg value="--overview-pyramid=${workspace}/build/pdepend/overview-pyramid.svg"/>
+            <arg path="${src}"/>
+        </exec>
+    </target>
+    <target name="phpdoc">
+        <exec executable="phpdoc">
+            <arg value="-d"/>
+            <arg value="${src}"/>
+            <arg value="-t"/>
+            <arg value="${workspace}/build/doc-api"/>
+            <arg value="--template=responsive-twig"/>
+        </exec>
+    </target>
+    <target name="phpunit">
+        <exec executable="${bin}/phpunit" failonerror="true" dir="${projectdir}">
+            <arg value="-c"/>
+            <arg value="${projectdir}/app"/>
+            <arg value="--log-junit"/>
+            <arg value="${workspace}/build/logs/junit.xml"/>
+        </exec>
+    </target>
+      
+    <target name="test" depends="prepare,initDB,clearDeploy,rftest,log"/>
+    <target name="rftest" description="Robot Framework tests">
+        <tstamp>
+            <format property="time.start" pattern="yyyy-MM-dd HH:mm z"/>
+        </tstamp>
+        <echo message="Time : ${time.start} - Starting tests..."/>
+        <exec executable="pybot">
+            <arg value="-v"/>
+            <arg value="ENV:prod"/>
+            <arg value="-v"/>
+            <arg value="URL:http://map3dev.localhost"/>
+            <arg value="-v"/>
+            <arg value="BROWSER:chrome"/>
+            <arg value="-v"/>
+            <arg value="HUB:http://127.0.0.1:4444/wd/hub"/>
+            <arg value="--outputdir"/>
+            <arg value="${workspace}/build/robot"/>
+            <arg value="${testdir}"/>
+        </exec>
+        <tstamp>
+            <format property="time.end" pattern="yyyy-MM-dd HH:mm z"/>
+        </tstamp>
+        <echo message="Time : ${time.end} - Ending tests."/>
+    </target>
+    <target name="log" description="Copy log files">
+        <copy file="${apachedevlogdir}/error.log" tofile="${workspace}/build/log/error.log"/>
+        <copy file="${sf2logdir}/dev.log" tofile="${workspace}/build/log/dev.log"/>
+        <copy file="${sf2logdir}/prod.log" tofile="${workspace}/build/log/prod.log"/>
+    </target>
+    
+    <target name="package" depends="copy,prop,prepare-package,modfile,lint-package,zip,deploytest"/>
+    <target name="copy" description="Copy files">
+        <delete dir="${build.src}"/>
+        <mkdir dir="${build.src}"/>
+        <copy todir="${build.src}">
+            <fileset dir="${projectdir}"/>
+        </copy>
+   </target>
+    <target name="prop" description="Define properties">
+        <tstamp>
+            <format property="touch.time" pattern="yyyy-MM-dd HH:mm z" />
+        </tstamp>
+        <echo message="Time:${touch.time}"/>
+        <exec executable="git"  dir="${projectdir}" outputproperty="git.hash">
+            <arg value="log" />
+            <arg value="-n" />
+            <arg value="1" />
+            <arg value="--pretty=format:%h" />
+        </exec>
+        <echo message="Hash:${git.hash}"/>
+
+        <loadproperties srcFile="${build.src}/app/config/config.yml">
+            <filterchain>
+                <deletecharacters chars="&quot;"/>
+                <linecontains>
+                    <contains value="app.version"/>
+                </linecontains>
+            </filterchain>
+        </loadproperties>
+        <echo message="Version:${app.version}"/>
+    </target>
+    <target name="clean-package" description="Cleanup build artifacts">
+        <delete dir="${dist}/v${app.version}"/>
+    </target>
+    <target name="prepare-package" depends="clean-package" description="Prepare for build">
+        <mkdir dir="${dist}/v${app.version}"/>
+        <mkdir dir="${dist}/v${app.version}/doc-api"/>
+    </target>
+    <target name="modfile" description="Modify some files">
+        <replaceregexp file="${build.src}/app/config/config.yml"
+            match="(.*)app.build:(.*)" replace="    app.build:   ${build.number}" 
+            byline="true"/>
+    </target>
+    <target name="lint-package">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+            <fileset dir="${build.src}/src">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+    <target name="zip" depends="copy,prepare">
+        <delete dir="${build.src}/nbproject"/>
+        <delete dir="${build.src}/app/cache"/>
+        <delete dir="${build.src}/app/logs"/>
+        <delete dir="${build.src}/web/bundles"/>
+        <delete dir="${build.src}/web/css"/>
+        <delete dir="${build.src}/web/js"/>
+        <delete dir="${build.src}/web/fonts"/>
+        <mkdir dir="${build.src}/app/logs"/>
+        <mkdir dir="${build.src}/app/cache"/>
+        <mkdir dir="${build.src}/web/bundles"/>
+        <mkdir dir="${build.src}/web/css"/>
+        <mkdir dir="${build.src}/web/js"/>
+
+        <exec executable="php" failonerror="true" dir="${build.src}">
+            <arg value="app/console" />
+            <arg value="mopa:bootstrap:install:font" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${build.src}">
+            <arg value="app/console" />
+            <arg value="assetic:dump" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${build.src}">
+            <arg value="app/console" />
+            <arg value="assets:install" />
+            <arg value="web" />
+        </exec>
+
+        <chmod file="${build.src}/**" perm="755" parallel="false" type="dir"/>
+        <chmod file="${build.src}/**" perm="644" parallel="false" type="file"/>
+        <chmod file="${build.src}/bin/**" perm="755" parallel="false" type="file"/>
+
+        <delete file="${build.src}/app/config/parameters.yml"/>
+        <delete file="${build.src}/web/app_dev.php"/>
+        <delete file="${build.src}/web/apple-touch-icon.png"/>
+        <delete file="${build.src}/src/Map3/CoreBundle/RFTests/R_Google_Account.txt"/>
+
+        <zip destfile="${dist}/v${app.version}/myagileproduct-${app.version}.zip" basedir="${workspace}/src"/>
+    </target>
+    <target name="deploytest" depends="zip">
+        <unzip src="${dist}/v${app.version}/myagileproduct-${app.version}.zip" dest="${deploytestdir}"/>
+        <delete dir="${deploytestdir}/current"/>
+        <move todir="${deploytestdir}/current">
+            <fileset dir="${deploytestdir}/map3"/>
+        </move>
+
+        <copy file="${deploytestdir}/current/app/config/parameters.yml.dist"
+            tofile="${deploytestdir}/current/app/config/parameters.yml"/>
+
+        <replaceregexp file="${deploytestdir}/current/app/config/parameters.yml"
+            match="(.*)database_name:(.*)" replace="    database_name:     ${env.DB_TEST_NAME}" 
+            byline="true"/>
+        <replaceregexp file="${deploytestdir}/current/app/config/parameters.yml"
+            match="(.*)database_user:(.*)" replace="    database_user:     ${env.DB_TEST_USER}" 
+            byline="true"/>
+        <replaceregexp file="${deploytestdir}/current/app/config/parameters.yml"
+            match="(.*)database_password:(.*)" replace="    database_password: ${env.DB_TEST_PASS}" 
+            byline="true"/>
+
+        <chmod file="${deploytestdir}/current/bin/**" perm="755" parallel="false" type="file"/>
+        <exec executable="${deploytestdir}/current/bin/setfacl-cache-logs" failonerror="true" dir="${deploytestdir}/current/">
+        </exec>
+              
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:database:drop" />
+            <arg value="--force" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:database:create" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:schema:update" />
+            <arg value="--force" />
+        </exec>
+        <exec executable="php" failonerror="true" dir="${deploytestdir}/current/">
+            <arg value="app/console" />
+            <arg value="doctrine:fixtures:load" />
+            <arg value="--no-interaction" />
+        </exec>
+    </target>
+    
+</project>

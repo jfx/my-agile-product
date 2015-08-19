@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\BaselineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
@@ -42,7 +41,7 @@ class ReferenceRepository extends EntityRepository
      *
      * @return array List of references.
      */
-    public function findReferencesByBaseline($bln)
+    public function findReferencesByBaseline(Baseline $bln)
     {
         $qb = $this->createQueryBuilder('r')
             ->innerJoin('r.baseline', 'b')
@@ -62,7 +61,7 @@ class ReferenceRepository extends EntityRepository
      *
      * @return int count of references.
      */
-    public function countReferencesByBaseline($bln)
+    public function countReferencesByBaseline(Baseline $bln)
     {
         $qb = $this->createQueryBuilder('r')
             ->innerJoin('r.baseline', 'b')

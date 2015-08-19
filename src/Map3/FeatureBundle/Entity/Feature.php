@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -76,11 +75,11 @@ class Feature
     protected $priority;
 
     /**
-     * @var string Narrative
+     * @var string Description
      *
-     * @ORM\Column(name="narrative", type="text", nullable=true)
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
-    protected $narrative;
+    protected $description;
 
     /**
      * @var Baseline Baseline
@@ -213,27 +212,27 @@ class Feature
     }
 
     /**
-     * Set narrative.
+     * Set description.
      *
-     * @param string $narrative Narrative
+     * @param string $description Description
      *
      * @return Feature
      */
-    public function setNarrative($narrative)
+    public function setDescription($description)
     {
-        $this->narrative = $narrative;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get narrative.
+     * Get description.
      *
      * @return string
      */
-    public function getNarrative()
+    public function getDescription()
     {
-        return $this->narrative;
+        return $this->description;
     }
 
     /**

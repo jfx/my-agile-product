@@ -93,7 +93,7 @@
         &nbsp;<br />
         <footer class="footer">
             <hr>
-            <p> <a href="http://www.myagileproduct.org" target="_blank">my agile product v{{ version }} - {{ build }} &copy; 2014</a></p>
+            <p> <a href="http://www.myagileproduct.org" target="_blank">my agile product v{{ version }} - {{ build }} &copy; 2015</a></p>
         </footer>
         {% endblock footer %}
     </div> <!-- /container -->
@@ -102,6 +102,9 @@
         {% javascripts
         '@Map3CoreBundle/Resources/public/js/jquery.min.js'
         '@Map3CoreBundle/Resources/public/js/jstree.min.js'
+        '@Map3CoreBundle/Resources/public/js/ace.min.js'
+        '@Map3CoreBundle/Resources/public/js/mode-gherkin.js'
+        '@Map3CoreBundle/Resources/public/js/theme-chrome.js'
         '@MopaBootstrapBundle/Resources/public/bootstrap/js/affix.js'
         '@MopaBootstrapBundle/Resources/public/bootstrap/js/alert.js'
         '@MopaBootstrapBundle/Resources/public/bootstrap/js/button.js'
@@ -123,6 +126,7 @@
         {% endjavascripts %}
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+
     {% endblock foot_script %}
 {% endblock body %}
 </body>

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Controller;
 
 use Exception;
@@ -85,14 +84,14 @@ class FeatureController extends AbstractJsonCoreController
         $feature->setBaseline($baseline);
         $feature->setCategory($category);
 
-        $repositoryPriority = $this->getDoctrine()
-            ->getManager()
-            ->getRepository('Map3FeatureBundle:Priority');
+        $repositoryPriority = $manager->getRepository(
+            'Map3FeatureBundle:Priority'
+        );
         $defaultPriority = $repositoryPriority->findDefaultPriority();
         $feature->setPriority($defaultPriority);
 
-        $narrative = $this->container->getParameter('app.defaultNarrative');
-        $feature->setNarrative(html_entity_decode($narrative));
+        $desc = $this->container->getParameter('app.defaultDescription');
+        $feature->setDescription(html_entity_decode($desc));
 
         $featureType = new FeatureType();
         $form = $this->createForm($featureType, $feature);
@@ -124,7 +123,38 @@ class FeatureController extends AbstractJsonCoreController
         }
     }
 
-/**
+    /**
+     * Get children of a feature node.
+     *
+     * @param Feature $feature The feature
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function childAction(Feature $feature)
+    {
+        $baseline = $feature->getBaseline();
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
+
+        $repo = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3ScenarioBundle:Scenario');
+
+        $scenarios = $repo->findAllByBaselineFeatureId(
+            $baseline,
+            $feature->getId()
+        );
+
+        return $this->render(
+            'Map3FeatureBundle:Feature:children.json.twig',
+            array(
+                'scenarios' => $scenarios,
+            )
+        );
+    }
+
+    /**
      * Display node details on right panel.
      *
      * @param Feature $feature The feature to display

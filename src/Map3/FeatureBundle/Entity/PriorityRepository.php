@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
@@ -46,7 +45,7 @@ class PriorityRepository extends EntityRepository
         return $this->find(Priority::DEFAULT_PRIORITY);
     }
 
-/**
+    /**
      * Get the query builder of all priorities ordered.
      *
      * @return QueryBuilder

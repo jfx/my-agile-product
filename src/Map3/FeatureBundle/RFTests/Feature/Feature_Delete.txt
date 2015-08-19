@@ -11,7 +11,7 @@ A user+ deletes a feature
     And I go to features tree    View product #1    View release #1    View baseline #1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
-    And I click node    F_3_anchor
+    And I click node    F_3 
     And I Click button    Delete node
     And I wait until text is visible    Delete feature
     When I click button    Remove
@@ -27,10 +27,11 @@ A user+ deletes a feature with children
     Given I am a user+
     And Check If Exists In Database    select id from map3_feature where id = 1
     And Check If Exists In Database    select id from map3_feature where id = 2 and position = 1
+    And Check If Exists In Database    select id from map3_scenario where feature_id = 1
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
-    And I click node    F_1_anchor
+    And I click node    F_1 
     And I Click button    Delete node
     And I wait until text is visible    Delete feature
     When I click button    Remove
@@ -38,6 +39,7 @@ A user+ deletes a feature with children
     Then I wait until text is visible    Feature removed successfully
     And Check If Not Exists In Database    select id from map3_feature where id = 1
     And Check If Exists In Database    select id from map3_feature where id = 2 and position = 0
+    And Check If Not Exists In Database    select id from map3_scenario where feature_id = 1
     [Teardown]    TestTeardownDb
 
 Cancel to delete a feature
@@ -45,7 +47,7 @@ Cancel to delete a feature
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
-    And I click node    F_3_anchor
+    And I click node    F_3 
     And I Click button    Delete node
     And I wait until text is visible    Delete feature
     When I click button    Remove
@@ -60,7 +62,7 @@ Reload warning after timeout when click Delete button
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
     And I click node to display sub-node    B_1
-    And I click node    F_6_anchor
+    And I click node    F_6 
     When I am waiting for timeout
     And I Click button    Delete node
     Then I wait until text is visible    Authentication has expired
@@ -72,7 +74,7 @@ Reload warning after timeout when click Remove
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
     And I click node to display sub-node    B_1
-    And I click node    F_6_anchor
+    And I click node    F_6 
     And I Click button    Delete node
     When I am waiting for timeout
     And I click button    Remove
@@ -85,7 +87,7 @@ Reload warning after timeout when confirm
     Given I am logging as    d1-user+    d1-user+    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
     And I click node to display sub-node    B_1
-    And I click node    F_6_anchor
+    And I click node    F_6 
     And I Click button    Delete node
     And I wait until text is visible    Delete feature
     And I click button    Remove
@@ -228,3 +230,26 @@ Check context for feature ajax request with same previous context
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
+
+Delete button displayed for a user+ when a feature node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    When I click node    F_3 
+    Then I should see action button(s)    Delete node
+
+No Delete button for a user when a feature node is selected
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    When I click node    F_3 
+    Then the action button should be hidden    Delete node
+
+No Delete button for a closed baseline when a feature node is selected
+    Given I am a user+
+    When I go directly to features tree    3
+    And I click node to display sub-node    B_7
+    When I click node    F_7 
+    Then I should not see action button(s)    Delete node

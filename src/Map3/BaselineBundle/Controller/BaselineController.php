@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\BaselineBundle\Controller;
 
 use Doctrine\DBAL\DBALException;
@@ -280,8 +279,14 @@ class BaselineController extends AbstractCoreController
         $repositoryRef = $entityManager->getRepository(
             'Map3BaselineBundle:Reference'
         );
-
         $child['references'] = $repositoryRef->countReferencesByBaseline(
+            $baseline
+        );
+
+        $repositoryFeat = $entityManager->getRepository(
+            'Map3FeatureBundle:Feature'
+        );
+        $child['features'] = $repositoryFeat->countFeaturesByBaseline(
             $baseline
         );
 

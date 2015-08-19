@@ -9,6 +9,8 @@
 <script>
 function formSubmit() {
     $("#modalDel").modal("hide");
+    $("body").removeClass("modal-open");
+    $(".modal-backdrop").remove();
     $.post('{{ path('bln-feat_del', {'id': feature.id}) }}', $("#formPanel").serialize(), function (resp) {
         $("div.node-panel").hide();
         $("div.node-panel").html(resp).show();

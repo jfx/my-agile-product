@@ -5,14 +5,34 @@ Documentation     In order to manage a baseline
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
-A user+ deletes a baseline
+A user+ deletes a closed baseline
     Given I am a user+
-    And I go to delete baseline page    2    5
+    And I go to delete baseline page    1    3
+    And Page Should Contain    Baseline Closed
     When I click button    Remove
     And I confirm
-    Then Location Should Be    ${URL}/baselines/2
+    Then Location Should Be    ${URL}/baselines/1
     And Page Should Contain    Baseline removed successfully
     And Page Should not Contain    Baseline Closed
+
+Delete a baseline with children
+    [Setup]    TestSetupDb
+    Given I am a user+
+    And Check If Exists In Database    select id from map3_reference where baseline_id = 1
+    And Check If Exists In Database    select id from map3_category where baseline_id = 1
+    And Check If Exists In Database    select id from map3_feature where baseline_id = 1
+    And Check If Exists In Database    select id from map3_scenario where baseline_id = 1
+    And I go to delete baseline page    1    1
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/baselines/1
+    And Page Should Contain    Baseline removed successfully
+    And Page Should not Contain    Details 4 baseline 1
+    And Check If Not Exists In Database    select id from map3_reference where baseline_id = 1
+    And Check If Not Exists In Database    select id from map3_category where baseline_id = 1
+    And Check If Not Exists In Database    select id from map3_feature where baseline_id = 1
+    And Check If Not Exists In Database    select id from map3_scenario where baseline_id = 1
+    [Teardown]    TestTeardownDb
 
 Delete a baseline saved in user context
     [Tags]    context
@@ -30,15 +50,6 @@ Delete a baseline saved in user context
     Then Location Should Be    ${URL_DEV}/baselines/2
     And Page Should Contain    Baseline removed successfully
     And the context log file should contain    RemoveContextService->removeBaseline    $user->unsetCurrentBaseline
-
-Delete a baseline with references and features
-    Given I am a user+
-    And I go to delete baseline page    1    1
-    When I click button    Remove
-    And I confirm
-    Then Location Should Be    ${URL}/baselines/1
-    And Page Should Contain    Baseline removed successfully
-    And Page Should not Contain    Details 4 baseline 1
 
 Cancel to delete a baseline
     Given I am a user+
@@ -175,15 +186,13 @@ Tab Main
     And Location Should Be    ${URL}/baseline/1
 
 Tab Features
-    [Tags]    failedTest
     Given I am a user+
     And I go to delete baseline page    1    1
-    And Element Should Contain    id=badge_features    XX
+    And Element Should Contain    id=badge_features    6
     When Click element    id=a_features
     And Location Should Be    ${URL}/bln-features/1
 
 Tab References
-    [Tags]    failedTest
     Given I am a user+
     And I go to delete baseline page    1    1
     And Element Should Contain    id=badge_references    3

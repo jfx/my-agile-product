@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\BaselineBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Map3\ReleaseBundle\Entity\Release;
 use Map3\UserBundle\Entity\User;
 
 /**
@@ -43,7 +43,7 @@ class BaselineRepository extends EntityRepository
      *
      * @return array List of baselines.
      */
-    public function findBaselinesByRelease($rls)
+    public function findBaselinesByRelease(Release $rls)
     {
         $qb = $this->createQueryBuilder('b')
             ->innerJoin('b.release', 'r')
@@ -63,7 +63,7 @@ class BaselineRepository extends EntityRepository
      *
      * @return int count of baselines.
      */
-    public function countBaselinesByRelease($rls)
+    public function countBaselinesByRelease(Release $rls)
     {
         $qb = $this->createQueryBuilder('b')
             ->innerJoin('b.release', 'r')
@@ -114,7 +114,7 @@ class BaselineRepository extends EntityRepository
      *
      * @param Release $rls The release
      */
-    public function closeBaselinesByRelease($rls)
+    public function closeBaselinesByRelease(Release $rls)
     {
         $qb = $this->createQueryBuilder('b');
         $qb->update()

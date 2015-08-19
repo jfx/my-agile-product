@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Form;
 
 use Map3\CoreBundle\Form\AbstractDefaultType;
@@ -58,7 +57,10 @@ class FeatureType extends AbstractDefaultType
             ->add(
                 'extId',
                 'text',
-                array('horizontal_input_wrapper_class' => 'col-xs-4')
+                array(
+                    'horizontal_input_wrapper_class' => 'col-xs-4',
+                    'render_required_asterisk' => false,
+                )
             )
             ->add(
                 'priority',
@@ -74,7 +76,7 @@ class FeatureType extends AbstractDefaultType
                 )
             )
             ->add(
-                'narrative',
+                'description',
                 'textarea',
                 array(
                     'required' => false,

@@ -56,4 +56,4 @@ I click node to display sub-node
 I click node
     [Arguments]    ${id}
     Wait Until Element Is Visible    ${id}    ${WAIT_TIMEOUT}
-    Click Element    ${id}
+    Click Element    ${id}_anchor

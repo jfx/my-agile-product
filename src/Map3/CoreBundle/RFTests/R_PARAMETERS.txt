@@ -13,12 +13,13 @@ ${USER_USER}      user
 ${USER_GUEST}     d1-guest
 ${USER_NONE}      d1-none
 ${USER_NOPRODUCT}    no-product
-${CONSOLE_PATH}    /opt/Dropbox/Nprojects/Map3/app/console
-${LOG_PATH}       /opt/Dropbox/Nprojects/Map3/app/logs
-${CONFIG_PATH}    /opt/Dropbox/Nprojects/Map3/app/config
+${PROJECT_PATH}    /home/efse7265/Documents/Perso/Dropbox/src/Nprojects/Map3
+${CONSOLE_PATH}    ${PROJECT_PATH}/app/console
+${LOG_PATH}       ${PROJECT_PATH}/app/logs
+${CONFIG_PATH}    ${PROJECT_PATH}/app/config
 ${FORBIDDEN_ACCESS_TEXT}    403 Forbidden
 ${IMAP_SERVER}    imap.gmail.com
-${COOKIE_LIFETIME}    20
-${WAIT_TIMEOUT}    25
+${COOKIE_LIFETIME}    10
+${WAIT_TIMEOUT}    15
 ${WAIT_AJAX}      5
 ${WAIT_ELEMENT_INTERACTABLE}    1

@@ -5,7 +5,7 @@ Resource          ../Keyword_resource.txt
 Click to view a baseline node
     Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
-    When I click node    B_1_anchor
+    When I click node    B_1
     Then I wait until text is visible    Details 4 baseline 1
 
 Reload warning after timeout when click to view baseline
@@ -13,7 +13,7 @@ Reload warning after timeout when click to view baseline
     [Setup]    TestLifetimeSetup
     Given I am logging as    user    user    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
-    And the node name should be equal to    B_1_anchor    Baseline One
+    And the node name should be equal to    B_1    Baseline One
     And I am waiting for timeout
     When Click Element    B_1_anchor
     And I am waiting for ajax request
@@ -158,20 +158,20 @@ Check context for category ajax request with same previous context
 Edit button displayed for user+ profile
     Given I am a user+
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1
     When I click button when visible    Edit
     Then Location Should Be    ${URL}/baseline/edit/1
 
 Edit button not displayed for closed release
     Given I am a user
     And I go directly to features tree    3
-    And I click node    B_7_anchor
+    And I click node    B_7
     When I wait until text is visible    Details 4 baseline closed
     Then I should not see action button(s)    Edit
 
 Edit button not displayed for non user+ profile
     Given I am a user
     And I go directly to features tree    1
-    And I click node    B_1_anchor
+    And I click node    B_1
     When I wait until text is visible    Details 4 baseline 1
     Then I should not see action button(s)    Edit

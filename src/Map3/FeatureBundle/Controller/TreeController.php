@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Controller;
 
 use Exception;
@@ -88,6 +87,14 @@ class TreeController extends AbstractJsonCoreController
                     );
 
                     return $response;
+
+                case self::FEATURE:
+                    $response = $this->forward(
+                        'Map3FeatureBundle:Feature:child',
+                        array('id' => $idType['id'])
+                    );
+
+                    return $response;
                 default:
                     return $this->jsonResponseFactory(
                         404,
@@ -134,6 +141,12 @@ class TreeController extends AbstractJsonCoreController
                     array('id' => $idType['id'])
                 );
                 break;
+            case self::SCENARIO:
+                $response = $this->forward(
+                    'Map3ScenarioBundle:Scenario:view',
+                    array('id' => $idType['id'])
+                );
+                break;
             default:
                 return $this->jsonResponseFactory(404, 'Wrong type of node');
         }
@@ -171,6 +184,12 @@ class TreeController extends AbstractJsonCoreController
             case self::FEATURE:
                 $response = $this->forward(
                     'Map3FeatureBundle:Feature:del',
+                    array('id' => $idType['id'])
+                );
+                break;
+            case self::SCENARIO:
+                $response = $this->forward(
+                    'Map3ScenarioBundle:Scenario:del',
                     array('id' => $idType['id'])
                 );
                 break;

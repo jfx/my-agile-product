@@ -8,33 +8,33 @@ Click to display children of a category node
     And I click node to display sub-node    B_1
     And Page should not contain    Category 11
     When I click node to display sub-node    C_9
-    Then the node name should be equal to    C_12_anchor    Category 11
-    And the node name should be equal to    C_13_anchor    Category 12
-    And the node name should be equal to    C_14_anchor    Category 13
-    And the node name should be equal to    F_1_anchor    ID-001 - Feature C1
-    And the node name should be equal to    F_2_anchor    ID-002 - Feature C2
-    And the node name should be equal to    F_3_anchor    Feature C3
-    And the node name should be equal to    F_4_anchor    Feature C4 P3
+    Then the node name should be equal to    C_12    Category 11
+    And the node name should be equal to    C_13    Category 12
+    And the node name should be equal to    C_14    Category 13
+    And the node name should be equal to    F_1    ID-001 - Feature C1
+    And the node name should be equal to    F_2    ID-002 - Feature C2
+    And the node name should be equal to    F_3    Feature C3
+    And the node name should be equal to    F_4    Feature C4 P3
 
 Click to hide children of a category node
     Given I am a user
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
-    And the node name should be equal to    C_12_anchor    Category 11
+    And the node name should be equal to    C_12    Category 11
     When I click node to display sub-node    C_9
     And I am waiting for ajax request
     Then Element Should Not Be Visible    C_12_anchor
     And Element Should Not Be Visible    C_13_anchor
     And Element Should Not Be Visible    C_14_anchor
 
-Reload warning after timeout when click to display sub-categories of a baseline
+Reload warning after timeout when click to display sub-categories of a category
     [Tags]    timeout
     [Setup]    TestLifetimeSetup
     Given I am logging as    user    user    Hello    True
     And Go To    ${URL_DEV}/bln-features/1
     And I click node to display sub-node    B_1
-    And the node name should be equal to    C_9_anchor    Category 1
+    And the node name should be equal to    C_9    Category 1
     When I click node to display sub-node    C_9
     And I am waiting for timeout
     Then Page should contain    Authentication has expired

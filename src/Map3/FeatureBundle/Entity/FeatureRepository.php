@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Entity;
 
 use Gedmo\Sortable\Entity\Repository\SortableRepository;
@@ -58,5 +57,25 @@ class FeatureRepository extends SortableRepository
         $results = $qb->getQuery()->getResult();
 
         return $results;
+    }
+
+    /**
+     * Count all features for a baseline.
+     *
+     * @param Baseline $bln The baseline.
+     *
+     * @return int count of references.
+     */
+    public function countFeaturesByBaseline(Baseline $bln)
+    {
+        $qb = $this->createQueryBuilder('f')
+            ->innerJoin('f.baseline', 'b')
+            ->select('count(f.id)')
+            ->where('b.id = :baselineId')
+            ->setParameter('baselineId', $bln->getId());
+
+        $count = $qb->getQuery()->getSingleScalarResult();
+
+        return $count;
     }
 }

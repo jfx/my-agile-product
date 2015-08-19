@@ -38,6 +38,13 @@ Check context for product add with previous context
     And the context log file should contain x lines    5
     And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
 
+Required and optional form labels
+    Given I am a super-admin
+    And I go to products list
+    When I click action button    Add
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as optional    Details
+
 Impossible to add a product with an empty name
     Given I am a super-admin
     And I go to products list

@@ -12,8 +12,11 @@
 {
 "id"       : "{{ node.nodeId }}",
 "text"     : "{{ node.extIdTitle }}",
+{% if node.priority.id == 4  %}
+"icon"     : "glyphicon glyphicon-picture color-disabled",
+{% endif %}
 "type"     : "feature",
-"children" : false
+"children" : true
 }{% if not loop.last %},{% endif %}
 {% endfor %}
 ]

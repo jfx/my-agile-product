@@ -13,8 +13,8 @@ I check the following ACL
     \    Run Keyword If    ${isPrerequiste}    Go to    ${URL}${acl_prerequisite}
     \    Go to    ${URL}${acl_url}
     \    ${acl} =    Get From List    ${acls}    ${i}
-    \    Run Keyword If    ${acl}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}    ELSE    Page Should Contain
-    \    ...    ${FORBIDDEN_ACCESS_TEXT}
+    \    Run Keyword If    ${acl}    Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+    \    ...    ELSE    Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
     \    I log out
     \    ${i} =    Evaluate    ${i} + 1
 
@@ -32,8 +32,8 @@ I check the following ACL by request
     \    Run Keyword If    ${isPrerequiste}    Ajax Get Request    ${acl_prerequisite}
     \    ${resp}=    Ajax Get Request    ${acl_url}
     \    ${acl} =    Get From List    ${acls}    ${i}
-    \    Run Keyword If    ${acl}    Then Should Be Equal As Strings    ${resp.status_code}    200    ELSE
-    \    ...    Then Should Be Equal As Strings    ${resp.status_code}    403
+    \    Run Keyword If    ${acl}    Then Should Be Equal As Strings    ${resp.status_code}    200
+    \    ...    ELSE    Then Should Be Equal As Strings    ${resp.status_code}    403
     \    ${i} =    Evaluate    ${i} + 1
 
 the table should contain x rows
@@ -54,12 +54,17 @@ the table header should contain
 I should see action button(s)
     [Arguments]    @{list}
     : FOR    ${item}    IN    @{list}
-    \    And Element Should Be Visible    xpath=//a[@title='${item}']
+    \    Element Should Be Visible    xpath=//a[@title='${item}']
 
 I should not see action button(s)
     [Arguments]    @{list}
     : FOR    ${item}    IN    @{list}
-    \    And Page Should Not Contain Element    xpath=//a[@title='${item}']
+    \    Page Should Not Contain Element    xpath=//a[@title='${item}']
+
+the action button should be hidden
+    [Arguments]    ${button}
+    Page Should Contain Element    xpath=//a[@title='${button}']
+    Element Should Not Be Visible    xpath=//a[@title='${button}']
 
 I should see 404 error page
     [Arguments]    ${msg}='404 Item not found'
@@ -105,11 +110,39 @@ the element should contain items
 
 the node name should be equal to
     [Arguments]    ${id}    ${name}
-    Wait Until Page Contains Element    id=${id}    ${WAIT_TIMEOUT}
-    ${node_name} =    Get Text    id=${id}
+    Wait Until Page Contains Element    id=${id}_anchor    ${WAIT_TIMEOUT}
+    ${node_name} =    Get Text    id=${id}_anchor
     Should Be Equal As Strings    ${node_name}    ${name}
 
 I wait until text is visible
     [Arguments]    ${message}
     Wait Until Page Contains    ${message}    ${WAIT_TIMEOUT}
     Page Should Contain    ${message}
+
+the label of this field is displayed as required
+    [Arguments]    ${label}
+    ${html}=    Get Source
+    ${line}=    Get Lines Containing String    ${html}    ${label}
+    ${count}=    Get Line Count    ${line}
+    Run Keyword And Expect Error    *    Should Be Equal    ${count}    0
+    Should Contain    ${line}    <span class="asterisk">*</span>
+
+the label of this field is displayed as optional
+    [Arguments]    ${label}
+    ${html}=    Get Source
+    ${line}=    Get Lines Containing String    ${html}    ${label}
+    ${count}=    Get Line Count    ${line}
+    Run Keyword And Expect Error    *    Should Be Equal    ${count}    0
+    Should Not Contain    ${line}    <span class="asterisk">*</span>
+
+the color of the icon is
+    [Arguments]    ${id}    ${icon}    ${color}
+    Wait Until Element Is Visible    ${id}_anchor    ${WAIT_TIMEOUT}
+    ${count} =    Get Matching Xpath Count    //a[@id='${id}_anchor']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} ${color} jstree-themeicon-custom']
+    Should Be Equal    ${count}    1
+
+the color of the icon is black
+    [Arguments]    ${id}    ${icon}
+    Wait Until Element Is Visible    ${id}_anchor    ${WAIT_TIMEOUT}
+    ${count} =    Get Matching Xpath Count    //a[@id='${id}_anchor']/i[@class='jstree-icon jstree-themeicon glyphicon glyphicon-${icon} jstree-themeicon-custom']
+    Should Be Equal    ${count}    1

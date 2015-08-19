@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\FeatureBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -40,7 +39,7 @@ class Priority
 {
     const DEFAULT_PRIORITY = 2;
 
-/**
+    /**
      * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
@@ -85,7 +84,7 @@ class Priority
      *
      * @param string $label The label.
      *
-     * @return Role
+     * @return Priority
      */
     public function setLabel($label)
     {

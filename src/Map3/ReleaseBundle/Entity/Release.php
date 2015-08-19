@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 namespace Map3\ReleaseBundle\Entity;
 
 use DateTime;
@@ -70,6 +69,8 @@ class Release
      * @var DateTime release date
      *
      * @ORM\Column(name="releasedate", type="date")
+     * @Assert\NotBlank(message="This value is not a valid date")
+     * @Assert\Date()
      */
     protected $releaseDate;
 

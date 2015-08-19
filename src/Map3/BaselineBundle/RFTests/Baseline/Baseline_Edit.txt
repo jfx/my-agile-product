@@ -112,6 +112,14 @@ Check context for baseline edit with same previous context
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
 
+Required and optional form labels
+    Given I am a manager
+    When I go to edit baseline page    1
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as required    Date
+    And the label of this field is displayed as optional    Closed
+    And the label of this field is displayed as optional    Details
+
 Impossible to edit a baseline with an empty name
     Given I am a manager
     And I go to edit baseline page    1
@@ -191,15 +199,13 @@ Tab Main
     And Location Should Be    ${URL}/baseline/1
 
 Tab Features
-    [Tags]    failedTest
     Given I am a user+
     And I go to edit baseline page    1
-    And Element Should Contain    id=badge_features    XX
+    And Element Should Contain    id=badge_features    6
     When Click element    id=a_features
     And Location Should Be    ${URL}/bln-features/1
 
 Tab References
-    [Tags]    failedTest
     Given I am a user+
     And I go to edit baseline page    1
     And Element Should Contain    id=badge_references    3

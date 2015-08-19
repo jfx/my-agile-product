@@ -55,6 +55,13 @@ Check context for user add from clean context
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->getCurrentProductFromUserWithReset(true)    CoreController->unsetCurrentRelease    Reset childs : Baseline and above    User->unsetCurrentRelease    Update user
 
+Required and optional form labels
+    Given I am a super-admin
+    And I go to users list for product    View product #1
+    When I click action button    Add
+    Then the label of this field is displayed as required    User
+    And the label of this field is displayed as required    Role
+
 Impossible to add when no user available
     Given I am a super-admin
     And I go to users list for product    View product #1
