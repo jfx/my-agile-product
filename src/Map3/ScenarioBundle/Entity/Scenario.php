@@ -22,6 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\FeatureBundle\Entity\Feature;
+use Map3\ScenarioBundle\Entity\Status;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

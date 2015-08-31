@@ -40,6 +40,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
     const CATEGORY = 'CAT';
     const FEATURE = 'FEAT';
     const SCENARIO = 'SCE';
+    const TEST = 'TES';
 
     /**
      * Convert a html response to Json.
@@ -121,6 +122,11 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
                 $object = $sceR->find($node['id']);
                 break;
 
+            case self::TEST:
+                $tesR = $manager->getRepository('Map3ScenarioBundle:Test');
+                $object = $tesR->find($node['id']);
+                break;
+            
             default:
                 throw new DomainException('Wrong type of node');
         }
@@ -157,6 +163,9 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
                 break;
             case 'S':
                 $array['type'] = self::SCENARIO;
+                break;
+            case 'T':
+                $array['type'] = self::TEST;
                 break;
             default:
                 throw new DomainException('Wrong type of node');

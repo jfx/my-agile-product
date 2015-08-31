@@ -19,11 +19,10 @@
 namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Map3\ScenarioBundle\Entity\Status;
+use Map3\BaselineBundle\Entity\Baseline;
 
 /**
- * Status entity repository class.
+ * Test entity repository class.
  *
  * @category  MyAgileProduct
  *
@@ -34,28 +33,29 @@ use Map3\ScenarioBundle\Entity\Status;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class StatusRepository extends EntityRepository
+class TestRepository extends EntityRepository
 {
     /**
-     * Get the default status.
+     * Get children tests by baseline and scenario id.
      *
-     * @return object|null Priority object
-     */
-    public function findDefaultStatus()
-    {
-        return $this->find(Status::DEFAULT_STATUS);
-    }
-
-    /**
-     * Get the query builder of all statuses ordered.
+     * @param Baseline $baseline The baseline
+     * @param int      $sid      Scenario id.
      *
-     * @return QueryBuilder
+     * @return Test[]
      */
-    public function getQBAllOrdered()
+    public function findAllByBaselineScenarioId(Baseline $baseline, $sid)
     {
-        $qb = $this->createQueryBuilder('s')
-            ->orderBy('s.position', 'ASC');
+        $qb = $this->createQueryBuilder('t')
+            ->innerJoin('t.baseline', 'b')
+            ->innerJoin('t.scenario', 's')
+            ->where('b.id = :baselineId')
+            ->andWhere('s.id = :scenarioId')
+            ->setParameter('baselineId', $baseline->getId())
+            ->setParameter('scenarioId', $sid)
+            ->orderBy('t.testDatetime', 'ASC');
 
-        return $qb;
+        $results = $qb->getQuery()->getResult();
+
+        return $results;
     }
 }

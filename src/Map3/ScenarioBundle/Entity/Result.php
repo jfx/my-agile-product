@@ -22,7 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Status entity class.
+ * Result entity class.
  *
  * @category  MyAgileProduct
  *
@@ -33,12 +33,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @link      http://www.myagileproduct.org
  * @since     3
  *
- * @ORM\Table(name="map3_status")
- * @ORM\Entity(repositoryClass="Map3\ScenarioBundle\Entity\StatusRepository")
+ * @ORM\Table(name="map3_result")
+ * @ORM\Entity(repositoryClass="Map3\ScenarioBundle\Entity\ResultRepository")
  */
-class Status
+class Result
 {
-    const DEFAULT_STATUS = 3;
+    const DEFAULT_RESULT = 1;
 
     /**
      * @var int Id
@@ -57,12 +57,18 @@ class Status
     private $label;
 
     /**
-     * @var int Position
+     * Set id.
      *
-     * @Gedmo\SortablePosition
-     * @ORM\Column(name="position", type="integer")
+     * @param int $id Id.
+     *
+     * @return Status
      */
-    private $position;
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Get id.
@@ -96,29 +102,5 @@ class Status
     public function getLabel()
     {
         return $this->label;
-    }
-
-    /**
-     * Set order.
-     *
-     * @param int $position The order.
-     *
-     * @return Status
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-
-        return $this;
-    }
-
-    /**
-     * Get position.
-     *
-     * @return int
-     */
-    public function getPosition()
-    {
-        return $this->position;
     }
 }

@@ -159,14 +159,48 @@ class UserRepository extends EntityRepository
      */
     private function getDQLAddedUserByProduct()
     {
-        $uprRepository = $this->_em->getRepository(
-            'Map3UserBundle:UserPdtRole'
-        );
+        $uprRepository = $this->getUserPdtRoleRepository();
 
         $subQuery = $uprRepository
             ->getQBUserIdByProductParam('productId')
             ->getDQL();
 
         return $subQuery;
+    }
+    
+    /**
+     * Get the query builder of all user for a product id.
+     *
+     * @param Product $product The product
+     *
+     * @return QueryBuilder
+     */
+    public function getQBAllUserWithActiveRoleByProduct(Product $product)
+    {
+        $uprRepository = $this->getUserPdtRoleRepository();
+        $uprEntityName = $uprRepository->getEntityName();
+                
+        $qb = $this->createQueryBuilder('u')
+            ->from($uprEntityName, 'upr')
+            ->join('upr.product', 'p')
+            ->where('p.id = :productId')
+            ->andWhere('upr.user = u')
+            ->orderBy('u.name, u.firstname', 'ASC')
+            ->setParameter('productId', $product->getId());
+        
+        return $qb;
+    }
+    
+    /**
+     * Get UserPdtRole repository.
+     *
+     * @return UserPdtRoleRepository
+     */
+    private function getUserPdtRoleRepository()
+    {
+        $uprRepository = $this->_em->getRepository(
+            'Map3UserBundle:UserPdtRole'
+        );
+        return $uprRepository;
     }
 }

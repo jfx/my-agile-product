@@ -1,0 +1,47 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<form class="form-horizontal well">
+    {{ form_errors(form.stepsResults) }}
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Steps</th>
+            <th>Results</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for result in form.stepsResults %}
+            <tr>
+                <td>Given step1 definition XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                    XXXXXXXXXXXXXXXXXXXXXX
+                    XXXXXXXXXXXXXXXXXXXXXXXXXX
+                    XXXXXxx</td>
+                <td>{{ form_errors(result) }}{{ form_widget(result) }}</td>
+            </tr>
+{% else %}
+            <tr><td colspan="2">No step</td></tr>
+{% endfor %}
+    </tbody>
+</table>
+    {{ form_row(form.testDatetime) }}
+    {{ form_row(form.tester) }}
+    {{ form_row(form.comment) }}
+</form>
+
+{% if (is_granted('ROLE_DM_USER') and is_granted('ROLE_OPEN_BLN'))%}
+<a class="btn btn-sm btn-cust" onclick="buttonClick();" title="Edit">
+    {{ icon('edit',true) }} Edit
+</a>
+
+<script>
+function buttonClick() {
+    $.get('{{ path('bln-tes_edit', {'id': test.id}) }}', function (resp) {
+        $("div.node-panel").hide();
+        $("div.node-panel").html(resp).show();
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+    });
+}
+</script>
+{% endif %}

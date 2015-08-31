@@ -116,6 +116,37 @@ class ScenarioController extends AbstractJsonCoreController
     }
 
     /**
+     * Get children of a scenario node.
+     *
+     * @param Scenario $scenario The scenario
+     *
+     * @return Response A Response instance
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function childAction(Scenario $scenario)
+    {
+        $baseline = $scenario->getBaseline();
+        $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
+
+        $repo = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3ScenarioBundle:Test');
+
+        $tests = $repo->findAllByBaselineScenarioId(
+            $baseline,
+            $scenario->getId()
+        );
+
+        return $this->render(
+            'Map3ScenarioBundle:Scenario:children.json.twig',
+            array(
+                'tests' => $tests,
+            )
+        );
+    }
+    
+    /**
      * Display node details on right panel.
      *
      * @param Scenario $scenario The scenario to display

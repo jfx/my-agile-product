@@ -24,7 +24,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Map3\ScenarioBundle\Entity\Scenario;
 
 /**
- * Load feature data class.
+ * Load scenarios data class.
  *
  * @category  MyAgileProduct
  *

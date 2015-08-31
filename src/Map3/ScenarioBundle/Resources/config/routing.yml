@@ -3,3 +3,8 @@ map3_bln-sce:
     prefix:   /bln-sce
     requirements:
         id:  \d+
+map3_bln-tes:
+    resource: "@Map3ScenarioBundle/Resources/config/routing/test.yml"
+    prefix:   /bln-test
+    requirements:
+        id:  \d+

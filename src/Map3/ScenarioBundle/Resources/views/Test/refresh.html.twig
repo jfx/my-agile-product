@@ -1,0 +1,15 @@
+<script>
+$(function () {
+    var tree = $('#jstree1').jstree(true);
+    {% if (parentNodeId is null) %}
+        var parentNode = tree.get_node('{{ test.nodeId }}').parent;
+    {% else %}
+        var parentNode = tree.get_node('{{ parentNodeId }}');
+    {% endif %}
+    tree.deselect_node(parentNode);
+    $('#jstree1').one("refresh_node.jstree", function () {
+        tree.select_node('{{ test.nodeId }}');
+    });
+    tree.refresh_node(parentNode);
+});
+</script>

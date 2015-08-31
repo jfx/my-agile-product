@@ -130,7 +130,7 @@ class UserPdtRoleRepository extends EntityRepository
     }
 
     /**
-     * Get the query builder of all user if for a product id.
+     * Get the query builder of all user for a product id.
      *
      * @param int $param The product id
      *

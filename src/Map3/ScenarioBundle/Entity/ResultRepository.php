@@ -20,10 +20,10 @@ namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Map3\ScenarioBundle\Entity\Status;
+use Map3\ScenarioBundle\Entity\Result;
 
 /**
- * Status entity repository class.
+ * Result entity repository class.
  *
  * @category  MyAgileProduct
  *
@@ -34,28 +34,33 @@ use Map3\ScenarioBundle\Entity\Status;
  * @link      http://www.myagileproduct.org
  * @since     3
  */
-class StatusRepository extends EntityRepository
+class ResultRepository extends EntityRepository
 {
     /**
-     * Get the default status.
+     * Get the default result.
      *
      * @return object|null Priority object
      */
-    public function findDefaultStatus()
+    public function findDefaultResult()
     {
-        return $this->find(Status::DEFAULT_STATUS);
+        return $this->find(Result::DEFAULT_RESULT);
     }
 
     /**
-     * Get the query builder of all statuses ordered.
+     * Get all possible ordered resuts.
      *
-     * @return QueryBuilder
+     * @return array
      */
-    public function getQBAllOrdered()
+    public function getAllOrdered()
     {
-        $qb = $this->createQueryBuilder('s')
-            ->orderBy('s.position', 'ASC');
-
-        return $qb;
+        $qb = $this->createQueryBuilder('r')
+            ->orderBy('r.id', 'ASC');
+        $resultsLvl2 = $qb->getQuery()->getArrayResult();
+        
+        $resultsLvl1 = array();       
+        foreach ($resultsLvl2 as $result) {
+            $resultsLvl1[$result['id']] = $result['label'];
+        }
+        return $resultsLvl1;
     }
 }

@@ -1,0 +1,18 @@
+[
+{% for node in tests %}
+{
+"id"       : "{{ node.nodeId }}",
+"text"     : "{{ node.testDatetime|localeDatetime }}",
+{% if node.result.id == 2 %}
+"icon"     : "glyphicon glyphicon-ok-sign text-success",
+"type"     : "test-p",
+{% elseif node.result.id == 3 %}
+"icon"     : "glyphicon glyphicon-remove-sign text-danger",
+"type"     : "test-f",
+{% else %}
+"type"     : "test-s",
+{% endif %}
+"children" : false
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+]
