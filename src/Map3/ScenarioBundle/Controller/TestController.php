@@ -22,8 +22,10 @@ use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
 use Map3\ScenarioBundle\Entity\Test;
+use Map3\ScenarioBundle\Form\TestFormHandler;
 use Map3\ScenarioBundle\Form\TestType;
 use Map3\UserBundle\Entity\Role;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -55,11 +57,10 @@ class TestController extends AbstractJsonCoreController
         $baseline = $test->getBaseline();
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
         $product = $baseline->getRelease()->getProduct();
+        $scenario = $test->getScenario();
+        $test->fixStepsResultsMissing(count($scenario->getArraySteps()));
 
-        $resultRepo =  $this->getDoctrine()
-            ->getManager()
-            ->getRepository('Map3ScenarioBundle:Result');
-        $availableResults = $resultRepo->getAllOrdered();
+        $availableResults = $this->getAvailableResults();
         $testType = new TestType($product, $availableResults);
         $testType->setDisabled();
         $form = $this->createForm($testType, $test);
@@ -69,6 +70,7 @@ class TestController extends AbstractJsonCoreController
             array(
                 'form' => $form->createView(),
                 'test' => $test,
+                'steps' => $scenario->getArraySteps(),
             )
         );
     }
@@ -96,15 +98,14 @@ class TestController extends AbstractJsonCoreController
             return $this->jsonResponseFactory(403, $e->getMessage());
         }
         $product = $baseline->getRelease()->getProduct();
+        $scenario = $test->getScenario();
+        $test->fixStepsResultsMissing(count($scenario->getArraySteps()));
 
-        $resultRepo =  $this->getDoctrine()
-            ->getManager()
-            ->getRepository('Map3ScenarioBundle:Result');
-        $availableResults = $resultRepo->getAllOrdered();
+        $availableResults = $this->getAvailableResults();
         $testType = new TestType($product, $availableResults);
         
         $form = $this->createForm($testType, $test);
-        $handler = $this->getFormHandler($form, $request);
+        $handler = $this->getTestFormHandler($form, $request);
 
         if ($handler->process()) {
             $this->get('session')->getFlashBag()
@@ -126,5 +127,42 @@ class TestController extends AbstractJsonCoreController
                 'test' => $test,
             )
         );
+    }
+    
+    /**
+     * Get available results.
+     *
+     * @return array
+     */
+    private function getAvailableResults()
+    {
+        $resultRepo =  $this->getDoctrine()
+            ->getManager()
+            ->getRepository('Map3ScenarioBundle:Result');
+        $availableResults = $resultRepo->getAllOrdered();
+        
+        return $availableResults;
+    }
+    
+    /**
+     * Get the test form handler.
+     *
+     * @param Form    $form    The form to display.
+     * @param Request $request The request.
+     *
+     * @return TestFormHandler Test form handler
+     */
+    protected function getTestFormHandler(Form $form, Request $request)
+    {
+        $handler = new TestFormHandler(
+            $form,
+            $request,
+            $this->container->get('doctrine')->getManager(),
+            $this->container->get('validator'),
+            $this->container->get('session'),
+            $this->container->get('map3_scenario.testService')
+        );
+
+        return $handler;
     }
 }

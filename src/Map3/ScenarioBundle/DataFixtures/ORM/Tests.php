@@ -60,7 +60,7 @@ class Tests extends AbstractFixture implements OrderedFixtureInterface
                 'testDate' => $dateT1,
                 'tester' => 'user-user',
                 'result' => 'ski-result',
-                'steps' => array(1, 1, 1),
+                'steps' => array(1, 2, 3, 1, 1),
                 'comment' => 'Test1 S4',
                 'baseline' => 'baselineone-baseline',
                 'scenario' => 'scenario4f1-datatable-scenario',
@@ -132,7 +132,7 @@ class Tests extends AbstractFixture implements OrderedFixtureInterface
             $objectList[$i]->setResult(
                 $this->getReference($data['result'])
             );
-            $objectList[$i]->setSteps($data['steps']);
+            $objectList[$i]->setStepsResults($data['steps']);
             $objectList[$i]->setComment($data['comment']);
             $objectList[$i]->setBaseline(
                 $this->getReference($data['baseline'])

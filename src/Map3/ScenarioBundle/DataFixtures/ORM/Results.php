@@ -48,14 +48,15 @@ class Results extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $dataArray = array(
-            array('label' => 'Skipped'),
-            array('label' => 'Passed'),
-            array('label' => 'Failed'),
+            array('id' => 1, 'label' => 'Skipped'),
+            array('id' => 2, 'label' => 'Passed'),
+            array('id' => 3, 'label' => 'Failed'),
         );
         $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Result();
+            $objectList[$i]->setId($data['id']);
             $objectList[$i]->setLabel($data['label']);
 
             $manager->persist($objectList[$i]);

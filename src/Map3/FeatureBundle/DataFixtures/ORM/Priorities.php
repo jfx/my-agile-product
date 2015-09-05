@@ -48,15 +48,16 @@ class Priorities extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $dataArray = array(
-            array('label' => 'P0 - Must have'),
-            array('label' => 'P1 - Should have'),
-            array('label' => 'P2 - Could have'),
-            array('label' => 'P3 - Won\'t have'),
+            array('id' => 1, 'label' => 'P0 - Must have'),
+            array('id' => 2, 'label' => 'P1 - Should have'),
+            array('id' => 3, 'label' => 'P2 - Could have'),
+            array('id' => 4, 'label' => 'P3 - Won\'t have'),
         );
         $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Priority();
+            $objectList[$i]->setId($data['id']);
             $objectList[$i]->setLabel($data['label']);
 
             $manager->persist($objectList[$i]);

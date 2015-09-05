@@ -236,6 +236,18 @@ class Scenario
     {
         return $this->steps;
     }
+    
+    /**
+     * Get steps in an array.
+     *
+     * @return array
+     */
+    public function getArraySteps()
+    {
+        // Use StepsLexer
+        $steps = array('Given steps 1', 'When Step2', 'Then Step3', 'And Step4');
+        return $steps;
+    }
 
     /**
      * Set baseline.

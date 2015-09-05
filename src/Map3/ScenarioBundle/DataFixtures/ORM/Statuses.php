@@ -48,17 +48,18 @@ class Statuses extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $dataArray = array(
-            array('label' => 'Not implemented'),
-            array('label' => 'Unchecked'),
-            array('label' => 'Pending'),
-            array('label' => 'Passed'),
-            array('label' => 'Failed'),
-            array('label' => 'Undefined'),
+            array('id' => 1, 'label' => 'Not implemented'),
+            array('id' => 2, 'label' => 'Unchecked'),
+            array('id' => 3, 'label' => 'Pending'),
+            array('id' => 4, 'label' => 'Passed'),
+            array('id' => 5, 'label' => 'Failed'),
+            array('id' => 6, 'label' => 'Undefined'),
         );
         $objectList = array();
 
         foreach ($dataArray as $i => $data) {
             $objectList[$i] = new Status();
+            $objectList[$i]->setId($data['id']);
             $objectList[$i]->setLabel($data['label']);
 
             $manager->persist($objectList[$i]);

@@ -2,6 +2,7 @@
 
 <form id="formPanel" novalidate="novalidate" class="form-horizontal well" method="post">
 
+    {{ form_row(form._token) }}
     {{ form_errors(form.stepsResults) }}
 <table class="table table-bordered table-hover">
     <thead>

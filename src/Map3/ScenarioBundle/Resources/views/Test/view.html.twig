@@ -12,10 +12,11 @@
     <tbody>
 {% for result in form.stepsResults %}
             <tr>
-                <td>Given step1 definition XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                    XXXXXXXXXXXXXXXXXXXXXX
-                    XXXXXXXXXXXXXXXXXXXXXXXXXX
-                    XXXXXxx</td>
+                <td>{% if loop.index0 < steps|length %}
+                    {{ steps[loop.index0] }}
+                {% else %}
+                    Step not defined - "Skipped" result will remove it 
+                {% endif %}</td>
                 <td>{{ form_errors(result) }}{{ form_widget(result) }}</td>
             </tr>
 {% else %}

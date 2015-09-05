@@ -45,7 +45,6 @@ class Status
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -64,6 +63,20 @@ class Status
      */
     private $position;
 
+    /**
+     * Set id.
+     *
+     * @param int $id Id.
+     *
+     * @return Status
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    
     /**
      * Get id.
      *

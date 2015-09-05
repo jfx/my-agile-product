@@ -39,13 +39,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Result
 {
     const DEFAULT_RESULT = 1;
+    const SKIPPED = 1;
+    const PASSED = 2;
+    const FAILED = 3;
 
     /**
      * @var int Id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -61,7 +63,7 @@ class Result
      *
      * @param int $id Id.
      *
-     * @return Status
+     * @return Result
      */
     public function setId($id)
     {
@@ -85,7 +87,7 @@ class Result
      *
      * @param string $label The label.
      *
-     * @return Status
+     * @return Result
      */
     public function setLabel($label)
     {

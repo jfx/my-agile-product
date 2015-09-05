@@ -18,6 +18,7 @@
  */
 namespace Map3\ScenarioBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\ScenarioBundle\Entity\Result;
@@ -74,14 +75,14 @@ class Test
      * @ORM\ManyToOne(targetEntity="Map3\ScenarioBundle\Entity\Result")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $result = array();
+    protected $result;
 
     /**
      * @var array Steps
      *
      * @ORM\Column(name="steps", type="simple_array", nullable=true)
      */
-    protected $steps;
+    protected $steps = array();
     
     /**
      * @var string Comment
@@ -198,26 +199,6 @@ class Test
     }
 
     /**
-     * Set steps.
-     *
-     * @param array $steps Steps list
-     */
-    protected function setPersistSteps($steps)
-    {
-        $this->steps = $steps;
-    }
-
-    /**
-     * Get steps.
-     *
-     * @return array
-     */
-    protected function getPersistSteps()
-    {
-        return $this->steps;
-    }
-    
-    /**
      * Set steps results.
      *
      * @param array $steps Steps results list
@@ -226,8 +207,7 @@ class Test
      */
     public function setStepsResults($steps)
     {
-        // Update result
-        $this->setPersistSteps($steps);
+        $this->steps = $steps;
 
         return $this;
     }
@@ -239,11 +219,17 @@ class Test
      */
     public function getStepsResults()
     {
-        $steps = array(1, 2, 3);
-        
-        return $steps;
+        return $this->steps;
     }
 
+    /**
+     * Add a new result step at the end of steps list.
+     */
+    public function addDefaultStepResult()
+    {
+        $this->steps[] = Result::DEFAULT_RESULT;
+    }
+    
     /**
      * Set comment.
      *
@@ -314,5 +300,55 @@ class Test
     public function getScenario()
     {
         return $this->scenario;
+    }
+    
+    /**
+     * Fill steps results with "Skipped" result.
+     *
+     * @param int $stepsCount count steps defined in scenario
+     */
+    public function fixStepsResultsMissing($stepsCount)
+    {
+        $resultsTestStepsCount = count($this->getStepsResults());
+        
+        if ($resultsTestStepsCount < $stepsCount) {
+            $setps2Add = $stepsCount - $resultsTestStepsCount;
+            for ($i = 0; $i < $setps2Add; $i++) {
+                $this->addDefaultStepResult();
+            }
+        }
+    }
+    
+    /**
+     * Get result id by parsing all results steps.
+     *
+     * @return int Result::SKIPPED|Result::PASSED|Result::FAILED
+     */
+    public function parseStepsResults()
+    {
+        $hasSkippedSteps = false;
+        $hasPassedSteps = false;
+        $hasfailedSetps = false;
+
+        foreach ($this->steps as $resultStep) {    
+            switch ($resultStep) {
+                case Result::FAILED:
+                    $hasfailedSetps = true;
+                    break;
+                case Result::PASSED:
+                    $hasPassedSteps = true;
+                    break;
+                default:
+                    $hasSkippedSteps = true;                
+            }
+        }
+        if ($hasfailedSetps) {
+            return Result::FAILED;
+        }
+        elseif ($hasPassedSteps && !$hasSkippedSteps) {
+            return Result::PASSED;
+        } else {
+            return Result::SKIPPED;
+        }
     }
 }

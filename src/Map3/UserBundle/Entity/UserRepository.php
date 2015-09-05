@@ -178,7 +178,7 @@ class UserRepository extends EntityRepository
     public function getQBAllUserWithActiveRoleByProduct(Product $product)
     {
         $uprRepository = $this->getUserPdtRoleRepository();
-        $uprEntityName = $uprRepository->getEntityName();
+        $uprEntityName = $uprRepository->getPublicEntityName();
                 
         $qb = $this->createQueryBuilder('u')
             ->from($uprEntityName, 'upr')
