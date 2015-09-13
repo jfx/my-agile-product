@@ -13,7 +13,7 @@
 {% for result in form.stepsResults %}
             <tr>
                 <td>{% if loop.index0 < steps|length %}
-                    {{ steps[loop.index0] }}
+                    {{ steps[loop.index0]|raw }}
                 {% else %}
                     Step not defined - "Skipped" result will remove it 
                 {% endif %}</td>

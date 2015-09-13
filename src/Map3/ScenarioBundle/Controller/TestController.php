@@ -58,7 +58,7 @@ class TestController extends AbstractJsonCoreController
         $this->setCurrentBaseline($baseline, array(Role::GUEST_ROLE));
         $product = $baseline->getRelease()->getProduct();
         $scenario = $test->getScenario();
-        $test->fixStepsResultsMissing(count($scenario->getArraySteps()));
+        $test->fixStepsResultsMissing($scenario->getStepsCount());
 
         $availableResults = $this->getAvailableResults();
         $testType = new TestType($product, $availableResults);
@@ -70,7 +70,7 @@ class TestController extends AbstractJsonCoreController
             array(
                 'form' => $form->createView(),
                 'test' => $test,
-                'steps' => $scenario->getArraySteps(),
+                'steps' => $scenario->getFormatedArraySteps(),
             )
         );
     }

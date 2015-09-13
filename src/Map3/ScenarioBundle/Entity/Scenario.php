@@ -23,6 +23,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\FeatureBundle\Entity\Feature;
 use Map3\ScenarioBundle\Entity\Status;
+use Map3\ScenarioBundle\Util\Parser;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -242,13 +243,24 @@ class Scenario
      *
      * @return array
      */
-    public function getArraySteps()
+    public function getFormatedArraySteps()
     {
-        // Use StepsLexer
-        $steps = array('Given steps 1', 'When Step2', 'Then Step3', 'And Step4');
-        return $steps;
+        $parser = new Parser($this->getSteps());
+        $parser->parse();
+
+        return $parser->getStepsInArray();
     }
 
+    /**
+     * Get steps count.
+     *
+     * @return int
+     */
+    public function getStepsCount()
+    {
+        return count($this->getFormatedArraySteps());
+    }
+    
     /**
      * Set baseline.
      *
