@@ -42,12 +42,12 @@ class TestType extends AbstractDefaultType
      * @var Product Product object
      */
     protected $product;
-    
+
     /**
      * @var array Available results list
      */
     protected $availableResults;
-    
+
     /**
      * Constructor.
      *
@@ -56,10 +56,10 @@ class TestType extends AbstractDefaultType
      */
     public function __construct(Product $product, array $availableResults)
     {
-        $this->product          = $product;
+        $this->product = $product;
         $this->availableResults = $availableResults;
     }
-    
+
     /**
      * Builds the form.
      *
@@ -92,7 +92,8 @@ class TestType extends AbstractDefaultType
                     'property' => 'nameFirstname',
                     'query_builder' => function (UserRepository $repo) {
                         return $repo->getQBAllUserWithActiveRoleByProduct(
-                            $this->product);
+                            $this->product
+                        );
                     },
                 )
             )
@@ -100,10 +101,10 @@ class TestType extends AbstractDefaultType
                 'stepsResults',
                 'collection',
                 array(
-                    'type'   => 'choice',
+                    'type' => 'choice',
                     'horizontal_input_wrapper_class' => 'col-xs-4',
-                    'options'  => array(
-                        'choices'  => $this->availableResults,
+                    'options' => array(
+                        'choices' => $this->availableResults,
                     ),
                 )
             )

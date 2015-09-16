@@ -54,7 +54,7 @@ class Tests extends AbstractFixture implements OrderedFixtureInterface
         $dateT2->setDate(date('Y'), date('m') + 1, 10)->setTime(12, 31, 30);
         $dateT3 = new DateTime();
         $dateT3->setDate(date('Y'), date('m') + 1, 10)->setTime(12, 32, 30);
-        
+
         $dataArray = array(
             array(
                 'testDate' => $dateT1,
@@ -127,7 +127,7 @@ class Tests extends AbstractFixture implements OrderedFixtureInterface
             if (isset($data['tester'])) {
                 $objectList[$i]->setTester(
                     $this->getReference($data['tester'])
-                );                
+                );
             }
             $objectList[$i]->setResult(
                 $this->getReference($data['result'])

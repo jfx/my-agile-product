@@ -37,12 +37,12 @@ class Parser
     const GHERKIN = 1;
     const TOKEN = 2;
     const EMPTY_LINE = 3;
-    
-    const GHERKIN_PATTERN = "/(^Given|^When|^Then|^And|^But)/";
+
+    const GHERKIN_PATTERN = '/(^Given|^When|^Then|^And|^But)/';
     const TOKEN_PATTERN = "/(^\*)/";
     const OUTLINE_PATTERN = "/(^\||Examples)/";
-    const EXAMPLES_PATTERN = "Examples";
-    
+    const EXAMPLES_PATTERN = 'Examples';
+
     /**
      * @var string Steps
      */
@@ -52,12 +52,12 @@ class Parser
      * @var array steps splitted by line
      */
     protected $stepsSplitByLine;
-    
+
     /**
      * @var array steps trimmed without comment, empty line at begining/end
      */
-    protected $stepsTrimmed ;
-    
+    protected $stepsTrimmed;
+
     /**
      * @var array start steps index
      */
@@ -67,7 +67,7 @@ class Parser
      * @var array Steps without examples
      */
     protected $stepsWithoutExamples;
-    
+
     /**
      * @var array parsed steps in array
      */
@@ -77,7 +77,7 @@ class Parser
      * @var int type of scenario description
      */
     protected $type;
-    
+
     /**
      * @var bool Is outline scenario
      */
@@ -87,7 +87,7 @@ class Parser
      * @var array Examples array
      */
     protected $examplesArray;
-    
+
     /**
      * Constructor.
      *
@@ -97,10 +97,9 @@ class Parser
     {
         $this->stepsRaw = $steps;
     }
-    
+
     /**
      * Parse steps.
-     *
      */
     public function parse()
     {
@@ -113,11 +112,11 @@ class Parser
         $this->stepsWithoutExamples = $this->analyseSetOutline(
             $this->stepsTrimmed
         );
-        
+
         $this->startStepsIndex = $this->analyseSetType(
             $this->stepsWithoutExamples
         );
-        
+
         $this->stepsArray = $this->splitSteps(
             $this->startStepsIndex,
             $this->stepsWithoutExamples
@@ -133,17 +132,17 @@ class Parser
     {
         return $this->type;
     }
-    
+
     /**
      * Is outline scenario.
      *
-     * @return boolean
+     * @return bool
      */
     public function isOutline()
     {
         return $this->outline;
     }
-    
+
     /**
      * Get lines count without empty lines at begining and end.
      *
@@ -153,7 +152,7 @@ class Parser
     {
         return count($this->stepsTrimmed);
     }
-    
+
     /**
      * Get steps count.
      *
@@ -183,24 +182,24 @@ class Parser
     {
         return $this->examplesArray;
     }
-    
+
     /**
      * Split by line and trime each line.
-     * 
-     * @param string $input String to parse 
-     * 
+     *
+     * @param string $input String to parse
+     *
      * @return array Array splitted by line
      */
     protected function splitByLine($input)
     {
         return array_map('trim', preg_split("/\r\n|\n|\r/", $input));
     }
-    
+
     /**
      * Remove empty and comment lines.
-     * 
+     *
      * @param array $input Array splitted by line
-     * 
+     *
      * @return array Array trimmed
      */
     protected function removeUnnecessaryLines(array $input)
@@ -211,107 +210,108 @@ class Parser
             if (mb_strpos($line, '#') === 0) {
                 unset($array[$key]);
             }
-        }                
+        }
         //Remove empty end line at beginning
         $arrayBEL = array_values($array);
         $countBEL = count($arrayBEL);
         $iBEL = 0;
         while (($iBEL < $countBEL) && (strlen($arrayBEL[$iBEL]) == 0)) {
             unset($arrayBEL[$iBEL]);
-            $iBEL++;
-        }                        
+            ++$iBEL;
+        }
         $arrayWEEL = $this->removeEmptyEndLine($arrayBEL);
 
         // Remove duplicate empty line
         $prevCountLine = 1;
-        $EndIdx = count($arrayWEEL) - 1;
-        for ($i = $EndIdx; $i >= 0; $i--) {
+        $endIdx = count($arrayWEEL) - 1;
+        for ($i = $endIdx; $i >= 0; --$i) {
             $countLine = strlen($arrayWEEL[$i]);
-            if (($prevCountLine == 0) && ($countLine == 0)) {                            
-                $prevI = $i+1;
+            if (($prevCountLine == 0) && ($countLine == 0)) {
+                $prevI = $i + 1;
                 unset($arrayWEEL[$prevI]);
             }
             $prevCountLine = $countLine;
         }
-        return array_values($arrayWEEL); 
+
+        return array_values($arrayWEEL);
     }
 
     /**
      * Analyse steps to define type of scenario.
-     * 
+     *
      * @param array $input Array trimmed
-     * 
+     *
      * @return array Array Steps index
      */
     protected function analyseSetOutline(array $input)
-    {   
+    {
         $count = count($input);
         $idx = $count - 1;
         $examplesCount = 0;
 
-        while (
-            ($idx >= 0) 
+        while (($idx >= 0)
             && (preg_match(self::OUTLINE_PATTERN, $input[$idx]) === 1)
-        ) {                 
+        ) {
             if (strpos($input[$idx], self::EXAMPLES_PATTERN) !== false) {
-                $examplesCount++;
+                ++$examplesCount;
             }
-            $idx--;
+            --$idx;
         }
         $outlineIdx = $idx + 1;
-        $outlineLength = $count - $outlineIdx ;
-        
+        $outlineLength = $count - $outlineIdx;
+
         // IF outline : 3 lines, start with Examples and only one "Examples"
         if ($outlineLength > 2
             && (strpos($input[$outlineIdx], self::EXAMPLES_PATTERN) !== false)
             && ($examplesCount == 1)
         ) {
             $this->outline = true;
-            $this->examplesArray = array_slice($input, ($outlineIdx+1));
-            
+            $this->examplesArray = array_slice($input, ($outlineIdx + 1));
+
             $output = $this->removeEmptyEndLine(
                 array_slice($input, 0, $outlineIdx)
             );
-        }
-        else {
+        } else {
             $this->examplesArray = array();
             $output = $input;
         }
-        
+
         return $output;
     }
     /**
      * Analyse steps to define type of scenario.
-     * 
+     *
      * @param array $input Array trimmed
-     * 
+     *
      * @return array Array Steps index
      */
     protected function analyseSetType(array $input)
-    {   
+    {
         $ELineEndStepsArray = array();
-        $gherkinStartStepsArray = array();
+        $gherkinStartStepsArr = array();
         $tokenStartStepsArray = array();
 
         foreach ($input as $index => $line) {
             if (strlen($line) == 0) {
                 $ELineEndStepsArray[] = $index;
             } elseif (preg_match(self::GHERKIN_PATTERN, $line)) {
-                $gherkinStartStepsArray[] = $index;
+                $gherkinStartStepsArr[] = $index;
             } elseif (preg_match(self::TOKEN_PATTERN, $line)) {
                 $tokenStartStepsArray[] = $index;
             }
         }
-        $countGherkin = count($gherkinStartStepsArray);
+        $countGherkin = count($gherkinStartStepsArr);
         $countToken = count($tokenStartStepsArray);
         $countELine = count($ELineEndStepsArray);
-        if (($countGherkin > 1) 
-            && ($countGherkin >= $countToken) 
-            && ($countGherkin >= $countELine)) {            
+        if (($countGherkin > 1)
+            && ($countGherkin >= $countToken)
+            && ($countGherkin >= $countELine)) {
             $this->type = self::GHERKIN;
-            return $gherkinStartStepsArray;
-        } elseif (($countToken > 1) && ($countToken >= $countELine)) {            
+
+            return $gherkinStartStepsArr;
+        } elseif (($countToken > 1) && ($countToken >= $countELine)) {
             $this->type = self::TOKEN;
+
             return $tokenStartStepsArray;
         } elseif (count($input) > 0) {
             $ELineStartStepsArray = array(0);
@@ -319,103 +319,70 @@ class Parser
                 $ELineStartStepsArray[] = ++$end;
             }
             $this->type = self::EMPTY_LINE;
+
             return $ELineStartStepsArray;
         } else {
             $this->type = self::EMPTY_LINE;
+
             return array();
         }
     }
-    
+
     /**
      * Split steps in array.
-     * 
+     *
      * @param array $stepsIndex          Steps index
      * @param array $stepsWithoutOutline Only steps in array
-     * 
-     * @return array Array Formated steps 
+     *
+     * @return array Array Formated steps
      */
     protected function splitSteps(array $stepsIndex, array $stepsWithoutOutline)
     {
         $steps = array();
-        for ($idx = 0; $idx < count($stepsIndex); $idx++) {
+        $countStepsWO = count($stepsWithoutOutline);
+
+        for ($idx = 0; $idx < count($stepsIndex); ++$idx) {
             $startStepIdx = $stepsIndex[$idx];
             if ($idx == (count($stepsIndex) - 1)) {
-                $endStepIdx = count($stepsWithoutOutline);
+                $endStepIdx = $countStepsWO;
             } else {
                 $idxNext = $idx + 1;
                 $endStepIdx = $stepsIndex[$idxNext];
             }
             $step = '';
-            for ($i = $startStepIdx; $i < $endStepIdx; $i++) {
+            for ($i = $startStepIdx; $i < $endStepIdx; ++$i) {
                 if (strlen($stepsWithoutOutline[$i]) > 0) {
                     if ($i == $startStepIdx) {
-                        $step .= $this->formatLine(
-                            $stepsWithoutOutline[$i],
-                            true
-                        );
+                        $step .= $stepsWithoutOutline[$i];
                     } else {
-                        $step .= $this->formatLine(
-                            $stepsWithoutOutline[$i],
-                            false
-                        );
+                        $step .= PHP_EOL.$stepsWithoutOutline[$i];
                     }
                 }
             }
             $steps[] = $step;
         }
+
         return $steps;
     }
-    
-    /**
-     * Format line of step in html.
-     * 
-     * @param string $line    Line of step
-     * @param bool   $isFirst Is first line of the step
-     * 
-     * @return string
-     */
-    protected function formatLine($line, $isFirst)
-    {
-        if ($isFirst) {
-            $convertLine = htmlentities($line);
-            if ($this->getType() == self::GHERKIN) {
-                $lineFormated = preg_replace(
-                    self::GHERKIN_PATTERN,
-                    '<strong>${1}</strong>',
-                    $convertLine
-                );
-            } elseif ($this->getType() == self::TOKEN) {
-                $lineFormated = preg_replace(
-                    self::TOKEN_PATTERN,
-                    '<strong>${1}</strong>',
-                    $convertLine
-                );
-            } else {
-                $lineFormated = $convertLine;
-            }
-        } else {
-            $lineFormated = '<br/>'.htmlentities($line);
-        }
-        return $lineFormated;
-    }
-    
+
     /**
      * Remove empty end line.
-     * 
+     *
      * @param array $array Array
-     * 
+     *
      * @return array
      */
     protected function removeEmptyEndLine(array $array)
-    {    
+    {
         $arrayEEL = array_values($array);
         $count = count($arrayEEL);
         $i = $count - 1;
-        
+
         while (($i >= 0) && (strlen($arrayEEL[$i]) == 0)) {
             unset($arrayEEL[$i]);
-            $i--;
+            --$i;
         }
+
         return $arrayEEL;
     }
 }

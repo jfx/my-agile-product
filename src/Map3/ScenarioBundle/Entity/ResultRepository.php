@@ -19,8 +19,6 @@
 namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Map3\ScenarioBundle\Entity\Result;
 
 /**
  * Result entity repository class.
@@ -56,11 +54,12 @@ class ResultRepository extends EntityRepository
         $qb = $this->createQueryBuilder('r')
             ->orderBy('r.id', 'ASC');
         $resultsLvl2 = $qb->getQuery()->getArrayResult();
-        
-        $resultsLvl1 = array();       
+
+        $resultsLvl1 = array();
         foreach ($resultsLvl2 as $result) {
             $resultsLvl1[$result['id']] = $result['label'];
         }
+
         return $resultsLvl1;
     }
 }

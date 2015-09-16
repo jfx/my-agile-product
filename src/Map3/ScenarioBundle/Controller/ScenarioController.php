@@ -145,7 +145,7 @@ class ScenarioController extends AbstractJsonCoreController
             )
         );
     }
-    
+
     /**
      * Display node details on right panel.
      *

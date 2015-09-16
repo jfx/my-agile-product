@@ -37,14 +37,14 @@ class UserPdtRoleRepository extends EntityRepository
 {
     /**
      * Get Entity name (parent method is protected).
-     * 
+     *
      * @return string
      */
     public function getPublicEntityName()
     {
         return $this->getEntityName();
     }
-    
+
     /**
      * Get all resources with role for a product.
      *

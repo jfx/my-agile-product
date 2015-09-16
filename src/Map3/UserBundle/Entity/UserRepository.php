@@ -153,6 +153,29 @@ class UserRepository extends EntityRepository
     }
 
     /**
+     * Get the query builder of all user for a product id.
+     *
+     * @param Product $product The product
+     *
+     * @return QueryBuilder
+     */
+    public function getQBAllUserWithActiveRoleByProduct(Product $product)
+    {
+        $uprRepository = $this->getUserPdtRoleRepository();
+        $uprEntityName = $uprRepository->getPublicEntityName();
+
+        $qb = $this->createQueryBuilder('u')
+            ->from($uprEntityName, 'upr')
+            ->join('upr.product', 'p')
+            ->where('p.id = :productId')
+            ->andWhere('upr.user = u')
+            ->orderBy('u.name, u.firstname', 'ASC')
+            ->setParameter('productId', $product->getId());
+
+        return $qb;
+    }
+
+    /**
      * Get the DQL query of all added user for a product.
      *
      * @return DQL query
@@ -167,30 +190,7 @@ class UserRepository extends EntityRepository
 
         return $subQuery;
     }
-    
-    /**
-     * Get the query builder of all user for a product id.
-     *
-     * @param Product $product The product
-     *
-     * @return QueryBuilder
-     */
-    public function getQBAllUserWithActiveRoleByProduct(Product $product)
-    {
-        $uprRepository = $this->getUserPdtRoleRepository();
-        $uprEntityName = $uprRepository->getPublicEntityName();
-                
-        $qb = $this->createQueryBuilder('u')
-            ->from($uprEntityName, 'upr')
-            ->join('upr.product', 'p')
-            ->where('p.id = :productId')
-            ->andWhere('upr.user = u')
-            ->orderBy('u.name, u.firstname', 'ASC')
-            ->setParameter('productId', $product->getId());
-        
-        return $qb;
-    }
-    
+
     /**
      * Get UserPdtRole repository.
      *
@@ -201,6 +201,7 @@ class UserRepository extends EntityRepository
         $uprRepository = $this->_em->getRepository(
             'Map3UserBundle:UserPdtRole'
         );
+
         return $uprRepository;
     }
 }

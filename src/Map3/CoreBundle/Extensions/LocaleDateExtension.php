@@ -106,7 +106,7 @@ class LocaleDateExtension extends Twig_Extension
      */
     public function getName()
     {
-        return 'map_corebundle_localedate';
+        return 'map3_corebundle_localedate';
     }
 
     /**

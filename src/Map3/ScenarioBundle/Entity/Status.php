@@ -76,7 +76,7 @@ class Status
 
         return $this;
     }
-    
+
     /**
      * Get id.
      *

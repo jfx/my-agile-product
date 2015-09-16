@@ -49,11 +49,12 @@ class TestFormHandler extends FormHandler
     /**
      * Constructor.
      *
-     * @param Form            $form      Form
-     * @param Request         $request   Http request
-     * @param EntityManager   $em        Entity manager
-     * @param LegacyValidator $validator Validator
-     * @param Session         $session   Session
+     * @param Form            $form        Form
+     * @param Request         $request     Http request
+     * @param EntityManager   $em          Entity manager
+     * @param LegacyValidator $validator   Validator
+     * @param Session         $session     Session
+     * @param TestService     $testService Test service
      */
     public function __construct(
         Form $form,
@@ -76,7 +77,7 @@ class TestFormHandler extends FormHandler
     /**
      * Save entity in database.
      *
-     * @param Test $entity Test object.
+     * @param Test $test Test object.
      */
     public function onSuccess($test)
     {

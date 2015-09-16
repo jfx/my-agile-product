@@ -126,7 +126,7 @@ abstract class AbstractJsonCoreController extends AbstractCoreController
                 $tesR = $manager->getRepository('Map3ScenarioBundle:Test');
                 $object = $tesR->find($node['id']);
                 break;
-            
+
             default:
                 throw new DomainException('Wrong type of node');
         }

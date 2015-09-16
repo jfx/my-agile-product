@@ -19,7 +19,6 @@
 namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Result entity class.

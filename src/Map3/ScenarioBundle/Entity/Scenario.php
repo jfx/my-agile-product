@@ -22,7 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Map3\BaselineBundle\Entity\Baseline;
 use Map3\FeatureBundle\Entity\Feature;
-use Map3\ScenarioBundle\Entity\Status;
 use Map3\ScenarioBundle\Util\Parser;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -207,7 +206,7 @@ class Scenario
     /**
      * Get Status.
      *
-     * @return Scenario
+     * @return Status
      */
     public function getStatus()
     {
@@ -237,7 +236,7 @@ class Scenario
     {
         return $this->steps;
     }
-    
+
     /**
      * Get steps in an array.
      *
@@ -248,7 +247,7 @@ class Scenario
         $parser = new Parser($this->getSteps());
         $parser->parse();
 
-        return $parser->getStepsInArray();
+        return $parser->getFormatedSteps();
     }
 
     /**
@@ -260,7 +259,7 @@ class Scenario
     {
         return count($this->getFormatedArraySteps());
     }
-    
+
     /**
      * Set baseline.
      *

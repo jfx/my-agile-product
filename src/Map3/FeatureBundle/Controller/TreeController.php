@@ -93,7 +93,7 @@ class TreeController extends AbstractJsonCoreController
                         'Map3FeatureBundle:Feature:child',
                         array('id' => $idType['id'])
                     );
-                    
+
                     return $response;
 
                 case self::SCENARIO:
@@ -101,9 +101,9 @@ class TreeController extends AbstractJsonCoreController
                         'Map3ScenarioBundle:Scenario:child',
                         array('id' => $idType['id'])
                     );
-                    
+
                     return $response;
-                    
+
                 default:
                     return $this->jsonResponseFactory(
                         404,

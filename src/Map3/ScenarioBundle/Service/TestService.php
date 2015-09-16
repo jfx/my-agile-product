@@ -43,7 +43,7 @@ class TestService
     /**
      * Constructor.
      *
-     * @param EntityManager        $entityManager The entity manager
+     * @param EntityManager $entityManager The entity manager
      */
     public function __construct(EntityManager $entityManager)
     {
@@ -58,7 +58,7 @@ class TestService
     public function updateResultFromResultsSteps(Test $test)
     {
         $resultId = $test->parseStepsResults();
-        
+
         $repository = $this->entityManager
             ->getRepository('Map3ScenarioBundle:Result');
         $result = $repository->find($resultId);

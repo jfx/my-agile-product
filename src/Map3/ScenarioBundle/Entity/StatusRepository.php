@@ -20,7 +20,6 @@ namespace Map3\ScenarioBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Map3\ScenarioBundle\Entity\Status;
 
 /**
  * Status entity repository class.

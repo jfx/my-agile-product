@@ -74,12 +74,12 @@ class TestController extends AbstractJsonCoreController
             )
         );
     }
-    
+
     /**
      * Edit a scenario node on right panel.
      *
-     * @param Test $test The test to edit
-     * @param Request  $request  The request
+     * @param Test    $test    The test to edit
+     * @param Request $request The request
      *
      * @return Response A Response instance
      *
@@ -103,7 +103,7 @@ class TestController extends AbstractJsonCoreController
 
         $availableResults = $this->getAvailableResults();
         $testType = new TestType($product, $availableResults);
-        
+
         $form = $this->createForm($testType, $test);
         $handler = $this->getTestFormHandler($form, $request);
 
@@ -128,7 +128,7 @@ class TestController extends AbstractJsonCoreController
             )
         );
     }
-    
+
     /**
      * Get available results.
      *
@@ -136,14 +136,14 @@ class TestController extends AbstractJsonCoreController
      */
     private function getAvailableResults()
     {
-        $resultRepo =  $this->getDoctrine()
+        $resultRepo = $this->getDoctrine()
             ->getManager()
             ->getRepository('Map3ScenarioBundle:Result');
         $availableResults = $resultRepo->getAllOrdered();
-        
+
         return $availableResults;
     }
-    
+
     /**
      * Get the test form handler.
      *
@@ -152,7 +152,7 @@ class TestController extends AbstractJsonCoreController
      *
      * @return TestFormHandler Test form handler
      */
-    protected function getTestFormHandler(Form $form, Request $request)
+    private function getTestFormHandler(Form $form, Request $request)
     {
         $handler = new TestFormHandler(
             $form,

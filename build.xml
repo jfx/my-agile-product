@@ -148,7 +148,7 @@
             <arg value="--reportfile"/>
             <arg value="${workspace}/build/logs/pmd.xml"/>
             <arg value="--exclude"/>
-            <arg value="DependencyInjection"/>
+            <arg value="DependencyInjection,Tests,DataFixtures"/>
         </exec>
     </target>
     <target name="pdepend" description="Calculate software metrics using PHP_Depend">

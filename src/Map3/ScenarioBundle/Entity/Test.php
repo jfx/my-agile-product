@@ -21,8 +21,6 @@ namespace Map3\ScenarioBundle\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Map3\BaselineBundle\Entity\Baseline;
-use Map3\ScenarioBundle\Entity\Result;
-use Map3\ScenarioBundle\Entity\Scenario;
 use Map3\UserBundle\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -68,7 +66,7 @@ class Test
      * @ORM\JoinColumn(nullable=true)
      */
     protected $tester;
-    
+
     /**
      * @var Result Result
      *
@@ -83,7 +81,7 @@ class Test
      * @ORM\Column(name="steps", type="simple_array", nullable=true)
      */
     protected $steps = array();
-    
+
     /**
      * @var string Comment
      *
@@ -173,7 +171,7 @@ class Test
     {
         return $this->tester;
     }
-    
+
     /**
      * Set result.
      *
@@ -229,7 +227,7 @@ class Test
     {
         $this->steps[] = Result::DEFAULT_RESULT;
     }
-    
+
     /**
      * Set comment.
      *
@@ -253,7 +251,7 @@ class Test
     {
         return $this->comment;
     }
-    
+
     /**
      * Set baseline.
      *
@@ -301,7 +299,7 @@ class Test
     {
         return $this->scenario;
     }
-    
+
     /**
      * Fill steps results with "Skipped" result.
      *
@@ -309,16 +307,16 @@ class Test
      */
     public function fixStepsResultsMissing($stepsCount)
     {
-        $resultsTestStepsCount = count($this->getStepsResults());
-        
-        if ($resultsTestStepsCount < $stepsCount) {
-            $setps2Add = $stepsCount - $resultsTestStepsCount;
-            for ($i = 0; $i < $setps2Add; $i++) {
+        $stepsResultsCount = count($this->getStepsResults());
+
+        if ($stepsResultsCount < $stepsCount) {
+            $setps2Add = $stepsCount - $stepsResultsCount;
+            for ($i = 0; $i < $setps2Add; ++$i) {
                 $this->addDefaultStepResult();
             }
         }
     }
-    
+
     /**
      * Get result id by parsing all results steps.
      *
@@ -330,7 +328,7 @@ class Test
         $hasPassedSteps = false;
         $hasfailedSetps = false;
 
-        foreach ($this->steps as $resultStep) {    
+        foreach ($this->steps as $resultStep) {
             switch ($resultStep) {
                 case Result::FAILED:
                     $hasfailedSetps = true;
@@ -339,13 +337,12 @@ class Test
                     $hasPassedSteps = true;
                     break;
                 default:
-                    $hasSkippedSteps = true;                
+                    $hasSkippedSteps = true;
             }
         }
         if ($hasfailedSetps) {
             return Result::FAILED;
-        }
-        elseif ($hasPassedSteps && !$hasSkippedSteps) {
+        } elseif ($hasPassedSteps && !$hasSkippedSteps) {
             return Result::PASSED;
         } else {
             return Result::SKIPPED;
