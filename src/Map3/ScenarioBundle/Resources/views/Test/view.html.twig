@@ -2,7 +2,7 @@
 
 <form class="form-horizontal well">
     {{ form_errors(form.stepsResults) }}
-<table class="table table-bordered table-hover">
+<table id="steps-table" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>Steps</th>
@@ -12,11 +12,14 @@
     <tbody>
 {% for result in form.stepsResults %}
             <tr>
-                <td>{% if loop.index0 < steps|length %}
+                {% if loop.index0 < steps|length %}
+                <td class="{{ test.stepsResults[loop.index0]|stepColorClass }}">
                     {{ steps[loop.index0]|stepHtmlFormat|nl2br }}
                 {% else %}
+                <td>
                     Step not defined - "Skipped" result will remove it 
-                {% endif %}</td>
+                {% endif %}
+                </td>
                 <td>{{ form_errors(result) }}{{ form_widget(result) }}</td>
             </tr>
 {% else %}

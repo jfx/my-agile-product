@@ -1,0 +1,349 @@
+*** Settings ***
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Click to view a gherkin failed test node
+    Given I am a user
+    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    When I click node    T_1
+    Then I check test view form    10    User Firstuser    Test1 S4
+    And the step result should be    1    Given some precondition    Passed
+    And the step result should be    2    And some other precondition    Passed
+    And the step result should be    3    When some action by the actor    Failed
+    And the step result should be    4    And some other action    Skipped
+    And the step result should be    5    And yet another action    Skipped
+    And the step result should be    6    Then some testable outcome is achieved    Skipped
+    And the step result should be    7    And something else we can check happens too    Skipped
+
+Click to view a gherkin passed test node
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    When I click node    T_2
+    Then I check test view form    11    User Firstuser    Test2 S4
+    And the step result should be    1    Given some precondition    Passed
+    And the step result should be    2    And some other precondition    Passed
+    And the step result should be    3    When some action by the actor    Passed
+    And the step result should be    4    And some other action    Passed
+    And the step result should be    5    And yet another action    Passed
+    And the step result should be    6    Then some testable outcome is achieved    Passed
+    And the step result should be    7    And something else we can check happens too    Passed
+
+Click to view a gherkin with comment skipped test node
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_5
+    When I click node    T_3
+    Then I check test view form    10    \    Test1 S5
+    And the step result should be    1    Given some precondition    Passed
+    And the step result should be    2    And some other precondition    Passed
+    And the step result should be    3    When some action by the actor    Passed
+    And the step result should be    4    And some other action    Skipped
+    And the step result should be    5    And yet another action    Skipped
+    And the step result should be    6    Then some testable outcome is achieved    Skipped
+    And the step result should be    7    And something else we can check happens too    Skipped
+
+Click to view a data table test node
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_6
+    When I click node    T_5
+    Then I check test view form    10    User Firstuser    Test1 S6
+    And the step result should be    1    Given there are users: | username | password | email | | user1 | pass4user1 | user1@example.com | | user2 | pass4user2 | user2@example.com |    Passed
+    And the step result should be    2    And I am on login page    Passed
+    And the step result should be    3    When I fill in "username" with "user1"    Failed
+    And the step result should be    4    And I fill in "password" with "pass4user1"    Skipped
+    And the step result should be    5    And I press "login"    Skipped
+    And the step result should be    6    Then I should see "Hello User1 !"    Skipped
+
+Click to view a token test node
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_7
+    When I click node    T_7
+    Then I check test view form    10    User Firstuser    Test1 S7
+    And the step result should be    1    * Action 1    Passed
+    And the step result should be    2    * Action 2    Passed
+    And the step result should be    3    * Action 3 And action 4    Passed
+    And the step result should be    4    * Action 5    Passed
+
+Click to view an empty line test node
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_8
+    When I click node    T_8
+    Then I check test view form    10    User Firstuser    Test1 S8
+    And the step result should be    1    Action 1 More Action 1    Passed
+    And the step result should be    2    Action 2 Continue action 2    Failed
+    And the step result should be    3    * Action 3    Skipped
+    And the step result should be    4    Then Action 4    Skipped
+
+A missing result has a skipped result
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_2
+    And I click node to display sub-node    S_13
+    When I click node    T_9
+    Then I check test view form    10    User Firstuser    Test1 S13 - less
+    And the step result should be    1    Given some precondition    Passed
+    And the step result should be    2    And some other precondition    Passed
+    And the step result should be    3    When some action by the actor    Passed
+    And the step result should be    4    And some other action    Passed
+    And the step result should be    5    And yet another action    Passed
+    And the step result should be    6    Then some testable outcome is achieved    Passed
+    And the step result should be    7    And something else we can check happens too    Skipped
+
+A missing step has a default description
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_2
+    And I click node to display sub-node    S_13
+    When I click node    T_10
+    Then I check test view form    11    User Firstuser    Test2 S13 - more
+    And the step result should be    1    Given some precondition    Passed
+    And the step result should be    2    And some other precondition    Passed
+    And the step result should be    3    When some action by the actor    Passed
+    And the step result should be    4    And some other action    Passed
+    And the step result should be    5    And yet another action    Passed
+    And the step result should be    6    Then some testable outcome is achieved    Passed
+    And the step result should be    7    Step not defined - "Skipped" result will remove it    Passed
+
+Reload warning after timeout when click to view test
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/bln-features/1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    When I am waiting for timeout
+    And I click node    T_2
+    Then I wait until text is visible    Authentication has expired
+    [Teardown]    TestLifetimeTeardown
+
+Request view test
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the element should contain items    ${resp.content}    Test1 S4
+    [Teardown]    EnvPostrequisite
+
+Request view test with non numeric Id
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_XXX
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Wrong node Id
+    [Teardown]    EnvPostrequisite
+
+Request view test with wrong node Id
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_999
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Not Found
+    [Teardown]    EnvPostrequisite
+
+Request view test with wrong baseline Id
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/999/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the element should contain items    ${resp.content}    Test1 S4
+    [Teardown]    EnvPostrequisite
+
+Request view test timeout
+    [Tags]    request    timeout
+    [Setup]    RequestLifetimeSetup
+    Given I am logging as by request    user    user    Hello    True
+    And I am waiting for timeout
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And Should Contain    ${resp.content}    A Token was not found in the SecurityContext
+    [Teardown]    RequestLifetimeTeardown
+
+Check context for test ajax request with clean context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/1
+    And Get request    ${SESSION}    /baseline/1
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    3
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for test ajax request without context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for test ajax request with previous context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-none    d1-none    Hello    True
+    And Get request    ${SESSION}    /product/2
+    And Get request    ${SESSION}    /release/4
+    And Get request    ${SESSION}    /baseline/6
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for test ajax request with same previous product
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/2
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for test ajax request with same previous release
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/1
+    And Get request    ${SESSION}    /baseline/2
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    5
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for test ajax request with same previous context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /bln-features/1
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/node/T_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    3
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+    [Teardown]    EnvPostrequisite
+
+Edit button displayed for user profile
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    And I click node    T_1
+    When I click button when visible    Edit
+    And I am waiting for ajax request
+    Then Location Should Be    ${URL}/bln-features/1
+    And I should see action button(s)    Save
+
+Reload warning after timeout when click edit button
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/bln-features/1
+    And I click node to display sub-node    B_1
+    When I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    And I click node    T_1
+    And I am waiting for timeout
+    When I click button    Edit
+    Then I wait until text is visible    Authentication has expired
+    [Teardown]    TestLifetimeTeardown
+
+Edit button not displayed for closed baseline
+    Given I am a user
+    And I go directly to features tree    3
+    And the node name should be equal to    B_7    Baseline Closed
+    And I click node to display sub-node    B_7
+    And I click node to display sub-node    F_7
+    And I click node to display sub-node    S_16
+    When I click node    T_13
+    Then I check test view form    10    User Firstuser    Test1 S16
+    And I should not see action button(s)    Edit
+
+Edit button not displayed for non user profile
+    Given I am a guest
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    When I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    When I click node    T_1
+    Then I check test view form    10    User Firstuser    Test1 S4
+    And I should not see action button(s)    Edit
+
+Icon of a skipped test should be a black question mark
+    Given I am a guest
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    When I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_5
+    Then the color of the icon is black    T_3    question-sign
+
+Icon of a passed test should be a green ok sign
+    Given I am a guest
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    When I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    Then the color of the icon is    T_2    ok-sign    text-success
+
+Icon of a failed test should be a red remove sign
+    Given I am a guest
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    When I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    Then the color of the icon is    T_2    remove-sign    text-danger

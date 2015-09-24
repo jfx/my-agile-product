@@ -1,0 +1,42 @@
+*** Settings ***
+Documentation     In order to secure the application
+...               As a user
+...               I need to have access only to granted pages
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Test view Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/node/T_1    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Test edit Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-sce/edit/1    False    True    True    True    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Test add Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-sce/add/F_1    False    True    True    True    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+STest delete Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/del/S_1    False    True    True    True    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite

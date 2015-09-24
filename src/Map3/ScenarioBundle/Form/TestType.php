@@ -88,6 +88,7 @@ class TestType extends AbstractDefaultType
                 array(
                     'label' => 'Tester',
                     'horizontal_input_wrapper_class' => 'col-xs-4',
+                    'required' => false,
                     'class' => 'Map3\UserBundle\Entity\User',
                     'property' => 'nameFirstname',
                     'query_builder' => function (UserRepository $repo) {

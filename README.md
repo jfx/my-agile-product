@@ -18,18 +18,19 @@ My Agile Product features :
 * Releases and baselines management,
 * Features management with editable tree,
 * Scenarios and steps management with editable tree,
-* Tests management (planned).
+* Tests management.
 
 - - -
 ### 0.10.0 ()
 Features:
 
-  - 
+  - Scenario steps parser - #84,
+  - View a test - #80,
  
 
 Bugfixes:
 
-  - 
+  - Fix vertical align of icon in tree - #79,
 
 
 ### 0.9.0 (19 August 2015)

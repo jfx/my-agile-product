@@ -7,3 +7,8 @@ services:
         class: Map3\ScenarioBundle\Extensions\StepHtmlFormatExtension
         tags:
             - { name: twig.extension }
+            
+    map3_scenario.stepcolorclass:
+        class: Map3\ScenarioBundle\Extensions\StepColorClassExtension
+        tags:
+            - { name: twig.extension }

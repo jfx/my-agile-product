@@ -57,15 +57,17 @@ Then some testable outcome is achieved
 And something else we can check happens too
 EOT;
 
-        $stepsOutline = <<<EOT
-Given there are <start> cucumbers
-When I eat <eat> cucumbers
-Then I should have <left> cucumbers
+        $stepsWComment = <<<EOT
+Given some precondition
+And some other precondition
 
-Examples:
-  | start | eat | left |
-  |  12   |  5  |  7   |
-  |  20   |  5  |  15  |
+# Comment 1
+When some action by the actor
+And some other action
+And yet another action
+            
+Then some testable outcome is achieved
+And something else we can check happens too      
 EOT;
 
         $stepsDataTable = <<<EOT
@@ -80,16 +82,73 @@ And I press "login"
 Then I should see "Hello User1 !"
 EOT;
 
+        $stepsOutline = <<<EOT
+Given there are <start> cucumbers
+When I eat <eat> cucumbers
+Then I should have <left> cucumbers
+
+Examples:
+  | start | eat | left |
+  |  12   |  5  |  7   |
+  |  20   |  5  |  15  |
+EOT;
+
+        $stepsToken = <<<EOT
+* Action 1
+* Action 2
+* Action 3
+And action 4
+ * Action 5
+            
+Action 6
+EOT;
+
+        $stepsTokenOutline = <<<EOT
+* there are <start> cucumbers
+* I eat <eat> cucumbers
+* I should have <left> cucumbers
+
+Examples:
+  | start | eat | left |
+  |  12   |  5  |  7   |
+  |  20   |  5  |  15  |
+EOT;
+
+        $stepsTokenOutlineWithEL = <<<EOT
+* there are <start> cucumbers
+            
+* I eat <eat> cucumbers
+            
+* I should have <left> cucumbers
+
+Examples:
+  | start | eat | left |
+  |  12   |  5  |  7   |
+  |  20   |  5  |  15  |
+EOT;
+
+        $stepsELine = <<<EOT
+Action 1
+More Action 1
+           
+Action 2
+Continue action 2
+           
+ * Action 3
+    
+Then Action 4
+EOT;
+
         $dataArray = array(
             array(
-                'title' => 'Scenario 1 F1',
+                'title' => 'S 1 F1 - Not implemented',
                 'status' => 'not-status',
                 'steps' => $steps,
                 'baseline' => 'baselineone-baseline',
                 'feature' => 'featurec1-feature',
             ),
             array(
-                'title' => 'Scenario 2 F1',
+                'title' => 'S 2 F1 - Unchecked',
                 'extid' => 'SC-002',
                 'status' => 'unc-status',
                 'steps' => $steps,
@@ -97,47 +156,95 @@ EOT;
                 'feature' => 'featurec1-feature',
             ),
             array(
-                'title' => 'Scenario 3 F1 - Outline',
+                'title' => 'S 3 F1 - Pending',
                 'extid' => 'SC-003',
+                'status' => 'pen-status',
+                'steps' => $steps,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 4 F1 - Passed - Steps',
+                'extid' => 'SC-004',
+                'status' => 'pas-status',
+                'steps' => $steps,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 5 F1 - Failed - Steps comment',
+                'extid' => 'SC-005',
+                'status' => 'fai-status',
+                'steps' => $stepsWComment,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 6 F1 - Undefined - Data table',
+                'extid' => 'SC-006',
+                'status' => 'und-status',
+                'steps' => $stepsDataTable,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 7 F1 - Passed - Token',
+                'extid' => 'SC-004',
+                'status' => 'pas-status',
+                'steps' => $stepsToken,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 8 F1 - Failed - Empty line',
+                'extid' => 'SC-005',
+                'status' => 'fai-status',
+                'steps' => $stepsELine,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 9 F1 - Pending - Outline',
+                'extid' => 'SC-005',
                 'status' => 'pen-status',
                 'steps' => $stepsOutline,
                 'baseline' => 'baselineone-baseline',
                 'feature' => 'featurec1-feature',
             ),
             array(
-                'title' => 'Scenario 4 F1 - Data table',
-                'extid' => 'SC-004',
-                'status' => 'pas-status',
-                'steps' => $stepsDataTable,
-                'baseline' => 'baselineone-baseline',
-                'feature' => 'featurec1-feature',
-            ),
-            array(
-                'title' => 'Scenario 5 F1',
-                'extid' => 'SC-005',
-                'status' => 'fai-status',
-                'steps' => $steps,
-                'baseline' => 'baselineone-baseline',
-                'feature' => 'featurec1-feature',
-            ),
-            array(
-                'title' => 'Scenario 6 F1',
+                'title' => 'S 10 F1 - Undefined - Outline',
                 'extid' => 'SC-006',
                 'status' => 'und-status',
-                'steps' => $steps,
+                'steps' => $stepsOutline,
                 'baseline' => 'baselineone-baseline',
                 'feature' => 'featurec1-feature',
             ),
             array(
-                'title' => 'Scenario 7 F2',
-                'extid' => 'SC-007',
+                'title' => 'S 11 F1 - Passed - Token Outline',
+                'extid' => 'SC-004',
+                'status' => 'pas-status',
+                'steps' => $stepsTokenOutline,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 12 F1 - Failed - Token Outline Empty line',
+                'extid' => 'SC-005',
                 'status' => 'fai-status',
+                'steps' => $stepsTokenOutlineWithEL,
+                'baseline' => 'baselineone-baseline',
+                'feature' => 'featurec1-feature',
+            ),
+            array(
+                'title' => 'S 13 F2 - count steps',
+                'extid' => 'SC-007',
+                'status' => 'pas-status',
                 'steps' => $steps,
                 'baseline' => 'baselineone-baseline',
                 'feature' => 'featurec2-feature',
             ),
             array(
-                'title' => 'Scenario 8 F21',
+                'title' => 'S 14 F21',
                 'extid' => 'SC-008',
                 'status' => 'pas-status',
                 'steps' => $steps,
@@ -145,7 +252,7 @@ EOT;
                 'feature' => 'featurec21-feature',
             ),
             array(
-                'title' => 'Scenario 9 F0',
+                'title' => 'S 15 F0',
                 'extid' => 'SC-009',
                 'status' => 'und-status',
                 'steps' => $steps,
@@ -153,7 +260,7 @@ EOT;
                 'feature' => 'featurec0-feature',
             ),
             array(
-                'title' => 'Scenario 10 F0 - closed',
+                'title' => 'S 16 F0 - closed',
                 'extid' => 'SC-010',
                 'status' => 'pas-status',
                 'steps' => $steps,
