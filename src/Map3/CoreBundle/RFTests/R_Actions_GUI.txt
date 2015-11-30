@@ -35,13 +35,13 @@ I select date
     Click Element    xpath=(//td[text()='${day}'])[${order}]
 
 I select datetime
-    [Arguments]    ${element}    ${day}    ${month}    ${hour}    ${minute}
+    [Arguments]    ${element}    ${day}    ${month}    ${hour}    ${minute}    ${index_cal}=1
     Click Element    ${element}
     : FOR    ${INDEX}    IN RANGE    0    ${month}
     \    Click Element    xpath=(//div[@class='datetimepicker-days' and @style='display: block;']/table/thead/tr/th[@class='next'])
-    Click Element    xpath=//td[text()='${day}']
-    Click Element    xpath=//span[(@class='hour' or @class='hour active') and text()='${hour}:00']
-    Click Element    xpath=//span[(@class='minute' or @class='minute active') and text()= '${hour}:${minute}']
+    Click Element    xpath=(//td[text()='${day}'])[${index_cal}]
+    Click Element    xpath=(//span[(@class='hour' or @class='hour active') and text()='${hour}:00'])[${index_cal}]
+    Click Element    xpath=(//span[(@class='minute' or @class='minute active') and text()= '${hour}:${minute}'])[${index_cal}]
 
 I fill in login form
     [Arguments]    ${user}    ${pass}

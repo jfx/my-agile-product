@@ -2,33 +2,70 @@
 Resource          ../Keyword_resource.txt
 
 *** Test Cases ***
-A user+ edits a feature
+A user edits a failed test to skipped
     Given I am a user
     And I go to features tree    View product #1    View release #1    View baseline #1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2 
+    And I click node to display sub-node    S_4
+    And the color of the icon is    T_1    remove-sign    text-danger
+    And I click node    T_1
     And I click button when visible    Edit
     And I wait until button is visible    Save
-    When I fill in scenario form    Scenario Mod    SC-001-Mod    Pending    Given Mod
+    When I fill in test form    15    D1-user+ Firstd1-user+    Test1 S4 Mod
+    And I select result at index    3    Skipped
     And I click button    Save
-    Then I wait until text is visible    Scenario edited successfully
-    And I check scenario view form    Scenario Mod    SC-001-Mod    Pending    Given Mod
-    And the node name should be equal to    S_2     SC-001-Mod - Scenario Mod
+    Then I wait until text is visible    Test edited successfully
+    And I check test view form    15    D1-user+ Firstd1-user+    Test1 S4 Mod
+    And the step result should be    3    When some action by the actor    Skipped
+    And the color of the icon is black    T_1    question-sign
 
-Scenario steps have syntax highlight
+A user edits a passed test to failed
     Given I am a user
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2 
+    And I click node to display sub-node    S_4
+    And the color of the icon is    T_2    ok-sign    text-success
+    And I click node    T_2
     And I click button when visible    Edit
     And I wait until button is visible    Save
-    Then I see steps displayed with syntax highlight
+    When I fill in test form    15    D1-user+ Firstd1-user+    Test1 S4 Mod
+    And I select result at index    7    Failed
+    And I click button    Save
+    Then I wait until text is visible    Test edited successfully
+    And I check test view form    15    D1-user+ Firstd1-user+    Test1 S4 Mod
+    And the step result should be    7    And something else we can check happens too    Failed
+    And the color of the icon is    T_2    remove-sign    text-danger
 
-Reload warning after timeout when click to edit feature
+A user edits a skipped test to passed
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_6
+    And the color of the icon is black    T_6    question-sign
+    And I click node    T_6
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    When I fill in test form    15    D1-user+ Firstd1-user+    Test1 S4 Mod
+    And I select result at index    3    Passed
+    And I select result at index    4    Passed
+    And I select result at index    5    Passed
+    And I select result at index    6    Passed
+    And I click button    Save
+    Then I wait until text is visible    Test edited successfully
+    And I check test view form    15    D1-user+ Firstd1-user+    Test1 S4 Mod
+    And the step result should be    3    When I fill in "username" with "user1"    Passed
+    And the step result should be    4    And I fill in "password" with "pass4user1"    Passed
+    And the step result should be    5    And I press "login"    Passed
+    And the step result should be    6    Then I should see "Hello User1 !"    Passed
+    And the color of the icon is    T_6    ok-sign    text-success
+
+Reload warning after timeout when click to edit test
     [Tags]    timeout
     [Setup]    TestLifetimeSetup
     Given I am logging as    user    user    Hello    True
@@ -36,51 +73,52 @@ Reload warning after timeout when click to edit feature
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2 
+    And I click node to display sub-node    S_4
+    When I click node    T_2
     And I click button when visible    Edit
     When I am waiting for timeout
     And I click button    Save
     Then Page should contain    Authentication has expired
     [Teardown]    TestLifetimeTeardown
 
-Request edit feature
+Request edit test
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/2
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    200
-    And the element should contain items    ${resp.content}    Scenario 2 F1    SC-002    Given some precondition\nAnd some other precondition\nWhen some action by the actor\nAnd some other action\nAnd yet another action\nThen some testable outcome is achieved\nAnd something else we can check happens too
+    And the element should contain items    ${resp.content}    Test1 S4    <strong>Given</strong> some precondition
     [Teardown]    EnvPostrequisite
 
-Impossible to edit a feature for a closed baseline
+Impossible to edit a test for a closed baseline
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/10
+    ${resp}=    When Ajax Get Request    /bln-test/edit/13
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And Should Contain    ${resp.content}    You are not allowed to access this resource
     [Teardown]    EnvPostrequisite
 
-Request edit feature with wrong node Id
+Request edit test with wrong node Id
     [Tags]    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/999
+    ${resp}=    When Ajax Get Request    /bln-test/edit/999
     Then Should Be Equal As Strings    ${resp.status_code}    404
     And Should Contain    ${resp.content}    Not Found
     [Teardown]    EnvPostrequisite
 
-Request edit feature timeout
+Request edit test timeout
     [Tags]    request    timeout
     [Setup]    RequestLifetimeSetup
     Given I am logging as by request    user    user    Hello    True
     And I am waiting for timeout
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/1
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And Should Contain    ${resp.content}    A Token was not found in the SecurityContext
     [Teardown]    RequestLifetimeTeardown
 
-Check context for feature ajax request with clean context
+Check context for test ajax request with clean context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user    user    Hello    True
@@ -88,25 +126,25 @@ Check context for feature ajax request with clean context
     And Get request    ${SESSION}    /release/1
     And Get request    ${SESSION}    /baseline/1
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/1
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    3
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
     And the context log file should not contain    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for feature ajax request without context
+Check context for test ajax request without context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user    user    Hello    True
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/1
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for feature ajax request with previous context
+Check context for test ajax request with previous context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    d1-none    d1-none    Hello    True
@@ -114,26 +152,26 @@ Check context for feature ajax request with previous context
     And Get request    ${SESSION}    /release/4
     And Get request    ${SESSION}    /baseline/6
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/1
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    403
     And the context log file should contain x lines    7
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for feature ajax request with same previous product
+Check context for test ajax request with same previous product
     [Tags]    context    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user    user    Hello    True
     And Get request    ${SESSION}    /product/1
     And Get request    ${SESSION}    /release/2
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/1
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    6
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for feature ajax request with same previous release
+Check context for test ajax request with same previous release
     [Tags]    context    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user    user    Hello    True
@@ -141,19 +179,19 @@ Check context for feature ajax request with same previous release
     And Get request    ${SESSION}    /release/1
     And Get request    ${SESSION}    /baseline/2
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/1
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    5
     And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
     [Teardown]    EnvPostrequisite
 
-Check context for feature ajax request with same previous context
+Check context for test ajax request with same previous context
     [Tags]    context    request
     [Setup]    EnvPrerequisite
     Given I am logging as by request    user    user    Hello    True
     And Get request    ${SESSION}    /bln-features/1
     And I reset the context log file
-    ${resp}=    When Ajax Get Request    /bln-sce/edit/1
+    ${resp}=    When Ajax Get Request    /bln-test/edit/1
     Then Should Be Equal As Strings    ${resp.status_code}    200
     And the context log file should contain x lines    3
     And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
@@ -166,36 +204,151 @@ Required and optional form labels
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2 
+    And I click node to display sub-node    S_4
+    And I click node    T_2
     And I click button when visible    Edit
     And I wait until button is visible    Save
-    Then the label of this field is displayed as required    Title
-    And the label of this field is displayed as optional    Ext id
-    Then the label of this field is displayed as required    Status
-    And the label of this field is displayed as optional    Steps
+    Then the label of this field is displayed as required    Date
+    And the label of this field is displayed as optional    Tester
+    And the label of this field is displayed as optional    Comment
 
-Impossible to edit a feature with an empty title
+Impossible to modify a test with wrong date
     Given I am a user
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2 
+    And I click node to display sub-node    S_4
+    When I click node    T_2
     And I click button when visible    Edit
     And I wait until button is visible    Save
-    When I fill in scenario form    ${EMPTY}    SC-001-Mod    Pending    Given Mod
+    When Input Text    //div[@data-link-field='map3_test_testDatetime']/input[@type='text']    xx/xx/xxxx
+    And Click Element    map3_test_stepsResults_6
     And I click button    Save
-    Then I wait until text is visible    This value should not be blank.
+    And I wait until text is visible    Test edited successfully
+    Then I check test view form    11    User Firstuser    Test2 S4
 
-Impossible to edit a feature with a title too short
+When the last test is changed to failed, the scenario has a failed status
     Given I am a user
     And I go directly to features tree    1
     And I click node to display sub-node    B_1
     And I click node to display sub-node    C_9
     And I click node to display sub-node    F_1
-    When I click node    S_2 
+    And I click node to display sub-node    S_4
+    And I click node    T_2
     And I click button when visible    Edit
     And I wait until button is visible    Save
-    When I fill in scenario form    X    SC-001-Mod    Pending    Given Mod
+    When I select result at index    7    Failed
     And I click button    Save
-    Then I wait until text is visible    This value is too short. It should have 2 characters or more.
+    And I wait until text is visible    Test edited successfully
+    And I click node    S_4
+    And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Then List Selection Should Be    map3_scenario_status    Failed
+
+When the last test is changed to skipped, the scenario has a undefined status
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    And I click node    T_2
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    When I select result at index    7    Skipped
+    And I click button    Save
+    And I wait until text is visible    Test edited successfully
+    And I click node    S_4
+    And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Then List Selection Should Be    map3_scenario_status    Undefined
+
+When the last test is changed to passed, the scenario has a passed status
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_5
+    And I click node    T_4
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    When I select result at index    3    Passed
+    And I select result at index    4    Passed
+    And I select result at index    5    Passed
+    And I select result at index    6    Passed
+    And I select result at index    7    Passed
+    And I click button    Save
+    And I wait until text is visible    Test edited successfully
+    And I click node    S_5
+    And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Then List Selection Should Be    map3_scenario_status    Passed
+
+When the first test is changed to passed, the status of scenario is not changed
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_5
+    And I click node    T_3
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    When I select result at index    4    Passed
+    And I select result at index    5    Passed
+    And I select result at index    6    Passed
+    And I select result at index    7    Passed
+    And I click button    Save
+    And I wait until text is visible    Test edited successfully
+    And the color of the icon is    T_3    ok-sign    text-success
+    And I click node    S_5
+    And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Then List Selection Should Be    map3_scenario_status    Failed
+
+When a test is changed to failed, icon should be a red remove sign
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    And I click node    T_2
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    When I select result at index    7    Failed
+    And I click button    Save
+    And I wait until text is visible    Test edited successfully
+    Then the color of the icon is    T_2    remove-sign    text-danger
+
+When a test is changed to skipped, icon should be a black question mark
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_4
+    And I click node    T_2
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    When I select result at index    7    Skipped
+    And I click button    Save
+    And I wait until text is visible    Test edited successfully
+    Then the color of the icon is black    T_2    question-sign
+
+When a test is changed to passed, icon should be a green ok sign
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_5
+    And I click node    T_4
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    When I select result at index    3    Passed
+    And I select result at index    4    Passed
+    And I select result at index    5    Passed
+    And I select result at index    6    Passed
+    And I select result at index    7    Passed
+    And I click button    Save
+    And I wait until text is visible    Test edited successfully
+    Then the color of the icon is    T_4    ok-sign    text-success

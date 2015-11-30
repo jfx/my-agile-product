@@ -21,6 +21,7 @@ namespace Map3\ScenarioBundle\Controller;
 use Exception;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Map3\CoreBundle\Controller\AbstractJsonCoreController;
+use Map3\ScenarioBundle\Entity\Scenario;
 use Map3\ScenarioBundle\Entity\Test;
 use Map3\ScenarioBundle\Form\TestFormHandler;
 use Map3\ScenarioBundle\Form\TestType;
@@ -99,7 +100,7 @@ class TestController extends AbstractJsonCoreController
         }
         $product = $baseline->getRelease()->getProduct();
         $scenario = $test->getScenario();
-        $test->fixStepsResultsMissing(count($scenario->getArraySteps()));
+        $test->fixStepsResultsMissing($scenario->getStepsCount());
 
         $availableResults = $this->getAvailableResults();
         $testType = new TestType($product, $availableResults);
@@ -108,6 +109,8 @@ class TestController extends AbstractJsonCoreController
         $handler = $this->getTestFormHandler($form, $request);
 
         if ($handler->process()) {
+            $this->updateSenarioStatus($scenario);
+            
             $this->get('session')->getFlashBag()
                 ->add('success', 'Test edited successfully !');
 
@@ -119,12 +122,13 @@ class TestController extends AbstractJsonCoreController
                 )
             );
         }
-
+                      
         return $this->render(
             'Map3ScenarioBundle:Test:edit.html.twig',
             array(
                 'form' => $form->createView(),
                 'test' => $test,
+                'steps' => $scenario->getFormatedArraySteps(),
             )
         );
     }
@@ -164,5 +168,22 @@ class TestController extends AbstractJsonCoreController
         );
 
         return $handler;
+    }
+    
+    /**
+     * Update scenario status.
+     *
+     * @param Scenario $scenario The scenario to update
+     */
+    private function updateSenarioStatus(Scenario $scenario)
+    {
+        $scenarioService = $this->container->get(
+            'map3_scenario.scenarioService'
+        );
+        $scenarioService->updateStatus($scenario);
+        
+        $em = $this->container->get('doctrine')->getManager();
+        $em->persist($scenario);
+        $em->flush();
     }
 }

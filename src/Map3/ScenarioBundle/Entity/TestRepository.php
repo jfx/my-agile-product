@@ -58,4 +58,25 @@ class TestRepository extends EntityRepository
 
         return $results;
     }
+    
+    /**
+     * Get last test by scenario.
+     *
+     * @param Scenario $scenario The scenario
+     *
+     * @return Test
+     */
+    public function findLastTestByScenario(Scenario $scenario)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->innerJoin('t.scenario', 's')
+            ->where('s.id = :scenarioId')
+            ->setParameter('scenarioId', $scenario->getId())
+            ->orderBy('t.testDatetime', 'DESC')
+            ->setMaxResults(1);
+
+        $result = $qb->getQuery()->getOneOrNullResult();
+
+        return $result;
+    }
 }

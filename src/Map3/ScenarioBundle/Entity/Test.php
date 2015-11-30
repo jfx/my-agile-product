@@ -151,11 +151,11 @@ class Test
     /**
      * Set Test.
      *
-     * @param User $tester The tester
+     * @param User|null $tester The tester or null when not setted.
      *
      * @return Test
      */
-    public function setTester(User $tester)
+    public function setTester($tester)
     {
         $this->tester = $tester;
 

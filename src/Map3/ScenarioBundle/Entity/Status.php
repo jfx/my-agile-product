@@ -38,7 +38,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Status
 {
+    const NOT_IMPL_STATUS = 1;
+    const UNCHECKED_STATUS = 2;
     const DEFAULT_STATUS = 3;
+    const PENDING_STATUS = 3;
+    const PASSED_STATUS = 4;
+    const FAILED_STATUS = 5;
+    const UNDEF_STATUS = 6;
 
     /**
      * @var int Id

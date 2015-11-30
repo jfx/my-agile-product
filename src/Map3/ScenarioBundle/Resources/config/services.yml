@@ -1,4 +1,8 @@
 services:
+    map3_scenario.scenarioService:
+        class: Map3\ScenarioBundle\Service\ScenarioService
+        arguments: [ '@doctrine.orm.entity_manager' ]
+
     map3_scenario.testService:
         class: Map3\ScenarioBundle\Service\TestService
         arguments: [ '@doctrine.orm.entity_manager' ]

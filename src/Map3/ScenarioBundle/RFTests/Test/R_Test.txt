@@ -1,11 +1,11 @@
 *** Keywords ***
 I fill in test form
-    [Arguments]    ${title}    ${extid}    ${status}    ${steps}
-    Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
-    Input text    map3_scenario_title    ${title}
-    Input text    map3_scenario_extId    ${extid}
-    Select From List By Label    map3_scenario_status    ${status}
-    Input text    xpath=//textarea[@class='ace_text-input']    ${steps}
+    [Arguments]    ${day}    ${user}    ${comment}
+    Wait Until Element Is Visible    map3_test_comment    ${WAIT_TIMEOUT}
+    I select datetime    //div[@data-link-field='map3_test_testDatetime']    ${day}    -1    12    30    2
+    Click Element    map3_test_comment
+    Select From List By Label    map3_test_tester    ${user}
+    Input text    map3_test_comment    ${comment}
 
 I check test view form
     [Arguments]    ${day}    ${user}    ${comment}
@@ -19,6 +19,11 @@ The step result should be
     [Arguments]    ${id}    ${step}    ${result}
     ${row_id} =    Evaluate    ${id} + 1
     ${result_idx} =    Evaluate    ${id} - 1
-    ${step} =     Get Table Cell    steps-table    ${row_id}    1
+    ${step} =    Get Table Cell    steps-table    ${row_id}    1
     Should Be Equal As Strings    ${step}    ${step}
     List Selection Should Be    map3_test_stepsResults_${result_idx}    ${result}
+
+I select result at index
+    [Arguments]    ${id}    ${result}
+    ${result_idx} =    Evaluate    ${id} - 1
+    Select From List By Label    map3_test_stepsResults_${result_idx}    ${result}

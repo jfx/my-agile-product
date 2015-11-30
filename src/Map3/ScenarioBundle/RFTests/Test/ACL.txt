@@ -19,7 +19,7 @@ Test edit Request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
     ...    none    noproduct    Prerequisite
-    Then I check the following ACL by request    /bln-sce/edit/1    False    True    True    True    False
+    Then I check the following ACL by request    /bln-test/edit/1    False    True    True    True    False
     ...    False    False
     [Teardown]    EnvPostrequisite
 
@@ -32,7 +32,7 @@ Test add Request
     ...    False    False
     [Teardown]    EnvPostrequisite
 
-STest delete Request
+Test delete Request
     [Tags]    request
     [Setup]    EnvPrerequisite
     Comment    URL    super-admin    manager    user+    user    guest
