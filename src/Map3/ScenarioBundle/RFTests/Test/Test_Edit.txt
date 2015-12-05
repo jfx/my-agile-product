@@ -240,7 +240,7 @@ When the last test is changed to failed, the scenario has a failed status
     And I wait until button is visible    Save
     When I select result at index    7    Failed
     And I click button    Save
-    And I wait until text is visible    Test edited successfully
+    And I wait until text is visible    Test edited successfully ! Please, reload the tree to see the new status of scenario
     And I click node    S_4
     And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
     Then List Selection Should Be    map3_scenario_status    Failed
@@ -257,7 +257,7 @@ When the last test is changed to skipped, the scenario has a undefined status
     And I wait until button is visible    Save
     When I select result at index    7    Skipped
     And I click button    Save
-    And I wait until text is visible    Test edited successfully
+    And I wait until text is visible    Test edited successfully ! Please, reload the tree to see the new status of scenario
     And I click node    S_4
     And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
     Then List Selection Should Be    map3_scenario_status    Undefined
@@ -278,10 +278,27 @@ When the last test is changed to passed, the scenario has a passed status
     And I select result at index    6    Passed
     And I select result at index    7    Passed
     And I click button    Save
-    And I wait until text is visible    Test edited successfully
+    And I wait until text is visible    Test edited successfully ! Please, reload the tree to see the new status of scenario
     And I click node    S_5
     And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
     Then List Selection Should Be    map3_scenario_status    Passed
+
+When the last test is edited without changing the result, the message to refresh tree is not displayed
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node to display sub-node    S_5
+    And I click node    T_4
+    And I click button when visible    Edit
+    And I wait until button is visible    Save
+    And I click button    Save
+    And I wait until text is visible    Test edited successfully
+    And Page Should Not Contain    Please, reload the tree to see the new status of scenario
+    And I click node    S_5
+    And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}
+    Then List Selection Should Be    map3_scenario_status    Failed
 
 When the first test is changed to passed, the status of scenario is not changed
     Given I am a user
@@ -299,6 +316,7 @@ When the first test is changed to passed, the status of scenario is not changed
     And I select result at index    7    Passed
     And I click button    Save
     And I wait until text is visible    Test edited successfully
+    And Page Should Not Contain    Please, reload the tree to see the new status of scenario
     And the color of the icon is    T_3    ok-sign    text-success
     And I click node    S_5
     And Wait Until Element Is Visible    map3_scenario_title    ${WAIT_TIMEOUT}

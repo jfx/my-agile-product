@@ -26,6 +26,8 @@ Features:
 
   - Scenario steps parser - #84,
   - View a test - #80,
+  - Edit a test - #81,
+  - Notification of tree reload after changed scenario status - #93,
  
 
 Bugfixes:

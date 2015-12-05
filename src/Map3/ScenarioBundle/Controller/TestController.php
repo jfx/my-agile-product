@@ -109,11 +109,15 @@ class TestController extends AbstractJsonCoreController
         $handler = $this->getTestFormHandler($form, $request);
 
         if ($handler->process()) {
-            $this->updateSenarioStatus($scenario);
-            
-            $this->get('session')->getFlashBag()
-                ->add('success', 'Test edited successfully !');
-
+            if ($this->updateSenarioStatus($scenario)) {
+                $msg = 'Test edited successfully ! Please, reload the tree'         
+                    . ' to see the new status of scenario.';
+                $this->get('session')->getFlashBag()
+                    ->add('success', $msg);
+            } else {
+                $this->get('session')->getFlashBag()
+                    ->add('success', 'Test edited successfully !');
+            }
             return $this->render(
                 'Map3ScenarioBundle:Test:refresh.html.twig',
                 array(
@@ -174,16 +178,24 @@ class TestController extends AbstractJsonCoreController
      * Update scenario status.
      *
      * @param Scenario $scenario The scenario to update
+     * 
+     * @return boolean True if status of scenario has changed, false otherwise
      */
     private function updateSenarioStatus(Scenario $scenario)
     {
         $scenarioService = $this->container->get(
             'map3_scenario.scenarioService'
         );
+        $previousScenarioStatus = $scenario->getStatus();
+        
         $scenarioService->updateStatus($scenario);
         
         $em = $this->container->get('doctrine')->getManager();
         $em->persist($scenario);
         $em->flush();
+        
+        $scenarioStatus = $scenario->getStatus();
+        
+        return ($previousScenarioStatus != $scenarioStatus);
     }
 }
