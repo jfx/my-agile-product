@@ -19,8 +19,6 @@
 
 namespace Map3\ScenarioBundle\Util;
 
-//use Doctrine\ORM\EntityManager;
-
 /**
  * Scenario steps parser class.
  *
@@ -341,8 +339,9 @@ class Parser
     {
         $steps = array();
         $countStepsWO = count($stepsWithoutOutline);
+        $countStepsIndex = count($stepsIndex);
 
-        for ($idx = 0; $idx < count($stepsIndex); ++$idx) {
+        for ($idx = 0; $idx < $countStepsIndex; ++$idx) {
             $startStepIdx = $stepsIndex[$idx];
             if ($idx == (count($stepsIndex) - 1)) {
                 $endStepIdx = $countStepsWO;
