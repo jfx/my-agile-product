@@ -1,0 +1,216 @@
+*** Settings ***
+Documentation     In order to manage a release
+...               As a user with a manager role
+...               I need to edit a release.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A manager edits a release
+    Given I am a manager
+    And I go to edit release #1 page
+    When I fill in release form    R1Mod    0
+    And I save
+    Then Page Should Contain    Release edited successfully
+    And I check release view form    R1Mod    1
+    And I click button    Return to product
+    And the table should contain x rows    3
+    And the table should contain    R1Mod    Details 4 R1Mod
+
+A manager closes a release
+    Given I am a manager
+    And I go to edit release #1 page
+    When Select Checkbox    map3_release_closed
+    And I save
+    Then Page Should Contain    Release edited successfully
+    And Checkbox Should Be Selected    map3_release_closed
+    And Click element    id=a_baselines
+    And I should not see action button(s)    Add    Edit baseline #1    Delete baseline #1
+    And I should see action button(s)    View baseline #1
+
+Close a release closes all child baselines
+    Given I am a manager
+    And I go to edit release #1 page
+    When Select Checkbox    map3_release_closed
+    And I save
+    Then Page Should Contain    Release edited successfully
+    And Go to    ${URL}/baseline/1
+    And Checkbox Should Be Selected    map3_baseline_closed
+    And Go to    ${URL}/baseline/2
+    And Checkbox Should Be Selected    map3_baseline_closed
+
+A manager opens a closed release
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Edit release #3
+    When Unselect Checkbox    map3_release_closed
+    And I save
+    Then Page Should Contain    Release edited successfully
+    And Checkbox Should Not Be Selected    map3_release_closed
+    And Click element    id=a_baselines
+    And I should see action button(s)    Add    Edit baseline #8    Delete baseline #8
+
+All child baselines are still closed when opens a release
+    Given I am a manager
+    And I go to releases list    View product #1
+    And I click action button    Edit release #3
+    When Unselect Checkbox    map3_release_closed
+    And I save
+    Then Page Should Contain    Release edited successfully
+    And Go to    ${URL}/baseline/8
+    And Checkbox Should Be Selected    map3_baseline_closed
+
+Check context for release edit with clean context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Edit
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for release edit without context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Edit
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_MANAGER    Update user
+
+Check context for release edit with previous context
+    [Tags]    context
+    Given I am logging as    d2-manager    d2-manager    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/edit/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Update user    User->setCurrentProduct    Role by default: Guest
+
+Check context for release edit with same previous product
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Edit
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Update user    Same product. No change
+
+Check context for release edit with same previous context
+    [Tags]    context
+    Given I am logging as    d1-manager    d1-manager    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/release/edit/1
+    Then the breadcrumb should contain    Product One    Release One    Edit
+    And Page should contain    Userd1-manager (Manager)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Required and optional form labels
+    Given I am a manager
+    When I go to edit release #1 page
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as required    Release date
+    And the label of this field is displayed as optional    Closed
+    And the label of this field is displayed as optional    Details
+
+Impossible to edit a release with an empty name
+    Given I am a manager
+    And I go to edit release #1 page
+    When Input Text    map3_release_name    ${EMPTY}
+    And I save
+    Then Page Should Contain    This value should not be blank.
+
+Impossible to edit a release with a name too short
+    Given I am a manager
+    And I go to edit release #1 page
+    When Input Text    map3_release_name    X
+    And I save
+    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+Impossible to modify a release with a wrong date
+    Given I am a manager
+    And I go to edit release #1 page
+    When Input Text    //div[@data-link-field='map3_release_releaseDate']/input[@type='text']    xx/xx/xxxx
+    And Click Element    map3_release_name
+    And I save
+    ${sql_date} =    And I get sql formated date in X months    20    1
+    Then Disabled text element should contain    map3_release_releaseDate    ${sql_date}
+
+Impossible to modify a release with an empty date
+    Given I am a manager
+    And I go to edit release #1 page
+    When Input Text    //div[@data-link-field='map3_release_releaseDate']/input[@type='text']    ${EMPTY}
+    And Click Element    map3_release_name
+    And I save
+    ${sql_date} =    And I get sql formated date in X months    20    1
+    Then Disabled text element should contain    map3_release_releaseDate    ${sql_date}
+
+Wrong release Id for a product
+    Given I am a manager
+    And I go to releases list    View product #1
+    When Go to    ${URL}/release/edit/4
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Wrong release Id
+    Given I am a manager
+    And I go to releases list    View product #1
+    When Go to    ${URL}/release/edit/999
+    Then I should see 404 error page
+
+Edit a release without selecting a product before
+    Given I am a manager
+    When Go to    ${URL}/release/edit/1
+    Then Location should be    ${URL}/release/edit/1
+    And the breadcrumb should contain    Product One    Release One    Edit
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a manager
+    When I go to edit release #1 page
+    Then the breadcrumb should contain    Product One    Release One    Edit
+
+Breadcrumb product link
+    Given I am a manager
+    And I go to edit release #1 page
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a manager
+    And I go to edit release #1 page
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Tab Main
+    Given I am a manager
+    And I go to edit release #1 page
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/release/1
+
+Tab Baselines
+    Given I am a manager
+    And I go to edit release #1 page
+    And Element Should Contain    id=badge_baselines    3
+    When Click element    id=a_baselines
+    And Location Should Be    ${URL}/baselines/1
+
+Return to product button
+    Given I am a manager
+    And I go to edit release #1 page
+    When I click button    Return to product
+    Then Location Should Be    ${URL}/releases/1
+
+*** Keywords ***
+I go to edit release #1 page
+    And I go to releases list    View product #1
+    And I click action button    Edit release #1

@@ -1,0 +1,301 @@
+*** Settings ***
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user+ adds a category from baseline
+    Given I am a user+
+    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I click node    B_1 
+    When Click Element    addMenu
+    And I Click button    Add category
+    And I fill in category form    Category added
+    And I click button    Save
+    Then I wait until text is visible    Category added successfully
+    And I check category view form    Category added
+
+A user+ adds a category from category
+    [Setup]    TestSetupDb
+    Given I am a user+
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 15
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    When I click node    C_9 
+    And Click Element    addMenu
+    And I Click button    Add category
+    And I fill in category form    Category added
+    And I click button    Save
+    Then I wait until text is visible    Category added successfully
+    And I check category view form    Category added
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 17
+    And Check If Exists In Database    select id from map3_category where id = 9 and lft = 2 and rgt = 17
+    And Check If Exists In Database    select id from map3_category where lft = 15 and rgt = 16
+    [Teardown]    TestTeardownDb
+
+Reload warning after timeout when click Add category
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/bln-features/1
+    And I click node    B_1 
+    When Click Element    addMenu
+    And I am waiting for timeout
+    And I Click button    Add category
+    Then Page should contain    Authentication has expired
+    [Teardown]    TestLifetimeTeardown
+
+Reload warning after timeout when click Save
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/bln-features/1
+    And I click node    B_1 
+    And Click Element    addMenu
+    And I Click button    Add category
+    And I fill in category form    Category added
+    And I am waiting for timeout
+    And I click button    Save
+    Then Page should contain    Authentication has expired
+    [Teardown]    TestLifetimeTeardown
+
+Request add category from baseline
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/B_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the element should contain items    ${resp.content}    Add category
+    [Teardown]    EnvPostrequisite
+
+Request add category from category
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the element should contain items    ${resp.content}    Add category
+    [Teardown]    EnvPostrequisite
+
+Impossible to add a category for a closed baseline
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_25
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And the element should contain items    ${resp.content}    You are not allowed to access this resource
+    [Teardown]    EnvPostrequisite
+
+Request add category with non existent parent baseline Id
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/B_999
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Not Found
+    [Teardown]    EnvPostrequisite
+
+Request add category with non existent type of parent node
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/X_1
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Wrong type of node
+    [Teardown]    EnvPostrequisite
+
+Request add category with multiple selected nodes
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/B_1,C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Please, select only one node !
+    [Teardown]    EnvPostrequisite
+
+Request add category with not allowed parent node - feature
+    [Tags]    request    failedTest
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    405
+    And Should Contain    ${resp.content}    Operation not allowed
+    [Teardown]    EnvPostrequisite
+
+Request add category with not allowed parent node - scenario
+    [Tags]    request    failedTest
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+
+    ${resp}=    When Ajax Get Request    /bln-cat/add/S_1
+    Then Should Be Equal As Strings    ${resp.status_code}    405
+    And Should Contain    ${resp.content}    Operation not allowed
+    [Teardown]    EnvPostrequisite
+
+Request add category timeout
+    [Tags]    request    timeout
+    [Setup]    RequestLifetimeSetup
+    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    And I am waiting for timeout
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And Should Contain    ${resp.content}    A Token was not found in the SecurityContext
+    [Teardown]    RequestLifetimeTeardown
+
+Check context for category ajax request with clean context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/1
+    And Get request    ${SESSION}    /baseline/1
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    3
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for category ajax request without context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for category ajax request with previous context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-none    d1-none    Hello    True
+    And Get request    ${SESSION}    /product/2
+    And Get request    ${SESSION}    /release/4
+    And Get request    ${SESSION}    /baseline/6
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for category ajax request with same previous product
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/2
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for category ajax request with same previous release
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/1
+    And Get request    ${SESSION}    /baseline/2
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    5
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for category ajax request with same previous context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-user+    d1-user+    Hello    True
+    And Get request    ${SESSION}    /bln-features/1
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-cat/add/C_9
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    3
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+    [Teardown]    EnvPostrequisite
+
+Required and optional form labels
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1 
+    And Click Element    addMenu
+    When I Click button    Add category
+    And I wait until button is visible    Save
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as optional    Details
+
+Impossible to add a category with an empty name
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1 
+    And Click Element    addMenu
+    And I Click button    Add category
+    And I fill in category form    Category added
+    When Input text    map3_category_name    ${EMPTY}
+    And I click button    Save
+    Then I wait until text is visible    This value should not be blank.
+
+Impossible to add a category with a name too short
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1 
+    And Click Element    addMenu
+    And I Click button    Add category
+    And I fill in category form    Category added
+    When Input text    map3_category_name    X
+    And I click button    Save
+    Then I wait until text is visible    This value is too short. It should have 2 characters or more.
+
+Add category item menu displayed for a user+ when a baseline node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node    B_1 
+    When Click Element    addMenu
+    Then element should be visible    addCatBt
+
+Add category item menu displayed for a user+ when a category node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node    C_9 
+    When Click Element    addMenu
+    Then element should be visible    addCatBt
+
+No add category item menu for a user+ when a feature node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node    F_1 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu for a user+ when a scenario node is selected
+    Given I am a user+
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And I click node    S_1 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu displayed for a user when a baseline node is selected
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node    B_1 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt
+
+No add category item menu displayed for a user when a category node is selected
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node    C_9 
+    When Click Element    addMenu
+    Then element should not be visible    addCatBt

@@ -1,0 +1,25 @@
+*** Keywords ***
+I go to releases list
+    [Arguments]    ${release}
+    I go to products list
+    I click action button    ${release}
+    Click link    id=a_releases
+
+I fill in release form
+    [Arguments]    ${release}    ${month}=3    ${isClosed}=False
+    ${isClosedBool} =    Convert To Boolean    ${isClosed}
+    Input text    map3_release_name    ${release}
+    I select date    //div[@data-link-field='map3_release_releaseDate']    1    20    ${month}
+    Click Element    map3_release_name
+    Run Keyword If    ${isClosedBool}    Select Checkbox    map3_release_closed
+    Input text    map3_release_details    Details 4 ${release}
+
+I check release view form
+    [Arguments]    ${release}    ${month}=3    ${isClosed}=False
+    ${isClosedBool} =    Convert To Boolean    ${isClosed}
+    Disabled text element should contain    map3_release_name    ${release}
+    ${formatDate} =    I get sql formated date in X months    20    ${month}
+    Disabled text element should contain    map3_release_releaseDate    ${formatDate}
+    Run Keyword If    ${isClosedBool}    Checkbox Should Be Selected    map3_release_closed
+    Run Keyword Unless    ${isClosedBool}    Checkbox Should Not Be Selected    map3_release_closed
+    Selenium2Library.Element Text Should Be    map3_release_details    Details 4 ${release}

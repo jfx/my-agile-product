@@ -1,0 +1,43 @@
+*** Keywords ***
+I go to users list
+    Click element    link=Admin
+    Click element    link=Users
+
+I fill in user form
+    [Arguments]    ${name}    ${isSuperAdmin}=False    ${isLocked}=False
+    ${isSuperAdminBool} =    Convert To Boolean    ${isSuperAdmin}
+    ${isLockedBool} =    Convert To Boolean    ${isLocked}
+    Input text    map3_user_firstname    First${name}
+    ${firstUppercaseName}=    First uppercase    ${name}
+    Input text    map3_user_name    ${firstUppercaseName}
+    Input text    map3_user_displayname    display${name}
+    Input text    map3_user_username    user${name}
+    Input text    map3_user_updatedPassword    ${name}
+    Input text    map3_user_email    ${name}@example.com
+    Run Keyword If    ${isSuperAdminBool}    Select Checkbox    map3_user_superAdmin
+    Input text    map3_user_details    Details 4 ${name}
+    Run Keyword If    ${isLockedBool}    Select Checkbox    map3_user_locked
+
+I check user view form
+    [Arguments]    ${name}    ${isSuperAdmin}=False    ${isLocked}=False    ${details}=False
+    ${isSuperAdminBool} =    Convert To Boolean    ${isSuperAdmin}
+    ${isLockedBool} =    Convert To Boolean    ${isLocked}
+    ${detailsBool} =    Convert To Boolean    ${details}
+    Disabled text element should contain    map3_user_firstname    First${name}
+    ${firstUppercaseName}=    First uppercase    ${name}
+    Disabled text element should contain    map3_user_name    ${firstUppercaseName}
+    Disabled text element should contain    map3_user_displayname    display${name}
+    Disabled text element should contain    map3_user_username    user${name}
+    Disabled text element should contain    map3_user_email    ${name}@example.com
+    Run Keyword If    ${isSuperAdminBool}    Checkbox Should Be Selected    map3_user_superAdmin
+    Run Keyword Unless    ${isSuperAdminBool}    Checkbox Should Not Be Selected    map3_user_superAdmin
+    Run Keyword If    ${detailsBool}    Selenium2Library.Element Text Should Be    map3_user_details    ${details}
+    Run Keyword Unless    ${detailsBool}    Selenium2Library.Element Text Should Be    map3_user_details    Details 4 ${name}
+    Run Keyword If    ${isLockedBool}    Checkbox Should Be Selected    map3_user_locked
+    Run Keyword Unless    ${isLockedBool}    Checkbox Should Not Be Selected    map3_user_locked
+
+I go to user view page
+    [Arguments]    ${id}
+    I go to users list
+    I click action button    View user #${id}
+    Location Should Be    ${URL}/user/${id}

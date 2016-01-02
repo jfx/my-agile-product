@@ -1,0 +1,170 @@
+*** Settings ***
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Click to display children of a feature node
+    Given I am a user
+    And I go to features tree    View product #1    View release #1    View baseline #1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And Page should not contain    Scenario 1 F1
+    When I click node to display sub-node    F_1
+    Then the node name should be equal to    S_1    Scenario 1 F1
+    And the node name should be equal to    S_2    SC-002 - Scenario 2 F1
+    And the node name should be equal to    S_3    SC-003 - Scenario 3 F1 - Outline
+    And the node name should be equal to    S_4    SC-004 - Scenario 4 F1 - Data table
+    And the node name should be equal to    S_5    SC-005 - Scenario 5 F1
+    And the node name should be equal to    S_6    SC-006 - Scenario 6 F1
+
+Click to hide children of a feature node
+    Given I am a user
+    And I go directly to features tree    1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And I click node to display sub-node    F_1
+    And the node name should be equal to    S_1    Scenario 1 F1
+    When I click node to display sub-node    F_1
+    And I am waiting for ajax request
+    Then Element Should Not Be Visible    S_1_anchor
+    And Element Should Not Be Visible    S_2_anchor
+    And Element Should Not Be Visible    S_3_anchor
+
+Reload warning after timeout when click to display sub-categories of a feature
+    [Tags]    timeout
+    [Setup]    TestLifetimeSetup
+    Given I am logging as    user    user    Hello    True
+    And Go To    ${URL_DEV}/bln-features/1
+    And I click node to display sub-node    B_1
+    And I click node to display sub-node    C_9
+    And the node name should be equal to    F_1    ID-001 - Feature C1
+    When I click node to display sub-node    F_1
+    And I am waiting for timeout
+    Then Page should contain    Authentication has expired
+    [Teardown]    TestLifetimeTeardown
+
+Request children for feature node
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the element should contain items    ${resp.content}    S_1    S_2    S_3
+    And the element should contain items    ${resp.content}    Scenario 1 F1    SC-002 - Scenario 2 F1    SC-003 - Scenario 3 F1
+    [Teardown]    EnvPostrequisite
+
+Request without children for feature node
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_3
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And Should Not Contain    ${resp.content}    {
+    [Teardown]    EnvPostrequisite
+
+Check context for feature ajax request with clean context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/1
+    And Get request    ${SESSION}    /baseline/1
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    3
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for feature ajax request without context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USER    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for feature ajax request with previous context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    d1-none    d1-none    Hello    True
+    And Get request    ${SESSION}    /product/2
+    And Get request    ${SESSION}    /release/4
+    And Get request    ${SESSION}    /baseline/6
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_NONE    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for feature ajax request with same previous product
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/2
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for feature ajax request with same previous release
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /product/1
+    And Get request    ${SESSION}    /release/1
+    And Get request    ${SESSION}    /baseline/2
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    5
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+    [Teardown]    EnvPostrequisite
+
+Check context for feature ajax request with same previous context
+    [Tags]    context    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user    user    Hello    True
+    And Get request    ${SESSION}    /bln-features/1
+    And I reset the context log file
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    200
+    And the context log file should contain x lines    3
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+    [Teardown]    EnvPostrequisite
+
+Request children with wrong type for feature node
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=X_9
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Wrong type of node
+    [Teardown]    EnvPostrequisite
+
+Request children with wrong Id for feature node
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Given I am logging as by request    user
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_XX
+    Then Should Be Equal As Strings    ${resp.status_code}    404
+    And Should Contain    ${resp.content}    Wrong node Id
+    [Teardown]    EnvPostrequisite
+
+Request timeout children for feature node
+    [Tags]    request    timeout
+    [Setup]    RequestLifetimeSetup
+    Given I am logging as by request    user    user    Hello    True
+    And I am waiting for timeout
+    ${resp}=    When Ajax Get Request    /bln-ftree/1/child?pid=F_1
+    Then Should Be Equal As Strings    ${resp.status_code}    403
+    And Should Contain    ${resp.content}    A Token was not found in the SecurityContext
+    [Teardown]    RequestLifetimeTeardown

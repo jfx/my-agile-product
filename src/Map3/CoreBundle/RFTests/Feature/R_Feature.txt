@@ -1,0 +1,29 @@
+*** Keywords ***
+I fill in category form
+    [Arguments]    ${category}
+    Wait Until Element Is Visible    map3_category_name    ${WAIT_TIMEOUT}
+    sleep    ${WAIT_ELEMENT_INTERACTABLE}
+    Input text    map3_category_name    ${category}
+    Input text    map3_category_details    Details 4 ${category}
+
+I check category view form
+    [Arguments]    ${category}
+    Wait Until Element Is Visible    map3_category_name    ${WAIT_TIMEOUT}
+    Disabled text element should contain    map3_category_name    ${category}
+    Selenium2Library.Element Text Should Be    map3_category_details    Details 4 ${category}
+
+I fill in feature form
+    [Arguments]    ${title}    ${extid}    ${priority}    ${description}
+    Wait Until Element Is Visible    map3_feature_title    ${WAIT_TIMEOUT}
+    Input text    map3_feature_title    ${title}
+    Input text    map3_feature_extId    ${extid}
+    Select From List By Label    map3_feature_priority    ${priority}
+    Input text    map3_feature_description    ${description}
+
+I check feature view form
+    [Arguments]    ${title}    ${extid}    ${priority}    ${description}
+    Wait Until Element Is Visible    map3_feature_title    ${WAIT_TIMEOUT}
+    Disabled text element should contain    map3_feature_title    ${title}
+    Disabled text element should contain    map3_feature_extId    ${extid}
+    List Selection Should Be    map3_feature_priority    ${priority}
+    Selenium2Library.Element Text Should Be    map3_feature_description    ${description}

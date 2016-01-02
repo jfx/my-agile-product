@@ -1,0 +1,212 @@
+*** Settings ***
+Documentation     In order to manage a baseline
+...               As a user with a user+ role
+...               I need to delete a baseline.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user+ deletes a closed baseline
+    Given I am a user+
+    And I go to delete baseline page    1    3
+    And Page Should Contain    Baseline Closed
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/baselines/1
+    And Page Should Contain    Baseline removed successfully
+    And Page Should not Contain    Baseline Closed
+
+Delete a baseline with children
+    [Setup]    TestSetupDb
+    Given I am a user+
+    And Check If Exists In Database    select id from map3_reference where baseline_id = 1
+    And Check If Exists In Database    select id from map3_category where baseline_id = 1
+    And Check If Exists In Database    select id from map3_feature where baseline_id = 1
+    And Check If Exists In Database    select id from map3_scenario where baseline_id = 1
+    And I go to delete baseline page    1    1
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/baselines/1
+    And Page Should Contain    Baseline removed successfully
+    And Page Should not Contain    Details 4 baseline 1
+    And Check If Not Exists In Database    select id from map3_reference where baseline_id = 1
+    And Check If Not Exists In Database    select id from map3_category where baseline_id = 1
+    And Check If Not Exists In Database    select id from map3_feature where baseline_id = 1
+    And Check If Not Exists In Database    select id from map3_scenario where baseline_id = 1
+    [Teardown]    TestTeardownDb
+
+Delete a baseline saved in user context
+    [Tags]    context
+    Given I am a user
+    And I go to baselines list    View product #1    View release #2
+    And I click action button    View baseline #5
+    And I am a user+
+    And I go to baselines list    View product #1    View release #2
+    And I click action button    View baseline #5
+    And I am logging as    d1-user+    d1-user+    Hello    True
+    And I go to delete baseline page    2    5
+    And I reset the context log file
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL_DEV}/baselines/2
+    And Page Should Contain    Baseline removed successfully
+    And the context log file should contain    RemoveContextService->removeBaseline    $user->unsetCurrentBaseline
+
+Cancel to delete a baseline
+    Given I am a user+
+    And I go to delete baseline page    1    2
+    When I click button    Remove
+    And I do not confirm
+    Then Location Should Be    ${URL}/baseline/del/2
+
+Check context for baseline delete with clean context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/del/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+
+Check context for baseline delete without context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/del/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USERPLUS    Update user
+
+Check context for baseline delete with previous context
+    [Tags]    context
+    Given I am logging as    d2-manager    d2-manager    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/del/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    User->setCurrentProduct    Role by default: Guest    Update user
+
+Check context for baseline delete with same previous product
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/del/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for baseline delete with same previous release
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/del/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentBaseline    User->setCurrentBaseline    Same release. No change    Update user
+
+Check context for baseline delete with same previous context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/del/1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    4
+    And the context log file should contain    CoreController->setCurrentBaseline    Same baseline. No change
+    And the context log file should not contain    Update user
+
+Wrong baseline Id for a release but same product
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When Go to    ${URL}/baseline/del/4
+    Then Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And Page Should Contain    Release Two
+
+Wrong baseline Id for a release
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When Go to    ${URL}/baseline/del/6
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Wrong baseline Id
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When Go to    ${URL}/baseline/del/999
+    Then I should see 404 error page
+
+Delete a baseline without selecting a product before
+    Given I am a user+
+    When Go to    ${URL}/baseline/del/1
+    Then Location should be    ${URL}/baseline/del/1
+    And the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a user+
+    When I go to delete baseline page    1    1
+    Then the breadcrumb should contain    Product One    Release One    Baseline One    Delete
+
+Breadcrumb product link
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Breadcrumb baseline link
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    When Click Link    id=br_lvl3
+    Then Location Should Be    ${URL}/baseline/1
+
+Tab Main
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/baseline/1
+
+Tab Features
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    And Element Should Contain    id=badge_features    6
+    When Click element    id=a_features
+    And Location Should Be    ${URL}/bln-features/1
+
+Tab References
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    And Element Should Contain    id=badge_references    3
+    When Click element    id=a_references
+    And Location Should Be    ${URL}/bln-refs/1
+
+Return to release button
+    Given I am a user+
+    And I go to delete baseline page    1    1
+    When I click button    Return to release
+    Then Location Should Be    ${URL}/baselines/1
+
+*** Keywords ***
+I go to delete baseline page
+    [Arguments]    ${rid}    ${bid}
+    I go to baselines list    View product #1    View release #${rid}
+    I click action button    Delete baseline #${bid}

@@ -1,0 +1,129 @@
+*** Settings ***
+Documentation     In order to secure the application
+...               As a user
+...               I need to have access only to granted pages
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Feature Tree
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /bln-features/1    True    True    True    True    True
+    ...    False    True
+
+Baseline children Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/child?pid=%23    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Baseline view Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/node/B_1    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Category children Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/child?pid=C_9    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Category view Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/node/C_9    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Category edit Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-cat/edit/9    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Category add Request from baseline
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-cat/add/B_1    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Category add Request from category
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-cat/add/C_9    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Category delete Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/del/C_11    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Feature children Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/child?pid=F_1    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Feature view Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/node/F_1    True    True    True    True    True
+    ...    False    True
+    [Teardown]    EnvPostrequisite
+
+Feature edit Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-feat/edit/1    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Feature add Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-feat/add/C_9    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite
+
+Feature delete Request
+    [Tags]    request
+    [Setup]    EnvPrerequisite
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL by request    /bln-ftree/1/del/F_1    False    True    True    False    False
+    ...    False    False
+    [Teardown]    EnvPostrequisite

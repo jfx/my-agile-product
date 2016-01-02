@@ -1,0 +1,147 @@
+*** Settings ***
+Documentation     In order to manage product
+...               As a super-admin user profile
+...               I need to delete a product.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Delete a product
+    Given I am a super-admin
+    And I go to delete product page    5
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/product/
+    And Page Should Contain    Product removed successfully
+    And Page Should not Contain    Product Five
+
+Delete a product saved in user context
+    [Tags]    context
+    Given I am a user
+    And I go to products list
+    And I click action button    View product #5
+    And I am a user+
+    And I go to products list
+    And I click action button    View product #5
+    And I am logging as    admin    admin    Hello    True
+    And I go to delete product page    5
+    And I reset the context log file
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL_DEV}/product/
+    And Page Should Contain    Product removed successfully
+    And Page Should not Contain    Product Five
+    And the context log file should contain    RemoveContextService->removeProduct    $user->unsetCurrentProduct
+
+Check context for product delete with clean context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/product/del/5
+    Then the breadcrumb should contain    Product Five    Delete
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    Update user
+    And I reset the context log file
+    When I click button    Remove
+    And I confirm
+    Then Page Should Contain    Product removed successfully
+    And the context log file should contain x lines    11
+    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user    RemoveContextService->removeProduct
+
+Check context for product delete with previous context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/product/del/5
+    Then the breadcrumb should contain    Product Five    Delete
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    User->setCurrentProduct    Update user
+    And I reset the context log file
+    When I click button    Remove
+    And I confirm
+    Then Page Should Contain    Product removed successfully
+    And the context log file should contain x lines    11
+    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user    RemoveContextService->removeProduct
+
+Check context for product delete with same previous context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    And Go To    ${URL_DEV}/product/5
+    And I reset the context log file
+    When Go To    ${URL_DEV}/product/del/5
+    Then the breadcrumb should contain    Product Five    Delete
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentProduct    Reset childs : Release and above    Same product. No change    Update user
+    And I reset the context log file
+    When I click button    Remove
+    And I confirm
+    Then Page Should Contain    Product removed successfully
+    And the context log file should contain x lines    11
+    And the context log file should contain    CoreController->unsetCurrentProduct    Reset childs : Release and above    User->unsetCurrentProduct    Update user
+
+Cancel to delete a product
+    Given I am a super-admin
+    And I go to delete product page    5
+    When I click button    Remove
+    And I do not confirm
+    Then Location Should Be    ${URL}/product/del/5
+
+Wrong product Id
+    Given I am a super-admin
+    And I go to products list
+    When Go to    ${URL}/product/del/999
+    Then I should see 404 error page
+
+Impossible to delete a product
+    Given I am a super-admin
+    And I go to delete product page    1
+    When I click button    Remove
+    And I confirm
+    Then Location Should Be    ${URL}/product/del/1
+    And Page Should Contain    Impossible to remove this item - Integrity constraint violation !
+
+Breadcrumb
+    Given I am a super-admin
+    When I go to delete product page    1
+    Then the breadcrumb should contain    Product One    Delete
+
+Breadcrumb product link
+    Given I am a super-admin
+    When I go to delete product page    1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a super-admin
+    And I go to delete product page    1
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a super-admin
+    And I go to delete product page    1
+    And Element Should Contain    id=badge_releases    3
+    When Click Link    id=a_releases
+    Then Location Should Be    ${URL}/releases/1
+
+Tab Users
+    Given I am a super-admin
+    And I go to delete product page    1
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/
+
+Return to list button
+    Given I am a super-admin
+    And I go to delete product page    5
+    When I click button    Return to list
+    Then Location Should Be    ${URL}/product/
+
+*** Keywords ***
+I go to delete product page
+    [Arguments]    ${id}
+    And I go to products list
+    And I click action button    Delete product #${id}

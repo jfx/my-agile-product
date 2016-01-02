@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 namespace Map3\ScenarioBundle\Service;
 
 use Doctrine\ORM\EntityManager;
@@ -61,21 +62,21 @@ class ScenarioService
     {
         $status = $scenario->getStatus();
         $statusId = $status->getId();
-        
-        // Status not changed if initial status is Not implemented or unchecked 
+
+        // Status not changed if initial status is Not implemented or unchecked
         if (($statusId != Status::NOT_IMPL_STATUS)
             || ($statusId != Status::UNCHECKED_STATUS)
         ) {
             $testRepository = $this->entityManager
                 ->getRepository('Map3ScenarioBundle:Test');
             $lastTest = $testRepository->findLastTestByScenario($scenario);
-            
+
             //If no test, scenario status = Pending
             if (is_null($lastTest)) {
-                $newStatusId = Status::PENDING_STATUS;                
+                $newStatusId = Status::PENDING_STATUS;
             } else {
                 $resultTestId = $lastTest->getResult()->getId();
-                
+
                 switch ($resultTestId) {
                     case Result::SKIPPED:
                         $newStatusId = Status::UNDEF_STATUS;

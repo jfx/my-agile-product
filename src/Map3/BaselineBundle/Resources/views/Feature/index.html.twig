@@ -35,6 +35,7 @@
             <li id="addCatBt" role="presentation"><a role="menuitem" tabindex="-1" onclick="addCategory();" title="Add category">{{ icon('folder-close') }} Category</a></li>
             <li id="addFeatBt" role="presentation"><a role="menuitem" tabindex="-1" onclick="addFeature();" title="Add feature">{{ icon('picture') }} Feature</a></li>
             <li id="addSceBt" role="presentation"><a role="menuitem" tabindex="-1" onclick="addScenario();" title="Add scenario">{{ icon('film') }} Scenario</a></li>
+            <li id="addTesBt" role="presentation"><a role="menuitem" tabindex="-1" onclick="addTest();" title="Add test">{{ icon('question-sign') }} Test</a></li>
         </ul>
         <a id="removeBt" onclick="removeNode();"
            class="btn btn-xs btn-cust"
@@ -109,6 +110,20 @@ function addScenario() {
     }
 }
 
+function addTest() {
+    var node = $('#jstree1').jstree(true).get_selected();
+    if(node && node.length) {
+        node = node[0];
+        $.get(Routing.generate('bln-tes_add', { nid: node }), function (resp) {
+            $("div.node-panel").hide();
+            $("div.node-panel").html(resp.content).show();
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            displayError(jqXHR.responseJSON, jqXHR.status);
+            $("div.node-panel").hide();
+        });
+    }
+}
+
 function removeNode() {
     var node = $('#jstree1').jstree(true).get_selected();
     if(node && node.length) {
@@ -127,6 +142,7 @@ function hideAddRemoveButtons() {
     $('#addCatBt').hide();
     $('#addFeatBt').hide();
     $('#addSceBt').hide();
+    $('#addTesBt').hide();
     $('#removeBt').hide();
 }
 
@@ -151,6 +167,7 @@ function showAddRemoveButtons(nodeType) {
             break;
         case "scenario":
             $('#removeBt').show();
+            $('#addTesBt').show();
             break;
     }
 }

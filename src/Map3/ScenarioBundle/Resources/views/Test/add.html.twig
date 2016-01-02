@@ -1,0 +1,60 @@
+{% include 'Map3CoreBundle::flashes.html.twig' %}
+
+<ol class="breadcrumb">
+    <li class="active">Add test</li>
+</ol>
+
+<form id="formPanel" novalidate="novalidate" class="form-horizontal well" method="post">
+
+    {{ form_row(form._token) }}
+    {{ form_errors(form.stepsResults) }}
+<table id="steps-table" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Steps</th>
+            <th>Results</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for result in form.stepsResults %}
+            <tr>
+                {% if loop.index0 < steps|length %}
+                <td class="{{ test.stepsResults[loop.index0]|stepColorClass }}">
+                    {{ steps[loop.index0]|stepHtmlFormat|nl2br }}
+                {% else %}
+                <td>
+                    Step not defined - "Skipped" result will remove it 
+                {% endif %}
+                </td>
+                <td>{{ form_errors(result) }}{{ form_widget(result) }}</td>
+            </tr>
+{% else %}
+            <tr><td colspan="2">No step</td></tr>
+{% endfor %}
+    </tbody>
+</table>
+    {{ form_row(form.testDatetime) }}
+    {{ form_row(form.tester) }}
+    {{ form_row(form.comment) }}
+
+    <div class="center">
+        <a class="btn btn-sm btn-cust" onclick="formSubmit();" title="Save">
+            {{ icon('ok', true) }}&nbsp;&nbsp;Save&nbsp;&nbsp;
+        </a>
+    </div>
+</form>
+
+<script>
+function formSubmit() {
+    $.post('{{ path('bln-tes_add', {'nid': nodeId}) }}', $("#formPanel").serialize(), function (resp) {
+        $("div.node-panel").hide();
+        $("div.node-panel").html(resp).show();
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+
+        displayError(jqXHR.responseJSON, jqXHR.status);
+        $("div.node-panel").hide();
+    });
+}
+</script>
+
+{% include 'Map3CoreBundle::datetimepickerjs.html.twig' %}

@@ -1,0 +1,85 @@
+*** Settings ***
+Documentation     In order to see users data for a product
+...               As a connected user
+...               I need to see users list.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Display users list for a connected user
+    Given I am a user
+    When I go to users list for product    View product #1
+    Then the table header should contain    Name    Displayname    Role
+    And the table should contain x rows    5
+    And the table should contain    D1-guest Firstd1-guest    displayd1-guest    Guest
+    And the table should contain    D1-manager Firstd1-manager    displayd1-manager    Manager
+    And the table should contain    D1-none Firstd1-none    displayd1-none    None
+    And the table should contain    D1-user+ Firstd1-user+    displayd1-user+    User+
+    And the table should contain    User Firstuser    displayuser    User
+    And Element Should Contain    id=badge_users    5
+
+List with no user for a connected user
+    Given I am a user
+    When I go to users list for product    View product #5
+    Then the table header should contain    Name    Displayname    Role
+    And the table should contain x rows    1
+    And the table should contain    No user
+    And Element Should Contain    id=badge_users    0
+
+Check context for users list with clean context
+    [Tags]    context
+    Given I am logging as    admin    admin    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/pdt-user/
+    Then the breadcrumb should contain    Product One    Users list
+    And Page should contain    Useradmin*
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->getCurrentProductFromUserWithReset(true)    CoreController->unsetCurrentRelease    Reset childs : Baseline and above    User->unsetCurrentRelease    Update user
+
+No modify actions buttons in users list for a non super-admin profile
+    Given I am a user
+    When I go to users list for product    View product #1
+    Then the table should contain x rows    5
+    And I should not see action button(s)    Add    Edit user #2    Delete user #2
+
+Action buttons Add/View/Edit/Delete for a non super-admin profile
+    Given I am a super-admin
+    When I go to users list for product    View product #1
+    Then the table should contain x rows    5
+    And I should see action button(s)    Add    Edit user #2    Delete user #2
+
+Impossible to display users list without selecting a product before
+    Given I am a user
+    When Go to    ${URL}/pdt-user/
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Breadcrumb
+    Given I am a user
+    When I go to users list for product    View product #1
+    Then the breadcrumb should contain    Product One    Users list
+
+Breadcrumb release link
+    Given I am a user
+    And I go to users list for product    View product #1
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Tab Main
+    Given I am a user
+    And I go to users list for product    View product #1
+    When Click Link    id=a_main
+    And Location Should Be    ${URL}/product/1
+
+Tab Releases
+    Given I am a user
+    And I go to users list for product    View product #1
+    And Element Should Contain    id=badge_releases    3
+    When Click element    id=a_releases
+    And Location Should Be    ${URL}/releases/1
+
+Tab Users
+    Given I am a user
+    And I go to users list for product    View product #1
+    And Element Should Contain    id=badge_users    5
+    When Click Link    id=a_users
+    Then Location Should Be    ${URL}/pdt-user/

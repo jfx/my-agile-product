@@ -1,0 +1,60 @@
+*** Settings ***
+Documentation     In order to secure the application
+...               As a user
+...               I need to have access only to granted pages
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+Profile user data
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/profile    True    True    True    True    True
+    ...    True    True
+
+Profile password
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/password    True    True    True    True    True
+    ...    True    True
+
+Profile role
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/role    True    True    True    True    True
+    ...    True    True
+
+User list
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/    True    True    True    True    True
+    ...    True    True
+
+User view
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/1    True    False    False    False    False
+    ...    False    False
+
+User add
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/add    True    False    False    False    False
+    ...    False    False
+
+User edit
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/edit/1    True    False    False    False    False
+    ...    False    False
+
+User delete
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/del/1    True    False    False    False    False
+    ...    False    False
+
+User role
+    Comment    URL    super-admin    manager    user+    user    guest
+    ...    none    noproduct    Prerequisite
+    Then I check the following ACL    /user/role/1    True    False    False    False    False
+    ...    False    False

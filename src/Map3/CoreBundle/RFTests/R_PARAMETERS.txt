@@ -1,6 +1,6 @@
 *** Variables ***
 ${ENV}            dev
-${BROWSER}        chrome    # chrome | firefox | phantomjs
+${BROWSER}        gc    # chrome | firefox | phantomjs
 ${HUB}            http://127.0.0.1:4444/wd/hub    # http://127.0.0.1:4444/wd/hub | http://127.0.0.1:5555
 ${URL_DEV}        http://map3dev.localhost/app_dev.php
 ${SESSION}        map3
@@ -13,7 +13,7 @@ ${USER_USER}      user
 ${USER_GUEST}     d1-guest
 ${USER_NONE}      d1-none
 ${USER_NOPRODUCT}    no-product
-${PROJECT_PATH}    /home/efse7265/Documents/Perso/Dropbox/src/Nprojects/Map3
+${PROJECT_PATH}    /home/fxs/Dropbox/Src/Nprojects/Map3
 ${CONSOLE_PATH}    ${PROJECT_PATH}/app/console
 ${LOG_PATH}       ${PROJECT_PATH}/app/logs
 ${CONFIG_PATH}    ${PROJECT_PATH}/app/config

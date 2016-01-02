@@ -1,0 +1,37 @@
+*** Keywords ***
+I fill in test add form
+    [Arguments]    ${day}    ${user}    ${comment}
+    I fill in test form    ${day}    ${user}    ${comment}    1
+
+I fill in test edit form
+    [Arguments]    ${day}    ${user}    ${comment}
+    I fill in test form    ${day}    ${user}    ${comment}    2
+
+I fill in test form
+    [Arguments]    ${day}    ${user}    ${comment}    ${order}
+    Wait Until Element Is Visible    map3_test_comment    ${WAIT_TIMEOUT}
+    I select datetime    //div[@data-link-field='map3_test_testDatetime']    ${day}    -1    12    30    ${order}
+    Click Element    map3_test_comment
+    Select From List By Label    map3_test_tester    ${user}
+    Input text    map3_test_comment    ${comment}
+
+I check test view form
+    [Arguments]    ${day}    ${user}    ${comment}    ${month}=-1
+    Wait Until Element Is Visible    map3_test_comment    ${WAIT_TIMEOUT}
+    ${formatDate} =    I get sql formated date in X months    ${day}    ${month}
+    Disabled text element should contain    map3_test_testDatetime    ${formatDate} 12:30
+    List Selection Should Be    map3_test_tester    ${user}
+    Selenium2Library.Element Text Should Be    map3_test_comment    ${comment}
+
+The step result should be
+    [Arguments]    ${id}    ${step}    ${result}
+    ${row_id} =    Evaluate    ${id} + 1
+    ${result_idx} =    Evaluate    ${id} - 1
+    ${step} =    Get Table Cell    steps-table    ${row_id}    1
+    Should Be Equal As Strings    ${step}    ${step}
+    List Selection Should Be    map3_test_stepsResults_${result_idx}    ${result}
+
+I select result at index
+    [Arguments]    ${id}    ${result}
+    ${result_idx} =    Evaluate    ${id} - 1
+    Select From List By Label    map3_test_stepsResults_${result_idx}    ${result}

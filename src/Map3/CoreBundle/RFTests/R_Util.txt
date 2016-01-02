@@ -61,11 +61,11 @@ EnvPrerequisite
     Should Be Equal As Integers    ${rc}    0
     ${rc} =    Run And Return Rc    php ${CONSOLE_PATH} doctrine:fixtures:load --no-interaction
     Should Be Equal As Integers    ${rc}    0
-    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
-    Run Keyword If    '${ENV}' == 'dev'    Append To File    ${LOG_PATH}/testName.txt    ${SUITE NAME} / ${TEST NAME}
+    Comment    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
+    Comment    Run Keyword If    '${ENV}' == 'dev'    Append To File    ${LOG_PATH}/testName.txt    ${SUITE NAME} / ${TEST NAME}
 
 EnvPostrequisite
-    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
+    Comment    Run Keyword If    '${ENV}' == 'dev'    Remove File    ${LOG_PATH}/testName.txt
 
 SetLifetime
     Move File    ${CONFIG_PATH}/config.yml    ${CONFIG_PATH}/config_bck.yml

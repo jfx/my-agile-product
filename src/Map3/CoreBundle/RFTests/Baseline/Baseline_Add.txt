@@ -1,0 +1,198 @@
+*** Settings ***
+Documentation     In order to manage a baseline
+...               As a user with a user+ role
+...               I need to add a baseline.
+Resource          ../Keyword_resource.txt
+
+*** Test Cases ***
+A user+ adds a baseline
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    B1x
+    And I save
+    Then Page Should Contain    Baseline added successfully
+    And I check baseline view form    B1x
+    And Click link    a_features
+    And I am waiting for ajax request
+    And Xpath Should Match X Times    //a[text()='B1x']    2
+    And Click link    a_main
+    And I click button    Return to release
+    And the table should contain x rows    4
+    And the table should contain    B1x    Details 4 B1x
+
+A user+ adds a closed baseline
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    B1x    2    True
+    And I save
+    Then Page Should Contain    Baseline added successfully
+    And I check baseline view form    B1x    2    True
+    And I click button    Return to release
+    And the table should contain x rows    4
+    And the table should contain    B1x    Details 4 B1x
+
+Check context for baseline add with clean context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    When Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Check context for baseline add without context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    8
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role : ROLE_DM_USERPLUS    Update user
+
+Check context for baseline add with previous context
+    [Tags]    context
+    Given I am logging as    d2-manager    d2-manager    Hello    True
+    And Go To    ${URL_DEV}/product/2
+    And Go To    ${URL_DEV}/release/4
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then Page Should Contain    ${FORBIDDEN_ACCESS_TEXT}
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    User->setCurrentProduct    Role by default: Guest    Update user
+
+Check context for baseline add with same previous product
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/2
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    7
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    User->setCurrentRelease    Same product. No change    Update user
+
+Check context for baseline add with same previous release
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Check context for baseline add with same previous context
+    [Tags]    context
+    Given I am logging as    d1-user+    d1-user+    Hello    True
+    And Go To    ${URL_DEV}/product/1
+    And Go To    ${URL_DEV}/release/1
+    And Go To    ${URL_DEV}/baseline/add/1
+    And I reset the context log file
+    When Go To    ${URL_DEV}/baseline/add/1
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page should contain    Userd1-user+ (User+)
+    And the context log file should contain x lines    6
+    And the context log file should contain    CoreController->setCurrentRelease    Reset childs : Baseline and above    Same release. No change    Update user
+
+Add a baseline without selecting a product before
+    Given I am a user+
+    When Go to    ${URL}/baseline/add/1
+    Then Location should be    ${URL}/baseline/add/1
+    And the breadcrumb should contain    Product One    Release One    Add baseline
+    And Page Should Not Contain    ${FORBIDDEN_ACCESS_TEXT}
+
+Required and optional form labels
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When I click action button    Add
+    Then the label of this field is displayed as required    Name
+    And the label of this field is displayed as required    Date
+    And the label of this field is displayed as optional    Closed
+    And the label of this field is displayed as optional    Details
+
+Impossible to add a baseline with an empty name
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    ${EMPTY}
+    And I save
+    Then Page Should Contain    This value should not be blank.
+
+Impossible to add a baseline with a name too short
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I fill in baseline form    X
+    And I save
+    Then Page Should Contain    This value is too short. It should have 2 characters or more.
+
+Impossible to add a baseline with a wrong date
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Input text    map3_baseline_name    B1x
+    And Input Text    //div[@data-link-field='map3_baseline_baselineDatetime']/input[@type='text']    xx/xx/xxxx
+    And Click Element    map3_baseline_name
+    And I save
+    Then Page Should Contain    This value is not a valid datetime
+
+Impossible to add a baseline with an empty date
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Input text    map3_baseline_name    B1x
+    And Input Text    //div[@data-link-field='map3_baseline_baselineDatetime']/input[@type='text']    ${EMPTY}
+    And Click Element    map3_baseline_name
+    And I save
+    Then Page Should Contain    This value is not a valid datetime
+
+Breadcrumb
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    When I click action button    Add
+    Then the breadcrumb should contain    Product One    Release One    Add baseline
+
+Breadcrumb product link
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Click Link    id=br_lvl1
+    Then Location Should Be    ${URL}/product/1
+
+Breadcrumb release link
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Click Link    id=br_lvl2
+    Then Location Should Be    ${URL}/release/1
+
+Tab Main
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When Click Link    id=a_main
+    Then Location Should Be    ${URL}/release/1
+
+Tab Baselines
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    And Element Should Contain    id=badge_baselines    3
+    When Click element    id=a_baselines
+    Then Location Should Be    ${URL}/baselines/1
+
+Return to release button
+    Given I am a user+
+    And I go to baselines list    View product #1    View release #1
+    And I click action button    Add
+    When I click button    Return to release
+    Then Location Should Be    ${URL}/baselines/1
