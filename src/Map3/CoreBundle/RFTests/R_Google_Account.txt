@@ -1,4 +1,0 @@
-*** Variables ***
-${GM_URL}         https://accounts.google.com/ServiceLogin?service=mail&continue=https://mail.google.com/mail/&hl=fr
-${GM_USER}        map2.test@gmail.com
-${GM_PASSWORD}    c2c0b571
